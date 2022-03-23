@@ -1,0 +1,3 @@
+[submodule "autograph"]
+	path = autograph
+	url = git@git.isis.vanderbilt.edu:SwRI/tools/automation/autograph.git
