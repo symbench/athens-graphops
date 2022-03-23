@@ -17,6 +17,7 @@
 from typing import Any, Dict, List
 import json
 import os
+import sys
 
 from gremlin_python.driver import client as gremlin_client
 
@@ -24,15 +25,15 @@ from . import HOSTNAME, SCRIPTS
 
 
 class Client():
-    def __init__(self, host: str, timeout: float = 5000):
+    def __init__(self, host: str, timeout: float = 10000):
         self.addr = "ws://{}:8182/gremlin".format(host)
         self.client = gremlin_client.Client(self.addr, "g")
-        print("Connected to", self.addr)
+        sys.stderr.write("Connected to {}\n".format(self.addr))
         self.timeout = timeout
 
     def close(self):
         if self.client:
-            print("Closing connection")
+            sys.stderr.write("Closed connection\n")
             self.client.close()
             self.client = None
 
@@ -57,22 +58,29 @@ class Client():
 
     def get_design_list(self) -> List[str]:
         results = self.submit_script("info_designList")
-        return results[0]
+        return sorted(results[0])
 
     def get_component_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_componentMap",
                                      __SOURCEDESIGN__=design)
-        return results[0]
+        return sorted(results[0], key=lambda x: x["FROM_COMP"])
 
     def get_connection_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_connectionMap",
                                      __SOURCEDESIGN__=design)
-        return results[0]
+        return sorted(results[0], key=lambda x: (x["FROM_COMP"], x["TO_COMP"]))
 
     def get_parameter_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_paramMap",
                                      __SOURCEDESIGN__=design)
-        return results[0]
+        return sorted(results[0], key=lambda x: (
+            (x["COMPONENT_NAME"], x["COMPONENT_PARAM"])))
+
+    def get_component_data(self, component: str) -> Dict[str, Any]:
+        pass
+
+    def get_instance_data(self, design: str, component: str) -> Dict[str, Any]:
+        pass
 
 
 def run(args=None):
