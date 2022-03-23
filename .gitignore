@@ -1,0 +1,11 @@
+/bin
+/build
+/dist
+/venv
+/.idea
+/.vscode
+__pycache__
+*.egg-info
+*.egg
+*.DS_Store
+.~lock*
