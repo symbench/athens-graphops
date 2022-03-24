@@ -1,0 +1,159 @@
+{
+  "Battery": {
+    "properties": {
+      "CAPACITY": "float",
+      "MODULE_VOLUME": "float",
+      "BATTERY_TYPE": "str",
+      "CONT_DISCHARGE_RATE": "float",
+      "PEAK_DISCHARGE_RATE": "float",
+      "MODULE_MASS": "float",
+      "BASE_VOLTAGE": "float"
+    },
+    "connectors": [
+      "Battery_Connector_1_out",
+      "Battery_Connector_2_out",
+      "PowerBus"
+    ]
+  },
+  "BatteryController": {
+    "properties": {},
+    "connectors": [
+      "BatteryPower",
+      "MotorPower"
+    ]
+  },
+  "Beam": {
+    "properties": {},
+    "connectors": [
+      "BATTERY_CONNECTOR_1",
+      "BATTERY_CONNECTOR_2",
+      "BOTTOM_CONNECTOR_OUT",
+      "END_CONNECTOR_1_OUT",
+      "END_CONNECTOR_2_OUT",
+      "TOP_CONNECTOR_IN"
+    ]
+  },
+  "Beam_Cap": {
+    "properties": {},
+    "connectors": [
+      "Connector_In"
+    ]
+  },
+  "Cylinder": {
+    "properties": {
+      "WALL_THICKNESS": "float"
+    },
+    "connectors": [
+      "BATTERY_CONNECTOR",
+      "BOTTOM_CONNECTOR",
+      "FRONT_CONNECTOR",
+      "LEFT_CONNECTOR",
+      "REAR_CONNECTOR",
+      "RIGHT_CONNECTOR",
+      "TOP_CONNECTOR"
+    ]
+  },
+  "Cylinder_Flip": {
+    "properties": {
+      "LENGTH": "float",
+      "WALL_THICKNESS": "float"
+    },
+    "connectors": [
+      "FRONT_CONNECTOR",
+      "REAR_CONNECTOR"
+    ]
+  },
+  "Cylinder_Flip_Out": {
+    "properties": {
+      "LENGTH": "float",
+      "WALL_THICKNESS": "float"
+    },
+    "connectors": [
+      "Flip_Connector_1",
+      "Flip_Connector_2"
+    ]
+  },
+  "Fuselage": {
+    "properties": {},
+    "connectors": [
+      "BOTTOM_CONNECTOR",
+      "LEFT_CONNECTOR",
+      "ORIENT",
+      "REAR_CONNECTOR",
+      "RIGHT_CONNECTOR",
+      "SEAT_1_CONNECTOR",
+      "SEAT_2_CONNECTOR",
+      "TOP_CONNECTOR"
+    ]
+  },
+  "Motor": {
+    "properties": {
+      "TOTAL_LENGTH": "float",
+      "MAX_CURRENT": "float",
+      "KM": "float",
+      "MAX_POWER": "float",
+      "LENGTH": "float",
+      "CAN_DIAMETER": "float",
+      "INTERNAL_RESISTANCE": "float",
+      "IO_IDLE_CURRENT_10V": "float",
+      "KT": "float",
+      "KV": "float",
+      "MODEL": "str",
+      "CAN_LENGTH": "float",
+      "SHAFT_DIAMETER": "float",
+      "WEIGHT": "float"
+    },
+    "connectors": [
+      "Base_Connector",
+      "MotorPower",
+      "Prop_Connector"
+    ]
+  },
+  "NACA_Port_Connector": {
+    "properties": {},
+    "connectors": [
+      "Bottom_Connector",
+      "End_Connector_1",
+      "End_Connector_2"
+    ]
+  },
+  "Orient": {
+    "properties": {},
+    "connectors": [
+      "Mount",
+      "ORIENTCONN"
+    ]
+  },
+  "Passenger": {
+    "properties": {
+      "WEIGHT": "float"
+    },
+    "connectors": [
+      "Connector"
+    ]
+  },
+  "Propeller": {
+    "properties": {
+      "SHAFT_DIAMETER": "float",
+      "DIAMETER": "float",
+      "Performance_File": "str",
+      "PITCH": "float",
+      "MODEL": "str",
+      "HUB_THICKNESS": "float",
+      "Weight": "float"
+    },
+    "connectors": [
+      "MOTOR_CONNECTOR_CS_IN",
+      "motor_connector"
+    ]
+  },
+  "Wing": {
+    "properties": {},
+    "connectors": [
+      "Battery_Connector_1",
+      "Battery_Connector_2",
+      "Connector_1",
+      "Connector_2"
+    ]
+  }
+}
