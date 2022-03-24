@@ -52,7 +52,13 @@ class Client():
         return result
 
     def submit_script(self, script: str, **params) -> List[Any]:
-        filename = os.path.join(CONFIG["scripts"], script)
+        for dir in CONFIG["script_dirs"]:
+            filename = os.path.join(dir, script)
+            if os.path.exists(filename):
+                break
+        else:
+            raise ValueError("sciprt {} not found".format(script))
+
         results = []
         with open(filename, "r") as file:
             for query in file:
@@ -89,6 +95,10 @@ class Client():
         return sorted(results[0], key=lambda x: (
             x["Classification"], x["Component"]))
 
+    def get_better_corpus_list(self) -> List[Dict[str, Any]]:
+        results = self.submit_script("better_info_corpusComponents.groovy")
+        return sorted(results[0], key=lambda x: (x["type"], x["name"]))
+
     def get_component_data(self, component: str) -> Dict[str, Any]:
         pass
 
@@ -108,7 +118,9 @@ def run(args=None):
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
     parser.add_argument('--raw', metavar='QUERY',
-                        help="executes the given rawquery string")
+                        help="executes the given raw query string")
+    parser.add_argument('--script', metavar='FILE',
+                        help="executes the given script query")
     args = parser.parse_args(args)
 
     client = Client()
@@ -120,7 +132,7 @@ def run(args=None):
         }, indent=2))
 
     if args.corpus:
-        data = client.get_corpus_list()
+        data = client.get_better_corpus_list()
         print(json.dumps({
             "designs": data
         }, indent=2))
@@ -137,8 +149,12 @@ def run(args=None):
         }, indent=2))
 
     if args.raw:
-        data = client.submit_query(args.raw)
-        print(data)
+        print(client.submit_query(args.raw))
+
+    if args.script:
+        results = client.submit_script(args.script)
+        for result in results:
+            print(result)
 
     client.close()
 

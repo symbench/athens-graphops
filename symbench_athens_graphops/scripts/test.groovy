@@ -1,0 +1,6 @@
+// g.V().has('VertexLabel', '[avm]Component').limit(1).in('inside').label()
+// g.V().has('VertexLabel', '[avm]Component').as('comp').limit(1).in('inside').has('VertexLabel', '[]Property').as('prop').select('comp', 'prop').by(elementMap()).by(values('[]Name'))
+g.V().has('VertexLabel', '[avm]Component').limit(20).as('comp').project('name', 'properties').by('[]Name').by(select('comp').in('inside').has('VertexLabel', '[]Connector').valueMap().fold())
+// g.V().has('VertexLabel', '[]Classifications').as('class').in('inside').as('class_name').select('class').out('inside').has('VertexLabel', '[avm]Component').as('comp').limit(2).project('type', 'name', 'id', 'schema_version').by(select('class_name').values('value')).by('[]Name').by('[]ID').by('[]SchemaVersion')
+// g.V().has('VertexLabel', '[]Classifications').as('class').in('inside').as('class_name').select('class').out('inside').has('VertexLabel', '[avm]Component').as('comp').project('type', 'name', 'id').by(select('class_name').values('value')).by('[]Name').by('[]ID')
+g.V().has('VertexLabel', '[avm]Component').limit(20).as('comp').project('name', 'labels').by('[]Name').by(select('comp').in('inside').values('VertexLabel').fold())
