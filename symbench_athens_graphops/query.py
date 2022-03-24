@@ -96,13 +96,15 @@ class Client():
             x["Classification"], x["Component"]))
 
     def get_better_corpus_list(self) -> List[Dict[str, Any]]:
-        results = self.submit_script("better_info_corpusComponents.groovy")
-        return sorted(results[0], key=lambda x: (x["type"], x["name"]))
+        results = self.submit_script("better_corpus_list.groovy")
+        return results[0]
 
-    def get_component_data(self, component: str) -> Dict[str, Any]:
-        pass
+    def get_corpus_properties(self, classification: str) -> Dict[str, Any]:
+        results = self.submit_script("corpus_properties.groovy",
+                                     __CLASSIFICATION__=classification)
+        return results[0]
 
-    def get_instance_data(self, design: str, component: str) -> Dict[str, Any]:
+    def get_corpus_parameters(self, classification: str) -> Dict[str, Any]:
         pass
 
 
@@ -115,6 +117,10 @@ def run(args=None):
                         help="prints all design names")
     parser.add_argument('--corpus', action='store_true',
                         help="prints all component types")
+    parser.add_argument('--better-corpus', action='store_true',
+                        help="prints all component types")
+    parser.add_argument('--corpus-properties', metavar='CLASS',
+                        help="prints properties for the given classification")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
     parser.add_argument('--raw', metavar='QUERY',
@@ -132,7 +138,19 @@ def run(args=None):
         }, indent=2))
 
     if args.corpus:
+        data = client.get_corpus_list()
+        print(json.dumps({
+            "designs": data
+        }, indent=2))
+
+    if args.better_corpus:
         data = client.get_better_corpus_list()
+        print(json.dumps({
+            "designs": data
+        }, indent=2))
+
+    if args.corpus_properties:
+        data = client.get_corpus_properties(args.corpus_properties)
         print(json.dumps({
             "designs": data
         }, indent=2))
