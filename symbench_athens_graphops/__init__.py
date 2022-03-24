@@ -15,7 +15,9 @@
 
 import os
 
-
-HOSTNAME = "localhost"
-SCRIPTS = os.path.join(os.path.dirname(__file__),
-                       '..', 'autograph', 'scripts')
+CONFIG = {
+    "hostname": "localhost",
+    "timeout": 30,
+    "scripts": os.path.join(os.path.dirname(__file__),
+                            '..', 'autograph', 'scripts'),
+}

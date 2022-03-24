@@ -14,22 +14,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import json
 import os
 import sys
 
 from gremlin_python.driver import client as gremlin_client
 
-from . import HOSTNAME, SCRIPTS
+from . import CONFIG
 
 
 class Client():
-    def __init__(self, host: str, timeout: float = 10000):
+    def __init__(self,
+                 host: Optional[str] = None,
+                 timeout: Optional[float] = None):
+        if host is None:
+            host = CONFIG["hostname"]
         self.addr = "ws://{}:8182/gremlin".format(host)
+
         self.client = gremlin_client.Client(self.addr, "g")
         sys.stderr.write("Connected to {}\n".format(self.addr))
-        self.timeout = timeout
+
+        if timeout is None:
+            timeout = CONFIG["timeout"]
+        self.timeout = timeout * 1000
 
     def close(self):
         if self.client:
@@ -44,7 +52,7 @@ class Client():
         return result
 
     def submit_script(self, script: str, **params) -> List[Any]:
-        filename = os.path.join(SCRIPTS, script + ".groovy")
+        filename = os.path.join(CONFIG["scripts"], script)
         results = []
         with open(filename, "r") as file:
             for query in file:
@@ -57,24 +65,29 @@ class Client():
         return results
 
     def get_design_list(self) -> List[str]:
-        results = self.submit_script("info_designList")
+        results = self.submit_script("info_designList.groovy")
         return sorted(results[0])
 
-    def get_component_map(self, design: str) -> List[Dict[str, Any]]:
-        results = self.submit_script("info_componentMap",
+    def get_component_list(self, design: str) -> List[Dict[str, Any]]:
+        results = self.submit_script("info_componentMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: x["FROM_COMP"])
 
-    def get_connection_map(self, design: str) -> List[Dict[str, Any]]:
-        results = self.submit_script("info_connectionMap",
+    def get_connection_list(self, design: str) -> List[Dict[str, Any]]:
+        results = self.submit_script("info_connectionMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: (x["FROM_COMP"], x["TO_COMP"]))
 
-    def get_parameter_map(self, design: str) -> List[Dict[str, Any]]:
-        results = self.submit_script("info_paramMap",
+    def get_parameter_list(self, design: str) -> List[Dict[str, Any]]:
+        results = self.submit_script("info_paramMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: (
             (x["COMPONENT_NAME"], x["COMPONENT_PARAM"])))
+
+    def get_corpus_list(self) -> List[Dict[str, Any]]:
+        results = self.submit_script("info_corpusComponents.groovy")
+        return sorted(results[0], key=lambda x: (
+            x["Classification"], x["Component"]))
 
     def get_component_data(self, component: str) -> Dict[str, Any]:
         pass
@@ -88,15 +101,17 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--host', type=str, metavar='IP', default=HOSTNAME,
-                        help="sets the host address of the gremlin database")
     parser.add_argument('--list', action='store_true',
                         help="prints all design names")
+    parser.add_argument('--corpus', action='store_true',
+                        help="prints all component types")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
+    parser.add_argument('--raw', metavar='QUERY',
+                        help="executes the given rawquery string")
     args = parser.parse_args(args)
 
-    client = Client(host=args.host)
+    client = Client()
 
     if args.list:
         data = client.get_design_list()
@@ -104,16 +119,26 @@ def run(args=None):
             "designs": data
         }, indent=2))
 
+    if args.corpus:
+        data = client.get_corpus_list()
+        print(json.dumps({
+            "designs": data
+        }, indent=2))
+
     if args.design:
-        components = client.get_component_map(args.design)
-        connections = client.get_connection_map(args.design)
-        parameters = client.get_parameter_map(args.design)
+        components = client.get_component_list(args.design)
+        connections = client.get_connection_list(args.design)
+        parameters = client.get_parameter_list(args.design)
         print(json.dumps({
             "design": args.design,
             "components": components,
             "connections": connections,
             "parameters": parameters,
         }, indent=2))
+
+    if args.raw:
+        data = client.submit_query(args.raw)
+        print(data)
 
     client.close()
 
