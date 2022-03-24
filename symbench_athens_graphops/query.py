@@ -99,7 +99,7 @@ class Client():
         results = self.submit_script("better_corpus_list.groovy")
         return results[0]
 
-    def get_corpus_properties(self, classification: str) -> Dict[str, Any]:
+    def get_class_properties(self, classification: str) -> Dict[str, Any]:
         results = self.submit_script("corpus_properties.groovy",
                                      __CLASSIFICATION__=classification)
         return results[0]
@@ -119,7 +119,7 @@ def run(args=None):
                         help="prints all component types")
     parser.add_argument('--better-corpus', action='store_true',
                         help="prints all component types")
-    parser.add_argument('--corpus-properties', metavar='CLASS',
+    parser.add_argument('--class-properties', metavar='CLASS',
                         help="prints properties for the given classification")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
@@ -133,24 +133,18 @@ def run(args=None):
 
     if args.list:
         data = client.get_design_list()
-        print(json.dumps({
-            "designs": data
-        }, indent=2))
+        print(json.dumps(data, indent=2))
 
     if args.corpus:
         data = client.get_corpus_list()
-        print(json.dumps({
-            "designs": data
-        }, indent=2))
+        print(json.dumps(data, indent=2))
 
     if args.better_corpus:
         data = client.get_better_corpus_list()
-        print(json.dumps({
-            "designs": data
-        }, indent=2))
+        print(json.dumps(data, indent=2))
 
-    if args.corpus_properties:
-        data = client.get_corpus_properties(args.corpus_properties)
+    if args.class_properties:
+        data = client.get_class_properties(args.class_properties)
         print(json.dumps(data, indent=2))
 
     if args.design:
