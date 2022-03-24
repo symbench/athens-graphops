@@ -47,6 +47,25 @@ def validate_corpus():
                 assert val1 == "str", "invalid value type in {}".format(
                     typ["properties"])
 
+        for key, val1 in cls["parameters"].items():
+            assert key in typ["parameters"],  "parameter {} is missing in {}".format(
+                key, typ["name"])
+            
+            parameter_values = typ["parameters"][key]
+            if "[]AssignedValue" in parameter_values:
+                val2 = parameter_values["[]AssignedValue"]
+            else:
+                val2 = parameter_values["[]Default"]
+            
+            if val1 == "float":
+                float(val2)
+            elif val1 == "int":
+                int(val2)
+            else:
+                assert val1 == "str", "invalid value type in {}".format( 
+                    typ["parameters"]) 
+
+
         for key in cls["connectors"]:
             assert key in typ["connectors"], "connector {} is missing in {}".format(
                 key, typ["name"])
