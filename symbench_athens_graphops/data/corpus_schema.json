@@ -9,6 +9,16 @@
       "MODULE_MASS": "float",
       "BASE_VOLTAGE": "float"
     },
+    "parameters": {
+      "CHORD_1": "float",
+      "CHORD_2": "float",
+      "VOLUME_PERCENT": "float",
+      "TAPER_OFFSET": "float",
+      "MOUNT_SIDE": "int",
+      "VOLTAGE_REQUEST": "float",
+      "SPAN": "float",
+      "THICKNESS": "float"
+    },
     "connectors": [
       "Battery_Connector_1_out",
       "Battery_Connector_2_out",
@@ -17,6 +27,10 @@
   },
   "BatteryController": {
     "properties": {},
+    "parameters": {
+      "Input_Voltage": "float",
+      "Output_Voltage": "float"
+    },
     "connectors": [
       "BatteryPower",
       "MotorPower"
@@ -24,6 +38,13 @@
   },
   "Beam": {
     "properties": {},
+    "parameters": {
+      "TOP_CONN_DISP":"float",
+      "BOTTOM_CONN_DISP": "float",
+      "SPAN": "float",
+      "CHORD": "float",
+      "THICKNESS": "float"
+    },
     "connectors": [
       "BATTERY_CONNECTOR_1",
       "BATTERY_CONNECTOR_2",
@@ -35,6 +56,10 @@
   },
   "Beam_Cap": {
     "properties": {},
+    "parameters": {
+      "THICKNESS": "float",
+      "CHORD": "float"
+    },
     "connectors": [
       "Connector_In"
     ]
@@ -42,6 +67,16 @@
   "Cylinder": {
     "properties": {
       "WALL_THICKNESS": "float"
+    },
+    "parameters": {
+      "TOP_CONN_DISP": "float",
+      "RIGHT_CONN_DISP": "float",
+      "DIAMETER": "float",
+      "BOTTOM_CONN_DISP": "float",
+      "FRONT_ANGLE": "float",
+      "LEFT_CONN_DISP": "float",
+      "LENGTH": "float",
+      "PORT_THICKNESS": "float"
     },
     "connectors": [
       "BATTERY_CONNECTOR",
@@ -58,6 +93,9 @@
       "LENGTH": "float",
       "WALL_THICKNESS": "float"
     },
+    "parameters": {
+      "DIAMETER": "float"
+    },
     "connectors": [
       "FRONT_CONNECTOR",
       "REAR_CONNECTOR"
@@ -68,6 +106,9 @@
       "LENGTH": "float",
       "WALL_THICKNESS": "float"
     },
+    "parameters": {
+      "DIAMETER": "float"
+    },
     "connectors": [
       "Flip_Connector_1",
       "Flip_Connector_2"
@@ -75,6 +116,22 @@
   },
   "Fuselage": {
     "properties": {},
+    "parameters": {
+      "SPHERE_DIAMETER": "float",
+      "SEAT_2_FB": "float",
+      "FLOOR_HEIGHT": "float",
+      "LENGTH": "float",
+      "PORT_THICKNESS": "float",
+      "SEAT_2_LR": "float",
+      "BOTTOM_PORT_DISP": "float",
+      "TOP_PORT_DISP": "float",
+      "SEAT_1_LR": "float",
+      "RIGHT_PORT_DISP": "float",
+      "MIDDLE_LENGTH": "float",
+      "SEAT_1_FB": "float",
+      "TAIL_DIAMETER": "float",
+      "LEFT_PORT_DISP": "float"
+    },
     "connectors": [
       "BOTTOM_CONNECTOR",
       "LEFT_CONNECTOR",
@@ -103,6 +160,9 @@
       "SHAFT_DIAMETER": "float",
       "WEIGHT": "float"
     },
+    "parameters": {
+      "CONTROL_CHANNEL": "int"
+    },
     "connectors": [
       "Base_Connector",
       "MotorPower",
@@ -111,6 +171,12 @@
   },
   "NACA_Port_Connector": {
     "properties": {},
+    "parameters": {
+      "PORT_THICKNESS": "float",
+      "CHORD": "float",
+      "THICKNESS": "float",
+      "BOTTOM_CONNECTION_DISP": "float"
+    },
     "connectors": [
       "Bottom_Connector",
       "End_Connector_1",
@@ -119,6 +185,9 @@
   },
   "Orient": {
     "properties": {},
+    "parameters": {
+      "Z_ANGLE": "float"
+    },
     "connectors": [
       "Mount",
       "ORIENTCONN"
@@ -142,6 +211,10 @@
       "HUB_THICKNESS": "float",
       "Weight": "float"
     },
+    "parameters": {
+      "Prop_type": "int",
+      "Direction": "int"
+    },
     "connectors": [
       "MOTOR_CONNECTOR_CS_IN",
       "motor_connector"
@@ -149,6 +222,17 @@
   },
   "Wing": {
     "properties": {},
+    "parameters": {
+      "CHORD_1": "float",
+      "CHORD_2": "float",
+      "FLAP_BIAS": "float",
+      "LOAD": "float",
+      "AILERON_BIAS": "float",
+      "TAPER_OFFSET": "float",
+      "NACA_Profile": "str",
+      "SPAN": "float",
+      "THICKNESS": "float"
+    },
     "connectors": [
       "Battery_Connector_1",
       "Battery_Connector_2",
