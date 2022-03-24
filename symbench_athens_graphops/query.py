@@ -151,9 +151,7 @@ def run(args=None):
 
     if args.corpus_properties:
         data = client.get_corpus_properties(args.corpus_properties)
-        print(json.dumps({
-            "designs": data
-        }, indent=2))
+        print(json.dumps(data, indent=2))
 
     if args.design:
         components = client.get_component_list(args.design)
