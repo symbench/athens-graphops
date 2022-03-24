@@ -18,6 +18,7 @@ import os
 CONFIG = {
     "hostname": "localhost",
     "timeout": 30,
+    "data_dir": os.path.join(os.path.dirname(__file__), 'data'),
     "script_dirs": [
         os.path.join(os.path.dirname(__file__), '..', 'autograph', 'scripts'),
         os.path.join(os.path.dirname(__file__), 'scripts'),

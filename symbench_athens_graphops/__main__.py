@@ -19,12 +19,14 @@ import sys
 
 from . import CONFIG
 from . import query
+from . import validate
 
 
 def run():
     # hack the subcommands
     commands = [
         "query",
+        "validate",
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -54,6 +56,8 @@ def run():
 
     if args.command == "query":
         query.run(args=sys.argv[pos:])
+    elif args.command == "validate":
+        validate.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 
