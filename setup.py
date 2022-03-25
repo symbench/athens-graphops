@@ -17,9 +17,9 @@
 from setuptools import setup
 
 setup(
-    name='symbench-athens-graphops',
+    name='athens-graphops',
     version='0.1',
-    packages=['symbench_athens_graphops'],
+    packages=['athens_graphops'],
     license='GPL 3',
     description="Sciprts to access the Athens graph database",
     long_description=open('README.md').read(),
@@ -30,7 +30,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'symbench-athens-graphops = symbench_athens_graphops.__main__:run'
+            'athens-graphops = athens_graphops.__main__:run'
         ]
     }
 )
