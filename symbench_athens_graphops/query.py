@@ -99,6 +99,11 @@ class Client():
         results = self.submit_script("corpus_list.groovy")
         return results[0]
 
+    def get_component_spec(self, component_spec: str) -> Dict[str, Any]:
+        results = self.submit_script("component_spec.groovy",
+                                     __COMPONENTSPEC__=component_spec)
+        return results[0]
+
     def get_property_table(self, classification: str) -> List[Dict[str, Any]]:
         results = self.submit_script("property_table.groovy",
                                      __CLASSIFICATION__=classification)
@@ -115,14 +120,14 @@ def run(args=None):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--list', action='store_true',
                         help="prints all design names")
-    parser.add_argument('--old-corpus', action='store_true',
-                        help="prints all component types")
-    parser.add_argument('--corpus', action='store_true',
-                        help="prints all component types")
-    parser.add_argument('--property-table', metavar='CLASS',
-                        help="prints the property table for the given class")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
+    parser.add_argument('--corpus', action='store_true',
+                        help="prints all component specifications")
+    parser.add_argument('--component-spec', metavar='SPC',
+                        help="prints a single component specification")
+    parser.add_argument('--property-table', metavar='CLS',
+                        help="prints the property table for a component class")
     parser.add_argument('--raw', metavar='QUERY',
                         help="executes the given raw query string")
     parser.add_argument('--script', metavar='FILE',
@@ -135,18 +140,6 @@ def run(args=None):
         data = client.get_design_list()
         print(json.dumps(data, indent=2, sort_keys=True))
 
-    if args.old_corpus:
-        data = client.get_old_corpus_list()
-        print(json.dumps(data, indent=2, sort_keys=True))
-
-    if args.corpus:
-        data = client.get_corpus_list()
-        print(json.dumps(data, indent=2, sort_keys=True))
-
-    if args.property_table:
-        data = client.get_property_table(args.property_table)
-        print(json.dumps(data, indent=2, sort_keys=True))
-
     if args.design:
         components = client.get_component_list(args.design)
         connections = client.get_connection_list(args.design)
@@ -157,6 +150,18 @@ def run(args=None):
             "connections": connections,
             "parameters": parameters,
         }, indent=2, sort_keys=True))
+
+    if args.corpus:
+        data = client.get_corpus_list()
+        print(json.dumps(data, indent=2, sort_keys=True))
+
+    if args.component_spec:
+        data = client.get_component_spec(component_spec=args.component_spec)
+        print(json.dumps(data, indent=2, sort_keys=True))
+
+    if args.property_table:
+        data = client.get_property_table(args.property_table)
+        print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.raw:
         print(client.submit_query(args.raw))
