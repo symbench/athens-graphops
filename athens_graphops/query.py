@@ -61,13 +61,25 @@ class Client():
 
         results = []
         with open(filename, "r") as file:
-            for query in file:
-                query = query.strip()
-                if not query:
+            lines = list(file.readlines())
+            lines.append("")
+            query = ""
+            for line in lines:
+                line = line.rstrip()
+                if line.strip().startswith("//"):
                     continue
-                for var, val in params.items():
-                    query = query.replace(var, str(val))
-                results.append(self.submit_query(query))
+                if line.startswith(" ") or line.startswith("\t"):
+                    query += "\n" + line
+                    continue
+
+                if query:
+                    for var, val in params.items():
+                        query = query.replace(var, str(val))
+                    # print(query)
+                    results.append(self.submit_query(query))
+
+                query = line
+
         return results
 
     def get_design_list(self) -> List[str]:
