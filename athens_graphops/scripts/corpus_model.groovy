@@ -9,12 +9,14 @@ g.V().
     'class',
     'model',
     'id',
+    "schema_version",
     'properties',
     'parameters',
     'connectors').
     by(select('class_name').values('value')).
     by('[]Name').
     by('[]ID').
+    by('[]SchemaVersion').
     by(
       __.in('inside').
       has('VertexLabel', '[]Property').as('prop').

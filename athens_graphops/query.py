@@ -85,7 +85,7 @@ class Client():
 
         return results
 
-    def submit_batch(self, batch: str, **params) -> List[Any]:
+    def submit_batch(self, batch: str) -> List[Any]:
         for dir in CONFIG["batch_dirs"]:
             filename = os.path.join(dir, batch)
             if os.path.exists(filename):
@@ -106,15 +106,8 @@ class Client():
                 param_dict = dict()
                 for i in range(1, len(param_list), 2):
                     if param_list[i]:
-                        name = param_list[i]
-                        value = param_list[i+1]
-                        for var, val in params.items():
-                            if var == value:
-                                value = val
-
-                        param_dict[name] = value
-                        printout.append(name)
-                        printout.append(value)
+                        param_dict[param_list[i]] = param_list[i+1]
+                        printout.extend(param_list[i:i+2])
 
                 print("Executing {}".format(", ".join(printout)))
                 results = self.submit_script(
@@ -185,11 +178,14 @@ def run(args=None):
                         help="executes the given raw query string")
     parser.add_argument('--script', metavar='FILE',
                         help="executes the given groovy script query")
+    parser.add_argument('--params', metavar="X", nargs="*", default=[],
+                        help="use this parameter list for scripts")
     parser.add_argument('--batch', metavar='FILE',
                         help="executes the given csv batch file")
-    parser.add_argument('--params', metavar="X", nargs="*", default=[],
-                        help="use this parameter list for the script or batche")
     args = parser.parse_args(args)
+
+    if len(args.params) % 2 != 0:
+        raise ValueError("Number of parameters must be even.")
 
     params = {}
     for i in range(0, len(args.params), 2):
@@ -233,7 +229,7 @@ def run(args=None):
             print(result)
 
     if args.batch:
-        client.submit_batch(args.batch, **params)
+        client.submit_batch(args.batch)
 
     client.close()
 
