@@ -39,7 +39,7 @@
   "Beam": {
     "properties": {},
     "parameters": {
-      "TOP_CONN_DISP":"float",
+      "TOP_CONN_DISP": "float",
       "BOTTOM_CONN_DISP": "float",
       "SPAN": "float",
       "CHORD": "float",
@@ -197,6 +197,7 @@
     "properties": {
       "WEIGHT": "float"
     },
+    "parameters": {},
     "connectors": [
       "Connector"
     ]

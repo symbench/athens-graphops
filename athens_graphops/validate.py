@@ -23,52 +23,46 @@ from . import CONFIG
 
 
 def validate_corpus():
-    with open(os.path.join(CONFIG["data_dir"], "better_corpus.json"), 'r') as file:
-        corpus = json.load(file)
+    with open(os.path.join(CONFIG["data_dir"], "corpus_list.json"), 'r') as file:
+        corpus_list = json.load(file)
     with open(os.path.join(CONFIG["data_dir"], "corpus_schema.json"), 'r') as file:
-        schema = json.load(file)
+        corpus_schema = json.load(file)
 
-    counts = {cls: 0 for cls in schema.keys()}
-    counts["Unknown"] = 0
-    for typ in corpus:
-        if typ["type"] not in schema:
-            counts["Unknown"] += 1
+    counts = {cls: 0 for cls in corpus_schema.keys()}
+    for mod in corpus_list:
+        if mod["class"] not in corpus_schema:
+            print("WARNING: unknown component class {}".format(mod["class"]))
+            continue
 
-        counts[typ["type"]] += 1
-        cls = schema[typ["type"]]
+        counts[mod["class"]] += 1
+        cls = corpus_schema[mod["class"]]
 
         for key, val1 in cls["properties"].items():
-            assert key in typ["properties"], "property {} is missing in {}".format(
-                key, typ["name"])
-            val2 = typ["properties"][key]
+            assert key in mod["properties"], "property {} is missing in {}".format(
+                key, mod["name"])
+            val2 = mod["properties"][key]
             if val1 == "float":
                 float(val2)
             else:
-                assert val1 == "str", "invalid value type in {}".format(
-                    typ["properties"])
+                assert val1 == "str"
 
         for key, val1 in cls["parameters"].items():
-            assert key in typ["parameters"],  "parameter {} is missing in {}".format(
-                key, typ["name"])
-            
-            parameter_values = typ["parameters"][key]
-            if "[]AssignedValue" in parameter_values:
-                val2 = parameter_values["[]AssignedValue"]
-            else:
-                val2 = parameter_values["[]Default"]
-            
-            if val1 == "float":
-                float(val2)
-            elif val1 == "int":
-                int(val2)
-            else:
-                assert val1 == "str", "invalid value type in {}".format( 
-                    typ["parameters"]) 
+            if key not in mod["parameters"]:
+                print("WARNING: parameter {} is missing in {}".format(
+                    key, mod["model"]))
+                continue
 
+            assert val1 in ["float", "int", "str"]
+
+            for val2 in mod["parameters"][key].values():
+                if val1 == "float":
+                    float(val2)
+                elif val1 == "int":
+                    int(val2)
 
         for key in cls["connectors"]:
-            assert key in typ["connectors"], "connector {} is missing in {}".format(
-                key, typ["name"])
+            assert key in mod["connectors"], "connector {} is missing in {}".format(
+                key, mod["name"])
 
     print("Number of component types:")
     for key, val in counts.items():

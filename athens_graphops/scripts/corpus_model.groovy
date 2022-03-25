@@ -1,5 +1,7 @@
 g.V().
   has('VertexLabel', '[]Classifications').as('class').
+  in('inside').as('class_name').
+  select('class').
   out('inside').
   has('VertexLabel', '[avm]Component').
   has('[]Name', '__MODEL_NAME__').as('comp').
@@ -10,7 +12,7 @@ g.V().
     'properties',
     'parameters',
     'connectors').
-    by(select('class').in('inside').values('value')).
+    by(select('class_name').values('value')).
     by('[]Name').
     by('[]ID').
     by(
@@ -52,4 +54,8 @@ g.V().
           unfold().
           group().by(select(keys)).by(select(values)))).
     by(
-      __.in('inside').has('VertexLabel', '[]Connector').values('[]Name'))
+      __.in('inside').
+      has('VertexLabel', '[]Connector').
+      values('[]Name').
+      order().
+      fold())
