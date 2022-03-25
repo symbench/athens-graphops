@@ -139,6 +139,11 @@ class Client():
         return sorted(results[0], key=lambda x: (
             (x["COMPONENT_NAME"], x["COMPONENT_PARAM"])))
 
+    def get_design_data(self, design: str) -> List[Dict[str, Any]]:
+        results = self.submit_script("design_data.groovy",
+                                     __SOURCEDESIGN__=design)
+        return results[0]
+
     def get_old_corpus_list(self) -> List[Dict[str, Any]]:
         results = self.submit_script("info_corpusComponents.groovy")
         return sorted(results[0], key=lambda x: (
@@ -166,7 +171,7 @@ def run(args=None):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--design-names', action='store_true',
                         help="prints all design names")
-    parser.add_argument('--design', metavar='NAME',
+    parser.add_argument('--design-data', metavar='NAME',
                         help="prints the components of the given design")
     parser.add_argument('--corpus-list', action='store_true',
                         help="prints all component models")
@@ -197,16 +202,9 @@ def run(args=None):
         data = client.get_design_names()
         print(json.dumps(data, indent=2, sort_keys=True))
 
-    if args.design:
-        components = client.get_component_list(args.design)
-        connections = client.get_connection_list(args.design)
-        parameters = client.get_parameter_list(args.design)
-        print(json.dumps({
-            "design": args.design,
-            "components": components,
-            "connections": connections,
-            "parameters": parameters,
-        }, indent=2, sort_keys=True))
+    if args.design_data:
+        data = client.get_design_data(design=args.design_data)
+        print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.corpus_list:
         data = client.get_corpus_list()

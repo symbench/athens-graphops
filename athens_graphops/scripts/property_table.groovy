@@ -21,4 +21,5 @@ g.V().
         by(select('prop').by('[]Name')).
         by(select('val').by('value'))).
     unfold().
-    group().by(select(keys)).by(select(values)))
+    group().by(select(keys)).by(select(values))).
+  order().by('MODEL_NAME')
