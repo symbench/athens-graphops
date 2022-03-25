@@ -123,34 +123,34 @@ class Client():
         results = self.submit_script("info_designList.groovy")
         return sorted(results[0])
 
-    def get_component_list(self, design: str) -> List[Dict[str, Any]]:
+    def get_component_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_componentMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: x["FROM_COMP"])
 
-    def get_connection_list(self, design: str) -> List[Dict[str, Any]]:
+    def get_connection_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_connectionMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: (x["FROM_COMP"], x["TO_COMP"]))
 
-    def get_parameter_list(self, design: str) -> List[Dict[str, Any]]:
+    def get_parameter_map(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("info_paramMap.groovy",
                                      __SOURCEDESIGN__=design)
         return sorted(results[0], key=lambda x: (
             (x["COMPONENT_NAME"], x["COMPONENT_PARAM"])))
+
+    def get_corpus_components(self) -> List[Dict[str, Any]]:
+        results = self.submit_script("info_corpusComponents.groovy")
+        return sorted(results[0], key=lambda x: (
+            x["Classification"], x["Component"]))
 
     def get_design_data(self, design: str) -> List[Dict[str, Any]]:
         results = self.submit_script("design_data.groovy",
                                      __SOURCEDESIGN__=design)
         return results[0]
 
-    def get_old_corpus_list(self) -> List[Dict[str, Any]]:
-        results = self.submit_script("info_corpusComponents.groovy")
-        return sorted(results[0], key=lambda x: (
-            x["Classification"], x["Component"]))
-
-    def get_corpus_list(self) -> List[Dict[str, Any]]:
-        results = self.submit_script("corpus_list.groovy")
+    def get_corpus_data(self) -> List[Dict[str, Any]]:
+        results = self.submit_script("corpus_data.groovy")
         return results[0]
 
     def get_corpus_model(self, model_name: str) -> Dict[str, Any]:
@@ -173,7 +173,7 @@ def run(args=None):
                         help="prints all design names")
     parser.add_argument('--design-data', metavar='NAME',
                         help="prints the components of the given design")
-    parser.add_argument('--corpus-list', action='store_true',
+    parser.add_argument('--corpus-data', action='store_true',
                         help="prints all component models")
     parser.add_argument('--corpus-model', metavar='MOD',
                         help="prints a single component model")
@@ -206,8 +206,8 @@ def run(args=None):
         data = client.get_design_data(design=args.design_data)
         print(json.dumps(data, indent=2, sort_keys=True))
 
-    if args.corpus_list:
-        data = client.get_corpus_list()
+    if args.corpus_data:
+        data = client.get_corpus_data()
         print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.corpus_model:

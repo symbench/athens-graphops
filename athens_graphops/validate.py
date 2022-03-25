@@ -22,14 +22,14 @@ import os
 from . import CONFIG
 
 
-def validate_corpus_list():
-    with open(os.path.join(CONFIG["data_dir"], "corpus_list.json"), 'r') as file:
-        corpus_list = json.load(file)
+def validate_corpus_data():
+    with open(os.path.join(CONFIG["data_dir"], "corpus_data.json"), 'r') as file:
+        corpus_data = json.load(file)
     with open(os.path.join(CONFIG["data_dir"], "corpus_schema.json"), 'r') as file:
         corpus_schema = json.load(file)
 
     counts = {cls: 0 for cls in corpus_schema.keys()}
-    for mod in corpus_list:
+    for mod in corpus_data:
         if mod["class"] not in corpus_schema:
             print("WARNING: unknown component class {}".format(mod["class"]))
             continue
@@ -74,12 +74,12 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--corpus-list', action='store_true',
+    parser.add_argument('--corpus-data', action='store_true',
                         help="validates the corpus against the schema")
     args = parser.parse_args(args)
 
-    if args.corpus_list:
-        validate_corpus_list()
+    if args.corpus_data:
+        validate_corpus_data()
 
 
 if __name__ == '__main__':
