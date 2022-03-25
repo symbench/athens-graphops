@@ -5,8 +5,8 @@ g.V().
   out('inside').
   has('VertexLabel', '[avm]Component').as('comp').
   project(
-    'type',
-    'name',
+    'class',
+    'model',
     'id',
     'properties',
     'parameters',

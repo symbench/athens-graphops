@@ -2,10 +2,10 @@ g.V().
   has('VertexLabel', '[]Classifications').as('class').
   out('inside').
   has('VertexLabel', '[avm]Component').
-  has('[]Name', '__COMPONENTSPEC__').as('comp').
+  has('[]Name', '__MODEL_NAME__').as('comp').
   project(
     'class',
-    'spec',
+    'model',
     'id',
     'properties',
     'parameters',

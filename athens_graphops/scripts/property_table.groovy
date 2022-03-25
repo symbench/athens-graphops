@@ -7,7 +7,7 @@ g.V().
   has('VertexLabel', '[avm]Component').as('comp').
   map(
     union(
-      project('COMPONENT_NAME').by('[]Name'),
+      project('MODEL_NAME').by('[]Name'),
       __.in('inside').
       has('VertexLabel', '[]Property').as('prop').
       in('inside').

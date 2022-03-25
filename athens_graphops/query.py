@@ -111,9 +111,9 @@ class Client():
         results = self.submit_script("corpus_list.groovy")
         return results[0]
 
-    def get_component_spec(self, component_spec: str) -> Dict[str, Any]:
-        results = self.submit_script("component_spec.groovy",
-                                     __COMPONENTSPEC__=component_spec)
+    def get_corpus_model(self, model_name: str) -> Dict[str, Any]:
+        results = self.submit_script("corpus_model.groovy",
+                                     __MODEL_NAME__=model_name)
         return results[0]
 
     def get_property_table(self, classification: str) -> List[Dict[str, Any]]:
@@ -134,10 +134,10 @@ def run(args=None):
                         help="prints all design names")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
-    parser.add_argument('--corpus', action='store_true',
-                        help="prints all component specifications")
-    parser.add_argument('--component-spec', metavar='SPC',
-                        help="prints a single component specification")
+    parser.add_argument('--corpus-list', action='store_true',
+                        help="prints all component models")
+    parser.add_argument('--corpus-model', metavar='MOD',
+                        help="prints a single component model")
     parser.add_argument('--property-table', metavar='CLS',
                         help="prints the property table for a component class")
     parser.add_argument('--raw', metavar='QUERY',
@@ -163,12 +163,12 @@ def run(args=None):
             "parameters": parameters,
         }, indent=2, sort_keys=True))
 
-    if args.corpus:
+    if args.corpus_list:
         data = client.get_corpus_list()
         print(json.dumps(data, indent=2, sort_keys=True))
 
-    if args.component_spec:
-        data = client.get_component_spec(component_spec=args.component_spec)
+    if args.corpus_model:
+        data = client.get_corpus_model(model_name=args.corpus_model)
         print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.property_table:
