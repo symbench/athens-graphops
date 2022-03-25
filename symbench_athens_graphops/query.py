@@ -90,17 +90,17 @@ class Client():
         return sorted(results[0], key=lambda x: (
             (x["COMPONENT_NAME"], x["COMPONENT_PARAM"])))
 
-    def get_corpus_list(self) -> List[Dict[str, Any]]:
+    def get_old_corpus_list(self) -> List[Dict[str, Any]]:
         results = self.submit_script("info_corpusComponents.groovy")
         return sorted(results[0], key=lambda x: (
             x["Classification"], x["Component"]))
 
-    def get_better_corpus_list(self) -> List[Dict[str, Any]]:
-        results = self.submit_script("better_corpus_list.groovy")
+    def get_corpus_list(self) -> List[Dict[str, Any]]:
+        results = self.submit_script("corpus_list.groovy")
         return results[0]
 
-    def get_class_properties(self, classification: str) -> Dict[str, Any]:
-        results = self.submit_script("corpus_properties.groovy",
+    def get_property_table(self, classification: str) -> List[Dict[str, Any]]:
+        results = self.submit_script("property_table.groovy",
                                      __CLASSIFICATION__=classification)
         return results[0]
 
@@ -115,12 +115,12 @@ def run(args=None):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--list', action='store_true',
                         help="prints all design names")
+    parser.add_argument('--old-corpus', action='store_true',
+                        help="prints all component types")
     parser.add_argument('--corpus', action='store_true',
                         help="prints all component types")
-    parser.add_argument('--better-corpus', action='store_true',
-                        help="prints all component types")
-    parser.add_argument('--class-properties', metavar='CLASS',
-                        help="prints properties for the given classification")
+    parser.add_argument('--property-table', metavar='CLASS',
+                        help="prints the property table for the given class")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
     parser.add_argument('--raw', metavar='QUERY',
@@ -133,19 +133,19 @@ def run(args=None):
 
     if args.list:
         data = client.get_design_list()
-        print(json.dumps(data, indent=2))
+        print(json.dumps(data, indent=2, sort_keys=True))
+
+    if args.old_corpus:
+        data = client.get_old_corpus_list()
+        print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.corpus:
         data = client.get_corpus_list()
-        print(json.dumps(data, indent=2))
+        print(json.dumps(data, indent=2, sort_keys=True))
 
-    if args.better_corpus:
-        data = client.get_better_corpus_list()
-        print(json.dumps(data, indent=2))
-
-    if args.class_properties:
-        data = client.get_class_properties(args.class_properties)
-        print(json.dumps(data, indent=2))
+    if args.property_table:
+        data = client.get_property_table(args.property_table)
+        print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.design:
         components = client.get_component_list(args.design)
@@ -156,7 +156,7 @@ def run(args=None):
             "components": components,
             "connections": connections,
             "parameters": parameters,
-        }, indent=2))
+        }, indent=2, sort_keys=True))
 
     if args.raw:
         print(client.submit_query(args.raw))
