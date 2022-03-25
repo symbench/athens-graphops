@@ -22,7 +22,7 @@ import os
 from . import CONFIG
 
 
-def validate_corpus():
+def validate_corpus_list():
     with open(os.path.join(CONFIG["data_dir"], "corpus_list.json"), 'r') as file:
         corpus_list = json.load(file)
     with open(os.path.join(CONFIG["data_dir"], "corpus_schema.json"), 'r') as file:
@@ -74,12 +74,12 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--corpus', action='store_true',
+    parser.add_argument('--corpus-list', action='store_true',
                         help="validates the corpus against the schema")
     args = parser.parse_args(args)
 
-    if args.corpus:
-        validate_corpus()
+    if args.corpus_list:
+        validate_corpus_list()
 
 
 if __name__ == '__main__':

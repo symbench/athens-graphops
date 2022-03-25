@@ -82,7 +82,7 @@ class Client():
 
         return results
 
-    def get_design_list(self) -> List[str]:
+    def get_design_names(self) -> List[str]:
         results = self.submit_script("info_designList.groovy")
         return sorted(results[0])
 
@@ -130,7 +130,7 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--list', action='store_true',
+    parser.add_argument('--design-names', action='store_true',
                         help="prints all design names")
     parser.add_argument('--design', metavar='NAME',
                         help="prints the components of the given design")
@@ -148,8 +148,8 @@ def run(args=None):
 
     client = Client()
 
-    if args.list:
-        data = client.get_design_list()
+    if args.design_names:
+        data = client.get_design_names()
         print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.design:
