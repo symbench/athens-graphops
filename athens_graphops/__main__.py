@@ -18,6 +18,7 @@ import argparse
 import sys
 
 from . import CONFIG
+from . import autoseed
 from . import query
 from . import validate
 
@@ -25,6 +26,7 @@ from . import validate
 def run():
     # hack the subcommands
     commands = [
+        "autoseed",
         "query",
         "validate",
     ]
@@ -58,6 +60,8 @@ def run():
         query.run(args=sys.argv[pos:])
     elif args.command == "validate":
         validate.run(args=sys.argv[pos:])
+    elif args.command == "autoseed":
+        autoseed.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 
