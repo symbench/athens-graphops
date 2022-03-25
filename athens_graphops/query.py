@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from typing import Any, Dict, List, Optional
+
 import json
 import os
 import sys
@@ -63,6 +64,7 @@ class Client():
         with open(filename, "r") as file:
             lines = list(file.readlines())
             lines.append("")
+
             query = ""
             for line in lines:
                 line = line.rstrip()
@@ -79,8 +81,50 @@ class Client():
                     results.append(self.submit_query(query))
 
                 query = line
+            assert query == ""
 
         return results
+
+    def submit_batch(self, batch: str, **params) -> List[Any]:
+        for dir in CONFIG["batch_dirs"]:
+            filename = os.path.join(dir, batch)
+            if os.path.exists(filename):
+                break
+        else:
+            raise ValueError("batch {} not found".format(batch))
+
+        all_results = []
+
+        print("Reading {}".format(filename))
+        with open(filename) as file:
+            for line in file:
+                param_list = line.strip().split(',')
+                if param_list[0] in ['\ufeffQtemplate', 'Qtemplate']:
+                    continue
+
+                printout = [param_list[0]]
+                param_dict = dict()
+                for i in range(1, len(param_list), 2):
+                    if param_list[i]:
+                        name = param_list[i]
+                        value = param_list[i+1]
+                        for var, val in params.items():
+                            if var == value:
+                                value = val
+
+                        param_dict[name] = value
+                        printout.append(name)
+                        printout.append(value)
+
+                print("Executing {}".format(", ".join(printout)))
+                results = self.submit_script(
+                    param_list[0] + ".groovy", **param_dict)
+                all_results.extend(results)
+                for result in results:
+                    if result:
+                        print(result)
+
+        return all_results
 
     def get_design_names(self) -> List[str]:
         results = self.submit_script("info_designList.groovy")
@@ -121,9 +165,6 @@ class Client():
                                      __CLASSIFICATION__=classification)
         return results[0]
 
-    def get_corpus_parameters(self, classification: str) -> Dict[str, Any]:
-        pass
-
 
 def run(args=None):
     import argparse
@@ -143,8 +184,16 @@ def run(args=None):
     parser.add_argument('--raw', metavar='QUERY',
                         help="executes the given raw query string")
     parser.add_argument('--script', metavar='FILE',
-                        help="executes the given script query")
+                        help="executes the given groovy script query")
+    parser.add_argument('--batch', metavar='FILE',
+                        help="executes the given csv batch file")
+    parser.add_argument('--params', metavar="X", nargs="*", default=[],
+                        help="use this parameter list for the script or batche")
     args = parser.parse_args(args)
+
+    params = {}
+    for i in range(0, len(args.params), 2):
+        params[args.params[i]] = args.params[i+1]
 
     client = Client()
 
@@ -179,9 +228,12 @@ def run(args=None):
         print(client.submit_query(args.raw))
 
     if args.script:
-        results = client.submit_script(args.script)
+        results = client.submit_script(args.script, **params)
         for result in results:
             print(result)
+
+    if args.batch:
+        client.submit_batch(args.batch, **params)
 
     client.close()
 

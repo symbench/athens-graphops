@@ -20,7 +20,15 @@ CONFIG = {
     "timeout": 30,
     "data_dir": os.path.join(os.path.dirname(__file__), 'data'),
     "script_dirs": [
-        os.path.join(os.path.dirname(__file__), '..', 'autograph', 'scripts'),
-        os.path.join(os.path.dirname(__file__), 'scripts'),
+        '.',
+        os.path.abspath(os.path.join(os.path.dirname(__file__), 'scripts')),
+        os.path.abspath(os.path.join(os.path.dirname(
+            __file__), '..', 'autograph', 'scripts')),
     ],
+    "batch_dirs": [
+        '.',
+        os.path.abspath(os.path.join(os.path.dirname(__file__), 'scripts')),
+        os.path.abspath(os.path.join(os.path.dirname(
+            __file__), '..', 'autograph')),
+    ]
 }
