@@ -3,7 +3,7 @@ g.V().
   has('[]Name', '__SOURCEDESIGN__').
   in('inside').
   has('VertexLabel', '[]RootContainer').
-  project('design', 'objects', 'parameters').
+  project('design', 'objects', 'parameters', 'connections').
     by('[]Name').
     by(
       __.in('inside').
@@ -29,15 +29,24 @@ g.V().
       fold()).
     by(
       __.in('inside').
-      has('VertexLabel', '[]Property').
-      as('prop').
+      has('VertexLabel', '[]Property').as('prop').
       in('inside').
       in('inside').
       in('inside').
       has('VertexLabel', '[]AssignedValue').
       in('inside').
-      in('inside').
-      as('val').
+      in('inside').as('val').
       group().
         by(select('prop').values('[]Name')).
-        by(select('val').values('value')))
+        by(select('val').values('value'))).
+    by(
+      __.in('inside').
+      has('VertexLabel', '[]ComponentInstance').as('object1').
+      in('inside').
+      has('VertexLabel', '[]ConnectorInstance').as('connector1').
+      out('connector_composition').as('connector2').
+      out('inside').as('object2').
+      select('object1', 'connector1', 'connector2', 'object2').
+        by('[]Name').
+      order().by('object1').by('object2').
+      fold())
