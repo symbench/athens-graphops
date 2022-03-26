@@ -85,40 +85,6 @@ class Client():
 
         return results
 
-    def submit_batch(self, batch: str) -> List[Any]:
-        for dir in CONFIG["batch_dirs"]:
-            filename = os.path.join(dir, batch)
-            if os.path.exists(filename):
-                break
-        else:
-            raise ValueError("batch {} not found".format(batch))
-
-        all_results = []
-
-        print("Reading {}".format(filename))
-        with open(filename) as file:
-            for line in file:
-                param_list = line.strip().split(',')
-                if param_list[0] in ['\ufeffQtemplate', 'Qtemplate']:
-                    continue
-
-                printout = [param_list[0]]
-                param_dict = dict()
-                for i in range(1, len(param_list), 2):
-                    if param_list[i]:
-                        param_dict[param_list[i]] = param_list[i+1]
-                        printout.extend(param_list[i:i+2])
-
-                print("Executing {}".format(", ".join(printout)))
-                results = self.submit_script(
-                    param_list[0] + ".groovy", **param_dict)
-                all_results.extend(results)
-                for result in results:
-                    if result:
-                        print(result)
-
-        return all_results
-
     def get_design_names(self) -> List[str]:
         results = self.submit_script("info_designList.groovy")
         return sorted(results[0])
@@ -185,8 +151,6 @@ def run(args=None):
                         help="executes the given groovy script query")
     parser.add_argument('--params', metavar="X", nargs="*", default=[],
                         help="use this parameter list for scripts")
-    parser.add_argument('--batch', metavar='FILE',
-                        help="executes the given csv batch file")
     args = parser.parse_args(args)
 
     if len(args.params) % 2 != 0:
@@ -225,9 +189,6 @@ def run(args=None):
         results = client.submit_script(args.script, **params)
         for result in results:
             print(result)
-
-    if args.batch:
-        client.submit_batch(args.batch)
 
     client.close()
 

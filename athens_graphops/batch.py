@@ -34,9 +34,46 @@ def import_autoseed():
     return autoseed
 
 
-def autoseed(design: str, filename: str):
-    filename = os.path.abspath(filename)
-    newname = os.path.splitext(os.path.basename(filename))[0]
+def autograph(batchfile: str) -> List[Any]:
+    for dir in CONFIG["batch_dirs"]:
+        filename = os.path.join(dir, batchfile)
+        if os.path.exists(filename):
+            break
+    else:
+        raise ValueError("batchfile {} not found".format(batchfile))
+
+    all_results = []
+    client = query.Client()
+
+    print("Reading {}".format(filename))
+    with open(filename) as file:
+        for line in file:
+            param_list = line.strip().split(',')
+            if param_list[0] in ['\ufeffQtemplate', 'Qtemplate']:
+                continue
+
+            printout = [param_list[0]]
+            param_dict = dict()
+            for i in range(1, len(param_list), 2):
+                if param_list[i]:
+                    param_dict[param_list[i]] = param_list[i+1]
+                    printout.extend(param_list[i:i+2])
+
+            print("Executing {}".format(", ".join(printout)))
+            results = client.submit_script(
+                param_list[0] + ".groovy", **param_dict)
+            all_results.extend(results)
+            for result in results:
+                if result:
+                    print(result)
+
+    client.close()
+    return all_results
+
+
+def autoseed(design: str, batchfile: str):
+    batchfile = os.path.abspath(batchfile)
+    newname = os.path.splitext(os.path.basename(batchfile))[0]
 
     client = query.Client()
 
@@ -74,9 +111,9 @@ def autoseed(design: str, filename: str):
     os.chdir(olddir)
 
     ifilename = os.path.join(tempdir.name, newname + ".csv")
-    print("Copying file {} to {}".format(ifilename, filename))
+    print("Copying file {} to {}".format(ifilename, batchfile))
     with open(ifilename, "r") as ifile:
-        with open(filename, "w") as ofile:
+        with open(batchfile, "w") as ofile:
             ofile.write(ifile.read())
 
 
@@ -85,14 +122,18 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('design', help="name of the design")
-    parser.add_argument('--output', metavar="CSV", help="output CSV filename")
+    parser.add_argument('file', metavar="FILE", nargs='?',
+                        help="a .csv batch file to run or dump")
+    parser.add_argument('--dump', metavar="NAME",
+                        help="saves the given design to a batch file")
     args = parser.parse_args(args)
 
-    if not args.output:
-        args.output = args.design + ".csv"
-
-    autoseed(design=args.design, filename=args.output)
+    if args.dump:
+        if not args.file:
+            args.file = args.dump + ".csv"
+        autoseed(design=args.dump, batchfile=args.file)
+    elif args.file:
+        autograph(batchfile=args.file)
 
 
 if __name__ == '__main__':
