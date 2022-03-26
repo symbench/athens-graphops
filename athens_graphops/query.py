@@ -40,6 +40,9 @@ class Client():
             timeout = CONFIG["timeout"]
         self.timeout = timeout * 1000
 
+        # memoize
+        self.model_to_class = dict()
+
     def close(self):
         if self.client:
             sys.stderr.write("Closed connection\n")
@@ -119,15 +122,85 @@ class Client():
         results = self.submit_script("corpus_data.groovy")
         return results[0]
 
-    def get_corpus_model(self, model_name: str) -> Dict[str, Any]:
+    def get_corpus_model(self, model: str) -> Dict[str, Any]:
         results = self.submit_script("corpus_model.groovy",
-                                     __MODEL_NAME__=model_name)
+                                     __MODELNAME__=model)
         return results[0]
 
     def get_property_table(self, classification: str) -> List[Dict[str, Any]]:
         results = self.submit_script("property_table.groovy",
                                      __CLASSIFICATION__=classification)
         return results[0]
+
+    def delete_design(self, design: str):
+        self.submit_script("clearDesign.groovy", __DESTDESIGN__=design)
+
+    def create_design(self, design: str):
+        self.submit_script("clearDesign.groovy", __DESTDESIGN__=design)
+        self.submit_script("addBlankDesign.groovy", __DESTDESIGN__=design)
+
+    def get_model_class(self, model: str) -> str:
+        if model in self.model_to_class:
+            return self.model_to_class[model]
+
+        results = self.submit_script("get_model_class.groovy",
+                                     __MODELNAME__=model)
+        if results[0]:
+            class_name = results[0][0]
+        else:
+            class_name = model
+        self.model_to_class[model] = class_name
+        return class_name
+
+    def create_instance(self, design: str, model: str, instance: str):
+        class_name = self.get_model_class(model)
+        self.submit_script("cloneCIOpt.groovy",
+                           __SOURCEDESIGN__="AllComponentsUAM",
+                           __SOURCENAME__=class_name,
+                           __DESTDESIGN__=design,
+                           __DESTNAME__=instance)
+        if model != class_name:
+            self.submit_script("swap.groovy",
+                               __DESIGN__=design,
+                               __COMPONENT_INSTANCE__=instance,
+                               __NEW_COMPONENT__=model)
+
+    def create_connection(self, design: str,
+                          instance1: str, instance2: str,
+                          connector1: str, connector2: str):
+        """
+        Make sure to connect the two instances only once in any direction!
+        """
+        self.submit_script("addConn.groovy",
+                           __SOURCEDESIGN__=design,
+                           __SOURCECOMP__=instance1,
+                           __SOURCECONN__=connector1,
+                           __DESTCOMP__=instance2,
+                           __DESTCONN__=connector2)
+
+    def create_parameter(self, design: str, parameter: str, value: str):
+        upper = parameter.upper()
+        if any([upper.find(item) != 1 for item in
+                ["LENG", "RADI", "OFFSET", "POSIT", "LEGS"]]):
+            script = 'addNewPropMM.groovy'
+        else:
+            script = 'addNewPropx.groovy'
+        self.submit_script(script,
+                           __SOURCEDESIGN__=design,
+                           __PROPNAME__=parameter,
+                           __PROPVAL__=value)
+
+    def assign_parameter(self, design: str, instance: str, model_param: str, parameter: str):
+        self.submit_script('addPropConnl.groovy',
+                           __SOURCEDESIGN__=design,
+                           __DESTCOMP__=instance,
+                           __DESTPI__=model_param,
+                           __SOURCEPROP__=parameter)
+
+    def orient_design(self, design: str, instance: str):
+        self.submit_script('addRefCoordSysx.groovy',
+                           __SOURCEDESIGN__=design,
+                           __ORIENTNAME__=instance)
 
 
 def run(args=None):
@@ -151,6 +224,8 @@ def run(args=None):
                         help="executes the given groovy script query")
     parser.add_argument('--params', metavar="X", nargs="*", default=[],
                         help="use this parameter list for scripts")
+    parser.add_argument('--delete-design', metavar='NAME',
+                        help="deletes the given design")
     args = parser.parse_args(args)
 
     if len(args.params) % 2 != 0:
@@ -175,7 +250,7 @@ def run(args=None):
         print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.corpus_model:
-        data = client.get_corpus_model(model_name=args.corpus_model)
+        data = client.get_corpus_model(model=args.corpus_model)
         print(json.dumps(data, indent=2, sort_keys=True))
 
     if args.property_table:
@@ -189,6 +264,9 @@ def run(args=None):
         results = client.submit_script(args.script, **params)
         for result in results:
             print(result)
+
+    if args.delete_design:
+        client.delete_design(args.delete_design)
 
     client.close()
 

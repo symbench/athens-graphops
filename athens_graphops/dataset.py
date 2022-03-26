@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright (C) 2022, Miklos Maroti
 #
 # This program is free software: you can redistribute it and/or modify
@@ -13,22 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Any
+
+import json
 import os
 
-# these can be overwritten in __main__
-CONFIG = {
-    "hostname": "localhost",
-    "timeout": 30,
-    "script_dirs": [
-        '.',
-        os.path.abspath(os.path.join(os.path.dirname(__file__), 'scripts')),
-        os.path.abspath(os.path.join(os.path.dirname(
-            __file__), '..', 'autograph', 'scripts')),
-    ],
-    "batch_dirs": [
-        '.',
-        os.path.abspath(os.path.join(os.path.dirname(__file__), 'scripts')),
-        os.path.abspath(os.path.join(os.path.dirname(
-            __file__), '..', 'autograph')),
-    ]
-}
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+
+
+def load_json(filename: str) -> Any:
+    with open(os.path.join(DATA_DIR, filename), 'r') as file:
+        return json.load(file)
+
+
+CORPUS_DATA = load_json('corpus_data.json')
+
+CORPUS_SCHEMA = load_json('corpus_schema.json')

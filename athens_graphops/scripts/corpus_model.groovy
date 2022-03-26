@@ -4,7 +4,7 @@ g.V().
   select('class').
   out('inside').
   has('VertexLabel', '[avm]Component').
-  has('[]Name', '__MODEL_NAME__').as('comp').
+  has('[]Name', '__MODELNAME__').as('comp').
   project(
     'class',
     'model',

@@ -14,28 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Any, Dict, List, Optional
-
-import json
-import os
-
-from . import CONFIG
+from .dataset import CORPUS_DATA, CORPUS_SCHEMA
+from .query import Client
 
 
 def validate_corpus_data():
-    with open(os.path.join(CONFIG["data_dir"], "corpus_data.json"), 'r') as file:
-        corpus_data = json.load(file)
-    with open(os.path.join(CONFIG["data_dir"], "corpus_schema.json"), 'r') as file:
-        corpus_schema = json.load(file)
-
-    counts = {cls: 0 for cls in corpus_schema.keys()}
-    for mod in corpus_data:
-        if mod["class"] not in corpus_schema:
+    counts = {cls: 0 for cls in CORPUS_SCHEMA.keys()}
+    for mod in CORPUS_DATA:
+        if mod["class"] not in CORPUS_SCHEMA:
             print("WARNING: unknown component class {}".format(mod["class"]))
             continue
 
         counts[mod["class"]] += 1
-        cls = corpus_schema[mod["class"]]
+        cls = CORPUS_SCHEMA[mod["class"]]
 
         for key, val1 in cls["properties"].items():
             assert key in mod["properties"], "property {} is missing in {}".format(
@@ -69,6 +60,56 @@ def validate_corpus_data():
         print("  {:30}{}".format(key, val))
 
 
+def validate_create_instances():
+    client = Client()
+
+    # TODO: Go through all models in CORPUS_DATA and create a design with
+    # a single instance with all/some parameters set to random values based
+    # on parameter types (no need to observe the min/max), then verify that
+    # the reloaded instance data matches what we expect. Do not assert, print
+    # out errors
+
+    print("Testing Tattu19AhLi")
+    design_name = 'ValidationDesign'
+
+    client.create_design(design_name)
+    client.create_instance(design_name, 'Tattu19AhLi', 'TestInstance')
+    client.create_parameter(design_name, 'PARAM_CHORD_1', 101.0)
+    client.create_parameter(design_name, 'PARAM_CHORD_2', 102.0)
+    client.create_parameter(design_name, 'PARAM_MOUNT_SIDE', 103)
+    client.create_parameter(design_name, 'PARAM_SPAN', 114.0)
+    client.assign_parameter(design_name, 'TestInstance', 'CHORD_1', 'PARAM_CHORD_1')
+    client.assign_parameter(design_name, 'TestInstance', 'CHORD_2', 'PARAM_CHORD_2')
+    client.assign_parameter(design_name, 'TestInstance', 'MOUNT_SIDE', 'PARAM_MOUNT_SIDE')
+
+    design = client.get_design_data(design_name)
+
+    assert len(design) == 1
+    design = design[0]
+
+    assert design['design'] == design_name
+    assert len(design['connections']) == 0
+
+    assert len(design['instances']) == 1
+    instance = design['instances'][0]
+    assert instance['model'] == 'Tattu19AhLi'
+    assert instance['name'] == 'TestInstance'
+    assert instance['assignment'] == {
+        'CHORD_1': 'PARAM_CHORD_1',
+        'CHORD_2': 'PARAM_CHORD_2',
+        'MOUNT_SIDE': 'PARAM_MOUNT_SIDE',
+    }
+
+    assert design['parameters'] == {
+        "PARAM_CHORD_1": "101.0",
+        "PARAM_CHORD_2": "102.0",
+        "PARAM_MOUNT_SIDE": "103",
+        "PARAM_SPAN": "114.0"
+    }
+
+    client.close()
+
+
 def run(args=None):
     import argparse
 
@@ -76,10 +117,15 @@ def run(args=None):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--corpus-data', action='store_true',
                         help="validates the corpus against the schema")
+    parser.add_argument('--create-instances', action='store_true',
+                        help="creates a simple design for each model")
     args = parser.parse_args(args)
 
     if args.corpus_data:
         validate_corpus_data()
+
+    if args.create_instances:
+        validate_create_instances()
 
 
 if __name__ == '__main__':
