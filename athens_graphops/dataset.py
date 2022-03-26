@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Any
+from typing import Any, Dict, List
 
 import json
 import os
@@ -30,3 +30,39 @@ def load_json(filename: str) -> Any:
 CORPUS_DATA = load_json('corpus_data.json')
 
 CORPUS_SCHEMA = load_json('corpus_schema.json')
+
+
+def property_table(classification: str) -> List[Dict[str, Any]]:
+    result = []
+    for mod in CORPUS_DATA:
+        if mod["class"] != classification:
+            continue
+
+        entry = dict(mod["properties"])
+        assert "MODEL" not in entry or entry["MODEL"] == mod["model"]
+        entry["MODEL"] = mod["model"]
+        result.append(entry)
+    return result
+
+
+BATTERY_TABLE = property_table("Battery")
+MOTOR_TABLE = property_table("Motor")
+PROPELLER_TABLE = property_table("Propeller")
+
+
+def run(args=None):
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--property-table', metavar='CLS',
+                        help="prints out the property table")
+    args = parser.parse_args(args)
+
+    if args.property_table:
+        data = property_table(args.property_table)
+        print(json.dumps(data, indent=2, sort_keys=True))
+
+
+if __name__ == '__main__':
+    run()

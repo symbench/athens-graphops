@@ -15,6 +15,8 @@
 
 import os
 
+from .dataset import CORPUS_DATA, CORPUS_SCHEMA, BATTERY_TABLE, MOTOR_TABLE, PROPELLER_TABLE
+
 # these can be overwritten in __main__
 CONFIG = {
     "hostname": "localhost",

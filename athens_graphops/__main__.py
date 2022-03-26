@@ -19,6 +19,7 @@ import sys
 
 from . import CONFIG
 from . import batch
+from . import dataset
 from . import query
 from . import validate
 
@@ -27,6 +28,7 @@ def run():
     # hack the subcommands
     commands = [
         "batch",
+        "dataset",
         "query",
         "validate",
     ]
@@ -62,6 +64,8 @@ def run():
         validate.run(args=sys.argv[pos:])
     elif args.command == "batch":
         batch.run(args=sys.argv[pos:])
+    elif args.command == "dataset":
+        dataset.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 
