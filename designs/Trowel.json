@@ -1,0 +1,1456 @@
+[
+  {
+    "connections": [
+      {
+        "connector1": "BatteryPower",
+        "connector2": "PowerBus",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_battery"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_front_motor_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_front_motor_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_front_motor_3_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_front_motor_fwd"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_rear_motor_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_rear_motor_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "left_rear_motor_3_vert"
+      },
+      {
+        "connector1": "BatteryPower",
+        "connector2": "PowerBus",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_battery"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_front_motor_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_front_motor_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_front_motor_3_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_front_motor_fwd"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_rear_motor_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_rear_motor_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "777V_Bat_System",
+        "instance2": "right_rear_motor_3_vert"
+      },
+      {
+        "connector1": "Flip_Connector_2",
+        "connector2": "LEFT_CONNECTOR",
+        "instance1": "Cyl_Flip_Out",
+        "instance2": "center_right_cyl"
+      },
+      {
+        "connector1": "Flip_Connector_1",
+        "connector2": "RIGHT_CONNECTOR",
+        "instance1": "Cyl_Flip_Out",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "ORIENTCONN",
+        "connector2": "ORIENT",
+        "instance1": "Orient",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "Connector",
+        "connector2": "SEAT_1_CONNECTOR",
+        "instance1": "Passenger1",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "Connector",
+        "connector2": "SEAT_2_CONNECTOR",
+        "instance1": "Passenger2",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "BOTTOM_CONNECTOR",
+        "instance1": "bot_naca_connector",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "End_Connector_1",
+        "connector2": "Connector_2",
+        "instance1": "bot_naca_connector",
+        "instance2": "left_bot_wing"
+      },
+      {
+        "connector1": "End_Connector_2",
+        "connector2": "Connector_1",
+        "instance1": "bot_naca_connector",
+        "instance2": "right_bot_wing"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "center_left_cyl",
+        "instance2": "front_left_cyl_3"
+      },
+      {
+        "connector1": "RIGHT_CONNECTOR",
+        "connector2": "Flip_Connector_2",
+        "instance1": "center_left_cyl",
+        "instance2": "left_center_cyl_flip"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "center_left_cyl",
+        "instance2": "rear_left_cyl_1"
+      },
+      {
+        "connector1": "LEFT_CONNECTOR",
+        "connector2": "Flip_Connector_2",
+        "instance1": "center_right_cyl",
+        "instance2": "Cyl_Flip_Out"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "center_right_cyl",
+        "instance2": "front_right_cyl_3"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "center_right_cyl",
+        "instance2": "rear_right_cyl_1"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_left_cyl_1",
+        "instance2": "front_left_cyl_2"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_left_cyl_1",
+        "instance2": "front_left_cyl_flip"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_left_cyl_1",
+        "instance2": "left_front_motor_1_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_left_cyl_2",
+        "instance2": "front_left_cyl_1"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_left_cyl_2",
+        "instance2": "front_left_cyl_3"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_left_cyl_2",
+        "instance2": "left_front_motor_2_vert"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_left_cyl_3",
+        "instance2": "center_left_cyl"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_left_cyl_3",
+        "instance2": "front_left_cyl_2"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_left_cyl_3",
+        "instance2": "left_front_motor_3_vert"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_left_cyl_flip",
+        "instance2": "front_left_cyl_1"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_left_cyl_flip",
+        "instance2": "left_front_motor_fwd"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_right_cyl_1",
+        "instance2": "front_right_cyl_2"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_right_cyl_1",
+        "instance2": "front_right_cyl_flip"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_right_cyl_1",
+        "instance2": "right_front_motor_1_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_right_cyl_2",
+        "instance2": "front_right_cyl_1"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_right_cyl_2",
+        "instance2": "front_right_cyl_3"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_right_cyl_2",
+        "instance2": "right_front_motor_2_vert"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_right_cyl_3",
+        "instance2": "center_right_cyl"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "front_right_cyl_3",
+        "instance2": "front_right_cyl_2"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_right_cyl_3",
+        "instance2": "right_front_motor_3_vert"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "front_right_cyl_flip",
+        "instance2": "front_right_cyl_1"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "front_right_cyl_flip",
+        "instance2": "right_front_motor_fwd"
+      },
+      {
+        "connector1": "RIGHT_CONNECTOR",
+        "connector2": "Flip_Connector_1",
+        "instance1": "fuselage",
+        "instance2": "Cyl_Flip_Out"
+      },
+      {
+        "connector1": "ORIENT",
+        "connector2": "ORIENTCONN",
+        "instance1": "fuselage",
+        "instance2": "Orient"
+      },
+      {
+        "connector1": "SEAT_1_CONNECTOR",
+        "connector2": "Connector",
+        "instance1": "fuselage",
+        "instance2": "Passenger1"
+      },
+      {
+        "connector1": "SEAT_2_CONNECTOR",
+        "connector2": "Connector",
+        "instance1": "fuselage",
+        "instance2": "Passenger2"
+      },
+      {
+        "connector1": "BOTTOM_CONNECTOR",
+        "connector2": "Bottom_Connector",
+        "instance1": "fuselage",
+        "instance2": "bot_naca_connector"
+      },
+      {
+        "connector1": "LEFT_CONNECTOR",
+        "connector2": "Flip_Connector_1",
+        "instance1": "fuselage",
+        "instance2": "left_center_cyl_flip"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Bottom_Connector",
+        "instance1": "fuselage",
+        "instance2": "top_naca_connector"
+      },
+      {
+        "connector1": "PowerBus",
+        "connector2": "BatteryPower",
+        "instance1": "left_battery",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Battery_Connector_2_out",
+        "connector2": "Battery_Connector_2",
+        "instance1": "left_battery",
+        "instance2": "left_bot_wing"
+      },
+      {
+        "connector1": "Connector_2",
+        "connector2": "End_Connector_1",
+        "instance1": "left_bot_wing",
+        "instance2": "bot_naca_connector"
+      },
+      {
+        "connector1": "Battery_Connector_2",
+        "connector2": "Battery_Connector_2_out",
+        "instance1": "left_bot_wing",
+        "instance2": "left_battery"
+      },
+      {
+        "connector1": "Flip_Connector_2",
+        "connector2": "RIGHT_CONNECTOR",
+        "instance1": "left_center_cyl_flip",
+        "instance2": "center_left_cyl"
+      },
+      {
+        "connector1": "Flip_Connector_1",
+        "connector2": "LEFT_CONNECTOR",
+        "instance1": "left_center_cyl_flip",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_front_motor_1_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_front_motor_1_vert",
+        "instance2": "front_left_cyl_1"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_front_motor_1_vert",
+        "instance2": "left_front_prop_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_front_motor_2_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_front_motor_2_vert",
+        "instance2": "front_left_cyl_2"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_front_motor_2_vert",
+        "instance2": "left_front_prop_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_front_motor_3_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_front_motor_3_vert",
+        "instance2": "front_left_cyl_3"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_front_motor_3_vert",
+        "instance2": "left_front_prop_3_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_front_motor_fwd",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "left_front_motor_fwd",
+        "instance2": "front_left_cyl_flip"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_front_motor_fwd",
+        "instance2": "left_front_prop_fwd"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_front_prop_1_vert",
+        "instance2": "left_front_motor_1_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_front_prop_2_vert",
+        "instance2": "left_front_motor_2_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_front_prop_3_vert",
+        "instance2": "left_front_motor_3_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_front_prop_fwd",
+        "instance2": "left_front_motor_fwd"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_rear_motor_1_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_rear_motor_1_vert",
+        "instance2": "left_rear_prop_1_vert"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_rear_motor_1_vert",
+        "instance2": "rear_left_cyl_1"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_rear_motor_2_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_rear_motor_2_vert",
+        "instance2": "left_rear_prop_2_vert"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_rear_motor_2_vert",
+        "instance2": "rear_left_cyl_2"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "left_rear_motor_3_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "left_rear_motor_3_vert",
+        "instance2": "left_rear_prop_3_vert"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "left_rear_motor_3_vert",
+        "instance2": "rear_left_cyl_3"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_rear_prop_1_vert",
+        "instance2": "left_rear_motor_1_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_rear_prop_2_vert",
+        "instance2": "left_rear_motor_2_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "left_rear_prop_3_vert",
+        "instance2": "left_rear_motor_3_vert"
+      },
+      {
+        "connector1": "Connector_1",
+        "connector2": "LEFT_CONNECTOR",
+        "instance1": "left_tail_wing",
+        "instance2": "rear_left_cyl_4"
+      },
+      {
+        "connector1": "Connector_2",
+        "connector2": "End_Connector_2",
+        "instance1": "left_top_wing",
+        "instance2": "top_naca_connector"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_left_cyl_1",
+        "instance2": "center_left_cyl"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_left_cyl_1",
+        "instance2": "left_rear_motor_1_vert"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_left_cyl_1",
+        "instance2": "rear_left_cyl_2"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_left_cyl_2",
+        "instance2": "left_rear_motor_2_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_left_cyl_2",
+        "instance2": "rear_left_cyl_1"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_left_cyl_2",
+        "instance2": "rear_left_cyl_3"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_left_cyl_3",
+        "instance2": "left_rear_motor_3_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_left_cyl_3",
+        "instance2": "rear_left_cyl_2"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_left_cyl_3",
+        "instance2": "rear_left_cyl_4"
+      },
+      {
+        "connector1": "LEFT_CONNECTOR",
+        "connector2": "Connector_1",
+        "instance1": "rear_left_cyl_4",
+        "instance2": "left_tail_wing"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_left_cyl_4",
+        "instance2": "rear_left_cyl_3"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_right_cyl_1",
+        "instance2": "center_right_cyl"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_right_cyl_1",
+        "instance2": "rear_right_cyl_2"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_right_cyl_1",
+        "instance2": "right_rear_motor_1_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_right_cyl_2",
+        "instance2": "rear_right_cyl_1"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_right_cyl_2",
+        "instance2": "rear_right_cyl_3"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_right_cyl_2",
+        "instance2": "right_rear_motor_2_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_right_cyl_3",
+        "instance2": "rear_right_cyl_2"
+      },
+      {
+        "connector1": "REAR_CONNECTOR",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "rear_right_cyl_3",
+        "instance2": "rear_right_cyl_4"
+      },
+      {
+        "connector1": "TOP_CONNECTOR",
+        "connector2": "Base_Connector",
+        "instance1": "rear_right_cyl_3",
+        "instance2": "right_rear_motor_3_vert"
+      },
+      {
+        "connector1": "FRONT_CONNECTOR",
+        "connector2": "REAR_CONNECTOR",
+        "instance1": "rear_right_cyl_4",
+        "instance2": "rear_right_cyl_3"
+      },
+      {
+        "connector1": "RIGHT_CONNECTOR",
+        "connector2": "Connector_2",
+        "instance1": "rear_right_cyl_4",
+        "instance2": "right_tail_wing"
+      },
+      {
+        "connector1": "PowerBus",
+        "connector2": "BatteryPower",
+        "instance1": "right_battery",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Battery_Connector_1_out",
+        "connector2": "Battery_Connector_1",
+        "instance1": "right_battery",
+        "instance2": "right_bot_wing"
+      },
+      {
+        "connector1": "Connector_1",
+        "connector2": "End_Connector_2",
+        "instance1": "right_bot_wing",
+        "instance2": "bot_naca_connector"
+      },
+      {
+        "connector1": "Battery_Connector_1",
+        "connector2": "Battery_Connector_1_out",
+        "instance1": "right_bot_wing",
+        "instance2": "right_battery"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_front_motor_1_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_front_motor_1_vert",
+        "instance2": "front_right_cyl_1"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_front_motor_1_vert",
+        "instance2": "right_front_prop_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_front_motor_2_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_front_motor_2_vert",
+        "instance2": "front_right_cyl_2"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_front_motor_2_vert",
+        "instance2": "right_front_prop_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_front_motor_3_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_front_motor_3_vert",
+        "instance2": "front_right_cyl_3"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_front_motor_3_vert",
+        "instance2": "right_front_prop_3_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_front_motor_fwd",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "FRONT_CONNECTOR",
+        "instance1": "right_front_motor_fwd",
+        "instance2": "front_right_cyl_flip"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_front_motor_fwd",
+        "instance2": "right_front_prop_fwd"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_front_prop_1_vert",
+        "instance2": "right_front_motor_1_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_front_prop_2_vert",
+        "instance2": "right_front_motor_2_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_front_prop_3_vert",
+        "instance2": "right_front_motor_3_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_front_prop_fwd",
+        "instance2": "right_front_motor_fwd"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_rear_motor_1_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_rear_motor_1_vert",
+        "instance2": "rear_right_cyl_1"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_rear_motor_1_vert",
+        "instance2": "right_rear_prop_1_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_rear_motor_2_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_rear_motor_2_vert",
+        "instance2": "rear_right_cyl_2"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_rear_motor_2_vert",
+        "instance2": "right_rear_prop_2_vert"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "right_rear_motor_3_vert",
+        "instance2": "777V_Bat_System"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "right_rear_motor_3_vert",
+        "instance2": "rear_right_cyl_3"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "right_rear_motor_3_vert",
+        "instance2": "right_rear_prop_3_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_rear_prop_1_vert",
+        "instance2": "right_rear_motor_1_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_rear_prop_2_vert",
+        "instance2": "right_rear_motor_2_vert"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "right_rear_prop_3_vert",
+        "instance2": "right_rear_motor_3_vert"
+      },
+      {
+        "connector1": "Connector_2",
+        "connector2": "RIGHT_CONNECTOR",
+        "instance1": "right_tail_wing",
+        "instance2": "rear_right_cyl_4"
+      },
+      {
+        "connector1": "Connector_1",
+        "connector2": "End_Connector_1",
+        "instance1": "right_top_wing",
+        "instance2": "top_naca_connector"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "TOP_CONNECTOR",
+        "instance1": "top_naca_connector",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "End_Connector_2",
+        "connector2": "Connector_2",
+        "instance1": "top_naca_connector",
+        "instance2": "left_top_wing"
+      },
+      {
+        "connector1": "End_Connector_1",
+        "connector2": "Connector_1",
+        "instance1": "top_naca_connector",
+        "instance2": "right_top_wing"
+      }
+    ],
+    "design": "Trowel",
+    "instances": [
+      {
+        "assignment": {},
+        "model": "BatteryController",
+        "name": "777V_Bat_System"
+      },
+      {
+        "assignment": {},
+        "model": "Cyl_Flip_Out",
+        "name": "Cyl_Flip_Out"
+      },
+      {
+        "assignment": {},
+        "model": "Orient",
+        "name": "Orient"
+      },
+      {
+        "assignment": {},
+        "model": "Passenger",
+        "name": "Passenger1"
+      },
+      {
+        "assignment": {},
+        "model": "Passenger",
+        "name": "Passenger2"
+      },
+      {
+        "assignment": {
+          "CHORD": "Param_12",
+          "PORT_THICKNESS": "Param_4",
+          "THICKNESS": "Param_15"
+        },
+        "model": "naca_connector",
+        "name": "bot_naca_connector"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_1"
+        },
+        "model": "PORTED_CYL",
+        "name": "center_left_cyl"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_1"
+        },
+        "model": "PORTED_CYL",
+        "name": "center_right_cyl"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_left_cyl_1"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_left_cyl_2"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_left_cyl_3"
+      },
+      {
+        "assignment": {},
+        "model": "Cyl_Flip",
+        "name": "front_left_cyl_flip"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_right_cyl_1"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_right_cyl_2"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "front_right_cyl_3"
+      },
+      {
+        "assignment": {},
+        "model": "Cyl_Flip",
+        "name": "front_right_cyl_flip"
+      },
+      {
+        "assignment": {
+          "FLOOR_HEIGHT": "Param_9",
+          "LENGTH": "Param_5",
+          "MIDDLE_LENGTH": "Param_8",
+          "PORT_THICKNESS": "Param_4",
+          "SEAT_1_FB": "Param_16",
+          "SEAT_1_LR": "Param_17",
+          "SEAT_2_FB": "Param_16",
+          "SEAT_2_LR": "Param_18",
+          "SPHERE_DIAMETER": "Param_6",
+          "TAIL_DIAMETER": "Param_7"
+        },
+        "model": "FUSE_SPHERE_CYL_CONE",
+        "name": "fuselage"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "MOUNT_SIDE": "Mount_Side",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_15",
+          "VOLTAGE_REQUEST": "voltage_request",
+          "VOLUME_PERCENT": "battery_percent"
+        },
+        "model": "Tattu25AhLi",
+        "name": "left_battery"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "LOAD": "BottomWingLoad",
+          "NACA_Profile": "NACA_2",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_15"
+        },
+        "model": "naca_wing",
+        "name": "left_bot_wing"
+      },
+      {
+        "assignment": {},
+        "model": "Cyl_Flip_Out",
+        "name": "left_center_cyl_flip"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_front_motor_1_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_front_motor_2_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_front_motor_3_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_front_motor_fwd"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_front_prop_1_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_front_prop_2_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_front_prop_3_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCCW_Spin",
+          "Prop_type": "FwdFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_front_prop_fwd"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_rear_motor_1_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_rear_motor_2_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "left_rear_motor_3_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_rear_prop_1_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_rear_prop_2_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "left_rear_prop_3_vert"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "LOAD": "RearWingLoad",
+          "NACA_Profile": "NACA_3",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_2"
+        },
+        "model": "naca_wing",
+        "name": "left_tail_wing"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_1",
+          "CHORD_2": "Param_1",
+          "LOAD": "MainWingLoad",
+          "NACA_Profile": "NACA_1",
+          "SPAN": "Param_11",
+          "THICKNESS": "Param_2"
+        },
+        "model": "naca_wing",
+        "name": "left_top_wing"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_left_cyl_1"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_left_cyl_2"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_left_cyl_3"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "FRONT_ANGLE": "Param_10",
+          "LENGTH": "Param_3",
+          "PORT_THICKNESS": "Param_9"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_left_cyl_4"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_right_cyl_1"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_right_cyl_2"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "LENGTH": "Param_0"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_right_cyl_3"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "Param_7",
+          "FRONT_ANGLE": "Param_19",
+          "LENGTH": "Param_3",
+          "PORT_THICKNESS": "Param_9"
+        },
+        "model": "PORTED_CYL",
+        "name": "rear_right_cyl_4"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_15",
+          "VOLTAGE_REQUEST": "voltage_request",
+          "VOLUME_PERCENT": "battery_percent"
+        },
+        "model": "Tattu25AhLi",
+        "name": "right_battery"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "LOAD": "BottomWingLoad",
+          "NACA_Profile": "NACA_2",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_15"
+        },
+        "model": "naca_wing",
+        "name": "right_bot_wing"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_front_motor_1_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_front_motor_2_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_front_motor_3_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_front_motor_fwd"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_front_prop_1_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_front_prop_2_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_front_prop_3_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCW_Spin",
+          "Prop_type": "FwdFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_front_prop_fwd"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_rear_motor_1_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_rear_motor_2_vert"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "right_rear_motor_3_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_rear_prop_1_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_rear_prop_2_vert"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "62x6_2_3200_51_1390",
+        "name": "right_rear_prop_3_vert"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_12",
+          "CHORD_2": "Param_12",
+          "LOAD": "RearWingLoad",
+          "NACA_Profile": "NACA_3",
+          "SPAN": "Param_14",
+          "THICKNESS": "Param_2"
+        },
+        "model": "naca_wing",
+        "name": "right_tail_wing"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "Param_1",
+          "CHORD_2": "Param_1",
+          "LOAD": "MainWingLoad",
+          "NACA_Profile": "NACA_1",
+          "SPAN": "Param_11",
+          "THICKNESS": "Param_2"
+        },
+        "model": "naca_wing",
+        "name": "right_top_wing"
+      },
+      {
+        "assignment": {
+          "CHORD": "Param_1",
+          "PORT_THICKNESS": "Param_4",
+          "THICKNESS": "Param_2"
+        },
+        "model": "naca_connector",
+        "name": "top_naca_connector"
+      }
+    ],
+    "parameters": {
+      "BottomWingLoad": "2000",
+      "FwdFacingCCW_PropType": "-1",
+      "FwdFacingCCW_Spin": "-1",
+      "FwdFacingCW_PropType": "1",
+      "FwdFacingCW_Spin": "1",
+      "MainWingLoad": "7000",
+      "Mount_Side": "2",
+      "NACA_1": "4512",
+      "NACA_2": "0025",
+      "NACA_3": "0012",
+      "Param_0": "1650",
+      "Param_1": "2000",
+      "Param_10": "45",
+      "Param_11": "10000",
+      "Param_12": "1000",
+      "Param_14": "4500",
+      "Param_15": "25",
+      "Param_16": "790",
+      "Param_17": "210",
+      "Param_18": "-210",
+      "Param_19": "315",
+      "Param_2": "12",
+      "Param_3": "1000",
+      "Param_4": "150",
+      "Param_5": "2000",
+      "Param_6": "1520",
+      "Param_7": "200",
+      "Param_8": "300",
+      "Param_9": "150",
+      "RearWingLoad": "1000",
+      "UpFacingCCW_PropType": "-1",
+      "UpFacingCCW_Spin": "-1",
+      "UpFacingCW_PropType": "1",
+      "UpFacingCW_Spin": "1",
+      "battery_percent": "100",
+      "voltage_request": "777"
+    }
+  }
+]
