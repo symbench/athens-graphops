@@ -52,7 +52,13 @@ g.V().
             has('VertexLabel', '[]Maximum').
             in('inside').
             in('inside').
-            project('maximum').by(values('value'))).
+            project('maximum').by(values('value')),
+            select('val').
+            in('inside').
+            has('VertexLabel', '[]AssignedValue').
+            in('inside').
+            in('inside').
+            project('assigned').by(values('value'))).
           unfold().
           group().by(select(keys)).by(select(values)))).
     by(

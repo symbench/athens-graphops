@@ -23,8 +23,11 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
 def load_json(filename: str) -> Any:
-    with open(os.path.join(DATA_DIR, filename), 'r') as file:
-        return json.load(file)
+    try:
+        with open(os.path.join(DATA_DIR, filename), 'r') as file:
+            return json.load(file)
+    except:
+        return []
 
 
 CORPUS_DATA = load_json('corpus_data.json')

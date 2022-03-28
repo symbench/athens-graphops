@@ -20,44 +20,66 @@ from .query import Client
 
 def validate_corpus_data():
     counts = {cls: 0 for cls in CORPUS_SCHEMA.keys()}
-    for mod in CORPUS_DATA:
-        if mod["class"] not in CORPUS_SCHEMA:
-            print("WARNING: unknown component class {}".format(mod["class"]))
+    for model in CORPUS_DATA:
+        if model["class"] not in CORPUS_SCHEMA:
+            print("WARNING: unknown component class {}".format(model["class"]))
             continue
 
-        counts[mod["class"]] += 1
-        cls = CORPUS_SCHEMA[mod["class"]]
+        counts[model["class"]] += 1
+        model_class = CORPUS_SCHEMA[model["class"]]
 
-        for key, val1 in cls["properties"].items():
-            assert key in mod["properties"], "property {} is missing in {}".format(
-                key, mod["name"])
-            val2 = mod["properties"][key]
-            if val1 == "float":
-                float(val2)
+        for prop_name, prop_type in model_class["properties"].items():
+            assert prop_name in model["properties"], "property {} is missing in {}".format(
+                prop_name, model["name"])
+            prop_val = model["properties"][prop_name]
+            if prop_type == "float":
+                float(prop_val)
             else:
-                assert val1 == "str"
+                assert prop_type == "str"
 
-        for key, val1 in cls["parameters"].items():
-            if key not in mod["parameters"]:
+        for param_name, param_type in model_class["parameters"].items():
+            if param_name not in model["parameters"]:
                 print("WARNING: parameter {} is missing in {}".format(
-                    key, mod["model"]))
+                    param_name, model["model"]))
                 continue
 
-            assert val1 in ["float", "int", "str"]
+            assert param_type in ["float", "int", "str"]
 
-            for val2 in mod["parameters"][key].values():
-                if val1 == "float":
-                    float(val2)
-                elif val1 == "int":
-                    int(val2)
+            for param_val in model["parameters"][param_name].values():
+                if param_type == "float":
+                    float(param_val)
+                elif param_type == "int":
+                    int(param_val)
 
-        for key in cls["connectors"]:
-            assert key in mod["connectors"], "connector {} is missing in {}".format(
-                key, mod["name"])
+            if param_type in ["float", "int"]:
+                minimum = float(model["parameters"][param_name].get(
+                    "minimum", "-inf"))
+                maximum = float(model["parameters"][param_name].get(
+                    "maximum", "inf"))
+
+                if minimum > maximum:
+                    print("WARNING: invalid minimum {} and maximum {} values of parameter {} in {}".
+                          format(minimum, maximum, param_name, model["model"]))
+
+                assigned = model["parameters"][param_name].get("assigned")
+                if assigned is not None:
+                    assigned = float(assigned)
+
+                    if assigned < minimum:
+                        print("WARNING: invalid assigned {} and minimum {} values of parameter {} in {}".
+                              format(assigned, minimum, param_name, model["model"]))
+
+                    if assigned > maximum:
+                        print("WARNING: invalid assigned and maximum values of parameter {} in {}".
+                              format(assigned, maximum, param_name, model["model"]))
+
+        for conn_name in model_class["connectors"]:
+            assert conn_name in model["connectors"], "connector {} is missing in {}".format(
+                conn_name, model["name"])
 
     print("Number of component types:")
-    for key, val in counts.items():
-        print("  {:30}{}".format(key, val))
+    for prop_name, val in counts.items():
+        print("  {:30}{}".format(prop_name, val))
 
 
 def validate_create_instances():
@@ -78,9 +100,12 @@ def validate_create_instances():
     client.create_parameter(design_name, 'PARAM_CHORD_2', 102.0)
     client.create_parameter(design_name, 'PARAM_MOUNT_SIDE', 103)
     client.create_parameter(design_name, 'PARAM_SPAN', 114.0)
-    client.assign_parameter(design_name, 'TestInstance', 'CHORD_1', 'PARAM_CHORD_1')
-    client.assign_parameter(design_name, 'TestInstance', 'CHORD_2', 'PARAM_CHORD_2')
-    client.assign_parameter(design_name, 'TestInstance', 'MOUNT_SIDE', 'PARAM_MOUNT_SIDE')
+    client.assign_parameter(design_name, 'TestInstance',
+                            'CHORD_1', 'PARAM_CHORD_1')
+    client.assign_parameter(design_name, 'TestInstance',
+                            'CHORD_2', 'PARAM_CHORD_2')
+    client.assign_parameter(design_name, 'TestInstance',
+                            'MOUNT_SIDE', 'PARAM_MOUNT_SIDE')
 
     design = client.get_design_data(design_name)
 
