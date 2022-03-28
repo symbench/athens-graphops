@@ -8,9 +8,8 @@ g.V().
     by(
       __.in('inside').
       has('VertexLabel', '[]ComponentInstance').
-      project('name', 'id', 'model', 'assignment').
+      project('name', 'model', 'assignment').
         by(values('[]Name')).
-        by(values('[]ID')).
         by(
           __.out('component_id').
           out('component_instance').
