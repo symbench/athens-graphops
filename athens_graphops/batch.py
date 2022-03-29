@@ -72,6 +72,8 @@ def autograph(batchfile: str) -> List[Any]:
 
 
 def autoseed(design: str, batchfile: str):
+    print("Dumping {} to {}".format(design, batchfile))
+
     batchfile = os.path.abspath(batchfile)
     newname = os.path.splitext(os.path.basename(batchfile))[0]
 
@@ -133,16 +135,17 @@ def run_autoseed(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('name', help="a design name or filename to be dumped")
+    parser.add_argument('file', help="a .csv batch file to be created")
+    parser.add_argument('--name', help="design name to be dumped")
     args = parser.parse_args(args)
 
-    design = os.path.splitext(os.path.basename(args.name))[0]
+    if os.path.splitext(args.file)[1] != ".csv":
+        args.file += ".csv"
 
-    batchfile = args.name
-    if os.path.splitext(batchfile)[1] != 'csv':
-        batchfile += ".csv"
+    if args.name is None:
+        args.name = os.path.splitext(os.path.basename(args.file))[0]
 
-    autoseed(design=design, batchfile=batchfile)
+    autoseed(design=args.name, batchfile=args.file)
 
 
 if __name__ == '__main__':
