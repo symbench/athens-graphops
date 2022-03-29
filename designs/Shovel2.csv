@@ -345,5 +345,5 @@ addPropConnl,__SOURCEDESIGN__,Shovel2,__DESTCOMP__,right_battery,__DESTPI__,THIC
 addNewPropx,__SOURCEDESIGN__,Shovel2,__PROPNAME__,TailWingThickness,__PROPVAL__,12,,,,,,,,,,
 addPropConnl,__SOURCEDESIGN__,Shovel2,__DESTCOMP__,right_tail_wing,__DESTPI__,THICKNESS,__SOURCEPROP__,TailWingThickness,,,,,,,,
 addPropConnl,__SOURCEDESIGN__,Shovel2,__DESTCOMP__,left_tail_wing,__DESTPI__,THICKNESS,__SOURCEPROP__,TailWingThickness,,,,,,,,
-addNewPropx,__SOURCEDESIGN__,Shovel2,__PROPNAME__,Requested_Lateral_Speed_1,__PROPVAL__,25,,,,,,,,,,
+addNewPropx,__SOURCEDESIGN__,Shovel2,__PROPNAME__,Requested_Lateral_Speed_1,__PROPVAL__,36,,,,,,,,,,
 addRefCoordSysx,__SOURCEDESIGN__,Shovel2,__ORIENTNAME__,Orient,,,,,,,,,,,,
