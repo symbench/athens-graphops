@@ -27,7 +27,8 @@ from . import validate
 def run():
     # hack the subcommands
     commands = [
-        "batch",
+        "autograph",
+        "autoseed",
         "dataset",
         "query",
         "validate",
@@ -62,8 +63,10 @@ def run():
         query.run(args=sys.argv[pos:])
     elif args.command == "validate":
         validate.run(args=sys.argv[pos:])
-    elif args.command == "batch":
-        batch.run(args=sys.argv[pos:])
+    elif args.command == "autograph":
+        batch.run_autograph(args=sys.argv[pos:])
+    elif args.command == "autoseed":
+        batch.run_autoseed(args=sys.argv[pos:])
     elif args.command == "dataset":
         dataset.run(args=sys.argv[pos:])
     else:

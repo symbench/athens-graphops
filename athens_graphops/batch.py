@@ -117,24 +117,27 @@ def autoseed(design: str, batchfile: str):
             ofile.write(ifile.read())
 
 
-def run(args=None):
+def run_autograph(args=None):
     import argparse
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('file', metavar="FILE", nargs='?',
-                        help="a .csv batch file to run or dump")
-    parser.add_argument('--dump', metavar="NAME",
-                        help="saves the given design to a batch file")
+    parser.add_argument('file', help="a .csv batch file to run")
     args = parser.parse_args(args)
 
-    if args.dump:
-        if not args.file:
-            args.file = args.dump + ".csv"
-        autoseed(design=args.dump, batchfile=args.file)
-    elif args.file:
-        autograph(batchfile=args.file)
+    autograph(batchfile=args.file)
+
+
+def run_autoseed(args=None):
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('name', help="a design name to be dumped")
+    args = parser.parse_args(args)
+
+    autoseed(design=args.name, batchfile=args.name + ".csv")
 
 
 if __name__ == '__main__':
-    run()
+    run_autograph()
