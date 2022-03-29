@@ -133,10 +133,16 @@ def run_autoseed(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('name', help="a design name to be dumped")
+    parser.add_argument('name', help="a design name or filename to be dumped")
     args = parser.parse_args(args)
 
-    autoseed(design=args.name, batchfile=args.name + ".csv")
+    design = os.path.splitext(os.path.basename(args.name))[0]
+
+    batchfile = args.name
+    if os.path.splitext(batchfile)[1] != 'csv':
+        batchfile += ".csv"
+
+    autoseed(design=design, batchfile=batchfile)
 
 
 if __name__ == '__main__':
