@@ -1045,7 +1045,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_front_prop_1_vert"
       },
       {
@@ -1053,7 +1053,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_front_prop_2_vert"
       },
       {
@@ -1061,7 +1061,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_front_prop_3_vert"
       },
       {
@@ -1069,7 +1069,7 @@
           "Direction": "FwdFacingCCW_Spin",
           "Prop_type": "FwdFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_front_prop_fwd"
       },
       {
@@ -1092,7 +1092,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_rear_prop_1_vert"
       },
       {
@@ -1100,7 +1100,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_rear_prop_2_vert"
       },
       {
@@ -1108,7 +1108,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "left_rear_prop_3_vert"
       },
       {
@@ -1246,7 +1246,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_front_prop_1_vert"
       },
       {
@@ -1254,7 +1254,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_front_prop_2_vert"
       },
       {
@@ -1262,7 +1262,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_front_prop_3_vert"
       },
       {
@@ -1270,7 +1270,7 @@
           "Direction": "FwdFacingCW_Spin",
           "Prop_type": "FwdFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_front_prop_fwd"
       },
       {
@@ -1293,7 +1293,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_rear_prop_1_vert"
       },
       {
@@ -1301,7 +1301,7 @@
           "Direction": "UpFacingCCW_Spin",
           "Prop_type": "UpFacingCCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_rear_prop_2_vert"
       },
       {
@@ -1309,7 +1309,7 @@
           "Direction": "UpFacingCW_Spin",
           "Prop_type": "UpFacingCW_PropType"
         },
-        "model": "62x6_2_3200_51_1390",
+        "model": "62x5_2_3200_46_1150",
         "name": "right_rear_prop_3_vert"
       },
       {
@@ -1352,7 +1352,7 @@
       "BatteryPercent": "100",
       "BatteryRightMountSide": "1",
       "BatteryThickness": "18",
-      "BatteryVoltage": "777",
+      "BatteryVoltage": "840",
       "BatteryWingSpan": "10000",
       "CylinderDiameter": "200",
       "CylinderLength": "1650",
