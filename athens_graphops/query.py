@@ -166,8 +166,8 @@ class Client():
                                __NEW_COMPONENT__=model)
 
     def create_connection(self, design: str,
-                          instance1: str, instance2: str,
-                          connector1: str, connector2: str):
+                          instance1: str, connector1: str,
+                          instance2: str, connector2: str):
         """
         Make sure to connect the two instances only once in any direction!
         """

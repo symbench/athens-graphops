@@ -22,6 +22,7 @@ from . import batch
 from . import dataset
 from . import query
 from . import validate
+from . import designer
 
 
 def run():
@@ -32,6 +33,7 @@ def run():
         "dataset",
         "query",
         "validate",
+        "designer",
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -69,6 +71,8 @@ def run():
         batch.run_autoseed(args=sys.argv[pos:])
     elif args.command == "dataset":
         dataset.run(args=sys.argv[pos:])
+    elif args.command == "designer":
+        designer.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 

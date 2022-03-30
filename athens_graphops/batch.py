@@ -14,9 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Any, Dict, List, Optional
+from typing import Any, List
 
-import importlib
+import importlib.util
 import json
 import os
 import tempfile
