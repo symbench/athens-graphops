@@ -19,11 +19,11 @@
       "SPAN": "float",
       "THICKNESS": "float"
     },
-    "connectors": [
-      "Battery_Connector_1_out",
-      "Battery_Connector_2_out",
-      "PowerBus"
-    ]
+    "connectors": {
+      "Battery_Connector_1_out": "out",
+      "Battery_Connector_2_out": "out",
+      "PowerBus": "out"
+    }
   },
   "BatteryController": {
     "properties": {},
@@ -31,38 +31,10 @@
       "Input_Voltage": "float",
       "Output_Voltage": "float"
     },
-    "connectors": [
-      "BatteryPower",
-      "MotorPower"
-    ]
-  },
-  "Beam": {
-    "properties": {},
-    "parameters": {
-      "TOP_CONN_DISP": "float",
-      "BOTTOM_CONN_DISP": "float",
-      "SPAN": "float",
-      "CHORD": "float",
-      "THICKNESS": "float"
-    },
-    "connectors": [
-      "BATTERY_CONNECTOR_1",
-      "BATTERY_CONNECTOR_2",
-      "BOTTOM_CONNECTOR_OUT",
-      "END_CONNECTOR_1_OUT",
-      "END_CONNECTOR_2_OUT",
-      "TOP_CONNECTOR_IN"
-    ]
-  },
-  "Beam_Cap": {
-    "properties": {},
-    "parameters": {
-      "THICKNESS": "float",
-      "CHORD": "float"
-    },
-    "connectors": [
-      "Connector_In"
-    ]
+    "connectors": {
+      "BatteryPower": "in",
+      "MotorPower": "in"
+    }
   },
   "Cylinder": {
     "properties": {
@@ -78,15 +50,14 @@
       "LENGTH": "float",
       "PORT_THICKNESS": "float"
     },
-    "connectors": [
-      "BATTERY_CONNECTOR",
-      "BOTTOM_CONNECTOR",
-      "FRONT_CONNECTOR",
-      "LEFT_CONNECTOR",
-      "REAR_CONNECTOR",
-      "RIGHT_CONNECTOR",
-      "TOP_CONNECTOR"
-    ]
+    "connectors": {
+      "BOTTOM_CONNECTOR": "in",
+      "FRONT_CONNECTOR": "out",
+      "LEFT_CONNECTOR": "in",
+      "REAR_CONNECTOR": "in",
+      "RIGHT_CONNECTOR": "in",
+      "TOP_CONNECTOR": "in"
+    }
   },
   "Cylinder_Flip": {
     "properties": {
@@ -96,10 +67,10 @@
     "parameters": {
       "DIAMETER": "float"
     },
-    "connectors": [
-      "FRONT_CONNECTOR",
-      "REAR_CONNECTOR"
-    ]
+    "connectors": {
+      "FRONT_CONNECTOR": "in",
+      "REAR_CONNECTOR": "in"
+    }
   },
   "Cylinder_Flip_Out": {
     "properties": {
@@ -109,10 +80,10 @@
     "parameters": {
       "DIAMETER": "float"
     },
-    "connectors": [
-      "Flip_Connector_1",
-      "Flip_Connector_2"
-    ]
+    "connectors": {
+      "Flip_Connector_1": "out",
+      "Flip_Connector_2": "out"
+    }
   },
   "Fuselage": {
     "properties": {},
@@ -132,16 +103,16 @@
       "TAIL_DIAMETER": "float",
       "LEFT_PORT_DISP": "float"
     },
-    "connectors": [
-      "BOTTOM_CONNECTOR",
-      "LEFT_CONNECTOR",
-      "ORIENT",
-      "REAR_CONNECTOR",
-      "RIGHT_CONNECTOR",
-      "SEAT_1_CONNECTOR",
-      "SEAT_2_CONNECTOR",
-      "TOP_CONNECTOR"
-    ]
+    "connectors": {
+      "BOTTOM_CONNECTOR": "in",
+      "LEFT_CONNECTOR": "in",
+      "ORIENT": "in",
+      "REAR_CONNECTOR": "in",
+      "RIGHT_CONNECTOR": "in",
+      "SEAT_1_CONNECTOR": "in",
+      "SEAT_2_CONNECTOR": "in",
+      "TOP_CONNECTOR": "in"
+    }
   },
   "Motor": {
     "properties": {
@@ -163,11 +134,11 @@
     "parameters": {
       "CONTROL_CHANNEL": "int"
     },
-    "connectors": [
-      "Base_Connector",
-      "MotorPower",
-      "Prop_Connector"
-    ]
+    "connectors": {
+      "Base_Connector": "out",
+      "MotorPower": "out",
+      "Prop_Connector": "out"
+    }
   },
   "NACA_Port_Connector": {
     "properties": {},
@@ -177,30 +148,29 @@
       "THICKNESS": "float",
       "BOTTOM_CONNECTION_DISP": "float"
     },
-    "connectors": [
-      "Bottom_Connector",
-      "End_Connector_1",
-      "End_Connector_2"
-    ]
+    "connectors": {
+      "Bottom_Connector": "out",
+      "End_Connector_1": "in",
+      "End_Connector_2": "in"
+    }
   },
   "Orient": {
     "properties": {},
     "parameters": {
       "Z_ANGLE": "float"
     },
-    "connectors": [
-      "Mount",
-      "ORIENTCONN"
-    ]
+    "connectors": {
+      "ORIENTCONN": "out"
+    }
   },
   "Passenger": {
     "properties": {
       "WEIGHT": "float"
     },
     "parameters": {},
-    "connectors": [
-      "Connector"
-    ]
+    "connectors": {
+      "Connector": "out"
+    }
   },
   "Propeller": {
     "properties": {
@@ -216,10 +186,9 @@
       "Prop_type": "int",
       "Direction": "int"
     },
-    "connectors": [
-      "MOTOR_CONNECTOR_CS_IN",
-      "motor_connector"
-    ]
+    "connectors": {
+      "MOTOR_CONNECTOR_CS_IN": "in"
+    }
   },
   "Wing": {
     "properties": {},
@@ -234,11 +203,11 @@
       "SPAN": "float",
       "THICKNESS": "float"
     },
-    "connectors": [
-      "Battery_Connector_1",
-      "Battery_Connector_2",
-      "Connector_1",
-      "Connector_2"
-    ]
+    "connectors": {
+      "Battery_Connector_1": "in",
+      "Battery_Connector_2": "in",
+      "Connector_1": "out",
+      "Connector_2": "out"
+    }
   }
 }
