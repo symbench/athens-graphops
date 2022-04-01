@@ -19,6 +19,13 @@ from typing import Optional, Tuple, Union
 from .query import Client
 
 
+class Instance():
+    def __init__(self, model: str, name: str):
+        self.model = model
+        self.name = name
+        self.parameters = dict()
+
+
 class Designer():
     def __init__(self):
         self.client = None
@@ -43,40 +50,49 @@ class Designer():
         self.nextid += 1
         return instance
 
-    def add_instance(self, model: str, name: str) -> str:
-        # TODO: switch instance/name throughout
+    def add_instance(self, model: str, name: Optional[str]) -> str:
+        assert name is None or isinstance(name, str)
+        if not name:
+            name = self.get_name()
+
         assert name not in self.instances
-        self.instances[name] = {
-            "name": name,
-            "model": model,
-        }
+        instance = Instance(model, name)
+        self.instances[name] = instance
+
         print("Creating", model, name)
         self.client.create_instance(self.design, model, name)
-        return name
 
-    def connect(self, instance1: str, connector1: str,
-                instance2: str, connector2: str):
-        print("Creating connection from", instance1, connector1,
-              "to", instance2, connector2)
+        return instance
+
+    def connect(self, instance1: Instance, connector1: str,
+                instance2: Instance, connector2: str):
+        assert isinstance(instance1, Instance) and isinstance(
+            instance2, Instance)
+
+        print("Creating connection from", instance1.name, connector1,
+              "to", instance2.name, connector2)
         self.client.create_connection(
-            self.design, instance1, connector1, instance2, connector2)
+            self.design, instance1.name, connector1, instance2.name, connector2)
 
-    def set_parameter(self, instance: str, name: str, value: Union[float, str]):
-        param_name = instance + "_" + name
-        self.client.create_parameter(self.design, param_name, value)
-        self.client.assign_parameter(self.design, instance, name, param_name)
+    def set_parameter(self, instance: Instance, param: str, value: Union[float, str]):
+        assert isinstance(instance, Instance)
+
+        full_name = instance.name + "_" + param
+        self.client.create_parameter(self.design, full_name, value)
+        self.client.assign_parameter(
+            self.design, instance.name, param, full_name)
 
     def add_cylinder(self,
-                     instance: str,
                      length: float,
                      diameter: float,
                      port_thickness: float,
+                     name: Optional[str] = None,
                      mount_inst: Optional[str] = None,
                      mount_conn: Optional[str] = None) -> str:
         # observed requirements in CREO, but min port_thickness is flaky
         assert 8 <= port_thickness < diameter <= length
 
-        instance = self.add_instance("PORTED_CYL", instance)
+        instance = self.add_instance("PORTED_CYL", name)
         self.set_parameter(instance, "DIAMETER", diameter)
         self.set_parameter(instance, "LENGTH", length)
         self.set_parameter(instance, "PORT_THICKNESS", port_thickness)
@@ -87,29 +103,29 @@ class Designer():
 
         return instance
 
-    def add_passanger(self, instance: str,
+    def add_passenger(self, name: Optional[str] = None,
                       fuselage_inst: Optional[str] = None,
                       fuselage_conn: Optional[str] = None) -> str:
-        instance = self.add_instance("Passenger", instance)
+        instance = self.add_instance("Passenger", name)
         if fuselage_inst:
             self.connect(instance, "Connector",
                          fuselage_inst, fuselage_conn)
         return instance
 
-    def add_battery_controller(self, instance: str) -> str:
-        instance = self.add_instance("BatteryController", instance)
+    def add_battery_controller(self, name: Optional[str] = None) -> str:
+        instance = self.add_instance("BatteryController", name)
         return instance
 
     def add_wing(self,
-                 instance: str,
                  naca: str,
                  chord: float,
                  span: float,
-                 load: float):
+                 load: float,
+                 name: Optional[str]):
         assert len(naca) == 4 and chord >= 1 and span >= 1 and load >= 1
         thickness = int(naca[2:4])
 
-        instance = self.add_instance("naca_wing", instance)
+        instance = self.add_instance("naca_wing", name)
         self.set_parameter(instance, "NACA_Profile", naca)
         self.set_parameter(instance, "THICKNESS", thickness)
         self.set_parameter(instance, "CHORD_1", chord)
@@ -119,20 +135,20 @@ class Designer():
         return instance
 
     def add_battery(self, model: str,
-                    instance: str,
                     naca: str,
                     chord: float,
                     span: float,
                     mount_side: int,
                     voltage_request: float,
                     volume_percent: float,
+                    name: Optional[str] = None,
                     wing_inst: Optional[str] = None,
                     controller_inst: Optional[str] = None):
         assert len(naca) == 4 and chord >= 1 and span >= 1
         assert mount_side in [1, 2] and 0 <= volume_percent <= 100
         thickness = int(naca[2:4])
 
-        instance = self.add_instance(model, instance)
+        instance = self.add_instance(model, name)
         self.set_parameter(instance, "THICKNESS", thickness)
         self.set_parameter(instance, "CHORD_1", chord)
         self.set_parameter(instance, "CHORD_2", chord)
@@ -156,11 +172,11 @@ class Designer():
         return instance
 
     def add_motor(self, model: str,
-                  instance: str,
+                  name: Optional[str] = None,
                   mount_inst: Optional[str] = None,
                   mount_conn: Optional[str] = None,
                   controller_inst: Optional[str] = None):
-        instance = self.add_instance(model, instance)
+        instance = self.add_instance(model, name)
 
         if mount_inst:
             self.connect(instance, "Base_Connector",
@@ -173,13 +189,13 @@ class Designer():
         return instance
 
     def add_propeller(self, model: str,
-                      instance: str,
                       prop_type: int,
                       direction: int,
+                      name: Optional[str] = None,
                       motor_inst: Optional[str] = None):
         assert prop_type in [-1, 1] and direction in [-1, 1]
 
-        instance = self.add_instance(model, instance)
+        instance = self.add_instance(model, name)
         self.set_parameter(instance, "Prop_type", prop_type)
         self.set_parameter(instance, "Direction", direction)
 
@@ -216,11 +232,12 @@ def create_many_cylinders():
                     continue
 
                 instance = designer.add_cylinder(
-                    instance=designer.get_name(),
+                    name=designer.get_name(),
                     port_thickness=port_thickness,
                     diameter=diameter,
                     length=length)
-                designer.connect(previous, "REAR_CONNECTOR", instance, "FRONT_CONNECTOR")
+                designer.connect(previous, "REAR_CONNECTOR",
+                                 instance, "FRONT_CONNECTOR")
                 previous = instance
 
     designer.close_design()
@@ -230,10 +247,10 @@ def create_tail_sitter():
     designer = Designer()
     fuselage = designer.create_design("TailSitter")
 
-    designer.add_passanger("passenger1",
+    designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
                            fuselage_conn="SEAT_1_CONNECTOR")
-    designer.add_passanger("passenger2",
+    designer.add_passenger(name="passenger2",
                            fuselage_inst=fuselage,
                            fuselage_conn="SEAT_2_CONNECTOR")
 
@@ -242,14 +259,14 @@ def create_tail_sitter():
     wing_span = 10000
     wing_load = 10000
 
-    right_wing = designer.add_wing("right_wing",
+    right_wing = designer.add_wing(name="right_wing",
                                    naca=wing_naca,
                                    chord=wing_chord,
                                    span=wing_span,
                                    load=wing_load)
     designer.connect(right_wing, "Connector_1", fuselage, "RIGHT_CONNECTOR")
 
-    left_wing = designer.add_wing("left_wing",
+    left_wing = designer.add_wing(name="left_wing",
                                   naca=wing_naca,
                                   chord=wing_chord,
                                   span=wing_span + 100,
@@ -258,11 +275,11 @@ def create_tail_sitter():
 
     battery_controller = designer.add_battery_controller("battery_controller")
     battery_model = "VitalyBeta"
-    battery_voltage = 800   # was 840
+    battery_voltage = 840
     battery_percent = 100
 
     designer.add_battery(battery_model,
-                         "right_battery",
+                         name="right_battery",
                          naca=wing_naca,
                          chord=wing_chord,
                          span=wing_span,
@@ -273,7 +290,7 @@ def create_tail_sitter():
                          controller_inst=battery_controller)
 
     designer.add_battery(battery_model,
-                         "left_battery",
+                         name="left_battery",
                          naca=wing_naca,
                          chord=wing_chord,
                          span=wing_span,
@@ -285,118 +302,145 @@ def create_tail_sitter():
 
     cylinder_diameter = 100
     port_thickness = 0.75 * cylinder_diameter
-    spacer_length = 600
+    bar1_length = 600
+    bar2_length = 750
 
-    top_spacer = designer.add_cylinder("top_spacer",
-                                       length=spacer_length,
-                                       diameter=cylinder_diameter,
-                                       port_thickness=port_thickness,
-                                       mount_inst=fuselage,
-                                       mount_conn="TOP_CONNECTOR")
+    top_bar = designer.add_cylinder(name="top_bar",
+                                    length=bar1_length,
+                                    diameter=cylinder_diameter,
+                                    port_thickness=port_thickness,
+                                    mount_inst=fuselage,
+                                    mount_conn="TOP_CONNECTOR")
 
-    top_hub = designer.add_cylinder("top_hub",
+    top_hub = designer.add_cylinder(name="top_hub",
                                     length=cylinder_diameter,
                                     diameter=cylinder_diameter,
                                     port_thickness=port_thickness,
-                                    mount_inst=top_spacer,
+                                    mount_inst=top_bar,
                                     mount_conn="REAR_CONNECTOR")
 
-    top_right_bar = designer.add_cylinder("top_right_bar",
-                                          length=1600,
+    top_right_bar = designer.add_cylinder(name="top_right_bar",
+                                          length=bar2_length,
                                           diameter=cylinder_diameter,
                                           port_thickness=port_thickness,
                                           mount_inst=top_hub,
                                           mount_conn="LEFT_CONNECTOR")
 
+    top_right_hub = designer.add_cylinder(name="top_right_hub",
+                                          length=cylinder_diameter,
+                                          diameter=cylinder_diameter,
+                                          port_thickness=port_thickness,
+                                          mount_inst=top_right_bar,
+                                          mount_conn="REAR_CONNECTOR")
+
     motor_model = "MAGiDRIVE150"
     propeller_model = "62x5_2_3200_46_1150"
 
     top_right_front_motor = designer.add_motor(motor_model,
-                                               "top_right_front_motor",
-                                               mount_inst=top_right_bar,
+                                               name="top_right_front_motor",
+                                               mount_inst=top_right_hub,
                                                mount_conn="RIGHT_CONNECTOR",
                                                controller_inst=battery_controller)
 
     designer.add_propeller(propeller_model,
-                           "top_right_front_prop",
-                           prop_type=1,
-                           direction=1,
+                           name="top_right_front_prop",
+                           prop_type=-1,
+                           direction=-1,
                            motor_inst=top_right_front_motor)
 
-    top_left_bar = designer.add_cylinder("top_left_bar",
-                                         length=1600,
+    top_left_bar = designer.add_cylinder(name="top_left_bar",
+                                         length=bar2_length,
                                          diameter=cylinder_diameter,
                                          port_thickness=port_thickness,
                                          mount_inst=top_hub,
                                          mount_conn="RIGHT_CONNECTOR")
 
+    top_left_hub = designer.add_cylinder(name="top_left_hub",
+                                         length=cylinder_diameter,
+                                         diameter=cylinder_diameter,
+                                         port_thickness=port_thickness,
+                                         mount_inst=top_left_bar,
+                                         mount_conn="REAR_CONNECTOR")
+
     top_left_front_motor = designer.add_motor(motor_model,
-                                              "top_left_front_motor",
-                                              mount_inst=top_left_bar,
+                                              name="top_left_front_motor",
+                                              mount_inst=top_left_hub,
                                               mount_conn="LEFT_CONNECTOR",
                                               controller_inst=battery_controller)
 
     designer.add_propeller(propeller_model,
-                           "top_left_front_prop",
-                           prop_type=-1,
-                           direction=-1,
+                           name="top_left_front_prop",
+                           prop_type=1,
+                           direction=1,
                            motor_inst=top_left_front_motor)
 
-    bottom_spacer = designer.add_cylinder("bottom_spacer",
-                                          length=spacer_length,
-                                          diameter=cylinder_diameter,
-                                          port_thickness=port_thickness,
-                                          mount_inst=fuselage,
-                                          mount_conn="BOTTOM_CONNECTOR")
+    bottom_bar = designer.add_cylinder(name="bottom_bar",
+                                       length=bar1_length,
+                                       diameter=cylinder_diameter,
+                                       port_thickness=port_thickness,
+                                       mount_inst=fuselage,
+                                       mount_conn="BOTTOM_CONNECTOR")
 
-    bottom_hub = designer.add_cylinder("bottom_hub",
+    bottom_hub = designer.add_cylinder(name="bottom_hub",
                                        length=cylinder_diameter,
                                        diameter=cylinder_diameter,
                                        port_thickness=port_thickness,
-                                       mount_inst=bottom_spacer,
+                                       mount_inst=bottom_bar,
                                        mount_conn="REAR_CONNECTOR")
 
-    bottom_right_bar = designer.add_cylinder("bottom_right_bar",
-                                             length=1600,
+    bottom_right_bar = designer.add_cylinder(name="bottom_right_bar",
+                                             length=bar2_length,
                                              diameter=cylinder_diameter,
                                              port_thickness=port_thickness,
                                              mount_inst=bottom_hub,
                                              mount_conn="RIGHT_CONNECTOR")
 
+    bottom_right_hub = designer.add_cylinder(name="bottom_right_hub",
+                                             length=cylinder_diameter,
+                                             diameter=cylinder_diameter,
+                                             port_thickness=port_thickness,
+                                             mount_inst=bottom_right_bar,
+                                             mount_conn="REAR_CONNECTOR")
+
     bottom_right_front_motor = designer.add_motor(motor_model,
-                                                  "bottom_right_front_motor",
-                                                  mount_inst=bottom_right_bar,
+                                                  name="bottom_right_front_motor",
+                                                  mount_inst=bottom_right_hub,
                                                   mount_conn="LEFT_CONNECTOR",
                                                   controller_inst=battery_controller)
 
     designer.add_propeller(propeller_model,
-                           "bottom_right_front_prop",
-                           prop_type=-1,
-                           direction=-1,
+                           name="bottom_right_front_prop",
+                           prop_type=1,
+                           direction=1,
                            motor_inst=bottom_right_front_motor)
 
-    bottom_left_bar = designer.add_cylinder("bottom_left_bar",
-                                            length=1600,
+    bottom_left_bar = designer.add_cylinder(name="bottom_left_bar",
+                                            length=bar2_length,
                                             diameter=cylinder_diameter,
                                             port_thickness=port_thickness,
                                             mount_inst=bottom_hub,
                                             mount_conn="LEFT_CONNECTOR")
 
+    bottom_left_hub = designer.add_cylinder(name="bottom_left_hub",
+                                            length=cylinder_diameter,
+                                            diameter=cylinder_diameter,
+                                            port_thickness=port_thickness,
+                                            mount_inst=bottom_left_bar,
+                                            mount_conn="REAR_CONNECTOR")
+
     bottom_left_front_motor = designer.add_motor(motor_model,
-                                                 "bottom_left_front_motor",
-                                                 mount_inst=bottom_left_bar,
+                                                 name="bottom_left_front_motor",
+                                                 mount_inst=bottom_left_hub,
                                                  mount_conn="RIGHT_CONNECTOR",
                                                  controller_inst=battery_controller)
 
     designer.add_propeller(propeller_model,
-                           "bottom_left_front_prop",
-                           prop_type=1,
-                           direction=1,
+                           name="bottom_left_front_prop",
+                           prop_type=-1,
+                           direction=-1,
                            motor_inst=bottom_left_front_motor)
 
-    # Requested_Lateral_Speed_1=47
-    # Requested_Lateral_Speed_3=32
-    # Requested_Lateral_Speed_5=22
+    # Requested_Lateral_Speed_1=46 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=11
 
     designer.close_design()
 
