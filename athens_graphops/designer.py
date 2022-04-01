@@ -286,7 +286,7 @@ def create_many_cylinders():
 
 def create_tail_sitter():
     designer = Designer()
-    fuselage = designer.create_design("TailSitter2")
+    fuselage = designer.create_design("TailSitter3")
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
@@ -485,79 +485,57 @@ def create_tail_sitter():
 
     stear_wing_naca = "0006"
     stear_wing_chord = 500
-    stear_wing_span = 4000
+    stear_wing_span = 2000
     stear_wing_load = 1000
 
-    if False:
-        stear_bar1 = designer.add_cylinder(name="stear_bar1",
-                                           length=4000,
-                                           diameter=cylinder_diameter,
-                                           port_thickness=port_thickness,
-                                           front_angle=135,
-                                           mount_inst=bottom_bar,
-                                           mount_conn="BOTTOM_CONNECTOR")
+    stear_bar1 = designer.add_cylinder(name="stear_bar1",
+                                       length=4000,
+                                       diameter=cylinder_diameter,
+                                       port_thickness=port_thickness,
+                                       mount_inst=fuselage,
+                                       mount_conn="REAR_CONNECTOR")
 
-        stear_bar2 = designer.add_cylinder(name="stear_bar2",
-                                           length=stear_wing_chord,
-                                           diameter=cylinder_diameter,
-                                           port_thickness=port_thickness)
+    stear_bar2 = designer.add_cylinder(name="stear_bar2",
+                                       length=stear_wing_chord,
+                                       diameter=cylinder_diameter,
+                                       port_thickness=port_thickness,
+                                       front_angle=0,
+                                       mount_inst=stear_bar1,
+                                       mount_conn="REAR_CONNECTOR")
 
-        designer.add_flip_out(name="stear_flip",
-                              diameter=cylinder_diameter,
-                              front_inst=stear_bar1,
-                              front_conn="REAR_CONNECTOR",
-                              rear_inst=stear_bar2,
-                              rear_conn="REAR_CONNECTOR")
+    designer.add_wing(name="right_stear_wing",
+                      naca=stear_wing_naca,
+                      chord=stear_wing_chord,
+                      span=stear_wing_span,
+                      load=stear_wing_load,
+                      left_inst=stear_bar2,
+                      left_conn="RIGHT_CONNECTOR")
 
-        designer.add_wing(name="right_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="RIGHT_CONNECTOR")
+    designer.add_wing(name="left_stear_wing",
+                      naca=stear_wing_naca,
+                      chord=stear_wing_chord,
+                      span=stear_wing_span,
+                      load=stear_wing_load,
+                      left_inst=stear_bar2,
+                      left_conn="LEFT_CONNECTOR")
 
-        designer.add_wing(name="left_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="TOP_CONNECTOR")
+    designer.add_wing(name="top_stear_wing",
+                      naca=stear_wing_naca,
+                      chord=stear_wing_chord,
+                      span=stear_wing_span,
+                      load=stear_wing_load,
+                      left_inst=stear_bar2,
+                      left_conn="TOP_CONNECTOR")
 
-    if True:
-        stear_bar1 = designer.add_cylinder(name="stear_bar1",
-                                           length=4000,
-                                           diameter=cylinder_diameter,
-                                           port_thickness=port_thickness,
-                                           mount_inst=fuselage,
-                                           mount_conn="REAR_CONNECTOR")
+    designer.add_wing(name="bottom_stear_wing",
+                      naca=stear_wing_naca,
+                      chord=stear_wing_chord,
+                      span=stear_wing_span,
+                      load=stear_wing_load,
+                      left_inst=stear_bar2,
+                      left_conn="BOTTOM_CONNECTOR")
 
-        stear_bar2 = designer.add_cylinder(name="stear_bar2",
-                                           length=stear_wing_chord,
-                                           diameter=cylinder_diameter,
-                                           port_thickness=port_thickness,
-                                           front_angle=45,
-                                           mount_inst=stear_bar1,
-                                           mount_conn="REAR_CONNECTOR")
-
-        designer.add_wing(name="right_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="RIGHT_CONNECTOR")
-
-        designer.add_wing(name="left_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="TOP_CONNECTOR")
-
-    # Requested_Lateral_Speed_1=46 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=36 Q_Position_5=0.01
+    # Requested_Lateral_Speed_1=45 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=36 Q_Position_5=0.01
 
     designer.close_design()
 
