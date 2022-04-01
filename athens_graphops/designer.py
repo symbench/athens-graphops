@@ -86,16 +86,19 @@ class Designer():
                      length: float,
                      diameter: float,
                      port_thickness: float,
+                     front_angle: float = 0,
                      name: Optional[str] = None,
-                     mount_inst: Optional[str] = None,
+                     mount_inst: Optional[Instance] = None,
                      mount_conn: Optional[str] = None) -> str:
         # observed requirements in CREO, but min port_thickness is flaky
         assert 8 <= port_thickness < diameter <= length
+        assert 0 <= front_angle <= 360
 
         instance = self.add_instance("PORTED_CYL", name)
         self.set_parameter(instance, "DIAMETER", diameter)
         self.set_parameter(instance, "LENGTH", length)
         self.set_parameter(instance, "PORT_THICKNESS", port_thickness)
+        self.set_parameter(instance, "FRONT_ANGLE", front_angle)
 
         if mount_inst:
             self.connect(instance, "FRONT_CONNECTOR",
@@ -103,8 +106,35 @@ class Designer():
 
         return instance
 
+    def add_flip_in(self,
+                    diameter: float,
+                    name: Optional[str] = None):
+        instance = self.add_instance("Cyl_Flip", name)
+        self.set_parameter(instance, "DIAMETER", diameter)
+
+        return instance
+
+    def add_flip_out(self,
+                     diameter: float,
+                     name: Optional[str] = None,
+                     front_inst: Optional[Instance] = None,
+                     front_conn: Optional[str] = None,
+                     rear_inst: Optional[Instance] = None,
+                     rear_conn: Optional[str] = None):
+        instance = self.add_instance("Cyl_Flip_Out", name)
+        self.set_parameter(instance, "DIAMETER", diameter)
+
+        if front_inst:
+            self.connect(instance, "Flip_Connector_1",
+                         front_inst, front_conn)
+        if rear_inst:
+            self.connect(instance, "Flip_Connector_2",
+                         rear_inst, rear_conn)
+
+        return instance
+
     def add_passenger(self, name: Optional[str] = None,
-                      fuselage_inst: Optional[str] = None,
+                      fuselage_inst: Optional[Instance] = None,
                       fuselage_conn: Optional[str] = None) -> str:
         instance = self.add_instance("Passenger", name)
         if fuselage_inst:
@@ -121,7 +151,11 @@ class Designer():
                  chord: float,
                  span: float,
                  load: float,
-                 name: Optional[str]):
+                 name: Optional[str] = None,
+                 left_inst: Optional[Instance] = None,
+                 left_conn: Optional[str] = None,
+                 right_inst: Optional[Instance] = None,
+                 right_conn: Optional[str] = None):
         assert len(naca) == 4 and chord >= 1 and span >= 1 and load >= 1
         thickness = int(naca[2:4])
 
@@ -132,6 +166,13 @@ class Designer():
         self.set_parameter(instance, "CHORD_2", chord)
         self.set_parameter(instance, "SPAN", span)
         self.set_parameter(instance, "LOAD", load)
+
+        if left_inst:
+            self.connect(instance, "Connector_1", left_inst, left_conn)
+
+        if right_inst:
+            self.connect(instance, "Connector_2", right_inst, right_conn)
+
         return instance
 
     def add_battery(self, model: str,
@@ -142,8 +183,8 @@ class Designer():
                     voltage_request: float,
                     volume_percent: float,
                     name: Optional[str] = None,
-                    wing_inst: Optional[str] = None,
-                    controller_inst: Optional[str] = None):
+                    wing_inst: Optional[Instance] = None,
+                    controller_inst: Optional[Instance] = None):
         assert len(naca) == 4 and chord >= 1 and span >= 1
         assert mount_side in [1, 2] and 0 <= volume_percent <= 100
         thickness = int(naca[2:4])
@@ -173,9 +214,9 @@ class Designer():
 
     def add_motor(self, model: str,
                   name: Optional[str] = None,
-                  mount_inst: Optional[str] = None,
+                  mount_inst: Optional[Instance] = None,
                   mount_conn: Optional[str] = None,
-                  controller_inst: Optional[str] = None):
+                  controller_inst: Optional[Instance] = None):
         instance = self.add_instance(model, name)
 
         if mount_inst:
@@ -192,7 +233,7 @@ class Designer():
                       prop_type: int,
                       direction: int,
                       name: Optional[str] = None,
-                      motor_inst: Optional[str] = None):
+                      motor_inst: Optional[Instance] = None):
         assert prop_type in [-1, 1] and direction in [-1, 1]
 
         instance = self.add_instance(model, name)
@@ -245,7 +286,7 @@ def create_many_cylinders():
 
 def create_tail_sitter():
     designer = Designer()
-    fuselage = designer.create_design("TailSitter")
+    fuselage = designer.create_design("TailSitter2")
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
@@ -263,15 +304,17 @@ def create_tail_sitter():
                                    naca=wing_naca,
                                    chord=wing_chord,
                                    span=wing_span,
-                                   load=wing_load)
-    designer.connect(right_wing, "Connector_1", fuselage, "RIGHT_CONNECTOR")
+                                   load=wing_load,
+                                   left_inst=fuselage,
+                                   left_conn="RIGHT_CONNECTOR")
 
     left_wing = designer.add_wing(name="left_wing",
                                   naca=wing_naca,
                                   chord=wing_chord,
                                   span=wing_span + 100,
-                                  load=wing_load)
-    designer.connect(left_wing, "Connector_2", fuselage, "LEFT_CONNECTOR")
+                                  load=wing_load,
+                                  right_inst=fuselage,
+                                  right_conn="LEFT_CONNECTOR")
 
     battery_controller = designer.add_battery_controller("battery_controller")
     battery_model = "VitalyBeta"
@@ -344,8 +387,8 @@ def create_tail_sitter():
 
     designer.add_propeller(propeller_model,
                            name="top_right_front_prop",
-                           prop_type=-1,
-                           direction=-1,
+                           prop_type=1,
+                           direction=1,
                            motor_inst=top_right_front_motor)
 
     top_left_bar = designer.add_cylinder(name="top_left_bar",
@@ -370,8 +413,8 @@ def create_tail_sitter():
 
     designer.add_propeller(propeller_model,
                            name="top_left_front_prop",
-                           prop_type=1,
-                           direction=1,
+                           prop_type=-1,
+                           direction=-1,
                            motor_inst=top_left_front_motor)
 
     bottom_bar = designer.add_cylinder(name="bottom_bar",
@@ -410,8 +453,8 @@ def create_tail_sitter():
 
     designer.add_propeller(propeller_model,
                            name="bottom_right_front_prop",
-                           prop_type=1,
-                           direction=1,
+                           prop_type=-1,
+                           direction=-1,
                            motor_inst=bottom_right_front_motor)
 
     bottom_left_bar = designer.add_cylinder(name="bottom_left_bar",
@@ -436,11 +479,85 @@ def create_tail_sitter():
 
     designer.add_propeller(propeller_model,
                            name="bottom_left_front_prop",
-                           prop_type=-1,
-                           direction=-1,
+                           prop_type=1,
+                           direction=1,
                            motor_inst=bottom_left_front_motor)
 
-    # Requested_Lateral_Speed_1=46 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=11
+    stear_wing_naca = "0006"
+    stear_wing_chord = 500
+    stear_wing_span = 4000
+    stear_wing_load = 1000
+
+    if False:
+        stear_bar1 = designer.add_cylinder(name="stear_bar1",
+                                           length=4000,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           front_angle=135,
+                                           mount_inst=bottom_bar,
+                                           mount_conn="BOTTOM_CONNECTOR")
+
+        stear_bar2 = designer.add_cylinder(name="stear_bar2",
+                                           length=stear_wing_chord,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness)
+
+        designer.add_flip_out(name="stear_flip",
+                              diameter=cylinder_diameter,
+                              front_inst=stear_bar1,
+                              front_conn="REAR_CONNECTOR",
+                              rear_inst=stear_bar2,
+                              rear_conn="REAR_CONNECTOR")
+
+        designer.add_wing(name="right_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="RIGHT_CONNECTOR")
+
+        designer.add_wing(name="left_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="TOP_CONNECTOR")
+
+    if True:
+        stear_bar1 = designer.add_cylinder(name="stear_bar1",
+                                           length=4000,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           mount_inst=fuselage,
+                                           mount_conn="REAR_CONNECTOR")
+
+        stear_bar2 = designer.add_cylinder(name="stear_bar2",
+                                           length=stear_wing_chord,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           front_angle=45,
+                                           mount_inst=stear_bar1,
+                                           mount_conn="REAR_CONNECTOR")
+
+        designer.add_wing(name="right_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="RIGHT_CONNECTOR")
+
+        designer.add_wing(name="left_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="TOP_CONNECTOR")
+
+    # Requested_Lateral_Speed_1=46 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=36 Q_Position_5=0.01
 
     designer.close_design()
 
