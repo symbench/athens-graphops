@@ -35,6 +35,14 @@ CORPUS_DATA = load_json('corpus_data.json')
 CORPUS_SCHEMA = load_json('corpus_schema.json')
 
 
+def get_model_data(model: str) -> Dict[str, Any]:
+    for data in CORPUS_DATA:
+        if data["model"] == model:
+            return data
+    else:
+        raise ValueError("unknown model name " + model)
+
+
 def property_table(classification: str) -> List[Dict[str, Any]]:
     result = []
     for mod in CORPUS_DATA:
