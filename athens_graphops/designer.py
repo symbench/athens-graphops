@@ -41,10 +41,7 @@ class Designer():
         print("Creating design", self.design)
         self.client.create_design(self.design)
 
-        self.fuselage = self.add_instance("FUSE_SPHERE_CYL_CONE", "fuselage")
-        self.orient = self.add_instance("Orient", "Orient")
-        self.connect(self.orient, "ORIENTCONN", self.fuselage, "ORIENT")
-        return self.fuselage
+        self.fuselage = None
 
     def get_name(self) -> str:
         instance = "inst_{:04}".format(self.nextid)
@@ -86,6 +83,36 @@ class Designer():
         self.client.create_parameter(self.design, full_name, value)
         self.client.assign_parameter(
             self.design, instance.name, param, full_name)
+
+    def set_config_param(self, param: str, value: Union[float, str]):
+        self.client.create_parameter(self.design, param, value)
+
+    def add_fuselage(self,
+                     length: float,
+                     sphere_diameter: float,
+                     middle_length: float,
+                     tail_diameter: float,
+                     floor_height: float,
+                     seat_1_fb: float,
+                     seat_1_lr: float,
+                     seat_2_fb: float,
+                     seat_2_lr: float,
+                     name: Optional[str] = None):
+        assert self.fuselage is None
+
+        instance = self.add_instance("FUSE_SPHERE_CYL_CONE", name)
+        self.set_parameter(instance, "LENGTH", length)
+        self.set_parameter(instance, "SPHERE_DIAMETER", sphere_diameter)
+        self.set_parameter(instance, "MIDDLE_LENGTH", middle_length)
+        self.set_parameter(instance, "TAIL_DIAMETER", tail_diameter)
+        self.set_parameter(instance, "FLOOR_HEIGHT", floor_height)
+        self.set_parameter(instance, "SEAT_1_FB", seat_1_fb)
+        self.set_parameter(instance, "SEAT_1_LR", seat_1_lr)
+        self.set_parameter(instance, "SEAT_2_FB", seat_2_fb)
+        self.set_parameter(instance, "SEAT_2_LR", seat_2_lr)
+
+        self.fuselage = instance
+        return instance
 
     def add_cylinder(self,
                      length: float,
@@ -278,8 +305,16 @@ class Designer():
         return motor_inst, prop_inst
 
     def close_design(self):
+        assert self.fuselage is not None
+
+        orient = self.add_instance("Orient", "Orient")
+        self.connect(orient, "ORIENTCONN", self.fuselage, "ORIENT")
+        self.client.orient_design(self.design, orient.name)
+
         print("Closing design", self.design)
-        self.client.orient_design(self.design, self.orient)
+        self.fuselage = None
+        self.design = None
+
         self.client.close()
         self.client = None
 
@@ -287,12 +322,33 @@ class Designer():
 def create_minimal():
     designer = Designer()
     designer.create_design("Minimal")
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
     designer.close_design()
 
 
 def create_many_cylinders():
     designer = Designer()
     designer.create_design("ManyCylinders")
+
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
 
     previous = designer.fuselage
     for diameter in [10, 20, 30, 50, 100, 150, 200]:
@@ -317,7 +373,18 @@ def create_many_cylinders():
 
 def create_tail_sitter():
     designer = Designer()
-    fuselage = designer.create_design("TailSitter3")
+    designer.create_design("TailSitter3")
+
+    fuselage = designer.add_fuselage(name="fuselage",
+                                     length=1998,
+                                     sphere_diameter=1466,
+                                     middle_length=399,
+                                     tail_diameter=150,
+                                     floor_height=142,
+                                     seat_1_fb=787,
+                                     seat_1_lr=210,
+                                     seat_2_fb=787,
+                                     seat_2_lr=-210)
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
@@ -516,7 +583,7 @@ def create_tail_sitter():
 
     stear_wing_naca = "0006"
     stear_wing_chord = 500
-    stear_wing_span = 2000
+    stear_wing_span = 4000
     stear_wing_load = 1000
 
     stear_bar1 = designer.add_cylinder(name="stear_bar1",
@@ -530,7 +597,7 @@ def create_tail_sitter():
                                        length=stear_wing_chord,
                                        diameter=cylinder_diameter,
                                        port_thickness=port_thickness,
-                                       front_angle=0,
+                                       front_angle=45,
                                        mount_inst=stear_bar1,
                                        mount_conn="REAR_CONNECTOR")
 
@@ -548,25 +615,35 @@ def create_tail_sitter():
                       span=stear_wing_span,
                       load=stear_wing_load,
                       left_inst=stear_bar2,
-                      left_conn="LEFT_CONNECTOR")
-
-    designer.add_wing(name="top_stear_wing",
-                      naca=stear_wing_naca,
-                      chord=stear_wing_chord,
-                      span=stear_wing_span,
-                      load=stear_wing_load,
-                      left_inst=stear_bar2,
                       left_conn="TOP_CONNECTOR")
 
-    designer.add_wing(name="bottom_stear_wing",
-                      naca=stear_wing_naca,
-                      chord=stear_wing_chord,
-                      span=stear_wing_span,
-                      load=stear_wing_load,
-                      left_inst=stear_bar2,
-                      left_conn="BOTTOM_CONNECTOR")
+    if False:
+        designer.add_wing(name="top_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="TOP_CONNECTOR")
+
+        designer.add_wing(name="bottom_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="BOTTOM_CONNECTOR")
 
     # Requested_Lateral_Speed_1=45 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=36 Q_Position_5=0.01
+
+    designer.set_config_param("Requested_Lateral_Speed_1", 46)
+    designer.set_config_param("Requested_Lateral_Speed_3", 32)
+    designer.set_config_param("Requested_Lateral_Speed_5", 50)
+    designer.set_config_param("Q_Position_5", 0.01)
+    designer.set_config_param("Q_Velocity_5", 0.1)
+    designer.set_config_param("Q_Angles_5", 1.0)
+    designer.set_config_param("Q_Angular_Velocity_5", 0.1)
+    designer.set_config_param("R_5", 0.1)
 
     designer.close_design()
 
@@ -574,6 +651,17 @@ def create_tail_sitter():
 def create_lattice():
     designer = Designer()
     fuselage = designer.create_design("Lattice1")
+
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
 
     wing_naca = "2418"
     wing_chord = 1000
