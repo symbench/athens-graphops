@@ -393,10 +393,10 @@ def create_tail_sitter():
                            fuselage_inst=fuselage,
                            fuselage_conn="SEAT_2_CONNECTOR")
 
-    wing_naca = "2418"
-    wing_chord = 1000
-    wing_span = 10000
-    wing_load = 10000
+    wing_naca = "0015"
+    wing_chord = 1400
+    wing_span = 8000
+    wing_load = 5000
 
     right_wing = designer.add_wing(name="right_wing",
                                    naca=wing_naca,
@@ -583,7 +583,7 @@ def create_tail_sitter():
 
     stear_wing_naca = "0006"
     stear_wing_chord = 500
-    stear_wing_span = 4000
+    stear_wing_span = 3000
     stear_wing_load = 1000
 
     stear_bar1 = designer.add_cylinder(name="stear_bar1",
@@ -634,9 +634,7 @@ def create_tail_sitter():
                           left_inst=stear_bar2,
                           left_conn="BOTTOM_CONNECTOR")
 
-    # Requested_Lateral_Speed_1=45 Requested_Lateral_Speed_3=32 Requested_Lateral_Speed_5=36 Q_Position_5=0.01
-
-    designer.set_config_param("Requested_Lateral_Speed_1", 46)
+    designer.set_config_param("Requested_Lateral_Speed_1", 50)
     designer.set_config_param("Requested_Lateral_Speed_3", 32)
     designer.set_config_param("Requested_Lateral_Speed_5", 50)
     designer.set_config_param("Q_Position_5", 0.01)
