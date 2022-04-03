@@ -384,7 +384,7 @@ def create_many_cylinders():
 def create_tail_sitter():
     designer = Designer()
 
-    if True:
+    if False:
         designer.create_design("TailSitter3NarrowBody")
 
         fuselage = designer.add_fuselage(name="fuselage",
@@ -666,7 +666,7 @@ def create_tail_sitter():
 
     designer.set_config_param("Requested_Lateral_Speed_1", 50)
     designer.set_config_param("Requested_Lateral_Speed_3", 32)
-    designer.set_config_param("Requested_Lateral_Speed_5", 50)
+    designer.set_config_param("Requested_Lateral_Speed_5", 46)
     designer.set_config_param("Q_Position_5", 0.01)
     designer.set_config_param("Q_Velocity_5", 0.1)
     designer.set_config_param("Q_Angles_5", 1.0)
