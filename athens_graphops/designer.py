@@ -97,6 +97,11 @@ class Designer():
                      seat_1_lr: float,
                      seat_2_fb: float,
                      seat_2_lr: float,
+                     port_thickness: float = 100,
+                     top_port_disp: float = 0,
+                     bottom_port_disp: float = 0,
+                     left_port_disp: float = 0,
+                     right_port_disp: float = 0,
                      name: Optional[str] = None):
         assert self.fuselage is None
 
@@ -110,6 +115,11 @@ class Designer():
         self.set_parameter(instance, "SEAT_1_LR", seat_1_lr)
         self.set_parameter(instance, "SEAT_2_FB", seat_2_fb)
         self.set_parameter(instance, "SEAT_2_LR", seat_2_lr)
+        self.set_parameter(instance, "PORT_THICKNESS", port_thickness)
+        self.set_parameter(instance, "TOP_PORT_DISP", top_port_disp)
+        self.set_parameter(instance, "BOTTOM_PORT_DISP", bottom_port_disp)
+        self.set_parameter(instance, "LEFT_PORT_DISP", left_port_disp)
+        self.set_parameter(instance, "RIGHT_PORT_DISP", right_port_disp)
 
         self.fuselage = instance
         return instance
@@ -373,18 +383,87 @@ def create_many_cylinders():
 
 def create_tail_sitter():
     designer = Designer()
-    designer.create_design("TailSitter3")
 
-    fuselage = designer.add_fuselage(name="fuselage",
-                                     length=1998,
-                                     sphere_diameter=1466,
-                                     middle_length=399,
-                                     tail_diameter=150,
-                                     floor_height=142,
-                                     seat_1_fb=787,
-                                     seat_1_lr=210,
-                                     seat_2_fb=787,
-                                     seat_2_lr=-210)
+    if True:
+        designer.create_design("TailSitter3NarrowBody")
+
+        fuselage = designer.add_fuselage(name="fuselage",
+                                         length=2345,
+                                         sphere_diameter=1201,
+                                         middle_length=1517,
+                                         tail_diameter=107,
+                                         floor_height=110,
+                                         seat_1_fb=1523,
+                                         seat_1_lr=0,
+                                         seat_2_fb=690,
+                                         seat_2_lr=0,
+                                         top_port_disp=0,
+                                         bottom_port_disp=0,
+                                         left_port_disp=0,
+                                         right_port_disp=0)
+
+        wing_naca = "0015"
+        wing_chord = 1400
+        wing_span = 8000
+        wing_load = 5000
+
+        battery_model = "VitalyBeta"
+        battery_voltage = 840
+        battery_percent = 100
+
+        cylinder_diameter = 100
+        port_thickness = 0.75 * cylinder_diameter
+        bar1_length = 1000
+        bar2_length = 750
+
+        motor_model = "MAGiDRIVE150"
+        propeller_model = "62x5_2_3200_46_1150"
+
+        has_stear_wing = True
+        stear_wing_naca = "0006"
+        stear_wing_chord = 500
+        stear_wing_span = 3000
+        stear_wing_load = 1000
+
+    else:
+        designer.create_design("TailSitter3JoyRide")
+
+        fuselage = designer.add_fuselage(name="fuselage",
+                                         length=500,
+                                         sphere_diameter=160,
+                                         middle_length=400,
+                                         tail_diameter=100,
+                                         floor_height=130,
+                                         seat_1_fb=1400,
+                                         seat_1_lr=0,
+                                         seat_2_fb=2300,
+                                         seat_2_lr=0,
+                                         port_thickness=75,
+                                         left_port_disp=-550,
+                                         right_port_disp=-550)
+
+        wing_naca = "0015"
+        wing_chord = 1400
+        wing_span = 8000
+        wing_load = 5000
+
+        battery_model = "VitalyBeta"
+        battery_voltage = 840
+        battery_percent = 100
+
+        cylinder_diameter = 100
+        port_thickness = 0.75 * cylinder_diameter
+        bar1_length = 700
+        bar2_length = 750
+
+        motor_model = "MAGiDRIVE150"
+        propeller_model = "62x5_2_3200_46_1150"
+
+        has_stear_wing = True
+        stear_wing_naca = "0006"
+        stear_wing_chord = 500
+        stear_wing_span = 3000
+        stear_wing_load = 1000
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
@@ -392,11 +471,6 @@ def create_tail_sitter():
     designer.add_passenger(name="passenger2",
                            fuselage_inst=fuselage,
                            fuselage_conn="SEAT_2_CONNECTOR")
-
-    wing_naca = "0015"
-    wing_chord = 1400
-    wing_span = 8000
-    wing_load = 5000
 
     right_wing = designer.add_wing(name="right_wing",
                                    naca=wing_naca,
@@ -415,9 +489,6 @@ def create_tail_sitter():
                                   right_conn="LEFT_CONNECTOR")
 
     battery_controller = designer.add_battery_controller("battery_controller")
-    battery_model = "VitalyBeta"
-    battery_voltage = 840
-    battery_percent = 100
 
     designer.add_battery(battery_model,
                          name="right_battery",
@@ -440,11 +511,6 @@ def create_tail_sitter():
                          volume_percent=battery_percent,
                          wing_inst=left_wing,
                          controller_inst=battery_controller)
-
-    cylinder_diameter = 100
-    port_thickness = 0.75 * cylinder_diameter
-    bar1_length = 600
-    bar2_length = 750
 
     top_bar = designer.add_cylinder(name="top_bar",
                                     length=bar1_length,
@@ -474,20 +540,14 @@ def create_tail_sitter():
                                           mount_inst=top_right_bar,
                                           mount_conn="REAR_CONNECTOR")
 
-    motor_model = "MAGiDRIVE150"
-    propeller_model = "62x5_2_3200_46_1150"
-
-    top_right_front_motor = designer.add_motor(motor_model,
-                                               name="top_right_front_motor",
-                                               mount_inst=top_right_hub,
-                                               mount_conn="RIGHT_CONNECTOR",
-                                               controller_inst=battery_controller)
-
-    designer.add_propeller(propeller_model,
-                           name="top_right_front_prop",
-                           prop_type=1,
-                           direction=1,
-                           motor_inst=top_right_front_motor)
+    designer.add_motor_propeller(motor_model=motor_model,
+                                 prop_model=propeller_model,
+                                 prop_type=1,
+                                 direction=1,
+                                 name_prefix="top_right_front",
+                                 mount_inst=top_right_hub,
+                                 mount_conn="RIGHT_CONNECTOR",
+                                 controller_inst=battery_controller)
 
     top_left_bar = designer.add_cylinder(name="top_left_bar",
                                          length=bar2_length,
@@ -503,17 +563,14 @@ def create_tail_sitter():
                                          mount_inst=top_left_bar,
                                          mount_conn="REAR_CONNECTOR")
 
-    top_left_front_motor = designer.add_motor(motor_model,
-                                              name="top_left_front_motor",
-                                              mount_inst=top_left_hub,
-                                              mount_conn="LEFT_CONNECTOR",
-                                              controller_inst=battery_controller)
-
-    designer.add_propeller(propeller_model,
-                           name="top_left_front_prop",
-                           prop_type=-1,
-                           direction=-1,
-                           motor_inst=top_left_front_motor)
+    designer.add_motor_propeller(motor_model=motor_model,
+                                 prop_model=propeller_model,
+                                 prop_type=-1,
+                                 direction=-1,
+                                 name_prefix="top_left_front",
+                                 mount_inst=top_left_hub,
+                                 mount_conn="LEFT_CONNECTOR",
+                                 controller_inst=battery_controller)
 
     bottom_bar = designer.add_cylinder(name="bottom_bar",
                                        length=bar1_length,
@@ -543,17 +600,14 @@ def create_tail_sitter():
                                              mount_inst=bottom_right_bar,
                                              mount_conn="REAR_CONNECTOR")
 
-    bottom_right_front_motor = designer.add_motor(motor_model,
-                                                  name="bottom_right_front_motor",
-                                                  mount_inst=bottom_right_hub,
-                                                  mount_conn="LEFT_CONNECTOR",
-                                                  controller_inst=battery_controller)
-
-    designer.add_propeller(propeller_model,
-                           name="bottom_right_front_prop",
-                           prop_type=-1,
-                           direction=-1,
-                           motor_inst=bottom_right_front_motor)
+    designer.add_motor_propeller(motor_model=motor_model,
+                                 prop_model=propeller_model,
+                                 prop_type=-1,
+                                 direction=-1,
+                                 name_prefix="bottom_right_front",
+                                 mount_inst=bottom_right_hub,
+                                 mount_conn="LEFT_CONNECTOR",
+                                 controller_inst=battery_controller)
 
     bottom_left_bar = designer.add_cylinder(name="bottom_left_bar",
                                             length=bar2_length,
@@ -569,70 +623,46 @@ def create_tail_sitter():
                                             mount_inst=bottom_left_bar,
                                             mount_conn="REAR_CONNECTOR")
 
-    bottom_left_front_motor = designer.add_motor(motor_model,
-                                                 name="bottom_left_front_motor",
-                                                 mount_inst=bottom_left_hub,
-                                                 mount_conn="RIGHT_CONNECTOR",
-                                                 controller_inst=battery_controller)
+    designer.add_motor_propeller(motor_model=motor_model,
+                                 prop_model=propeller_model,
+                                 prop_type=1,
+                                 direction=1,
+                                 name_prefix="bottom_left_front",
+                                 mount_inst=bottom_left_hub,
+                                 mount_conn="RIGHT_CONNECTOR",
+                                 controller_inst=battery_controller)
 
-    designer.add_propeller(propeller_model,
-                           name="bottom_left_front_prop",
-                           prop_type=1,
-                           direction=1,
-                           motor_inst=bottom_left_front_motor)
+    if has_stear_wing:
+        stear_bar1 = designer.add_cylinder(name="stear_bar1",
+                                           length=4000,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           mount_inst=fuselage,
+                                           mount_conn="REAR_CONNECTOR")
 
-    stear_wing_naca = "0006"
-    stear_wing_chord = 500
-    stear_wing_span = 3000
-    stear_wing_load = 1000
+        stear_bar2 = designer.add_cylinder(name="stear_bar2",
+                                           length=stear_wing_chord,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           front_angle=45,
+                                           mount_inst=stear_bar1,
+                                           mount_conn="REAR_CONNECTOR")
 
-    stear_bar1 = designer.add_cylinder(name="stear_bar1",
-                                       length=4000,
-                                       diameter=cylinder_diameter,
-                                       port_thickness=port_thickness,
-                                       mount_inst=fuselage,
-                                       mount_conn="REAR_CONNECTOR")
+        designer.add_wing(name="right_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="RIGHT_CONNECTOR")
 
-    stear_bar2 = designer.add_cylinder(name="stear_bar2",
-                                       length=stear_wing_chord,
-                                       diameter=cylinder_diameter,
-                                       port_thickness=port_thickness,
-                                       front_angle=45,
-                                       mount_inst=stear_bar1,
-                                       mount_conn="REAR_CONNECTOR")
-
-    designer.add_wing(name="right_stear_wing",
-                      naca=stear_wing_naca,
-                      chord=stear_wing_chord,
-                      span=stear_wing_span,
-                      load=stear_wing_load,
-                      left_inst=stear_bar2,
-                      left_conn="RIGHT_CONNECTOR")
-
-    designer.add_wing(name="left_stear_wing",
-                      naca=stear_wing_naca,
-                      chord=stear_wing_chord,
-                      span=stear_wing_span,
-                      load=stear_wing_load,
-                      left_inst=stear_bar2,
-                      left_conn="TOP_CONNECTOR")
-
-    if False:
-        designer.add_wing(name="top_stear_wing",
+        designer.add_wing(name="left_stear_wing",
                           naca=stear_wing_naca,
                           chord=stear_wing_chord,
                           span=stear_wing_span,
                           load=stear_wing_load,
                           left_inst=stear_bar2,
                           left_conn="TOP_CONNECTOR")
-
-        designer.add_wing(name="bottom_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="BOTTOM_CONNECTOR")
 
     designer.set_config_param("Requested_Lateral_Speed_1", 50)
     designer.set_config_param("Requested_Lateral_Speed_3", 32)
