@@ -676,38 +676,46 @@ def create_tail_sitter():
     designer.close_design()
 
 
-def create_lattice():
+def create_vudoo():
     designer = Designer()
-    fuselage = designer.create_design("Lattice1")
+    designer.create_design("VUdoo1")
 
-    designer.add_fuselage(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
+    fuselage = designer.add_fuselage(name="fuselage",
+                                     length=2000,
+                                     sphere_diameter=1520,
+                                     middle_length=750,
+                                     tail_diameter=200,
+                                     floor_height=150,
+                                     seat_1_fb=1000,
+                                     seat_1_lr=-210,
+                                     seat_2_fb=1000,
+                                     seat_2_lr=210)
 
-    wing_naca = "2418"
-    wing_chord = 1000
-    wing_span = 5000
-    wing_load = 10000
+    wing_naca = "0015"
+    wing_chord = 1400
+    wing_span = 8000
+    wing_load = 8000
 
-    battery_model = "VitalyBeta"
-    battery_voltage = 33
-    battery_percent = 50
+    battery_model = "Tattu25AhLi"
+    battery_voltage = 828
+    battery_percent = 45
 
     cylinder_diameter = 100
     port_thickness = 0.75 * cylinder_diameter
-    spacer1_length = 350
-    spacer2_length = 350
+    spacer1_length = 500
+    spacer2_length = 900
     spacer3_length = 2 * spacer2_length + cylinder_diameter
 
-    motor_model = "KDE13218XF105"
-    propeller_model = "34x3_2_4600_41_250"
+    motor_model = "MAGiDRIVE150"
+    propeller_model = "62x5_2_3200_46_1150"
+
+    designer.set_config_param("Requested_Lateral_Speed_1", 43)
+    designer.set_config_param("Requested_Lateral_Speed_5", 25)
+    designer.set_config_param("Q_Position_5", 0.01)
+    designer.set_config_param("Q_Velocity_5", 0.01)
+    designer.set_config_param("Q_Angles_5", 1.0)
+    designer.set_config_param("Q_Angular_Velocity_5", 0.1)
+    designer.set_config_param("R_5", 0.1)
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
@@ -789,7 +797,7 @@ def create_lattice():
     bottom_right_hub = None
     bottom_left_hub = None
 
-    for count in range(0, 6):
+    for count in range(0, 1):
         top_right_bar = designer.add_cylinder(name="top_right_bar{}".format(count),
                                               length=spacer2_length if count == 0 else spacer3_length,
                                               diameter=cylinder_diameter,
@@ -926,8 +934,6 @@ def create_lattice():
                                      mount_conn="LEFT_CONNECTOR",
                                      controller_inst=battery_controller)
 
-    # Requested_Lateral_Speed_1=28 Requested_Lateral_Speed_3=28 Requested_Lateral_Speed_5=28
-
     designer.close_design()
 
 
@@ -942,8 +948,8 @@ def run(args=None):
                         help="creates a minimal design")
     parser.add_argument('--tail-sitter', action='store_true',
                         help="creates a tail-sitter design")
-    parser.add_argument('--lattice', action='store_true',
-                        help="creates a lattice design")
+    parser.add_argument('--vudoo', action='store_true',
+                        help="creates a vudoo design")
     args = parser.parse_args(args)
 
     if args.many_cylinders:
@@ -953,7 +959,7 @@ def run(args=None):
     elif args.tail_sitter:
         create_tail_sitter()
     elif args.lattice:
-        create_lattice()
+        create_vudoo()
 
 
 if __name__ == '__main__':
