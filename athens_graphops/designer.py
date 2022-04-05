@@ -678,7 +678,7 @@ def create_tail_sitter():
 
 def create_vudoo():
     designer = Designer()
-    designer.create_design("VUdoo2")
+    designer.create_design("VUdoo3")
 
     fuselage = designer.add_fuselage(name="fuselage",
                                      length=2000,
@@ -704,8 +704,8 @@ def create_vudoo():
 
     cylinder_diameter = 100
     port_thickness = 0.75 * cylinder_diameter
-    spacer1_length = 700
-    spacer2_length = 1100
+    spacer1_length = 500
+    spacer2_length = 1300
     spacer3_length = 2 * spacer2_length + cylinder_diameter
 
     motor_model = "MAGiDRIVE300"
@@ -717,13 +717,13 @@ def create_vudoo():
     stear_wing_span = 2000
     stear_wing_load = 1000
 
-    designer.set_config_param("Requested_Lateral_Speed_1", 44)
-    designer.set_config_param("Requested_Lateral_Speed_5", 22)
-    designer.set_config_param("Q_Position_5", 0.01)
+    designer.set_config_param("Requested_Lateral_Speed_1", 47)
+    designer.set_config_param("Requested_Lateral_Speed_5", 24)
+    designer.set_config_param("Q_Position_5", 0.06)
     designer.set_config_param("Q_Velocity_5", 0.01)
     designer.set_config_param("Q_Angles_5", 1.0)
     designer.set_config_param("Q_Angular_Velocity_5", 0.1)
-    designer.set_config_param("R_5", 0.1)
+    designer.set_config_param("R_5", 0.5)
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
