@@ -678,7 +678,7 @@ def create_tail_sitter():
 
 def create_vudoo():
     designer = Designer()
-    designer.create_design("VUdoo3")
+    designer.create_design("VUdoo4")
 
     fuselage = designer.add_fuselage(name="fuselage",
                                      length=2000,
@@ -695,12 +695,12 @@ def create_vudoo():
 
     wing_naca = "0015"
     wing_chord = 1200
-    wing_span = 7000
+    wing_span = 10000
     wing_load = 15000
 
     battery_model = "Tattu25AhLi"
     battery_voltage = 569   # rounded up
-    battery_percent = 88   # rounded down
+    battery_percent = 88 * 7000 / 10000    # rounded down
 
     cylinder_diameter = 100
     port_thickness = 0.75 * cylinder_diameter
@@ -718,12 +718,12 @@ def create_vudoo():
     stear_wing_load = 1000
 
     designer.set_config_param("Requested_Lateral_Speed_1", 47)
-    designer.set_config_param("Requested_Lateral_Speed_5", 24)
-    designer.set_config_param("Q_Position_5", 0.06)
+    designer.set_config_param("Requested_Lateral_Speed_5", 31)
+    designer.set_config_param("Q_Position_5", 0.05)
     designer.set_config_param("Q_Velocity_5", 0.01)
-    designer.set_config_param("Q_Angles_5", 1.0)
     designer.set_config_param("Q_Angular_Velocity_5", 0.1)
-    designer.set_config_param("R_5", 0.5)
+    designer.set_config_param("Q_Angles_5", 1.0)
+    designer.set_config_param("R_5", 0.1)
 
     designer.add_passenger(name="passenger1",
                            fuselage_inst=fuselage,
