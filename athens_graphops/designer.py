@@ -678,7 +678,7 @@ def create_tail_sitter():
 
 def create_vudoo():
     designer = Designer()
-    designer.create_design("VUdoo1")
+    designer.create_design("VUdoo2")
 
     fuselage = designer.add_fuselage(name="fuselage",
                                      length=2000,
@@ -689,28 +689,36 @@ def create_vudoo():
                                      seat_1_fb=1000,
                                      seat_1_lr=-210,
                                      seat_2_fb=1000,
-                                     seat_2_lr=210)
+                                     seat_2_lr=210,
+                                     left_port_disp=0,
+                                     right_port_disp=0)
 
     wing_naca = "0015"
-    wing_chord = 1400
-    wing_span = 8000
-    wing_load = 8000
+    wing_chord = 1200
+    wing_span = 7000
+    wing_load = 15000
 
     battery_model = "Tattu25AhLi"
-    battery_voltage = 828
-    battery_percent = 45
+    battery_voltage = 569   # rounded up
+    battery_percent = 88   # rounded down
 
     cylinder_diameter = 100
     port_thickness = 0.75 * cylinder_diameter
-    spacer1_length = 500
-    spacer2_length = 900
+    spacer1_length = 700
+    spacer2_length = 1100
     spacer3_length = 2 * spacer2_length + cylinder_diameter
 
-    motor_model = "MAGiDRIVE150"
-    propeller_model = "62x5_2_3200_46_1150"
+    motor_model = "MAGiDRIVE300"
+    propeller_model = "90x8_2_2000_41_2000"
 
-    designer.set_config_param("Requested_Lateral_Speed_1", 43)
-    designer.set_config_param("Requested_Lateral_Speed_5", 25)
+    has_stear_wing = False
+    stear_wing_naca = "0006"
+    stear_wing_chord = 500
+    stear_wing_span = 2000
+    stear_wing_load = 1000
+
+    designer.set_config_param("Requested_Lateral_Speed_1", 44)
+    designer.set_config_param("Requested_Lateral_Speed_5", 22)
     designer.set_config_param("Q_Position_5", 0.01)
     designer.set_config_param("Q_Velocity_5", 0.01)
     designer.set_config_param("Q_Angles_5", 1.0)
@@ -934,6 +942,38 @@ def create_vudoo():
                                      mount_conn="LEFT_CONNECTOR",
                                      controller_inst=battery_controller)
 
+    if has_stear_wing:
+        stear_bar1 = designer.add_cylinder(name="stear_bar1",
+                                           length=2000,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           mount_inst=fuselage,
+                                           mount_conn="REAR_CONNECTOR")
+
+        stear_bar2 = designer.add_cylinder(name="stear_bar2",
+                                           length=stear_wing_chord,
+                                           diameter=cylinder_diameter,
+                                           port_thickness=port_thickness,
+                                           front_angle=45,
+                                           mount_inst=stear_bar1,
+                                           mount_conn="REAR_CONNECTOR")
+
+        designer.add_wing(name="right_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="RIGHT_CONNECTOR")
+
+        designer.add_wing(name="left_stear_wing",
+                          naca=stear_wing_naca,
+                          chord=stear_wing_chord,
+                          span=stear_wing_span,
+                          load=stear_wing_load,
+                          left_inst=stear_bar2,
+                          left_conn="TOP_CONNECTOR")
+
     designer.close_design()
 
 
@@ -942,24 +982,24 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--many-cylinders', action='store_true',
-                        help="creates lots of ported cylinders")
-    parser.add_argument('--minimal', action='store_true',
-                        help="creates a minimal design")
-    parser.add_argument('--tail-sitter', action='store_true',
-                        help="creates a tail-sitter design")
-    parser.add_argument('--vudoo', action='store_true',
-                        help="creates a vudoo design")
+    parser.add_argument('design', choices=[
+        "many-cylinders",
+        "minimal",
+        "tail-sitter",
+        "vudoo",
+    ])
     args = parser.parse_args(args)
 
-    if args.many_cylinders:
+    if args.design == "many-cylinders":
         create_many_cylinders()
-    elif args.minimal:
+    elif args.design == "minimal":
         create_minimal()
-    elif args.tail_sitter:
+    elif args.design == "tail-sitter":
         create_tail_sitter()
-    elif args.lattice:
+    elif args.design == "vudoo":
         create_vudoo()
+    else:
+        raise ValueError("unknown design")
 
 
 if __name__ == '__main__':
