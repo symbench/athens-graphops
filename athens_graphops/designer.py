@@ -678,7 +678,7 @@ def create_tail_sitter():
 
 def create_vudoo():
     designer = Designer()
-    designer.create_design("VUdoo4")
+    designer.create_design("VUdoo5")
 
     fuselage = designer.add_fuselage(name="fuselage",
                                      length=2000,
@@ -690,6 +690,8 @@ def create_vudoo():
                                      seat_1_lr=-210,
                                      seat_2_fb=1000,
                                      seat_2_lr=210,
+                                     top_port_disp=300,
+                                     bottom_port_disp=300,
                                      left_port_disp=0,
                                      right_port_disp=0)
 
@@ -717,12 +719,12 @@ def create_vudoo():
     stear_wing_span = 2000
     stear_wing_load = 1000
 
-    designer.set_config_param("Requested_Lateral_Speed_1", 47)
+    designer.set_config_param("Requested_Lateral_Speed_1", 48)
     designer.set_config_param("Requested_Lateral_Speed_5", 31)
-    designer.set_config_param("Q_Position_5", 0.05)
+    designer.set_config_param("Q_Position_5", 0.01)
     designer.set_config_param("Q_Velocity_5", 0.01)
     designer.set_config_param("Q_Angular_Velocity_5", 0.1)
-    designer.set_config_param("Q_Angles_5", 1.0)
+    designer.set_config_param("Q_Angles_5", 0.01)
     designer.set_config_param("R_5", 0.1)
 
     designer.add_passenger(name="passenger1",
@@ -944,7 +946,7 @@ def create_vudoo():
 
     if has_stear_wing:
         stear_bar1 = designer.add_cylinder(name="stear_bar1",
-                                           length=2000,
+                                           length=4000,
                                            diameter=cylinder_diameter,
                                            port_thickness=port_thickness,
                                            mount_inst=fuselage,
