@@ -16,6 +16,7 @@
 
 from .dataset import CORPUS_DATA, CORPUS_SCHEMA
 from .query import Client
+from .designer import Designer
 
 
 def validate_corpus_data():
@@ -135,6 +136,50 @@ def validate_create_instances():
     client.close()
 
 
+def create_many_cylinders():
+    designer = Designer()
+    designer.create_design("ManyCylinders")
+
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
+
+    previous = designer.fuselage
+    for diameter in [10, 20, 30, 50, 100, 150, 200]:
+        for port_thickness in [8, 15, 25, 40, 80, 150]:
+            if not port_thickness < diameter:
+                continue
+            for length in [20, 30, 50, 100, 200, 300, 400, 500]:
+                if not diameter <= length:
+                    continue
+
+                instance = designer.add_cylinder(
+                    name=designer.get_name(),
+                    port_thickness=port_thickness,
+                    diameter=diameter,
+                    length=length)
+                designer.connect(previous, "REAR_CONNECTOR",
+                                 instance, "FRONT_CONNECTOR")
+                previous = instance
+
+    designer.close_design()
+
+
+def create_all_motors():
+    """
+    TODO: create a design with cylinders attached at the back that
+    hold all possible motors (from CORPUS_DATA).
+    """
+    pass
+
+
 def run(args=None):
     import argparse
 
@@ -144,13 +189,20 @@ def run(args=None):
                         help="validates the corpus against the schema")
     parser.add_argument('--create-instances', action='store_true',
                         help="creates a simple design for each model")
+    parser.add_argument('--create-many-cylinders', action='store_true',
+                        help="creates a design with various cylinders")
+    parser.add_argument('--create-all-motors', action='store_true',
+                        help="creates a design with all motors attached")
     args = parser.parse_args(args)
 
     if args.corpus_data:
         validate_corpus_data()
-
     if args.create_instances:
         validate_create_instances()
+    if args.create_many_cylinders:
+        create_many_cylinders()
+    if args.create_all_motors:
+        create_all_motors()
 
 
 if __name__ == '__main__':

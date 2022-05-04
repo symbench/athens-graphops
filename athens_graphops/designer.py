@@ -345,42 +345,6 @@ def create_minimal():
     designer.close_design()
 
 
-def create_many_cylinders():
-    designer = Designer()
-    designer.create_design("ManyCylinders")
-
-    designer.add_fuselage(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
-
-    previous = designer.fuselage
-    for diameter in [10, 20, 30, 50, 100, 150, 200]:
-        for port_thickness in [8, 15, 25, 40, 80, 150]:
-            if not port_thickness < diameter:
-                continue
-            for length in [20, 30, 50, 100, 200, 300, 400, 500]:
-                if not diameter <= length:
-                    continue
-
-                instance = designer.add_cylinder(
-                    name=designer.get_name(),
-                    port_thickness=port_thickness,
-                    diameter=diameter,
-                    length=length)
-                designer.connect(previous, "REAR_CONNECTOR",
-                                 instance, "FRONT_CONNECTOR")
-                previous = instance
-
-    designer.close_design()
-
-
 def create_tail_sitter():
     designer = Designer()
 
@@ -985,16 +949,13 @@ def run(args=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('design', choices=[
-        "many-cylinders",
         "minimal",
         "tail-sitter",
         "vudoo",
     ])
     args = parser.parse_args(args)
 
-    if args.design == "many-cylinders":
-        create_many_cylinders()
-    elif args.design == "minimal":
+    if args.design == "minimal":
         create_minimal()
     elif args.design == "tail-sitter":
         create_tail_sitter()
