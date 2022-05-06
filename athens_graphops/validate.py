@@ -29,6 +29,7 @@ def load_json(filename: str) -> Any:
     except:
         return []
 
+
 def get_design_data(design_folder: str):
     """
     Given a data.zip from a Jenkins run for a design, read in the following files:
@@ -37,7 +38,8 @@ def get_design_data(design_folder: str):
       - parameterMap.json
     """
     design_comps = load_json(os.path.join(design_folder, 'componentMap.json'))
-    design_connects = load_json(os.path.join(design_folder, 'connectionMap.json'))
+    design_connects = load_json(os.path.join(
+        design_folder, 'connectionMap.json'))
     design_parms = load_json(os.path.join(design_folder, 'parameterMap.json'))
     return design_comps, design_connects, design_parms
 
@@ -200,7 +202,7 @@ def create_all_motors():
     TODO: create a design with cylinders attached at the back that
     hold all possible motors (from CORPUS_DATA).
     """
-    
+
     designer = Designer()
     designer.create_design("AllMotors")
 
@@ -215,7 +217,7 @@ def create_all_motors():
                           seat_2_fb=1000,
                           seat_2_lr=210)
 
-    # Determine the cylinder length by adding the CAN diameter widths of each motor 
+    # Determine the cylinder length by adding the CAN diameter widths of each motor
     num_motors = 0
     cylinder_diameter = 30.0
     cylinder_thickness = 22.5
@@ -227,7 +229,8 @@ def create_all_motors():
             num_motors += 1
 
             # Add a cylinder
-            cylinder_length = float(model["properties"]["CAN_DIAMETER"]) + length_pad
+            cylinder_length = float(
+                model["properties"]["CAN_DIAMETER"]) + length_pad
             cylinder_name = "cyl_" + designer.get_name()
             cyl_instance = designer.add_cylinder(
                 name=cylinder_name,
@@ -241,12 +244,12 @@ def create_all_motors():
             # Add motor
             motor_name = "motor_" + designer.get_name()
             motor_instance = designer.add_motor(
-                name=motor_name,  
-                model=model["properties"]["MODEL"]            
+                name=motor_name,
+                model=model["properties"]["MODEL"]
             )
             designer.connect(cyl_instance, "TOP_CONNECTOR",
-                            motor_instance, "Base_Connector")
- 
+                             motor_instance, "Base_Connector")
+
     print("Number of Motors: %d" % num_motors)
     designer.close_design()
 
@@ -265,13 +268,15 @@ def validate_all_motors(design_folder: str):
         if model["class"] == "Motor":
             num_motors += 1
             # Search for its existance in the design result being validated
-            comp = list(filter(lambda x: (x["LIB_COMPONENT"] == model["properties"]["MODEL"]), val_comps))
+            comp = list(filter(lambda x: (
+                x["LIB_COMPONENT"] == model["properties"]["MODEL"]), val_comps))
             if not len(comp):
                 print("%s motor is missing" % model["properties"]["MODEL"])
             else:
                 design_num_motors += 1
-    
-    print("Test motors: %d, Design motors: %d" % (num_motors, design_num_motors))
+
+    print("Test motors: %d, Design motors: %d" %
+          (num_motors, design_num_motors))
     if num_motors == design_num_motors:
         print("SUCCESS: All motors made it into the design")
     else:
