@@ -17,6 +17,29 @@
 from .dataset import CORPUS_DATA, CORPUS_SCHEMA
 from .query import Client
 from .designer import Designer
+import json
+import os
+from typing import Any
+
+
+def load_json(filename: str) -> Any:
+    try:
+        with open(filename, 'r') as file:
+            return json.load(file)
+    except:
+        return []
+
+def get_design_data(design_folder: str):
+    """
+    Given a data.zip from a Jenkins run for a design, read in the following files:
+      - componentMap.json
+      - connectionMap.json
+      - parameterMap.json
+    """
+    design_comps = load_json(os.path.join(design_folder, 'componentMap.json'))
+    design_connects = load_json(os.path.join(design_folder, 'connectionMap.json'))
+    design_parms = load_json(os.path.join(design_folder, 'parameterMap.json'))
+    return design_comps, design_connects, design_parms
 
 
 def validate_corpus_data():
@@ -177,7 +200,82 @@ def create_all_motors():
     TODO: create a design with cylinders attached at the back that
     hold all possible motors (from CORPUS_DATA).
     """
-    pass
+    
+    designer = Designer()
+    designer.create_design("AllMotors")
+
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
+
+    # Determine the cylinder length by adding the CAN diameter widths of each motor 
+    num_motors = 0
+    cylinder_diameter = 30.0
+    cylinder_thickness = 22.5
+    length_pad = 0.2
+    previous = designer.fuselage
+
+    for model in CORPUS_DATA:
+        if model["class"] == "Motor":
+            num_motors += 1
+
+            # Add a cylinder
+            cylinder_length = float(model["properties"]["CAN_DIAMETER"]) + length_pad
+            cylinder_name = "cyl_" + designer.get_name()
+            cyl_instance = designer.add_cylinder(
+                name=cylinder_name,
+                port_thickness=cylinder_thickness,
+                diameter=cylinder_diameter,
+                length=cylinder_length)
+            designer.connect(previous, "REAR_CONNECTOR",
+                             cyl_instance, "FRONT_CONNECTOR")
+            previous = cyl_instance
+
+            # Add motor
+            motor_name = "motor_" + designer.get_name()
+            motor_instance = designer.add_motor(
+                name=motor_name,  
+                model=model["properties"]["MODEL"]            
+            )
+            designer.connect(cyl_instance, "TOP_CONNECTOR",
+                            motor_instance, "Base_Connector")
+ 
+    print("Number of Motors: %d" % num_motors)
+    designer.close_design()
+
+
+def validate_all_motors(design_folder: str):
+    """
+    Verify that all motors were added to the "create_all_motor" design by inspecting the data.zip output,
+    specifically the "componentMap.json" file.  Not parameters are set for motors, so no additional testing
+    is used.
+    """
+    val_comps, val_connects, val_params = get_design_data(design_folder)
+
+    num_motors = 0
+    design_num_motors = 0
+    for model in CORPUS_DATA:
+        if model["class"] == "Motor":
+            num_motors += 1
+            # Search for its existance in the design result being validated
+            comp = list(filter(lambda x: (x["LIB_COMPONENT"] == model["properties"]["MODEL"]), val_comps))
+            if not len(comp):
+                print("%s motor is missing" % model["properties"]["MODEL"])
+            else:
+                design_num_motors += 1
+    
+    print("Test motors: %d, Design motors: %d" % (num_motors, design_num_motors))
+    if num_motors == design_num_motors:
+        print("SUCCESS: All motors made it into the design")
+    else:
+        print("FAILED: Missing motors listed above")
 
 
 def run(args=None):
@@ -193,6 +291,10 @@ def run(args=None):
                         help="creates a design with various cylinders")
     parser.add_argument('--create-all-motors', action='store_true',
                         help="creates a design with all motors attached")
+    parser.add_argument('--validate-all-motors', action='store_true',
+                        help="validate a design with all motors attached")
+    parser.add_argument('--design-loc', type=str,
+                        help="indicates location of validation design folder")
     args = parser.parse_args(args)
 
     if args.corpus_data:
@@ -203,6 +305,12 @@ def run(args=None):
         create_many_cylinders()
     if args.create_all_motors:
         create_all_motors()
+    if args.validate_all_motors:
+        if args.design_loc:
+            file_folder = args.design_loc
+            validate_all_motors(file_folder)
+        else:
+            print("Please indicate the design folder with '--design-loc' argument")
 
 
 if __name__ == '__main__':
