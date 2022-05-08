@@ -199,7 +199,7 @@ def create_many_cylinders():
 
 def create_all_motors():
     """
-    TODO: create a design with cylinders attached at the back that
+    Creates a design with cylinders attached at the back that
     hold all possible motors (from CORPUS_DATA).
     """
 
@@ -256,7 +256,7 @@ def create_all_motors():
 
 def validate_all_motors(design_folder: str):
     """
-    Verify that all motors were added to the "create_all_motor" design by inspecting the data.zip output,
+    Verify that all motors were added to the "create_all_motors" design by inspecting the data.zip output,
     specifically the "componentMap.json" file.  Not parameters are set for motors, so no additional testing
     is used.
     """
@@ -283,6 +283,116 @@ def validate_all_motors(design_folder: str):
         print("FAILED: Missing motors listed above")
 
 
+def create_all_propellers():
+    """
+    Create a design with cylinders attached at the back that
+    hold all possible propellers (from CORPUS_DATA).  To attach
+    the proprellers, include a motor with the same "SHAFT_DIAMETER"
+    as the propeller.  
+    """
+
+    # Create a list of motors with unique shaft diameters to use in attaching propellers.
+    # Also, create a list of unique propeller shaft diameters.
+    # Note: in the current (05/2022) UAM corpus, all propellers use the same
+    # shaft size, but there are 11 different motor shaft sizes
+    diff_shaft_motors = []
+    unique_motors = []
+    diff_shaft_props = []
+    for model in CORPUS_DATA:
+        if model["class"] == "Motor" and not diff_shaft_motors.count(model["properties"]["SHAFT_DIAMETER"]):
+            diff_shaft_motors.append(model["properties"]["SHAFT_DIAMETER"])
+            unique_motors.append(model)
+
+        if model["class"] == "Propeller" and not diff_shaft_props.count(model["properties"]["SHAFT_DIAMETER"]):
+            diff_shaft_props.append(model["properties"]["SHAFT_DIAMETER"])
+
+    # For debugging
+    # print(diff_shaft_motors)
+    # print(len(diff_shaft_motors))
+    # print(unique_motors)
+    # print(len(unique_motors))
+    # print(diff_shaft_props)
+    # print(len(diff_shaft_props))
+
+    designer = Designer()
+    designer.create_design("AllPropellers")
+
+    designer.add_fuselage(name="fuselage",
+                          length=2000,
+                          sphere_diameter=1520,
+                          middle_length=300,
+                          tail_diameter=200,
+                          floor_height=150,
+                          seat_1_fb=1000,
+                          seat_1_lr=-210,
+                          seat_2_fb=1000,
+                          seat_2_lr=210)
+
+    # Determine the cylinder length by adding the CAN diameter widths of each motor
+    num_props = 0
+    cylinder_diameter = 30.0
+    cylinder_thickness = 22.5
+    length_pad = 0.2
+    previous = designer.fuselage
+
+    for model in CORPUS_DATA:
+        if model["class"] == "Propeller":
+            num_props += 1
+
+            # Select motor to use for design creation
+            # that matches propeller shaft diameter
+            for motor in unique_motors:
+                if float(motor["properties"]["SHAFT_DIAMETER"]) == float(model["properties"]["SHAFT_DIAMETER"]):
+                    #print("found motor")
+                    motor_model = motor["properties"]["MODEL"]
+                    motor_can_diameter = float(
+                        motor["properties"]["CAN_DIAMETER"])
+                    break
+
+            # Add a cylinder
+            cylinder_length = motor_can_diameter + length_pad
+            cylinder_name = "cyl_" + designer.get_name()
+            cyl_instance = designer.add_cylinder(
+                name=cylinder_name,
+                port_thickness=cylinder_thickness,
+                diameter=cylinder_diameter,
+                length=cylinder_length)
+            designer.connect(previous, "REAR_CONNECTOR",
+                             cyl_instance, "FRONT_CONNECTOR")
+            previous = cyl_instance
+
+            # Add motor
+            motor_name = "motor_" + designer.get_name()
+            motor_instance = designer.add_motor(
+                name=motor_name,
+                model=motor_model
+            )
+            designer.connect(cyl_instance, "TOP_CONNECTOR",
+                             motor_instance, "Base_Connector")
+
+            # Add propeller
+            propeller_name = "prop_" + designer.get_name()
+            propeller_instance = designer.add_propeller(
+                name=propeller_name,
+                model=model["properties"]["MODEL"],
+                prop_type=int(model["parameters"]["Prop_type"]["assigned"]),
+                direction=int(model["parameters"]["Direction"]["assigned"])
+            )
+            designer.connect(motor_instance, "Prop_Connector",
+                             propeller_instance, "MOTOR_CONNECTOR_CS_IN")
+
+    print("Number of Propellers: %d" % num_props)
+    designer.close_design()
+
+
+def validate_all_propellers(design_folder: str):
+    """
+    Verify that all propellers were added to the "create_all_propellers" design by inspecting the data.zip output,
+    specifically the "componentMap.json" file.  
+    """
+    pass
+
+
 def run(args=None):
     import argparse
 
@@ -300,6 +410,11 @@ def run(args=None):
                         help="validate a design with all motors attached")
     parser.add_argument('--design-loc', type=str,
                         help="indicates location of validation design folder")
+    parser.add_argument('--create-all-propellers', action='store_true',
+                        help="creates a design with all propellers attached")
+    parser.add_argument('--validate-all-propellers', action='store_true',
+                        help="validate a design with all propellers attached")
+
     args = parser.parse_args(args)
 
     if args.corpus_data:
@@ -314,6 +429,14 @@ def run(args=None):
         if args.design_loc:
             file_folder = args.design_loc
             validate_all_motors(file_folder)
+        else:
+            print("Please indicate the design folder with '--design-loc' argument")
+    if args.create_all_propellers:
+        create_all_propellers()
+    if args.validate_all_propellers:
+        if args.design_loc:
+            file_folder = args.design_loc
+            validate_all_propellers(file_folder)
         else:
             print("Please indicate the design folder with '--design-loc' argument")
 
