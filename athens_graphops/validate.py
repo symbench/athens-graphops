@@ -288,9 +288,9 @@ def create_all_propellers():
     Create a design with cylinders attached at the back that
     hold all possible propellers (from CORPUS_DATA).  To attach
     the proprellers, include a motor with the same "SHAFT_DIAMETER"
-    as the propeller.  
+    as the propeller.  To handle the large number of propellers (940),
+    there will be four designs created in the graph database.
     """
-
     # Create a list of motors with unique shaft diameters to use in attaching propellers.
     # Also, create a list of unique propeller shaft diameters.
     # Note: in the current (05/2022) UAM corpus, all propellers use the same
@@ -314,30 +314,37 @@ def create_all_propellers():
     # print(diff_shaft_props)
     # print(len(diff_shaft_props))
 
-    designer = Designer()
-    designer.create_design("AllPropellers")
+    num_designs = 4
+    designer_names = []
+    previous = []
+    for x in range(num_designs):
+        propdesign_name = "AllPropellers" + str(x)
+        designer_names.append(Designer())
+        designer_names[x].create_design(propdesign_name)
 
-    designer.add_fuselage(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
+        designer_names[x].add_fuselage(name="fuselage",
+                            length=2000,
+                            sphere_diameter=1520,
+                            middle_length=300,
+                            tail_diameter=200,
+                            floor_height=150,
+                            seat_1_fb=1000,
+                            seat_1_lr=-210,
+                            seat_2_fb=1000,
+                            seat_2_lr=210)
+        previous.append(designer_names[x].fuselage)
 
     # Determine the cylinder length by adding the CAN diameter widths of each motor
     num_props = 0
     cylinder_diameter = 30.0
     cylinder_thickness = 22.5
     length_pad = 0.2
-    previous = designer.fuselage
 
+    current_designer = 0
     for model in CORPUS_DATA:
         if model["class"] == "Propeller":
             num_props += 1
+            print("Designer Name: %s" % designer_names[current_designer].design)
 
             # Select motor to use for design creation
             # that matches propeller shaft diameter
@@ -351,44 +358,49 @@ def create_all_propellers():
 
             # Add a cylinder
             cylinder_length = motor_can_diameter + length_pad
-            cylinder_name = "cyl_" + designer.get_name()
-            cyl_instance = designer.add_cylinder(
+            cylinder_name = "cyl_" + designer_names[current_designer].get_name()
+            cyl_instance = designer_names[current_designer].add_cylinder(
                 name=cylinder_name,
                 port_thickness=cylinder_thickness,
                 diameter=cylinder_diameter,
                 length=cylinder_length)
-            designer.connect(previous, "REAR_CONNECTOR",
+            designer_names[current_designer].connect(previous[current_designer], "REAR_CONNECTOR",
                              cyl_instance, "FRONT_CONNECTOR")
-            previous = cyl_instance
+            previous[current_designer] = cyl_instance
 
             # Add motor
-            motor_name = "motor_" + designer.get_name()
-            motor_instance = designer.add_motor(
+            motor_name = "motor_" + designer_names[current_designer].get_name()
+            motor_instance = designer_names[current_designer].add_motor(
                 name=motor_name,
                 model=motor_model
             )
-            designer.connect(cyl_instance, "TOP_CONNECTOR",
+            designer_names[current_designer].connect(cyl_instance, "TOP_CONNECTOR",
                              motor_instance, "Base_Connector")
 
             # Add propeller
-            propeller_name = "prop_" + designer.get_name()
-            propeller_instance = designer.add_propeller(
+            propeller_name = "prop_" + designer_names[current_designer].get_name()
+            propeller_instance = designer_names[current_designer].add_propeller(
                 name=propeller_name,
                 model=model["properties"]["MODEL"],
                 prop_type=int(model["parameters"]["Prop_type"]["assigned"]),
                 direction=int(model["parameters"]["Direction"]["assigned"])
             )
-            designer.connect(motor_instance, "Prop_Connector",
+            designer_names[current_designer].connect(motor_instance, "Prop_Connector",
                              propeller_instance, "MOTOR_CONNECTOR_CS_IN")
 
+            current_designer += 1
+            if current_designer == num_designs:
+                current_designer = 0
+
     print("Number of Propellers: %d" % num_props)
-    designer.close_design()
+    for x in range(num_designs):
+        designer_names[x].close_design()
 
 
 def validate_all_propellers(design_folder: str):
     """
     Verify that all propellers were added to the "create_all_propellers" design by inspecting the data.zip output,
-    specifically the "componentMap.json" file.  
+    specifically the "componentMap.json" file.
     """
     pass
 
