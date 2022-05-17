@@ -403,56 +403,56 @@ def validate_all_propellers(design_folder: str):
     specifically the "componentMap.json" file. Due to the number of propellers, multiple designs were created to
     include all the propellers.
     """
-        # Find any sub folders with designs
-        input_designs = []
-        for file in os.listdir(design_folder):
-            d = os.path.join(design_folder, file)
-            if os.path.isdir(d):
-                input_designs.append(d)
-        # If no subfolders, then only one design is available
-        if not input_designs:
-            input_designs.append(design_folder)
+    # Find any sub folders with designs
+    input_designs = []
+    for file in os.listdir(design_folder):
+        d = os.path.join(design_folder, file)
+        if os.path.isdir(d):
+            input_designs.append(d)
+    # If no subfolders, then only one design is available
+    if not input_designs:
+        input_designs.append(design_folder)
 
-        num_propellers = 0
-        design_num_propellers = 0
-        num_designs = len(input_designs)
+    num_propellers = 0
+    design_num_propellers = 0
+    num_designs = len(input_designs)
 
-        # Get the design information for all the designs
-        design_comps = []
-        design_connects = []
-        design_params = []
-        for x in range(num_designs):
-            val_comps, val_connects, val_params = get_design_data(input_designs[x])
-            design_comps.append(val_comps)
-            design_connects.append(val_connects)
-            design_params.append(val_params)
+    # Get the design information for all the designs
+    design_comps = []
+    design_connects = []
+    design_params = []
+    for x in range(num_designs):
+        val_comps, val_connects, val_params = get_design_data(input_designs[x])
+        design_comps.append(val_comps)
+        design_connects.append(val_connects)
+        design_params.append(val_params)
 
-        # Look through all input designs to see if propellers are available and correct
-        found = False
-        for model in CORPUS_DATA:
-            if model["class"] == "Propeller":
-                num_propellers += 1
-                # Search for its existance in the design result being validated
-                for num in range(num_designs):
-                    comp = list(filter(lambda x: (
-                        x["LIB_COMPONENT"] == model["properties"]["MODEL"]), design_comps[num]))
-                    if comp:
-                        found = True
-                        #print("%s propeller found in Design # %d" % (model["properties"]["MODEL"], num))
-                        # Check if parameters are correct, get design from graph
-                        # Need information in designParameter.json file (Prop_type and Direction) - ticket submitted
-                        break
-                if not found:
-                    print("%s propeller is missing" % model["properties"]["MODEL"])
-                else:
-                    design_num_propellers += 1
+    # Look through all input designs to see if propellers are available and correct
+    found = False
+    for model in CORPUS_DATA:
+        if model["class"] == "Propeller":
+            num_propellers += 1
+            # Search for its existance in the design result being validated
+            for num in range(num_designs):
+                comp = list(filter(lambda x: (
+                    x["LIB_COMPONENT"] == model["properties"]["MODEL"]), design_comps[num]))
+                if comp:
+                    found = True
+                    #print("%s propeller found in Design # %d" % (model["properties"]["MODEL"], num))
+                    # Check if parameters are correct, get design from graph
+                    # Need information in designParameter.json file (Prop_type and Direction) - ticket submitted
+                    break
+            if not found:
+                print("%s propeller is missing" % model["properties"]["MODEL"])
+            else:
+                design_num_propellers += 1
 
-        print("Test propellers: %d, Design propellers: %d" %
-              (num_propellers, design_num_propellers))
-        if num_propellers == design_num_propellers:
-            print("SUCCESS: All propellers made it into the design")
-        else:
-            print("FAILED: Missing propellers listed above")
+    print("Test propellers: %d, Design propellers: %d" %
+            (num_propellers, design_num_propellers))
+    if num_propellers == design_num_propellers:
+        print("SUCCESS: All propellers made it into the design")
+    else:
+        print("FAILED: Missing propellers listed above")
 
 
 def run(args=None):
