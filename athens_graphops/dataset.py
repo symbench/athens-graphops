@@ -18,6 +18,7 @@ from typing import Any, Dict, List
 
 import json
 import os
+import random
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -31,8 +32,8 @@ def load_json(filename: str) -> Any:
 
 
 CORPUS_DATA = load_json('corpus_data.json')
-
 CORPUS_SCHEMA = load_json('corpus_schema.json')
+NACA_DATA = load_json('aero_info.json')
 
 
 def get_model_data(model: str) -> Dict[str, Any]:
@@ -59,6 +60,103 @@ def property_table(classification: str) -> List[Dict[str, Any]]:
 BATTERY_TABLE = property_table("Battery")
 MOTOR_TABLE = property_table("Motor")
 PROPELLER_TABLE = property_table("Propeller")
+
+
+def get_component_parameters(classification: str, model: str) -> List[str]:
+    """
+    Return the parameter list for the component specified
+    """
+    result = []
+    for mod in CORPUS_DATA:
+        if (mod["class"] == classification) and (mod["model"] == model):
+            entry = dict(mod["parameters"])
+            result.append(entry)
+            # print(mod["model"])
+            break
+
+    return result
+
+
+def random_component_selection(classification: str) -> str:
+    """
+    Return a randomly selected model name give a component classification
+    """
+    if classification == "Battery":
+        select_table = BATTERY_TABLE
+    elif classification == "Motor":
+        select_table = MOTOR_TABLE
+    elif classification == "Propeller":
+        select_table = PROPELLER_TABLE
+    else:
+        print("Only classifications available for random selection are Battery, Motor and Propeller")
+
+    assert select_table
+    selected_component = random.choice(select_table)
+
+    # print(selected_component)
+
+    return selected_component["MODEL"]
+
+
+def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Randomize the parameter values.  If no maximum is specified, arbritarily 
+    create one by using a multiplication factor (max_multiply_factor).
+
+    When no minimum is provided, the maximum is also absent. So, set min/max
+    to assigned value, except when the parameter is "LENGTH". For this case,
+    set minimum to 1 and maximum to max_multiply_factor * assigned.  Here are 
+    the current cases where only "assigned" value is provided.
+        * BatteryController: BOTTOM_CONN_DISP, TOP_CONN_DISP
+        * Cylinder: LENGTH
+        * Motor: CONTROL_CHANNEL
+        * NACA_Port_Connector: BOTTOM_CONNECTION_DISP
+        * Wing: NACA_Profile
+    """
+    max_multiply_factor = 2
+    for key in component_params[0]:
+        # print(key)
+        # print("Original Value: %s" % component_params[0][key]["assigned"])
+
+        if 'minimum' not in component_params[0][key]:
+            if key == "LENGTH":
+                min_value = 1
+                max_value = float(
+                    component_params[0][key]["assigned"]) * max_multiply_factor
+            else:
+                min_value = float(component_params[0][key]["assigned"])
+                max_value = float(component_params[0][key]["assigned"])
+        else:
+            min_value = float(component_params[0][key]["minimum"])
+            if 'maximum' in component_params[0][key]:
+                max_value = float(component_params[0][key]["maximum"])
+            else:
+                max_value = float(
+                    component_params[0][key]["assigned"]) * max_multiply_factor
+
+        # Note that some component parameters have a "minimum" value of 1, yet the
+        # assigned is 0.  So the max value in this case will be 0.
+        if (max_value == 0 and (min_value > max_value)):
+            rand_param = float(component_params[0][key]["assigned"])
+        else:
+            rand_param = float(random.uniform(min_value, max_value))
+
+        # print("Random value: %d" % rand_param)
+        component_params[0][key]["assigned"] = str(rand_param)
+
+    return component_params
+
+
+def random_naca_profile_selection() -> str:
+    """
+    From the SwRI provided aero_info.json file, select a random NACA profile and return the
+    number portion of the "Name".
+    """
+    naca_data_keys = [*NACA_DATA]
+    # print(naca_data_keys)
+    random_naca_profile = random.choice(naca_data_keys)
+
+    return random_naca_profile[5:]
 
 
 def run(args=None):
