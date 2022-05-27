@@ -80,7 +80,7 @@ def autoseed(design: str, batchfile: str):
     client = query.Client()
 
     if design not in client.get_design_names():
-        print("Desgin {} not found".format(design))
+        print("Design {} not found".format(design))
         client.close()
         return
 

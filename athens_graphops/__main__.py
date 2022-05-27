@@ -23,6 +23,8 @@ from . import dataset
 from . import query
 from . import validate
 from . import designer
+from . import architect
+from . import workflow
 
 
 def run():
@@ -34,6 +36,8 @@ def run():
         "query",
         "validate",
         "designer",
+        "architect",
+        "workflow",
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -46,6 +50,10 @@ def run():
                         help="sets the host address of the gremlin database")
     parser.add_argument('--timeout', type=float, metavar='SEC',
                         help="sets the timeout in seconds for each query")
+    parser.add_argument('--jenkinsuser', type=str, metavar='user',
+                        help="sets the Jenkins username for workflow runs")
+    parser.add_argument('--jenkinspwd', type=str, metavar='pwd',
+                        help="sets the Jenkins password for workflow runs")    
     parser.add_argument(
         'command', help="subcommand to execute",
         choices=sorted(commands))
@@ -60,7 +68,11 @@ def run():
         CONFIG["hostname"] = args.host
     if args.timeout:
         CONFIG["timeout"] = args.timeout
-
+    if args.jenkinsuser:
+        CONFIG["jenkinsuser"] = args.jenkinsuser
+    if args.jenkinspwd:
+        CONFIG["jenkinspwd"] = args.jenkinspwd
+    
     if args.command == "query":
         query.run(args=sys.argv[pos:])
     elif args.command == "validate":
@@ -73,6 +85,10 @@ def run():
         dataset.run(args=sys.argv[pos:])
     elif args.command == "designer":
         designer.run(args=sys.argv[pos:])
+    elif args.command == "architect":
+        architect.run(args=sys.argv[pos:])
+    elif args.command == "workflow":
+        workflow.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 

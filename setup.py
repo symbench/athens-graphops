@@ -27,6 +27,7 @@ setup(
     # do not list standard packages
     install_requires=[
         "gremlinpython",
+        "api4jenkins"
     ],
     entry_points={
         'console_scripts': [
