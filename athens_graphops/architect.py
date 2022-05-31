@@ -22,7 +22,9 @@ from .query import Client
 from .dataset import get_component_parameters
 from .dataset import random_component_selection
 from .dataset import randomize_parameters
-from .dataset import random_naca_profile_selection
+#from .dataset import random_naca_profile_selection
+from .dataset import get_corpus_assigned_parameters
+from .dataset import randomize_cyl_length
 from .dataset import CORPUS_DATA, BATTERY_TABLE, MOTOR_TABLE, PROPELLER_TABLE
 import random
 import math
@@ -710,7 +712,8 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # 1 option available.
         fuse_params = get_component_parameters(
             "Fuselage", "FUSE_SPHERE_CYL_CONE")
-        rand_fuse_params = randomize_parameters(fuse_params)
+        # RAND: rand_fuse_params = randomize_parameters(fuse_params)
+        rand_fuse_params = get_corpus_assigned_parameters(fuse_params)
 
         fuse_length = round(float(rand_fuse_params[0]["LENGTH"]["assigned"]))
         fuse_sphere_diameter = round(
@@ -758,12 +761,14 @@ def create_vari_vudoo(num_designs: int, design_name: str):
 
         # Randomize wing parameters
         wing_params = get_component_parameters("Wing", "naca_wing")
-        rand_wing_params = randomize_parameters(wing_params)
+        # RAND: rand_wing_params = randomize_parameters(wing_params)
+        rand_wing_params = get_corpus_assigned_parameters(wing_params)
 
         # This parameter (NACA_Profile) does not have a min/max in the corpus_data.json
         # But there is a set of NACA tables in c:/jwork/Agents/workspace/UAM_Workflows/Tables/aero_info.json
         # We could use this file to randomly select a value.  Leaving the fixed value for now.
-        wing_naca = random_naca_profile_selection()
+        wing_naca = rand_wing_params[0]["NACA_Profile"]["assigned"]
+        # RAND: wing_naca = random_naca_profile_selection()
 
         # CHORD_1 and CHORD_2 should be the same, using randomized CHORD_1 for this value
         wing_chord = round(float(rand_wing_params[0]["CHORD_1"]["assigned"]))
@@ -778,9 +783,11 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         #     THICKNESS (set by wing_naca)
 
         # Randomize batteries and the parameters
-        battery_model = random_component_selection("Battery")
-        battery_params = get_component_parameters("Battery", battery_model)
-        rand_battery_params = randomize_parameters(battery_params)
+        # RAND: battery_model = random_component_selection("Battery")
+        battery_model = "Tattu25AhLi"
+        battery_params = get_component_parameters("Battery", battery_model)  
+        # RAND: rand_battery_params = randomize_parameters(battery_params)
+        rand_battery_params = get_corpus_assigned_parameters(battery_params)
 
         battery_voltage = math.ceil(
             float(rand_battery_params[0]["VOLTAGE_REQUEST"]["assigned"]))   # rounded up
@@ -800,14 +807,16 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         cyl_params = get_component_parameters("Cylinder", "PORTED_CYL")
         valid_cylinder = False
         while not valid_cylinder:
-            rand_cyl1_params = randomize_parameters(cyl_params)
+            # RAND: rand_cyl1_params = randomize_parameters(cyl_params)
+            rand_cyl1_params = randomize_cyl_length(cyl_params)
             # print(rand_cyl1_params)
             cylinder_diameter = round(
                 float(rand_cyl1_params[0]["DIAMETER"]["assigned"]))
             spacer1_length = round(
-                float(rand_cyl1_params[0]["LENGTH"]["assigned"]))
+                float(rand_cyl1_params[0]["LENGTH"]["assigned"]))                       
             port_thickness = round(
                 float(rand_cyl1_params[0]["PORT_THICKNESS"]["assigned"]))
+
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= spacer1_length
             if valid_cylinder:
                 print("Cylinder 1: Valid length found")
@@ -816,7 +825,8 @@ def create_vari_vudoo(num_designs: int, design_name: str):
 
         valid_cylinder = False
         while not valid_cylinder:
-            rand_cyl2_params = randomize_parameters(cyl_params)
+            # RAND: rand_cyl2_params = randomize_parameters(cyl_params)
+            rand_cyl2_params = randomize_cyl_length(cyl_params)
             # print(rand_cyl2_params)
             spacer2_length = round(
                 float(rand_cyl2_params[0]["LENGTH"]["assigned"]))
@@ -845,8 +855,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # The set is made up of 4 front propellers and 4 rear propellers
         # The random setup for a prop/motor set (or prop_set) will be one of four configurations:
         #     4 Front props/motors, 4 
-        #max_num_prop_sets = 16
-        max_num_prop_sets = 2
+        max_num_prop_sets = 16
         num_prop_sets = round(random.uniform(0, max_num_prop_sets))
         prop_set_config = ["Front", "Rear", "All", "None"]
         print("Number of Propeller/Motor sets: %d" % num_prop_sets)
@@ -854,14 +863,16 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # Randomize stear wing parameters
         has_stear_wing = bool(random.getrandbits(1))
         print("Presence of Stear Wing: %s" % has_stear_wing)
-        stear_wing_params = get_component_parameters("Wing", "naca_wing")
-        rand_stear_wing_params = randomize_parameters(stear_wing_params)
+        stear_wing_params = get_component_parameters("Wing", "naca_wing")              
+        # RAND: rand_stear_wing_params = randomize_parameters(stear_wing_params)
+        rand_stear_wing_params = get_corpus_assigned_parameters(stear_wing_params)
         # print(rand_stear_wing_params)
 
         # This parameter (NACA_Profile) does not have a min/max in the corpus_data.json
         # But there is a set of NACA tables in c:/jwork/Agents/workspace/UAM_Workflows/Tables/aero_info.json
         # We could use this file to randomly select a value.  Leaving the fixed value for now.
-        stear_wing_naca = random_naca_profile_selection()
+        # RAND: stear_wing_naca = random_naca_profile_selection()
+        stear_wing_naca = rand_stear_wing_params[0]["NACA_Profile"]["assigned"]
 
         # CHORD_1 and CHORD_2 should be the same, using randomized CHORD_1 for this value
         stear_wing_chord = round(
@@ -872,7 +883,8 @@ def create_vari_vudoo(num_designs: int, design_name: str):
 
         valid_cylinder = False
         while not valid_cylinder:
-            rand_bar_params = randomize_parameters(cyl_params)
+            # RAND: rand_bar_params = randomize_parameters(cyl_params)
+            rand_bar_params = randomize_cyl_length(cyl_params)
             # print(rand_bar_params)
             stear_bar1_length = round(
                 float(rand_bar_params[0]["LENGTH"]["assigned"]))

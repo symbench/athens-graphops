@@ -108,7 +108,7 @@ def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, An
     set minimum to 1 and maximum to max_multiply_factor * assigned.  Here are 
     the current cases where only "assigned" value is provided.
         * BatteryController: BOTTOM_CONN_DISP, TOP_CONN_DISP
-        * Cylinder: LENGTH
+        * Cylinder: LENGTH  (assigned value seems to be the maximum possible based on experimentation)
         * Motor: CONTROL_CHANNEL
         * NACA_Port_Connector: BOTTOM_CONNECTION_DISP
         * Wing: NACA_Profile
@@ -122,7 +122,7 @@ def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, An
             if key == "LENGTH":
                 min_value = 1
                 max_value = float(
-                    component_params[0][key]["assigned"]) * max_multiply_factor
+                    component_params[0][key]["assigned"])
             else:
                 min_value = float(component_params[0][key]["assigned"])
                 max_value = float(component_params[0][key]["assigned"])
@@ -158,6 +158,37 @@ def random_naca_profile_selection() -> str:
 
     return random_naca_profile[5:]
 
+
+def get_corpus_assigned_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Return the assigned parameters from the corpus data (i.e. the component_params untouched)
+    This is used for components that are currently not being randomized (minimizes code change 
+    in architect.py).  Needed as we determine what combinations of components can be randomized.
+    """
+    return component_params
+
+
+def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".  
+    This is being used in as experiments are done to determine how many (and what combination) 
+    components can have randomized parameters.  Length of cylinders is the first step.
+    
+    Note: The length parameter only has an assigned value, based on experimentation this seems 
+    to be the maximum value possible.
+    """
+    max_multiply_factor = 1
+    for key in component_params[0]:
+ 
+        if key == "LENGTH":
+            min_value = 1
+            max_value = float(
+                component_params[0][key]["assigned"]) * max_multiply_factor
+
+            component_params[0][key]["assigned"] = str(float(random.uniform(min_value, max_value)))
+
+    return component_params
+    
 
 def run(args=None):
     import argparse
