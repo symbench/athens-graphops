@@ -807,15 +807,15 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             rand_cyl1_params = randomize_cyl_length(cyl_params)
             # print(rand_cyl1_params)
             cylinder_diameter = round(
-                float(rand_cyl1_params[0]["DIAMETER"]["assigned"]))
+                float(rand_cyl1_params["DIAMETER"]["assigned"]))
             spacer1_length = round(
-                float(rand_cyl1_params[0]["LENGTH"]["assigned"]))
+                float(rand_cyl1_params["LENGTH"]["assigned"]))
             port_thickness = round(
-                float(rand_cyl1_params[0]["PORT_THICKNESS"]["assigned"]))
+                float(rand_cyl1_params["PORT_THICKNESS"]["assigned"]))
 
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= spacer1_length
             if valid_cylinder:
-                print("Cylinder 1: Valid length found")
+                print("Cylinder 1: Valid length found (%f)" % spacer1_length)
             else:
                 print("Cylinder 1: Invalid length (%f). Try again" %
                       spacer1_length)
@@ -826,11 +826,11 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             rand_cyl2_params = randomize_cyl_length(cyl_params)
             # print(rand_cyl2_params)
             spacer2_length = round(
-                float(rand_cyl2_params[0]["LENGTH"]["assigned"]))
+                float(rand_cyl2_params["LENGTH"]["assigned"]))
             spacer3_length = 2 * spacer2_length + cylinder_diameter
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= spacer2_length
             if valid_cylinder:
-                print("Cylinder 2: Valid length found")
+                print("Cylinder 2: Valid length found (%f)" % spacer2_length)
             else:
                 print("Cylinder 2: Invalid length (%f). Try again" %
                       spacer2_length)
@@ -888,13 +888,14 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             rand_bar_params = randomize_cyl_length(cyl_params)
             # print(rand_bar_params)
             stear_bar1_length = round(
-                float(rand_bar_params[0]["LENGTH"]["assigned"]))
+                float(rand_bar_params["LENGTH"]["assigned"]))
             # Angle was set to 45 degrees in original design, randomizing here
             stear_bar2_front_angle = round(
-                float(rand_bar_params[0]["FRONT_ANGLE"]["assigned"]))
+                float(rand_bar_params["FRONT_ANGLE"]["assigned"]))
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= stear_bar1_length
             if valid_cylinder:
-                print("Stear Bar 1: Valid length found")
+                print("Stear Bar 1: Valid length found (%f)" %
+                      stear_bar1_length)
             else:
                 print("Stear Bar 1: Invalid length (%f). Try again" %
                       stear_bar1_length)

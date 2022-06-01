@@ -19,6 +19,7 @@ from typing import Any, Dict, List
 import json
 import os
 import random
+import copy
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -175,20 +176,25 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, An
     components can have randomized parameters.  Length of cylinders is the first step.
 
     Note: The length parameter only has an assigned value, based on experimentation this seems 
-    to be the maximum value possible.
+    to be the maximum value possible.  
     """
     max_multiply_factor = 1
+    random_params = copy.deepcopy(component_params[0])
+
     for key in component_params[0]:
 
         if key == "LENGTH":
-            min_value = 1
+            min_value = 200
             max_value = float(
                 component_params[0][key]["assigned"]) * max_multiply_factor
 
-            component_params[0][key]["assigned"] = str(
+            random_params[key]["assigned"] = str(
                 float(random.uniform(min_value, max_value)))
+            #print(f"Min/Max value: {min_value}, {max_value}")
+            #print(f"Random params: {random_params}")
+            #print(f"Original params:{component_params}")
 
-    return component_params
+    return random_params
 
 
 def run(args=None):
