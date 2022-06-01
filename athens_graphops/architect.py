@@ -817,7 +817,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             if valid_cylinder:
                 print("Cylinder 1: Valid length found")
             else:
-                print("Cylinder 1: Try again")
+                print("Cylinder 1: Invalid length (%f). Try again" % spacer1_length)
 
         valid_cylinder = False
         while not valid_cylinder:
@@ -831,7 +831,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             if valid_cylinder:
                 print("Cylinder 2: Valid length found")
             else:
-                print("Cylinder 2: Try again")
+                print("Cylinder 2: Invalid length (%f). Try again" % spacer2_length)
 
         # print("Cyl Diameter, Spacer1, Spacer2: %f, %f, %f" % (cylinder_diameter, spacer1_length, spacer2_length))
 
@@ -894,7 +894,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             if valid_cylinder:
                 print("Stear Bar 1: Valid length found")
             else:
-                print("Stear Bar 1: Try again")
+                print("Stear Bar 1: Invalid length (%f). Try again" % stear_bar1_length)
 
         # print("Stear Bar Length1, Front Angle2: %f, %f" % (stear_bar1_length, stear_bar2_front_angle))
 
