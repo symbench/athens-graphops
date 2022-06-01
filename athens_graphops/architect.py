@@ -34,8 +34,7 @@ class Architect():
     def __init__(self):
         self.client = None
         self.jenkins_client = None
-        
-        
+
     def open_jenkins_client(self):
         # Prepare for Jenkins runs for each design. Design name will be updated in loop.
         assert self.jenkins_client is None
@@ -43,37 +42,34 @@ class Architect():
         print("Jenkins URL: %s" % jenkins_url)
         print("Jenkins Username: %s" % CONFIG["jenkinsuser"])
         print("Jenkins Password: %s" % CONFIG["jenkinspwd"])
-        self.jenkins_client = JenkinsClient(jenkins_url, CONFIG["jenkinsuser"], CONFIG["jenkinspwd"])
+        self.jenkins_client = JenkinsClient(
+            jenkins_url, CONFIG["jenkinsuser"], CONFIG["jenkinspwd"])
         self.jenkins_parameters = {
-            "graphGUID" : "Rake",
-            "PETName" : "/D_Testing/PET/FlightDyn_V2_AllPaths",
-            "NumSamples" : "1",
-            "DesignVars" : "Analysis_Type=3,3"
+            "graphGUID": "Rake",
+            "PETName": "/D_Testing/PET/FlightDyn_V2_AllPaths",
+            "NumSamples": "1",
+            "DesignVars": "Analysis_Type=3,3"
         }
-    
-    
+
     def open_query_client(self):
         # Open a query client (gremlin) to grab the graph design information
         assert self.client is None
         self.client = Client()
-        
-    
+
     def update_parameters(self, key_name: str, value: str):
         self.jenkins_parameters[key_name] = value
-
 
     def close_client(self):
         assert self.client is not None
         print("Closing query client")
         self.client.close()
         self.client = None
-        
-        
+
     def close_jenkins_client(self):
         assert self.jenkins_client is not None
         print("Closing Jenkins client")
         self.jenkins_client = None
-        
+
 
 def create_minimal():
     designer = Designer()
@@ -698,7 +694,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
     # Setup Gremlin query and Jenkins interfaces
     architecture = Architect()
     architecture.open_jenkins_client()
-        
+
     for x in range(num_designs):
         design_name_inst = design_name + str(x)
 
@@ -785,7 +781,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # Randomize batteries and the parameters
         # RAND: battery_model = random_component_selection("Battery")
         battery_model = "Tattu25AhLi"
-        battery_params = get_component_parameters("Battery", battery_model)  
+        battery_params = get_component_parameters("Battery", battery_model)
         # RAND: rand_battery_params = randomize_parameters(battery_params)
         rand_battery_params = get_corpus_assigned_parameters(battery_params)
 
@@ -813,7 +809,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             cylinder_diameter = round(
                 float(rand_cyl1_params[0]["DIAMETER"]["assigned"]))
             spacer1_length = round(
-                float(rand_cyl1_params[0]["LENGTH"]["assigned"]))                       
+                float(rand_cyl1_params[0]["LENGTH"]["assigned"]))
             port_thickness = round(
                 float(rand_cyl1_params[0]["PORT_THICKNESS"]["assigned"]))
 
@@ -854,7 +850,7 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # Determine prop/motor setup - there is an 8 propeller set that can be replicated
         # The set is made up of 4 front propellers and 4 rear propellers
         # The random setup for a prop/motor set (or prop_set) will be one of four configurations:
-        #     4 Front props/motors, 4 
+        #     4 Front props/motors, 4
         max_num_prop_sets = 16
         num_prop_sets = round(random.uniform(0, max_num_prop_sets))
         prop_set_config = ["Front", "Rear", "All", "None"]
@@ -863,9 +859,10 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # Randomize stear wing parameters
         has_stear_wing = bool(random.getrandbits(1))
         print("Presence of Stear Wing: %s" % has_stear_wing)
-        stear_wing_params = get_component_parameters("Wing", "naca_wing")              
+        stear_wing_params = get_component_parameters("Wing", "naca_wing")
         # RAND: rand_stear_wing_params = randomize_parameters(stear_wing_params)
-        rand_stear_wing_params = get_corpus_assigned_parameters(stear_wing_params)
+        rand_stear_wing_params = get_corpus_assigned_parameters(
+            stear_wing_params)
         # print(rand_stear_wing_params)
 
         # This parameter (NACA_Profile) does not have a min/max in the corpus_data.json
@@ -877,8 +874,10 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # CHORD_1 and CHORD_2 should be the same, using randomized CHORD_1 for this value
         stear_wing_chord = round(
             float(rand_stear_wing_params[0]["CHORD_1"]["assigned"]))
-        stear_wing_span = round(float(rand_stear_wing_params[0]["SPAN"]["assigned"]))
-        stear_wing_load = round(float(rand_stear_wing_params[0]["LOAD"]["assigned"]))
+        stear_wing_span = round(
+            float(rand_stear_wing_params[0]["SPAN"]["assigned"]))
+        stear_wing_load = round(
+            float(rand_stear_wing_params[0]["LOAD"]["assigned"]))
         # print("Stear Wing Chord, span, load: %f, %f, %f" % (stear_wing_chord, stear_wing_span, stear_wing_load))
 
         valid_cylinder = False
@@ -988,130 +987,131 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         bottom_right_hub = None
         bottom_left_hub = None
 
-        if num_prop_sets > 0:        
+        if num_prop_sets > 0:
             for count in range(0, num_prop_sets):
                 selected_prop_set_config = random.choice(prop_set_config)
-                print("Propeller/Motor Configuration: %s" % selected_prop_set_config)
+                print("Propeller/Motor Configuration: %s" %
+                      selected_prop_set_config)
                 if selected_prop_set_config != "None":
                     #print("Add cylinders for top right")
                     top_right_bar = designer.add_cylinder(name="top_right_bar{}".format(count),
-                                                        length=spacer2_length if count == 0 else spacer3_length,
-                                                        diameter=cylinder_diameter,
-                                                        port_thickness=port_thickness,
-                                                        mount_inst=top_hub if count == 0 else top_right_hub,
-                                                        mount_conn="LEFT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
+                                                          length=spacer2_length if count == 0 else spacer3_length,
+                                                          diameter=cylinder_diameter,
+                                                          port_thickness=port_thickness,
+                                                          mount_inst=top_hub if count == 0 else top_right_hub,
+                                                          mount_conn="LEFT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
 
                     top_right_hub = designer.add_cylinder(name="top_right_hub{}".format(count),
-                                                        length=cylinder_diameter,
-                                                        diameter=cylinder_diameter,
-                                                        port_thickness=port_thickness,
-                                                        mount_inst=top_right_bar,
-                                                        mount_conn="REAR_CONNECTOR")
+                                                          length=cylinder_diameter,
+                                                          diameter=cylinder_diameter,
+                                                          port_thickness=port_thickness,
+                                                          mount_inst=top_right_bar,
+                                                          mount_conn="REAR_CONNECTOR")
 
                     # Add motor/propellers for "Front" and "All" configurations
                     if selected_prop_set_config != "Rear":
                         #print("Add motor/propeller for top right front")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    prop_type=1,
-                                                    direction=1,
-                                                    name_prefix="top_right_front{}".format(
-                                                        count),
-                                                    mount_inst=top_right_hub,
-                                                    mount_conn="RIGHT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     prop_type=1,
+                                                     direction=1,
+                                                     name_prefix="top_right_front{}".format(
+                                                         count),
+                                                     mount_inst=top_right_hub,
+                                                     mount_conn="RIGHT_CONNECTOR",
+                                                     controller_inst=battery_controller)
                     # Add motor/propellers for "Rear" and "All" configuration
                     if selected_prop_set_config != "Front":
                         #print("Add motor/propeller for top right rear")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    prop_type=1,
-                                                    direction=-1,
-                                                    name_prefix="top_right_rear{}".format(
-                                                        count),
-                                                    mount_inst=top_right_hub,
-                                                    mount_conn="LEFT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     prop_type=1,
+                                                     direction=-1,
+                                                     name_prefix="top_right_rear{}".format(
+                                                         count),
+                                                     mount_inst=top_right_hub,
+                                                     mount_conn="LEFT_CONNECTOR",
+                                                     controller_inst=battery_controller)
 
                     #print("Add cylinders for top left")
                     top_left_bar = designer.add_cylinder(name="top_left_bar{}".format(count),
-                                                        length=spacer2_length if count == 0 else spacer3_length,
-                                                        diameter=cylinder_diameter,
-                                                        port_thickness=port_thickness,
-                                                        mount_inst=top_hub if count == 0 else top_left_hub,
-                                                        mount_conn="RIGHT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
+                                                         length=spacer2_length if count == 0 else spacer3_length,
+                                                         diameter=cylinder_diameter,
+                                                         port_thickness=port_thickness,
+                                                         mount_inst=top_hub if count == 0 else top_left_hub,
+                                                         mount_conn="RIGHT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
 
                     top_left_hub = designer.add_cylinder(name="top_left_hub{}".format(count),
-                                                        length=cylinder_diameter,
-                                                        diameter=cylinder_diameter,
-                                                        port_thickness=port_thickness,
-                                                        mount_inst=top_left_bar,
-                                                        mount_conn="REAR_CONNECTOR")
+                                                         length=cylinder_diameter,
+                                                         diameter=cylinder_diameter,
+                                                         port_thickness=port_thickness,
+                                                         mount_inst=top_left_bar,
+                                                         mount_conn="REAR_CONNECTOR")
 
                     # Add motor_propellers for "Front" and "All" configuration
                     if selected_prop_set_config != "Rear":
                         #print("Add motor/propeller for top left front")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="top_left_front{}".format(
-                                                        count),
-                                                    prop_type=-1,
-                                                    direction=-1,
-                                                    mount_inst=top_left_hub,
-                                                    mount_conn="LEFT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="top_left_front{}".format(
+                                                         count),
+                                                     prop_type=-1,
+                                                     direction=-1,
+                                                     mount_inst=top_left_hub,
+                                                     mount_conn="LEFT_CONNECTOR",
+                                                     controller_inst=battery_controller)
                     # Add motor/propellers for "Rear" and "All" configuration
                     if selected_prop_set_config != "Front":
                         #print("Add motor/propeller for top left rear")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="top_left_rear{}".format(
-                                                        count),
-                                                    prop_type=-1,
-                                                    direction=1,
-                                                    mount_inst=top_left_hub,
-                                                    mount_conn="RIGHT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="top_left_rear{}".format(
+                                                         count),
+                                                     prop_type=-1,
+                                                     direction=1,
+                                                     mount_inst=top_left_hub,
+                                                     mount_conn="RIGHT_CONNECTOR",
+                                                     controller_inst=battery_controller)
 
                     #print("Add cylinders for bottom right")
                     bottom_right_bar = designer.add_cylinder(name="bottom_right_bar{}".format(count),
-                                                            length=spacer2_length if count == 0 else spacer3_length,
-                                                            diameter=cylinder_diameter,
-                                                            port_thickness=port_thickness,
-                                                            mount_inst=bottom_hub if count == 0 else bottom_right_hub,
-                                                            mount_conn="RIGHT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
+                                                             length=spacer2_length if count == 0 else spacer3_length,
+                                                             diameter=cylinder_diameter,
+                                                             port_thickness=port_thickness,
+                                                             mount_inst=bottom_hub if count == 0 else bottom_right_hub,
+                                                             mount_conn="RIGHT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
 
                     bottom_right_hub = designer.add_cylinder(name="bottom_right_hub{}".format(count),
-                                                            length=cylinder_diameter,
-                                                            diameter=cylinder_diameter,
-                                                            port_thickness=port_thickness,
-                                                            mount_inst=bottom_right_bar,
-                                                            mount_conn="REAR_CONNECTOR")
+                                                             length=cylinder_diameter,
+                                                             diameter=cylinder_diameter,
+                                                             port_thickness=port_thickness,
+                                                             mount_inst=bottom_right_bar,
+                                                             mount_conn="REAR_CONNECTOR")
 
                     # Add motor_propellers for "Front" and "All" configuration
                     if selected_prop_set_config != "Rear":
                         #print("Add motor/propeller for bottom right front")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="bottom_right_front{}".format(
-                                                        count),
-                                                    prop_type=-1,
-                                                    direction=-1,
-                                                    mount_inst=bottom_right_hub,
-                                                    mount_conn="LEFT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="bottom_right_front{}".format(
+                                                         count),
+                                                     prop_type=-1,
+                                                     direction=-1,
+                                                     mount_inst=bottom_right_hub,
+                                                     mount_conn="LEFT_CONNECTOR",
+                                                     controller_inst=battery_controller)
                     # Add motor/propellers for "Rear" and "All" configuration
                     if selected_prop_set_config != "Front":
                         #print("Add motor/propeller for bottom right rear")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="bottom_right_rear{}".format(
-                                                        count),
-                                                    prop_type=-1,
-                                                    direction=1,
-                                                    mount_inst=bottom_right_hub,
-                                                    mount_conn="RIGHT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="bottom_right_rear{}".format(
+                                                         count),
+                                                     prop_type=-1,
+                                                     direction=1,
+                                                     mount_inst=bottom_right_hub,
+                                                     mount_conn="RIGHT_CONNECTOR",
+                                                     controller_inst=battery_controller)
 
                     #print("Add cylinders for bottom left")
                     bottom_left_bar = designer.add_cylinder(name="bottom_left_bar{}".format(count),
@@ -1132,78 +1132,80 @@ def create_vari_vudoo(num_designs: int, design_name: str):
                     if selected_prop_set_config != "Rear":
                         #print("Add motor/propeller for bottom left front")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="bottom_left_front{}".format(
-                                                        count),
-                                                    prop_type=1,
-                                                    direction=1,
-                                                    mount_inst=bottom_left_hub,
-                                                    mount_conn="RIGHT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="bottom_left_front{}".format(
+                                                         count),
+                                                     prop_type=1,
+                                                     direction=1,
+                                                     mount_inst=bottom_left_hub,
+                                                     mount_conn="RIGHT_CONNECTOR",
+                                                     controller_inst=battery_controller)
                     # Add motor/propellers for "Rear" and "All" configuration
                     if selected_prop_set_config != "Front":
                         #print("Add motor/propeller for bottom left rear")
                         designer.add_motor_propeller(motor_model=motor_model,
-                                                    prop_model=propeller_model,
-                                                    name_prefix="bottom_left_rear{}".format(
-                                                        count),
-                                                    prop_type=1,
-                                                    direction=-1,
-                                                    mount_inst=bottom_left_hub,
-                                                    mount_conn="LEFT_CONNECTOR",
-                                                    controller_inst=battery_controller)
+                                                     prop_model=propeller_model,
+                                                     name_prefix="bottom_left_rear{}".format(
+                                                         count),
+                                                     prop_type=1,
+                                                     direction=-1,
+                                                     mount_inst=bottom_left_hub,
+                                                     mount_conn="LEFT_CONNECTOR",
+                                                     controller_inst=battery_controller)
 
             if has_stear_wing:
                 stear_bar1 = designer.add_cylinder(name="stear_bar1",
-                                                length=stear_bar1_length,
-                                                diameter=cylinder_diameter,
-                                                port_thickness=port_thickness,
-                                                mount_inst=fuselage,
-                                                mount_conn="REAR_CONNECTOR")
+                                                   length=stear_bar1_length,
+                                                   diameter=cylinder_diameter,
+                                                   port_thickness=port_thickness,
+                                                   mount_inst=fuselage,
+                                                   mount_conn="REAR_CONNECTOR")
 
                 stear_bar2 = designer.add_cylinder(name="stear_bar2",
-                                                length=stear_wing_chord,
-                                                diameter=cylinder_diameter,
-                                                port_thickness=port_thickness,
-                                                front_angle=stear_bar2_front_angle,
-                                                mount_inst=stear_bar1,
-                                                mount_conn="REAR_CONNECTOR")
+                                                   length=stear_wing_chord,
+                                                   diameter=cylinder_diameter,
+                                                   port_thickness=port_thickness,
+                                                   front_angle=stear_bar2_front_angle,
+                                                   mount_inst=stear_bar1,
+                                                   mount_conn="REAR_CONNECTOR")
 
                 designer.add_wing(name="right_stear_wing",
-                                naca=stear_wing_naca,
-                                chord=stear_wing_chord,
-                                span=stear_wing_span,
-                                load=stear_wing_load,
-                                left_inst=stear_bar2,
-                                left_conn="RIGHT_CONNECTOR")
+                                  naca=stear_wing_naca,
+                                  chord=stear_wing_chord,
+                                  span=stear_wing_span,
+                                  load=stear_wing_load,
+                                  left_inst=stear_bar2,
+                                  left_conn="RIGHT_CONNECTOR")
 
                 designer.add_wing(name="left_stear_wing",
-                                naca=stear_wing_naca,
-                                chord=stear_wing_chord,
-                                span=stear_wing_span,
-                                load=stear_wing_load,
-                                left_inst=stear_bar2,
-                                left_conn="TOP_CONNECTOR")
+                                  naca=stear_wing_naca,
+                                  chord=stear_wing_chord,
+                                  span=stear_wing_span,
+                                  load=stear_wing_load,
+                                  left_inst=stear_bar2,
+                                  left_conn="TOP_CONNECTOR")
 
         designer.close_design()
-        
+
         # Run UAM_Workflow on the newly created design
         architecture.update_parameters("graphGUID", design_name_inst)
-        #print(architecture.jenkins_parameters)
-        build = architecture.jenkins_client.build_and_wait("UAM_Workflows", architecture.jenkins_parameters)
-        architecture.jenkins_client.save_results_from_build(build, design_name_inst) 
-           
+        # print(architecture.jenkins_parameters)
+        build = architecture.jenkins_client.build_and_wait(
+            "UAM_Workflows", architecture.jenkins_parameters)
+        architecture.jenkins_client.save_results_from_build(
+            build, design_name_inst)
+
         # Create json of all design information and add it to the Jenkins data.zip file
         architecture.open_query_client()
         design_json = architecture.client.get_design_data(design_name_inst)
-        architecture.jenkins_client.add_design_json_to_results(design_name_inst, design_json)
+        architecture.jenkins_client.add_design_json_to_results(
+            design_name_inst, design_json)
         architecture.close_client()
 
-        # Consider removing design after each run 
+        # Consider removing design after each run
         # architecture.client.delete-design(design_name_inst)
-        
+
     architecture.close_jenkins_client()
- 
 
 
 def run(args=None):
@@ -1241,7 +1243,7 @@ def run(args=None):
     else:
         raise ValueError("unknown design")
 
-    
+
 if __name__ == '__main__':
     print("Starting Architect")
     run()

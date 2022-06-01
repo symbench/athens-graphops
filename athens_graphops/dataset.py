@@ -173,22 +173,23 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, An
     Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".  
     This is being used in as experiments are done to determine how many (and what combination) 
     components can have randomized parameters.  Length of cylinders is the first step.
-    
+
     Note: The length parameter only has an assigned value, based on experimentation this seems 
     to be the maximum value possible.
     """
     max_multiply_factor = 1
     for key in component_params[0]:
- 
+
         if key == "LENGTH":
             min_value = 1
             max_value = float(
                 component_params[0][key]["assigned"]) * max_multiply_factor
 
-            component_params[0][key]["assigned"] = str(float(random.uniform(min_value, max_value)))
+            component_params[0][key]["assigned"] = str(
+                float(random.uniform(min_value, max_value)))
 
     return component_params
-    
+
 
 def run(args=None):
     import argparse

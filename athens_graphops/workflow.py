@@ -69,7 +69,7 @@ class JenkinsClient:
         self.server = Jenkins(
             jenkins_url, auth=(username, password))
         print("User with username %s successfully logged in" % username)
-        
+
         self.results_dir = os.path.join(os.path.dirname(__file__), 'results')
 
     def close(self):
@@ -156,24 +156,25 @@ class JenkinsClient:
         print("Job %s is finished. The result is %s" %
               (job_name, build.result))
         if build.result != "SUCCESS":
-            raise JobFailedError(
-                "Job Failed. Please check the build parameters among others"
-            )
+            # For now, just mark the failure and go on
+            # raise JobFailedError(
+            #    "Job Failed. Please check the build parameters among others"
+            # )
+            print("Job %s FAILED, no data available" % job_name)
         return build
-    
-    
+
     def save_results_from_build(self, build, design_name: str):
         """
         Get results from a particular build as a data.zip and save in results directory        
-        """      
+        """
         if os.path.isdir(self.results_dir):
             build_artifacts = build.api_json()["artifacts"]
             if len(build_artifacts):
                 artifact_url = f'{build.url}artifact/{build_artifacts[0]["relativePath"]}'
                 response = requests.get(
-                        artifact_url,
-                        auth=(CONFIG["jenkinsuser"], CONFIG["jenkinspwd"]),
-                    )
+                    artifact_url,
+                    auth=(CONFIG["jenkinsuser"], CONFIG["jenkinspwd"]),
+                )
                 if response.status_code != 200:
                     raise FileNotFoundError
                 else:
@@ -183,30 +184,31 @@ class JenkinsClient:
                         zip_artifact.write(artifacts_content)
         else:
             print("Directory not available - %s" % self.results_dir)
-                        
-            
+
     def add_design_json_to_results(self, design_name: str, design_json):
         """
         Add design json file to the results data.zip file for the specified design
         """
-        design_file = design_name + "_design_data.json" 
-        design_zip_file = design_name + "_data.zip" 
+        design_file = design_name + "_design_data.json"
+        design_zip_file = design_name + "_data.zip"
         if os.path.isdir(self.results_dir):
             # Save to a file in the results directory
             with open(os.path.join(self.results_dir, design_file), 'w') as file:
                 json.dump(design_json[0], file)
-                
+
             # Add file to data.zip for the design
-            z = zipfile.ZipFile(os.path.join(self.results_dir, design_zip_file), "a")
-            z.write(os.path.join(self.results_dir, design_file), arcname=design_file)
+            z = zipfile.ZipFile(os.path.join(
+                self.results_dir, design_zip_file), "a")
+            z.write(os.path.join(self.results_dir,
+                    design_file), arcname=design_file)
             z.close()
-                
+
             # Remove design data file once it is inside the data.zip file
             os.remove(os.path.join(self.results_dir, design_file))
 
         else:
             print("Directory not available - %s" % self.results_dir)
- 
+
 
 def run(args=None):
     import argparse
