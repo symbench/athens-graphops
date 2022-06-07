@@ -191,23 +191,22 @@ class JenkinsClient:
         """
         design_file = design_name + "_design_data.json"
         design_zip_file = design_name + "_data.zip"
-        if os.path.isdir(self.results_dir):
-            # Save to a file in the results directory
-            with open(os.path.join(self.results_dir, design_file), 'w') as file:
-                json.dump(design_json[0], file)
+        if not os.path.exists(self.results_dir):
+            os.makedirs(self.results_dir)
 
-            # Add file to data.zip for the design
-            z = zipfile.ZipFile(os.path.join(
-                self.results_dir, design_zip_file), "a")
-            z.write(os.path.join(self.results_dir,
-                    design_file), arcname=design_file)
-            z.close()
+        # Save to a file in the results directory
+        with open(os.path.join(self.results_dir, design_file), 'w') as file:
+            json.dump(design_json[0], file)
 
-            # Remove design data file once it is inside the data.zip file
-            os.remove(os.path.join(self.results_dir, design_file))
+        # Add file to data.zip for the design
+        z = zipfile.ZipFile(os.path.join(
+            self.results_dir, design_zip_file), "a")
+        z.write(os.path.join(self.results_dir,
+                design_file), arcname=design_file)
+        z.close()
 
-        else:
-            print("Directory not available - %s" % self.results_dir)
+        # Remove design data file once it is inside the data.zip file
+        os.remove(os.path.join(self.results_dir, design_file))
 
 
 def run(args=None):
