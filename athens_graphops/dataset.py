@@ -169,7 +169,7 @@ def get_corpus_assigned_parameters(component_params: List[Dict[str, Any]]) -> Di
     return component_params
 
 
-def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
+def randomize_cyl_length(component_params: List[Dict[str, Any]], max_multiply_factor=1) -> Dict[str, Any]:
     """
     Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".  
     This is being used in as experiments are done to determine how many (and what combination) 
@@ -178,7 +178,6 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, An
     Note: The length parameter only has an assigned value, based on experimentation this seems 
     to be the maximum value possible.  
     """
-    max_multiply_factor = 1
     random_params = copy.deepcopy(component_params[0])
 
     for key in component_params[0]:

@@ -822,8 +822,9 @@ def create_vari_vudoo(num_designs: int, design_name: str):
 
         valid_cylinder = False
         while not valid_cylinder:
+            # Spacer3 is related to spacer2 (*2) and the result needs to be less than expected cylinder max (5000)
             # RAND: rand_cyl2_params = randomize_parameters(cyl_params)
-            rand_cyl2_params = randomize_cyl_length(cyl_params)
+            rand_cyl2_params = randomize_cyl_length(cyl_params, 0.5)
             # print(rand_cyl2_params)
             spacer2_length = round(
                 float(rand_cyl2_params["LENGTH"]["assigned"]))
