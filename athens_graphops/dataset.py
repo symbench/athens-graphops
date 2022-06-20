@@ -101,12 +101,12 @@ def random_component_selection(classification: str) -> str:
 
 def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
-    Randomize the parameter values.  If no maximum is specified, arbritarily 
+    Randomize the parameter values.  If no maximum is specified, arbritarily
     create one by using a multiplication factor (max_multiply_factor).
 
     When no minimum is provided, the maximum is also absent. So, set min/max
     to assigned value, except when the parameter is "LENGTH". For this case,
-    set minimum to 1 and maximum to max_multiply_factor * assigned.  Here are 
+    set minimum to 1 and maximum to max_multiply_factor * assigned.  Here are
     the current cases where only "assigned" value is provided.
         * BatteryController: BOTTOM_CONN_DISP, TOP_CONN_DISP
         * Cylinder: LENGTH  (assigned value seems to be the maximum possible based on experimentation)
@@ -163,22 +163,22 @@ def random_naca_profile_selection() -> str:
 def get_corpus_assigned_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Return the assigned parameters from the corpus data (i.e. the component_params untouched)
-    This is used for components that are currently not being randomized (minimizes code change 
+    This is used for components that are currently not being randomized (minimizes code change
     in architect.py).  Needed as we determine what combinations of components can be randomized.
     """
     return component_params
 
 
-def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
+def randomize_cyl_length(component_params: List[Dict[str, Any]], max_multiply_factor=1) -> Dict[str, Any]:
     """
-    Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".  
-    This is being used in as experiments are done to determine how many (and what combination) 
+    Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".
+    This is being used in as experiments are done to determine how many (and what combination)
     components can have randomized parameters.  Length of cylinders is the first step.
 
-    Note: The length parameter only has an assigned value, based on experimentation this seems 
-    to be the maximum value possible.  
+    Note: The length parameter only has an assigned value, based on experimentation this seems
+    to be the maximum value possible.
     """
-    max_multiply_factor = 1
+
     random_params = copy.deepcopy(component_params[0])
 
     for key in component_params[0]:
@@ -187,9 +187,10 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]]) -> Dict[str, An
             min_value = 200
             max_value = float(
                 component_params[0][key]["assigned"]) * max_multiply_factor
-
-            random_params[key]["assigned"] = str(
-                float(random.uniform(min_value, max_value)))
+            rand_value = float(random.uniform(min_value, max_value))
+            if rand_value > float(component_params[0][key]["assigned"]):
+                rand_value = float(component_params[0][key]["assigned"])
+            random_params[key]["assigned"] = str(rand_value)
             #print(f"Min/Max value: {min_value}, {max_value}")
             #print(f"Random params: {random_params}")
             #print(f"Original params:{component_params}")
