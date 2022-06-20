@@ -178,7 +178,6 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]], max_multiply_fa
     Note: The length parameter only has an assigned value, based on experimentation this seems
     to be the maximum value possible.
     """
-
     random_params = copy.deepcopy(component_params[0])
 
     for key in component_params[0]:
