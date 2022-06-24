@@ -34,8 +34,8 @@ from api4jenkins import Jenkins
 from api4jenkins.exceptions import ItemNotFoundError
 
 
-class JobFailedError(Exception):
-    """Error to be raised when a job fails."""
+# class JobFailedError(Exception):
+#    """Error to be raised when a job fails."""
 
 
 class JenkinsClient:
@@ -208,6 +208,36 @@ class JenkinsClient:
         # Remove design data file once it is inside the data.zip file
         os.remove(os.path.join(self.results_dir, design_file))
 
+    # The uam_direct2cad workflow has two common file (partMass.json and partLocs.json) that are
+    # currently not saved in results data.zip.  Grab these and add them to this zip file.
+
+    def grab_extra_jsons_direct2cad(self, design_name: str):
+        design_zip_file = design_name + "_data.zip"
+        mass_file = "partMass.json"
+        locs_file = "partLocs.json"
+        workspace_dir = "C:/jwork/Agents/workspace/uam_direct2cad"
+
+        if os.path.isfile(os.path.join(self.results_dir, design_zip_file)):
+            z = zipfile.ZipFile(os.path.join(
+                self.results_dir, design_zip_file), "a")
+
+            if os.path.isfile(os.path.join(workspace_dir, mass_file)):
+                z.write(os.path.join(workspace_dir,
+                        mass_file), arcname=mass_file)
+            else:
+                print("No mass file exists")
+
+            if os.path.isfile(os.path.join(workspace_dir, locs_file)):
+                z.write(os.path.join(workspace_dir,
+                        locs_file), arcname=locs_file)
+            else:
+                print("No location file exists")
+
+            z.close()
+
+        else:
+            print("Design Result file (%s) not found" % design_zip_file)
+
 
 def run(args=None):
     import argparse
@@ -215,11 +245,13 @@ def run(args=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('workflow', choices=[
-        "UAM_Workflows"])
+        "UAM_Workflows",
+        "uam_direct2cad"])
     parser.add_argument('--jenkinsurl', type=str, metavar='name',
                         help="sets the Jenkins URL for workflow runs (i.e. http://<IP>:8080/")
     parser.add_argument('--design', type=str, metavar='design',
                         help="indicates the design name for a Jenkins workflow run")
+    # Arguments for UAM_Workflows and UAV_Workflows
     parser.add_argument('--testname', choices=[
                         "/D_Testing/PET/FlightDyn_V2",
                         "/D_Testing/PET/FlightDyn_V2_AllPaths"],
@@ -228,6 +260,13 @@ def run(args=None):
                         help="indicates the number of samples for a Jenkins workflow run")
     parser.add_argument('--parameters', type=str, metavar='parameters',
                         help="indicates the design parameters for a Jenkins workflow run using parameter=value space separated string")
+    # Arguments for uam_direct2cad
+    parser.add_argument('--bucket', type=str, metavar='minio',
+                        help="indicates the minio bucket where the parameter file is located")
+    parser.add_argument('--paramfile', type=str, metavar='inputname',
+                        help="indicates the input file name for the parameter sweep (.csv)")
+    parser.add_argument('--resultname', type=str, metavar='results',
+                        help="indicates file name for the results of uam_direct2cad run (not currently used)")
 
     args = parser.parse_args(args)
 
@@ -242,27 +281,44 @@ def run(args=None):
     jenkins_client = JenkinsClient(jenkins_url)
 
     # Default jenkins run parameters for UAM_Workflows
-    uam_run_parameters = {
-        "graphGUID": "Rake",
-        "PETName": "/D_Testing/PET/FlightDyn_V2_AllPaths",
-        "NumSamples": "1",
-        "DesignVars": '"Analysis_Type=3,3"'
-    }
+    if args.workflow == "UAM_Workflows":
+        uam_run_parameters = {
+            "graphGUID": "Rake",
+            "PETName": "/D_Testing/PET/FlightDyn_V2_AllPaths",
+            "NumSamples": "1",
+            "DesignVars": '"Analysis_Type=3,3"'
+        }
+        if args.testname:
+            if args.testname == "/D_Testing/PET/FlightDyn_V2" or args.testname == "/D_Testing/PET/FlightDyn_V2_AllPaths":
+                uam_run_parameters["PETName"] = args.testname
+            else:
+                raise ValueError("unknown testname")
+        if args.samples:
+            uam_run_parameters["NumSamples"] = args.samples
+        if args.parameters:
+            uam_run_parameters["DesignVars"] = f'"{args.parameters}"'
+        print(uam_run_parameters)
 
+    elif args.worflow == "uam_direct2cad":
+        uam_run_parameters = {
+            "graphGUID": "Rake",
+            "minioBucket": "graphops",
+            "paramFile": "rand_design_runs.csv",
+            "resultsFileName": "results123"
+        }
+        if args.bucket:
+            uam_run_parameters["minioBucket"] = args.bucket
+        if args.paramfile:
+            uam_run_parameters["paramFile"] = args.paramfile
+        if args.resultname:
+            uam_run_parameters["resultsFileName"] = args.resultname
+
+    # Argument used in all runs
     if args.design:
         uam_run_parameters["graphGUID"] = args.design
-    if args.testname:
-        if args.testname == "/D_Testing/PET/FlightDyn_V2" or args.testname == "/D_Testing/PET/FlightDyn_V2_AllPaths":
-            uam_run_parameters["PETName"] = args.testname
-        else:
-            raise ValueError("unknown testname")
-    if args.samples:
-        uam_run_parameters["NumSamples"] = args.samples
-    if args.parameters:
-        uam_run_parameters["DesignVars"] = f'"{args.parameters}"'
-    print(uam_run_parameters)
 
-    if args.workflow == "UAM_Workflows":
+    # MM TODO: Add UAV_Workflow when it is available again
+    if (args.workflow == "UAM_Workflows") or (args.workflow == "uam_design2cad"):
         jenkins_client.build_and_wait(
             job_name=args.workflow, parameters=uam_run_parameters)
         # get zip file

@@ -27,7 +27,8 @@ setup(
     # do not list standard packages
     install_requires=[
         "gremlinpython",
-        "api4jenkins"
+        "api4jenkins",
+        "creopyson"
     ],
     entry_points={
         'console_scripts': [

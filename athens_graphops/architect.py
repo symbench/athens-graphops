@@ -28,15 +28,17 @@ from .dataset import randomize_cyl_length
 from .dataset import CORPUS_DATA, BATTERY_TABLE, MOTOR_TABLE, PROPELLER_TABLE
 import random
 import math
+import creopyson
 
 
 class Architect():
     def __init__(self):
         self.client = None
         self.jenkins_client = None
+        self.creoson_client = None
 
-    def open_jenkins_client(self):
-        # Prepare for Jenkins runs for each design. Design name will be updated in loop.
+    def open_jenkins_client(self, workflow="UAM_Workflows"):
+        """Prepare for Jenkins runs for each design. Design name will be updated in loop."""
         assert self.jenkins_client is None
         jenkins_url = "http://" + CONFIG["hostname"] + ":8080"
         print("Jenkins URL: %s" % jenkins_url)
@@ -44,31 +46,102 @@ class Architect():
         print("Jenkins Password: %s" % CONFIG["jenkinspwd"])
         self.jenkins_client = JenkinsClient(
             jenkins_url, CONFIG["jenkinsuser"], CONFIG["jenkinspwd"])
-        self.jenkins_parameters = {
-            "graphGUID": "Rake",
-            "PETName": "/D_Testing/PET/FlightDyn_V2_AllPaths",
-            "NumSamples": "1",
-            "DesignVars": "Analysis_Type=3,3"
-        }
+
+        self.workflow = workflow
+        if (self.workflow == "UAM_Workflows") or (self.workflow == "UAV_Workflows"):
+            self.jenkins_parameters = {
+                "graphGUID": "Rake",
+                "PETName": "/D_Testing/PET/FlightDyn_V2_AllPaths",
+                "NumSamples": "1",
+                "DesignVars": "Analysis_Type=3,3"
+            }
+        elif (self.workflow == "uam_direct2cad"):
+            self.jenkins_parameters = {
+                "graphGUID": "Rake",
+                "minioBucket": "graphops",
+                "paramFile": "rand_design_runs.csv",
+                "resultsFileName": "results123"
+            }
 
     def open_query_client(self):
-        # Open a query client (gremlin) to grab the graph design information
+        """Open a query client (gremlin) to grab the graph design information"""
         assert self.client is None
         self.client = Client()
 
     def update_parameters(self, key_name: str, value: str):
+        """Update any of the Jenkins Workflow Input Parameters"""
         self.jenkins_parameters[key_name] = value
 
     def close_client(self):
+        """Close GraphDB Client"""
         assert self.client is not None
         print("Closing query client")
         self.client.close()
         self.client = None
 
     def close_jenkins_client(self):
+        """Close Jenkins Client"""
         assert self.jenkins_client is not None
         print("Closing Jenkins client")
         self.jenkins_client = None
+
+    def connect_creoson_server(self):
+        """Connect to Creoson Server for using with uam_direct2cad Workflow"""
+        assert self.creoson_client is None
+        creoson_ip = CONFIG["hostname"]
+        #creoson_ip = "localhost"
+        creason_port = 9056
+
+        self.creoson_client = creopyson.Client(
+            ip_adress=creoson_ip, port=creason_port)
+        self.creoson_client.connect()
+        print("Started Creoson Server - SessionID: %s" %
+              self.creoson_client.sessionId)
+
+    def start_creo(self):
+        """Start CREOSON using the Creoson Server"""
+        # This ties the execution of the command to the computer running the server
+        # MM TODO: need to find a way to remotely start this (or if already works remotely)
+        nitro_proe_remote_loc = "C:\\jwork\\nitro_proe_remote.bat"
+        #nitro_proe_remote_loc = None
+        creo_version = 5
+        use_desktop = False
+
+        if not self.creoson_client.is_creo_running():
+            self.creoson_client.start_creo(
+                nitro_proe_remote_loc, use_desktop=use_desktop)
+            print("CREO started")
+        # if creo_version >= 7:
+        #    self.creoson_client.creo_set_creo_version(creo_version)
+
+    def stop_creoson(self):
+        """Stop the Creoson between runs"""
+        assert self.creoson_client is not None
+        if self.creoson_client.is_creo_running():
+            print("Try stopping creoson")
+            try:
+                self.creoson_client.stop_creo()
+                print("Stopping Creoson")
+            except:
+                self.creoson_client.kill_creo()
+                print("Killed CREO using Creoson Server")
+
+    def disconnect_creoson_server(self):
+        """Stop the Creoson Server between runs"""
+        assert self.creoson_client is not None
+        self.creoson_client.disconnect()
+        print("Disconnect from Creoson server")
+        self.creoson_client = None
+
+    def is_creo_running(self):
+        """Check if CREO is running."""
+        return self.creoson_client.is_creo_running()
+
+    # Not sure this is needed yet
+    # def restart_creoson_server(self):
+    #    """ToDo: Remove HardCode"""
+    #    p = subprocess.Popen(["restart_creoson.bat"], shell=False)
+    #    time.sleep(2)
 
 
 def create_minimal():
@@ -685,15 +758,18 @@ def create_vudoo():
     designer.close_design()
 
 
-def create_vari_vudoo(num_designs: int, design_name: str):
+def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
     """
     Create a Vudoo based design, but the parameters are randomize to create
     a unique design each time. User should supply the number of designs
     desired and the base design name.  All designs will be added to the graph.
+    The workflow is the Jenkins workflow that will be run on each design.
     """
     # Setup Gremlin query and Jenkins interfaces
     architecture = Architect()
-    architecture.open_jenkins_client()
+    architecture.open_jenkins_client(workflow)
+    # if workflow == "uam_direct2cad":
+    #    architecture.connect_creoson_server()
 
     for x in range(num_designs):
         design_name_inst = design_name + str(x)
@@ -711,31 +787,45 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # RAND: rand_fuse_params = randomize_parameters(fuse_params)
         rand_fuse_params = get_corpus_assigned_parameters(fuse_params)
 
-        fuse_length = round(float(rand_fuse_params[0]["LENGTH"]["assigned"]))
-        fuse_sphere_diameter = round(
-            float(rand_fuse_params[0]["SPHERE_DIAMETER"]["assigned"]))
-        fuse_middle_length = round(
-            float(rand_fuse_params[0]["MIDDLE_LENGTH"]["assigned"]))
-        fuse_tail_diameter = round(
-            float(rand_fuse_params[0]["TAIL_DIAMETER"]["assigned"]))
-        fuse_floor_height = round(
-            float(rand_fuse_params[0]["FLOOR_HEIGHT"]["assigned"]))
-        fuse_seat_1_fb = round(
-            float(rand_fuse_params[0]["SEAT_1_FB"]["assigned"]))
-        fuse_seat_1_lr = round(
-            float(rand_fuse_params[0]["SEAT_1_LR"]["assigned"]))
-        fuse_seat_2_fb = round(
-            float(rand_fuse_params[0]["SEAT_2_FB"]["assigned"]))
-        fuse_seat_2_lr = round(
-            float(rand_fuse_params[0]["SEAT_2_LR"]["assigned"]))
-        fuse_top_port_disp = round(
-            float(rand_fuse_params[0]["TOP_PORT_DISP"]["assigned"]))
-        fuse_bottom_port_disp = round(
-            float(rand_fuse_params[0]["BOTTOM_PORT_DISP"]["assigned"]))
-        fuse_left_port_disp = round(
-            float(rand_fuse_params[0]["LEFT_PORT_DISP"]["assigned"]))
-        fuse_right_port_disp = round(
-            float(rand_fuse_params[0]["RIGHT_PORT_DISP"]["assigned"]))
+        # RAND: fuse_length = round(float(rand_fuse_params[0]["LENGTH"]["assigned"]))
+        # RAND: fuse_sphere_diameter = round(
+        # RAND:     float(rand_fuse_params[0]["SPHERE_DIAMETER"]["assigned"]))
+        # RAND: fuse_middle_length = round(
+        # RAND:     float(rand_fuse_params[0]["MIDDLE_LENGTH"]["assigned"]))
+        # RAND: fuse_tail_diameter = round(
+        # RAND:     float(rand_fuse_params[0]["TAIL_DIAMETER"]["assigned"]))
+        # RAND: fuse_floor_height = round(
+        # RAND:     float(rand_fuse_params[0]["FLOOR_HEIGHT"]["assigned"]))
+        # RAND: fuse_seat_1_fb = round(
+        # RAND:     float(rand_fuse_params[0]["SEAT_1_FB"]["assigned"]))
+        # RAND: fuse_seat_1_lr = round(
+        # RAND:     float(rand_fuse_params[0]["SEAT_1_LR"]["assigned"]))
+        # RAND: fuse_seat_2_fb = round(
+        # RAND:     float(rand_fuse_params[0]["SEAT_2_FB"]["assigned"]))
+        # RAND: fuse_seat_2_lr = round(
+        # RAND:     float(rand_fuse_params[0]["SEAT_2_LR"]["assigned"]))
+        # RAND: fuse_top_port_disp = round(
+        # RAND:     float(rand_fuse_params[0]["TOP_PORT_DISP"]["assigned"]))
+        # RAND: fuse_bottom_port_disp = round(
+        # RAND:     float(rand_fuse_params[0]["BOTTOM_PORT_DISP"]["assigned"]))
+        # RAND: fuse_left_port_disp = round(
+        # RAND:     float(rand_fuse_params[0]["LEFT_PORT_DISP"]["assigned"]))
+        # RAND: fuse_right_port_disp = round(
+        # RAND:     float(rand_fuse_params[0]["RIGHT_PORT_DISP"]["assigned"]))
+
+        fuse_length = 2000
+        fuse_sphere_diameter = 1520
+        fuse_middle_length = 750
+        fuse_tail_diameter = 200
+        fuse_floor_height = 150
+        fuse_seat_1_fb = 1000
+        fuse_seat_1_lr = -210
+        fuse_seat_2_fb = 1000
+        fuse_seat_2_lr = 210
+        fuse_top_port_disp = 300
+        fuse_bottom_port_disp = 300
+        fuse_left_port_disp = 0
+        fuse_right_port_disp = 0
         # print("Fuselage length, sphere diameter, middle length, tail diameter: %f, %f, %f, %f" % (fuse_length, fuse_sphere_diameter, fuse_middle_length, fuse_tail_diameter))
         # print("Fuselage floor height, seat 1 fb/lr, seat 2 fb/lr: %f, %f,%f,%f,%f" % (fuse_floor_height, fuse_seat_1_fb, fuse_seat_1_lr, fuse_seat_2_fb, fuse_seat_2_lr))
         # print("Fuselage ports - top/bottom/left/right: %f, %f, %f, %f" % (fuse_top_port_disp, fuse_bottom_port_disp, fuse_left_port_disp, fuse_right_port_disp))
@@ -763,13 +853,17 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # This parameter (NACA_Profile) does not have a min/max in the corpus_data.json
         # But there is a set of NACA tables in c:/jwork/Agents/workspace/UAM_Workflows/Tables/aero_info.json
         # We could use this file to randomly select a value.  Leaving the fixed value for now.
-        wing_naca = rand_wing_params[0]["NACA_Profile"]["assigned"]
-        # RAND: wing_naca = random_naca_profile_selection()
 
+        # RAND: wing_naca = rand_wing_params[0]["NACA_Profile"]["assigned"]
+        # RAND: wing_naca = random_naca_profile_selection()
+        wing_naca = "0015"
         # CHORD_1 and CHORD_2 should be the same, using randomized CHORD_1 for this value
-        wing_chord = round(float(rand_wing_params[0]["CHORD_1"]["assigned"]))
-        wing_span = round(float(rand_wing_params[0]["SPAN"]["assigned"]))
-        wing_load = round(float(rand_wing_params[0]["LOAD"]["assigned"]))
+        # RAND: wing_chord = round(float(rand_wing_params[0]["CHORD_1"]["assigned"]))
+        # RAND: wing_span = round(float(rand_wing_params[0]["SPAN"]["assigned"]))
+        # RAND: wing_load = round(float(rand_wing_params[0]["LOAD"]["assigned"]))
+        wing_chord = 1200
+        wing_span = 10000
+        wing_load = 15000
         # print("Wing Chord, span, load, NACA profile: %f, %f, %f %s" % (wing_chord, wing_span, wing_load, wing_naca))
 
         # Wing parameters not set with parameters:
@@ -785,10 +879,12 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # RAND: rand_battery_params = randomize_parameters(battery_params)
         rand_battery_params = get_corpus_assigned_parameters(battery_params)
 
-        battery_voltage = math.ceil(
-            float(rand_battery_params[0]["VOLTAGE_REQUEST"]["assigned"]))   # rounded up
-        battery_percent = math.floor(
-            float(rand_battery_params[0]["VOLUME_PERCENT"]["assigned"]))   # rounded down
+        battery_voltage = 569   # rounded up
+        battery_percent = 88 * 7000 / 10000    # rounded down
+        # RAND: battery_voltage = math.ceil(
+        # RAND:    float(rand_battery_params[0]["VOLTAGE_REQUEST"]["assigned"]))   # rounded up
+        # RAND: battery_percent = math.floor(
+        # RAND:    float(rand_battery_params[0]["VOLUME_PERCENT"]["assigned"]))   # rounded down
         # battery_mount_side = round(float(rand_battery_params[0]["MOUNT_SIDE"]["assigned"]))
         # print("Battery voltage, percent: %f, %f" % (battery_voltage, battery_percent))
 
@@ -806,12 +902,15 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             # RAND: rand_cyl1_params = randomize_parameters(cyl_params)
             rand_cyl1_params = randomize_cyl_length(cyl_params)
             # print(rand_cyl1_params)
-            cylinder_diameter = round(
-                float(rand_cyl1_params["DIAMETER"]["assigned"]))
-            spacer1_length = round(
-                float(rand_cyl1_params["LENGTH"]["assigned"]))
-            port_thickness = round(
-                float(rand_cyl1_params["PORT_THICKNESS"]["assigned"]))
+            # RAND: cylinder_diameter = round(
+            # RAND:     float(rand_cyl1_params["DIAMETER"]["assigned"]))
+            cylinder_diameter = 100
+            spacer1_length = 500
+            # RAND: spacer1_length = round(
+            # RAND:     float(rand_cyl1_params["LENGTH"]["assigned"]))
+            # RAND: port_thickness = round(
+            # RAND:     float(rand_cyl1_params["PORT_THICKNESS"]["assigned"]))
+            port_thickness = 0.75 * cylinder_diameter
 
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= spacer1_length
             if valid_cylinder:
@@ -827,8 +926,9 @@ def create_vari_vudoo(num_designs: int, design_name: str):
             # Spacer3 is related to spacer2 and the result needs to be less than expected cylinder max
             rand_cyl2_params = randomize_cyl_length(cyl_params, 0.5)
             # print(rand_cyl2_params)
-            spacer2_length = round(
-                float(rand_cyl2_params["LENGTH"]["assigned"]))
+            # RAND: spacer2_length = round(
+            # RAND:     float(rand_cyl2_params["LENGTH"]["assigned"]))
+            spacer2_length = 1300
             spacer3_length = 2 * spacer2_length + cylinder_diameter
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= spacer2_length
             if valid_cylinder:
@@ -840,11 +940,13 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # print("Cyl Diameter, Spacer1, Spacer2: %f, %f, %f" % (cylinder_diameter, spacer1_length, spacer2_length))
 
         # Randomize motor selection
-        motor_model = random_component_selection("Motor")
+        motor_model = "MAGiDRIVE300"
+        # RAND: motor_model = random_component_selection("Motor")
         # print("Motor: %s" % motor_model)
 
         # Randomize propeller selection
-        propeller_model = random_component_selection("Propeller")
+        propeller_model = "90x8_2_2000_41_2000"
+        # RAND: propeller_model = random_component_selection("Propeller")
         # print("Propeller: %s" % propeller_model)
 
         # Propeller parameter not set with propeller parameters, but fixed based on design approach:
@@ -873,15 +975,19 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         # But there is a set of NACA tables in c:/jwork/Agents/workspace/UAM_Workflows/Tables/aero_info.json
         # We could use this file to randomly select a value.  Leaving the fixed value for now.
         # RAND: stear_wing_naca = random_naca_profile_selection()
-        stear_wing_naca = rand_stear_wing_params[0]["NACA_Profile"]["assigned"]
+        # RAND: stear_wing_naca = rand_stear_wing_params[0]["NACA_Profile"]["assigned"]
+        stear_wing_naca = "0006"
 
         # CHORD_1 and CHORD_2 should be the same, using randomized CHORD_1 for this value
-        stear_wing_chord = round(
-            float(rand_stear_wing_params[0]["CHORD_1"]["assigned"]))
-        stear_wing_span = round(
-            float(rand_stear_wing_params[0]["SPAN"]["assigned"]))
-        stear_wing_load = round(
-            float(rand_stear_wing_params[0]["LOAD"]["assigned"]))
+        # RAND: stear_wing_chord = round(
+        # RAND:     float(rand_stear_wing_params[0]["CHORD_1"]["assigned"]))
+        # RAND: stear_wing_span = round(
+        # RAND:     float(rand_stear_wing_params[0]["SPAN"]["assigned"]))
+        # RAND: stear_wing_load = round(
+        # RAND:     float(rand_stear_wing_params[0]["LOAD"]["assigned"]))
+        stear_wing_chord = 500
+        stear_wing_span = 2000
+        stear_wing_load = 1000
         # print("Stear Wing Chord, span, load: %f, %f, %f" % (stear_wing_chord, stear_wing_span, stear_wing_load))
 
         valid_cylinder = False
@@ -1193,11 +1299,16 @@ def create_vari_vudoo(num_designs: int, design_name: str):
 
         designer.close_design()
 
+        # For direct2cad, need to start creoson
+        # if workflow == "uam_direct2cad":
+        #    print("Starting CREO - architect")
+        #    architecture.start_creo()
+
         # Run UAM_Workflow on the newly created design
         architecture.update_parameters("graphGUID", design_name_inst)
         # print(architecture.jenkins_parameters)
         build = architecture.jenkins_client.build_and_wait(
-            "UAM_Workflows", architecture.jenkins_parameters)
+            workflow, architecture.jenkins_parameters)
         architecture.jenkins_client.save_results_from_build(
             build, design_name_inst)
 
@@ -1206,12 +1317,21 @@ def create_vari_vudoo(num_designs: int, design_name: str):
         design_json = architecture.client.get_design_data(design_name_inst)
         architecture.jenkins_client.add_design_json_to_results(
             design_name_inst, design_json)
-        architecture.close_client()
+
+        # For uam_direct2cad, grab the partMass.json and partLocs.json files from the workflow directory
+        # and add it to the data.zip
+        if workflow == "uam_direct2cad":
+            architecture.jenkins_client.grab_extra_jsons_direct2cad(
+                design_name_inst)
+            # In between runs, creoson should be stopped and started again, so stopping here
+            # architecture.stop_creoson()
 
         # Consider removing design after each run
-        # architecture.client.delete-design(design_name_inst)
+        architecture.client.delete_design(design_name_inst)
+        architecture.close_client()
 
     architecture.close_jenkins_client()
+    # architecture.disconnect_creoson_server()
 
 
 def run(args=None):
@@ -1229,8 +1349,16 @@ def run(args=None):
                         help="indicates base design name when create multiple designs with randomized parameters")
     parser.add_argument('--num-designs', type=int,
                         help="indicates number of designs to create")
+    # Currently only used with vari-vudoo
+    parser.add_argument('--workbench', choices=["UAM_Workflows", "uam_direct2cad"],
+                        help="indicates which workflow to run when creating designs")
 
     args = parser.parse_args(args)
+
+    # Default workflow
+    aWorkflow = "UAM_Workflows"
+    if args.workbench:
+        aWorkflow = args.workbench
 
     if args.design == "minimal":
         create_minimal()
@@ -1242,7 +1370,7 @@ def run(args=None):
         if args.variable_design_name and args.num_designs:
             name = args.variable_design_name
             number_designs = args.num_designs
-            create_vari_vudoo(number_designs, name)
+            create_vari_vudoo(number_designs, name, aWorkflow)
         else:
             print(
                 "Please indicate the base design name (--variable-design-name) and number of designs (--num-designs")

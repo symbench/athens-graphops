@@ -1,0 +1,346 @@
+&aircraft_data
+   aircraft%cname          = 'UAV'      ! M  name of aircraft
+   aircraft%ctype          = 'SymCPS UAV Design' ! M  type of aircraft
+   aircraft%num_wings      = 4 ! M number of wings in aircraft
+   aircraft%mass          = 6853037.790317555
+   aircraft%x_cm          = -1244.789182493203
+   aircraft%y_cm          = 1274.7014561682781
+   aircraft%z_cm          = -1276.69714276975
+   aircraft%x_fuse          = -1244.789182493203
+   aircraft%y_fuse          = 1274.7014561682781
+   aircraft%z_fuse          = -1276.69714276975
+   aircraft%X_fuseuu      = 2012345
+   aircraft%Y_fusevv      = 4412345
+   aircraft%Z_fuseww      = 4812345
+   aircraft%Ixx           = 237606094772482.8
+   aircraft%Iyy           = 54011326779665.484
+   aircraft%Izz           = 196285771222677.6
+   aircraft%Ixy           = 8069241591029.771
+   aircraft%Ixz           = -8056623322532.852
+   aircraft%Iyz           = -11073737662702.734
+   aircraft%uc_initial     = 0.4d0, 0.5d0, 0.6d0, 0.7d0 ! inputs for controls
+   aircraft%time           = 0.d0        ! initial time (default = 0.)
+   aircraft%dt             = 1.d-03      ! s  fixed time step
+   aircraft%dt_output      = 1.0d0       ! s  time between output lines
+   aircraft%time_end       = 1000.d0        ! s  end time 
+   aircraft%Unwind         = 0.d0        ! North wind speed in world frame
+   aircraft%Vewind         = 0.d0        ! East wind speed in  world frame
+   aircraft%Wdwind         = 0.d0        ! Down wind speed in world frame
+   aircraft%debug          = 0           ! verbose printouts from fderiv
+   aircraft%num_propellers  = 8
+   aircraft%num_batteries   =1
+   aircraft%i_analysis_type = 3 
+   aircraft%x_initial      = 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 1.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0, 0.d0
+   aircraft%uc_initial     = 0.5d0, 0.5d0, 0.5d0, 0.5d0
+
+!   Propeller(1 uses components named top_right_rear0_prop, top_right_rear0_motor, battery_controller
+   propeller(1)%cname   = '90x77_5_200_41_120' 
+   propeller(1)%ctype   = 'MR'
+   propeller(1)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(1) Direction/Prop_Type= -1.0/1.0
+   propeller(1)%x   = -539.0
+   propeller(1)%y   = 3091.0000000000005
+   propeller(1)%z   = -4143.0
+   propeller(1)%nx   = 1.0
+   propeller(1)%ny   = 0.0
+   propeller(1)%nz   = 0.0
+   propeller(1)%radius   = 1143.0 
+   propeller(1)%Ir      = 2486172.4469999997 
+   propeller(1)%icontrol   = 1 
+   propeller(1)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(1)%KV   = 20.0 
+   propeller(1)%KT   = 0.477464829275686 
+   propeller(1)%I_max   = 12.5 
+   propeller(1)%I_idle   = 0.33999999999999997 
+   propeller(1)%maxpower   = 5000.0 
+   propeller(1)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(1)%ibattery   = 1 
+   propeller(1)%spin   = -1
+
+!   Propeller(2 uses components named top_left_rear0_prop, top_left_rear0_motor, battery_controller
+   propeller(2)%cname   = '90x77_5_200_41_120' 
+   propeller(2)%ctype   = 'MR'
+   propeller(2)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(2) Direction/Prop_Type= 1.0/-1.0
+   propeller(2)%x   = -538.9999999999993
+   propeller(2)%y   = -3090.9999999999995
+   propeller(2)%z   = -4143.0
+   propeller(2)%nx   = 1.0
+   propeller(2)%ny   = 0.0
+   propeller(2)%nz   = 0.0
+   propeller(2)%radius   = 1143.0 
+   propeller(2)%Ir      = 2486172.4469999997 
+   propeller(2)%icontrol   = 2 
+   propeller(2)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(2)%KV   = 20.0 
+   propeller(2)%KT   = 0.477464829275686 
+   propeller(2)%I_max   = 12.5 
+   propeller(2)%I_idle   = 0.33999999999999997 
+   propeller(2)%maxpower   = 5000.0 
+   propeller(2)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(2)%ibattery   = 1 
+   propeller(2)%spin   = 1
+
+!   Propeller(3 uses components named bottom_left_rear0_prop, bottom_left_rear0_motor, battery_controller
+   propeller(3)%cname   = '90x77_5_200_41_120' 
+   propeller(3)%ctype   = 'MR'
+   propeller(3)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(3) Direction/Prop_Type= -1.0/1.0
+   propeller(3)%x   = -539.0
+   propeller(3)%y   = -3091.000000000001
+   propeller(3)%z   = 4142.999999999999
+   propeller(3)%nx   = 1.0
+   propeller(3)%ny   = 0.0
+   propeller(3)%nz   = 0.0
+   propeller(3)%radius   = 1143.0 
+   propeller(3)%Ir      = 2486172.4469999997 
+   propeller(3)%icontrol   = 3 
+   propeller(3)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(3)%KV   = 20.0 
+   propeller(3)%KT   = 0.477464829275686 
+   propeller(3)%I_max   = 12.5 
+   propeller(3)%I_idle   = 0.33999999999999997 
+   propeller(3)%maxpower   = 5000.0 
+   propeller(3)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(3)%ibattery   = 1 
+   propeller(3)%spin   = -1
+
+!   Propeller(4 uses components named top_left_rear1_prop, top_left_rear1_motor, battery_controller
+   propeller(4)%cname   = '90x77_5_200_41_120' 
+   propeller(4)%ctype   = 'MR'
+   propeller(4)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(4) Direction/Prop_Type= 1.0/-1.0
+   propeller(4)%x   = -538.9999999999982
+   propeller(4)%y   = -9273.0
+   propeller(4)%z   = -4143.000000000001
+   propeller(4)%nx   = 1.0
+   propeller(4)%ny   = 0.0
+   propeller(4)%nz   = 0.0
+   propeller(4)%radius   = 1143.0 
+   propeller(4)%Ir      = 2486172.4469999997 
+   propeller(4)%icontrol   = 4 
+   propeller(4)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(4)%KV   = 20.0 
+   propeller(4)%KT   = 0.477464829275686 
+   propeller(4)%I_max   = 12.5 
+   propeller(4)%I_idle   = 0.33999999999999997 
+   propeller(4)%maxpower   = 5000.0 
+   propeller(4)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(4)%ibattery   = 1 
+   propeller(4)%spin   = 1
+
+!   Propeller(5 uses components named bottom_left_rear1_prop, bottom_left_rear1_motor, battery_controller
+   propeller(5)%cname   = '90x77_5_200_41_120' 
+   propeller(5)%ctype   = 'MR'
+   propeller(5)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(5) Direction/Prop_Type= -1.0/1.0
+   propeller(5)%x   = -539.0000000000005
+   propeller(5)%y   = -9273.0
+   propeller(5)%z   = 4142.999999999997
+   propeller(5)%nx   = 1.0
+   propeller(5)%ny   = 0.0
+   propeller(5)%nz   = 0.0
+   propeller(5)%radius   = 1143.0 
+   propeller(5)%Ir      = 2486172.4469999997 
+   propeller(5)%icontrol   = 5 
+   propeller(5)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(5)%KV   = 20.0 
+   propeller(5)%KT   = 0.477464829275686 
+   propeller(5)%I_max   = 12.5 
+   propeller(5)%I_idle   = 0.33999999999999997 
+   propeller(5)%maxpower   = 5000.0 
+   propeller(5)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(5)%ibattery   = 1 
+   propeller(5)%spin   = -1
+
+!   Propeller(6 uses components named top_right_rear1_prop, top_right_rear1_motor, battery_controller
+   propeller(6)%cname   = '90x77_5_200_41_120' 
+   propeller(6)%ctype   = 'MR'
+   propeller(6)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(6) Direction/Prop_Type= -1.0/1.0
+   propeller(6)%x   = -539.0000000000005
+   propeller(6)%y   = 9273.0
+   propeller(6)%z   = -4142.999999999999
+   propeller(6)%nx   = 1.0
+   propeller(6)%ny   = 0.0
+   propeller(6)%nz   = 0.0
+   propeller(6)%radius   = 1143.0 
+   propeller(6)%Ir      = 2486172.4469999997 
+   propeller(6)%icontrol   = 6 
+   propeller(6)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(6)%KV   = 20.0 
+   propeller(6)%KT   = 0.477464829275686 
+   propeller(6)%I_max   = 12.5 
+   propeller(6)%I_idle   = 0.33999999999999997 
+   propeller(6)%maxpower   = 5000.0 
+   propeller(6)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(6)%ibattery   = 1 
+   propeller(6)%spin   = -1
+
+!   Propeller(7 uses components named bottom_right_rear0_prop, bottom_right_rear0_motor, battery_controller
+   propeller(7)%cname   = '90x77_5_200_41_120' 
+   propeller(7)%ctype   = 'MR'
+   propeller(7)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(7) Direction/Prop_Type= 1.0/-1.0
+   propeller(7)%x   = -538.9999999999993
+   propeller(7)%y   = 3090.999999999999
+   propeller(7)%z   = 4143.000000000001
+   propeller(7)%nx   = 1.0
+   propeller(7)%ny   = 0.0
+   propeller(7)%nz   = 0.0
+   propeller(7)%radius   = 1143.0 
+   propeller(7)%Ir      = 2486172.4469999997 
+   propeller(7)%icontrol   = 7 
+   propeller(7)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(7)%KV   = 20.0 
+   propeller(7)%KT   = 0.477464829275686 
+   propeller(7)%I_max   = 12.5 
+   propeller(7)%I_idle   = 0.33999999999999997 
+   propeller(7)%maxpower   = 5000.0 
+   propeller(7)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(7)%ibattery   = 1 
+   propeller(7)%spin   = 1
+
+!   Propeller(8 uses components named bottom_right_rear1_prop, bottom_right_rear1_motor, battery_controller
+   propeller(8)%cname   = '90x77_5_200_41_120' 
+   propeller(8)%ctype   = 'MR'
+   propeller(8)%prop_fname   = '../../../Tables/PropData/90x77_5_200_41_120.dat' 
+!   propeller(8) Direction/Prop_Type= 1.0/-1.0
+   propeller(8)%x   = -538.9999999999982
+   propeller(8)%y   = 9273.0
+   propeller(8)%z   = 4143.000000000003
+   propeller(8)%nx   = 1.0
+   propeller(8)%ny   = 0.0
+   propeller(8)%nz   = 0.0
+   propeller(8)%radius   = 1143.0 
+   propeller(8)%Ir      = 2486172.4469999997 
+   propeller(8)%icontrol   = 8 
+   propeller(8)%motor_fname  = '../../Motors/MAGiDRIVE6' 
+   propeller(8)%KV   = 20.0 
+   propeller(8)%KT   = 0.477464829275686 
+   propeller(8)%I_max   = 12.5 
+   propeller(8)%I_idle   = 0.33999999999999997 
+   propeller(8)%maxpower   = 5000.0 
+   propeller(8)%Rw   = 32.0 
+! Connected to BatteryController: battery_controller  index = 0
+   propeller(8)%ibattery   = 1 
+   propeller(8)%spin   = 1
+!
+!---------------- Batteries ------
+! Accumulate Physical Batteries
+!  -- Battery Controller ------battery_controller--------
+!   ---- right_batteryCapacity:75.0  at V=828.8
+!   ---- volume_ratio:1.0 available volume:300000000.0  goal_volume:300000000.0 p_count=3  series_count:16  capacity:25.0
+!   ---- left_batteryCapacity:75.0  at V=828.8
+!   ---- volume_ratio:1.0 available volume:300000000.0  goal_volume:300000000.0 p_count=3  series_count:16  capacity:25.0
+!   Virtual Battery(1) is an aggregate of the above 
+   battery(1)%voltage   = 828.8 
+   battery(1)%capacity   = 150000.0 
+   battery(1)%C_Continuous   = 25.0 
+   battery(1)%C_Peak   = 50.0 
+
+!   Wings
+!
+!  WING: (1)    Component Name: right_wing
+   wing(1)%surface_area   = 10000000.0 
+   wing(1)%a   = 0.101 
+   wing(1)%C_L0   = -0.0 
+   wing(1)%C_Lmax   = 1.53 
+   wing(1)%C_Lmin   = -1.53 
+   wing(1)%C_D0   = 0.0083 
+   wing(1)%k   = 0.034886763525743464 
+   wing(1)%C_Dfp   = 1 
+   wing(1)%max_load  = 128106000000.0 
+   wing(1)%bias1   =  1.0
+   wing(1)%bias2   =  0.5
+   wing(1)%icontrol1 = 9 
+   wing(1)%icontrol2 = 0 
+   wing(1)%x   = -125.0
+   wing(1)%y   = 5760.0
+   wing(1)%z   = -7.999999999999665
+   wing(1)%nx   = -0.0
+   wing(1)%ny   = -0.0
+   wing(1)%nz   = 1.0
+!
+!  WING: (2)    Component Name: left_stear_wing
+   wing(2)%surface_area   = 10000000.0 
+   wing(2)%a   = 0.101 
+   wing(2)%C_L0   = -0.0 
+   wing(2)%C_Lmax   = 1.53 
+   wing(2)%C_Lmin   = -1.53 
+   wing(2)%C_D0   = 0.0083 
+   wing(2)%k   = 0.034886763525743464 
+   wing(2)%C_Dfp   = 1 
+   wing(2)%max_load  = 128106000000.0 
+   wing(2)%bias1   =  1.0
+   wing(2)%bias2   =  0.5
+   wing(2)%icontrol1 = 10 
+   wing(2)%icontrol2 = 0 
+   wing(2)%x   = -1972.0
+   wing(2)%y   = 1e-20
+   wing(2)%z   = -5100.0
+   wing(2)%nx   = -0.0
+   wing(2)%ny   = 1.0
+   wing(2)%nz   = -0.0
+!
+!  WING: (3)    Component Name: left_wing
+   wing(3)%surface_area   = 10000000.0 
+   wing(3)%a   = 0.101 
+   wing(3)%C_L0   = -0.0 
+   wing(3)%C_Lmax   = 1.53 
+   wing(3)%C_Lmin   = -1.53 
+   wing(3)%C_D0   = 0.0083 
+   wing(3)%k   = 0.034886763525743464 
+   wing(3)%C_Dfp   = 1 
+   wing(3)%max_load  = 128106000000.0 
+   wing(3)%bias1   =  1.0
+   wing(3)%bias2   =  0.5
+   wing(3)%icontrol1 = 11 
+   wing(3)%icontrol2 = 0 
+   wing(3)%x   = -124.99999999999957
+   wing(3)%y   = -5760.0
+   wing(3)%z   = -3.4043241609211574e-13
+   wing(3)%nx   = -0.0
+   wing(3)%ny   = -0.0
+   wing(3)%nz   = 0.9999999999999999
+!
+!  WING: (4)    Component Name: right_stear_wing
+   wing(4)%surface_area   = 10000000.0 
+   wing(4)%a   = 0.101 
+   wing(4)%C_L0   = -0.0 
+   wing(4)%C_Lmax   = 1.53 
+   wing(4)%C_Lmin   = -1.53 
+   wing(4)%C_D0   = 0.0083 
+   wing(4)%k   = 0.034886763525743464 
+   wing(4)%C_Dfp   = 1 
+   wing(4)%max_load  = 128106000000.0 
+   wing(4)%bias1   =  1.0
+   wing(4)%bias2   =  0.5
+   wing(4)%icontrol1 = 12 
+   wing(4)%icontrol2 = 0 
+   wing(4)%x   = -1972.0
+   wing(4)%y   = 5100.0
+   wing(4)%z   = 9.18485109360515e-13
+   wing(4)%nx   = -0.0
+   wing(4)%ny   = -0.0
+   wing(4)%nz   = 0.9999999999999999
+
+!   Controls
+   control%i_flight_path = 4 
+   control%requested_lateral_speed = 16.0 
+   control%requested_vertical_speed = 2.0 
+   control%iaileron = 9 
+   control%iflap = 10 
+   control%Q_position = 1.0 
+   control%Q_velocity = 1.0 
+   control%Q_angular_velocity = 1.0 
+   control%Q_angles = 1.0 
+   control%R= 0.1 
+/
