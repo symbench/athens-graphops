@@ -25,6 +25,7 @@ from . import validate
 from . import designer
 from . import architect
 from . import workflow
+from . import stringer
 
 
 def run():
@@ -38,6 +39,7 @@ def run():
         "designer",
         "architect",
         "workflow",
+        "stringer",
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -89,6 +91,8 @@ def run():
         architect.run(args=sys.argv[pos:])
     elif args.command == "workflow":
         workflow.run(args=sys.argv[pos:])
+    elif args.command == "stringer":
+        stringer.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 
