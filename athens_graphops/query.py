@@ -160,10 +160,15 @@ class Client():
                            __DESTDESIGN__=design,
                            __DESTNAME__=instance)
         if model != class_name:
+            #self.submit_script("instantiateComponent.groovy",
+            #                   __DESIGN__=design,
+            #                   __COMPONENT_INSTANCE__=instance,
+            #                   __COMPONENT__=model)
             self.submit_script("swap.groovy",
                                __DESIGN__=design,
                                __COMPONENT_INSTANCE__=instance,
                                __NEW_COMPONENT__=model)
+
 
     def create_connection(self, design: str,
                           instance1: str, connector1: str,
