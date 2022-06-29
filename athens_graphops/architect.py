@@ -959,17 +959,16 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
         #     4 Front props/motors, 4
         max_num_prop_sets = 16
         #num_prop_sets = round(random.uniform(0, max_num_prop_sets))
-        #prop_set_config = ["Front", "Rear", "All", "None"]
-        #print("Number of Propeller/Motor sets: %d" % num_prop_sets)
-
-        # Randomize stear wing parameters
-        #has_stear_wing = bool(random.getrandbits(1))
 
         # MM DEBUG:
         num_prop_sets = 1
-        prop_set_config = "All"
         has_stear_wing = "True"
 
+        prop_set_config = ["Front", "Rear", "All", "None"]
+        print("Number of Propeller/Motor sets: %d" % num_prop_sets)
+
+        # Randomize stear wing parameters
+        #has_stear_wing = bool(random.getrandbits(1))
         print("Presence of Stear Wing: %s" % has_stear_wing)
         stear_wing_params = get_component_parameters("Wing", "naca_wing")
         # RAND: rand_stear_wing_params = randomize_parameters(stear_wing_params)
