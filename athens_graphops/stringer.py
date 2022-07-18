@@ -16,10 +16,16 @@
 
 import os
 import random
-from tkinter import S
-from .designer import Designer
+from tkinter import ALL, S
+from tkinter.messagebox import NO
+
+from pyparsing import Opt
+from .designer import Designer, Instance
 from .architect import create_minimal
 from . import CONFIG
+from typing import Optional, Tuple, Union
+import json
+
 
 datapath = "C:\\stringer\\data\\10"
 
@@ -32,22 +38,62 @@ def get_random_design():
     designs = get_design_strings()
     return random.choice(designs)
 
+SCHEMA_DATA =  json.loads(open(os.path.join("data", "corpus_schema.json")).read())
+ALL_CONNECTORS = {c: v['connectors'] for c, v in SCHEMA_DATA.items()}
+print(ALL_CONNECTORS)
 
+ALLOWABLE_CONNECTIONS = {}
+
+
+class Cursor:
+    def __init__(self, design):
+
+        self.design = design
+        self.cur_inst = None
+        self.cur_conn = None
+
+    def update_location(self, next_inst: Instance , next_conn: str):
+        print(f"changing Cursor instance from: {self.cur_inst} to {next_inst}")
+        print(f"changing Cursor connection from: {self.cur_conn} to {next_conn}")
+        self.cur_inst = next_inst
+        self.cur_conn = next_conn
+
+    def get_current_location(self):
+        print(f"cursor current location: inst {self.cur_inst} conn {self.cur_conn}")
+
+    def get_component_type_at_current_connection(self):
+        for component, connectors in ALL_CONNECTORS.items():
+            for connector, connect_dir in connectors.items():
+                if self.cur_conn == connector:
+                    return component
+
+    def get_allowable_next_connection(self):
+        """
+        allowable connections:
+
+        """
+        pass
 
 class StringerBuilder:
     def __init__(self, design_string):
         # ignore parallel wings for now
         self.design_string = "".join([x for x in design_string if x != '\''])
 
-        # keep track of possible attachment points and most recently added instances
-        # instance --> (model, name, parameters)
-        self.locator = None
+        self.design_name = "test"
+
+        # keep track of positions during construction
+        self.cursor = Cursor(self.design_name)
+
+        # workflow direct2cad
+        self.workflow = "uam_direct2cad"
+
+
 
     def summary(self):
         print(f"|-- design: {self.design_string}")
         print(f"|- # cxn groups: {self.get_connection_group_count()}")
         print(f"|- # branching connector: {self.get_branching_connector_count()}")
-        print(f"|- # wings: {self.get_total_wing_count()}")
+        print(f"|- # wings: {self.get_wing_count()}")
         print(f"|- # propellers: {self.get_total_prop_count()} ({self.get_vprop_count()} v, {self.get_hprop_count()} h)") 
 
     def get_connection_group_count(self):
@@ -68,13 +114,10 @@ class StringerBuilder:
     def get_wing_count(self):
         return self.design_string.count('w')
     
-    def get_parallel_wing_count(self):
-        return self.design_string.count('w\'')
+    def set_config_params(self):
+        pass
 
-    def get_total_wing_count(self):
-        return self.get_wing_count() + self.get_parallel_wing_count()
-
-    def parse(self):
+    def build_extras(self):
         """ get design instructions for the designer to map string to designer functions
         
             instructions format:
@@ -104,67 +147,87 @@ class StringerBuilder:
         # connections defined by instances and connectors 
         # todo manage instance and connection locations            
 
-        instructions = {}
+        instructions = {} # todo make not dict
         
         """
         cylinder configs: -+-o (tail), -xo (side), -ox (top), ]-o (fork)
         """
         cyl_count = 5
 
+        # ensure cursor is positioned
+        assert self.cursor.cur_inst and self.cursor.cur_conn == "TOP_CONNECTOR"
+
         for i in range(cyl_count):
             angle = 0  # angle of one end e.g. | or /
-            instructions[i] = {
-                "add_cylinder": [
-                    bar_length,
-                    cylinder_diameter,
-                    port_thickness,
-                    angle,
-                    "test_cylinder",
-                    "mount_inst",
-                    "mount_conn"
-                ]
-            }
+
+            # instructions[i] = {
+            #     "add_cylinder": [
+            #         bar_length * 3, # length
+            #         cylinder_diameter, # diameter
+            #         port_thickness, # thickness
+            #         f"cylinder_{i}", # name
+            #         self.cursor.cur_inst, # instance to connect to
+            #         self.cursor.cur_conn # connector to connect to
+            #     ]
+            # }
+
+            cyl = self.designer.add_cylinder(
+                bar_length * 3,
+                cylinder_diameter,
+                port_thickness,
+                angle,
+                f"cylinder_{i}",
+                self.cursor.cur_inst,
+                self.cursor.cur_conn
+            )
+
+            # go to the next location of the component just added
+            self.cursor.update_location(cyl, "REAR_CONNECTOR")
 
         
 
-        for i, c in enumerate(self.design_string):
-            # offset from adding cylinders
-            cur_idx = len(instructions) - 1 + i 
-            if c == "(":
-                print("start connection group")
-            elif c == ")":
-                print("end connection group")
-            elif c == "w":
-                print("add wing")
-                instructions[cur_idx] = {
-                    "add_wing": [
-                        "test_wing",
-                        stear_wing_naca,
-                        stear_wing_chord,
-                        stear_wing_span,
-                        stear_wing_load,
-                        "left/right_inst",
-                        "left/right_conn"
-                    ]
-                }
-            elif c == "p" or c == "h":
-                ori = -1 if c == "h" else 1  # vertical/horizontal
-                spi = -1 if c == "h" else 1  # cwise/ccwise
-                print("add propeller")
-                instructions[cur_idx] = {
-                    "add_motor_propeller": [
-                        motor_model,
-                        propeller_model,
-                        ori,  # horizontal
-                        spi,  # cwise?
-                        "test_motor_prop",
-                        "mount_inst",
-                        "mount_connector",
-                        "controller_inst"
-                    ]
-                }
+        # for i, c in enumerate(self.design_string):
+        #     # offset from adding cylinders
+        #     cur_idx = len(instructions) - 1 + i 
+        #     if c == "(":
+        #         print("start connection group")
+        #         # get components in () then connect them to the same cylinder
+        #     elif c == ")":
+        #         print("end connection group")
+        #     elif c == "w":
 
-            self.instructions = instructions
+                
+
+        #         print("add wing")
+        #         instructions[cur_idx] = {
+        #             "add_wing": [
+        #                 "test_wing",
+        #                 stear_wing_naca,
+        #                 stear_wing_chord,
+        #                 stear_wing_span,
+        #                 stear_wing_load,
+        #                 "left/right_inst",
+        #                 "left/right_conn"
+        #             ]
+        #         }
+        #     elif c == "p" or c == "h":
+        #         ori = -1 if c == "h" else 1  # vertical/horizontal
+        #         spi = -1 if c == "h" else 1  # cwise/ccwise
+        #         print("add propeller")
+        #         instructions[cur_idx] = {
+        #             "add_motor_propeller": [
+        #                 motor_model,
+        #                 propeller_model,
+        #                 ori,  # horizontal
+        #                 spi,  # cwise?
+        #                 "test_motor_prop",
+        #                 "mount_inst",
+        #                 "mount_connector",
+        #                 "controller_inst"
+        #             ]
+        #         }
+
+        #     self.instructions = instructions
 
 
     def build_design(self):
@@ -241,16 +304,19 @@ class StringerBuilder:
                             wing_inst=left_wing,
                             controller_inst=battery_controller)
 
-            # get instance information
-            print(self.designer.instances)
-    
+            # done building the minimal vehicle, set cursor for adding custom components
+            self.cursor.fuselage = fuselage # store fuselage
+            self.cursor.update_location(fuselage, "TOP_CONNECTOR")
+
+            # add the non-minimal components to the rest of vehicle using the Cursor 
             self.build_extras()
 
             self.designer.close_design()
 
-    def build_extras(self):
-        assert self.instructions, "no instructions"
-        print(self.instructions)
+    # def build_extras(self):
+    #     assert self.instructions, "no instructions"
+    #     for seq_num, instruction in self.instructions.items():
+    #         print(seq_num, instruction)
 
 
 def run(args=None):
@@ -266,7 +332,7 @@ def run(args=None):
     if args.random:
         sb = StringerBuilder(get_random_design())
         sb.summary()
-        sb.parse()
+        #sb.parse()
         sb.build_design()
 
 
