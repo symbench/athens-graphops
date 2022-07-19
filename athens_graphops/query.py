@@ -153,17 +153,10 @@ class Client():
         return class_name
 
     def create_instance(self, design: str, model: str, instance: str):
-        class_name = self.get_model_class(model)
-        self.submit_script("cloneCIOpt.groovy",
-                           __SOURCEDESIGN__="AllComponentsUAM",
-                           __SOURCENAME__=class_name,
-                           __DESTDESIGN__=design,
-                           __DESTNAME__=instance)
-        if model != class_name:
-            self.submit_script("swap.groovy",
-                               __DESIGN__=design,
-                               __COMPONENT_INSTANCE__=instance,
-                               __NEW_COMPONENT__=model)
+        self.submit_script("instantiateComponent.groovy",
+                        __DESIGN__=design,
+                        __COMPONENT_INSTANCE__=instance,
+                        __COMPONENT__=model)
 
     def create_connection(self, design: str,
                           instance1: str, connector1: str,

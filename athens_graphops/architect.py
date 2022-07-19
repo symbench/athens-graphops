@@ -958,12 +958,17 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
         # The random setup for a prop/motor set (or prop_set) will be one of four configurations:
         #     4 Front props/motors, 4
         max_num_prop_sets = 16
-        num_prop_sets = round(random.uniform(0, max_num_prop_sets))
+        #num_prop_sets = round(random.uniform(0, max_num_prop_sets))
+
+        # MM DEBUG:
+        num_prop_sets = 1
+        has_stear_wing = "True"
+
         prop_set_config = ["Front", "Rear", "All", "None"]
         print("Number of Propeller/Motor sets: %d" % num_prop_sets)
 
         # Randomize stear wing parameters
-        has_stear_wing = bool(random.getrandbits(1))
+        #has_stear_wing = bool(random.getrandbits(1))
         print("Presence of Stear Wing: %s" % has_stear_wing)
         stear_wing_params = get_component_parameters("Wing", "naca_wing")
         # RAND: rand_stear_wing_params = randomize_parameters(stear_wing_params)
@@ -995,11 +1000,13 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
             # RAND: rand_bar_params = randomize_parameters(cyl_params)
             rand_bar_params = randomize_cyl_length(cyl_params)
             # print(rand_bar_params)
-            stear_bar1_length = round(
-                float(rand_bar_params["LENGTH"]["assigned"]))
+            # RAND: stear_bar1_length = round(
+            # RAND:    float(rand_bar_params["LENGTH"]["assigned"]))
+            stear_bar1_length = 4000
             # Angle was set to 45 degrees in original design, randomizing here
-            stear_bar2_front_angle = round(
-                float(rand_bar_params["FRONT_ANGLE"]["assigned"]))
+            # RAND: stear_bar2_front_angle = round(
+            # RAND:    float(rand_bar_params["FRONT_ANGLE"]["assigned"]))
+            stear_bar2_front_angle = 45
             valid_cylinder = 8 <= port_thickness < cylinder_diameter <= stear_bar1_length
             if valid_cylinder:
                 print("Stear Bar 1: Valid length found (%f)" %
@@ -1327,7 +1334,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
             # architecture.stop_creoson()
 
         # Consider removing design after each run
-        architecture.client.delete_design(design_name_inst)
+        #architecture.client.delete_design(design_name_inst)
         architecture.close_client()
 
     architecture.close_jenkins_client()
