@@ -36,6 +36,34 @@
       "MotorPower": "in"
     }
   },
+  "Beam": {
+    "properties": {},
+    "parameters": {
+      "BOTTOM_CONN_DISP": "float",
+      "CHORD": "float",
+      "SPAN": "float",
+      "THICKNESS": "float",
+      "TOP_CONN_DISP": "float"
+    },
+    "connectors": {
+      "BATTERY_CONNECTOR_1": "in",
+      "BATTERY_CONNECTOR_2": "in",
+      "BOTTOM_CONNECTOR_OUT": "out",
+      "END_CONNECTOR_1_OUT": "out",
+      "END_CONNECTOR_2_OUT": "out",
+      "TOP_CONNECTOR_IN": "in"
+    }
+  },
+  "Beam_Cap": {
+    "properties": {},
+    "parameters": {
+      "CHORD": "float",
+      "THICKNESS": "float"
+    },
+    "connectors": {
+      "Connector_In": "in"
+    }
+  },
   "Cylinder": {
     "properties": {
       "WALL_THICKNESS": "float"
@@ -102,6 +130,36 @@
       "SEAT_1_FB": "float",
       "TAIL_DIAMETER": "float",
       "LEFT_PORT_DISP": "float"
+    },
+    "connectors": {
+      "BOTTOM_CONNECTOR": "in",
+      "LEFT_CONNECTOR": "in",
+      "ORIENT": "in",
+      "REAR_CONNECTOR": "in",
+      "RIGHT_CONNECTOR": "in",
+      "SEAT_1_CONNECTOR": "in",
+      "SEAT_2_CONNECTOR": "in",
+      "TOP_CONNECTOR": "in"
+    }
+  },
+  "FuselageNACA": {
+    "properties": {},
+    "parameters": {
+      "BOTTOM_PORT_DISP": "float",
+      "CHORD": "float",
+      "FLOOR_HEIGHT": "float",
+      "LEFT_PORT_DISP": "float",
+      "LENGTH": "float",
+      "PORT_CHORD": "float",
+      "PORT_OFFSET": "float",
+      "PORT_THICKNESS": "float",
+      "RIGHT_PORT_DISP": "float",
+      "SEAT_1_FB": "float",
+      "SEAT_1_LR": "float",
+      "SEAT_2_FB": "float",
+      "SEAT_2_LR": "float",
+      "THICKNESS": "float",
+      "TOP_PORT_DISP": "float"
     },
     "connectors": {
       "BOTTOM_CONNECTOR": "in",
@@ -188,6 +246,37 @@
     },
     "connectors": {
       "MOTOR_CONNECTOR_CS_IN": "in"
+    }
+  },
+  "Servo": {
+    "properties": {
+      "Current_Idle": "float",
+      "Current_No_Load": "float",
+      "Deadband_Width": "float",
+      "LENA": "float",
+      "LENB": "float",
+      "LENC": "float",
+      "LENE": "float",
+      "LENF": "float",
+      "Max_No_Load_Speed": "float",
+      "Max_PWM_Range": "str",
+      "Max_Rotation": "float",
+      "Max_Stall_Torque": "float",
+      "Max_Voltage": "float",
+      "Min_No_Load_Speed": "float",
+      "Min_Stall_Torque": "float",
+      "Min_Voltage": "float",
+      "Output_Shaft_Spline": "str",
+      "Servo_Class": "str",
+      "Servo_Thickness": "float",
+      "Stall_Current": "float",
+      "Travel": "float",
+      "WEIGHT": "float",
+      "Wire_Gauge": "float"
+    },
+    "parameters": {},
+    "connectors": {
+      "Connector": "in"
     }
   },
   "Wing": {
