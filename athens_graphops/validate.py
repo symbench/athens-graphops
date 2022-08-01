@@ -44,64 +44,100 @@ def get_design_data(design_folder: str):
     return design_comps, design_connects, design_parms
 
 
-def validate_corpus_data():
+# Used to check corpus_data against the corpus schema (check_type=corpus) or look for possible
+#   missing information in the corpus schema that is available in the corpus data (check_type=schema)
+def validate_corpus_data(check_type='corpus'):
     counts = {cls: 0 for cls in CORPUS_SCHEMA.keys()}
     for model in CORPUS_DATA:
         if model["class"] not in CORPUS_SCHEMA:
-            print("WARNING: unknown component class {}".format(model["class"]))
+            print("WARNING: Unknown component class {}".format(model["class"]))
             continue
 
         counts[model["class"]] += 1
         model_class = CORPUS_SCHEMA[model["class"]]
 
-        for prop_name, prop_type in model_class["properties"].items():
-            assert prop_name in model["properties"], "property {} is missing in {}".format(
-                prop_name, model["name"])
-            prop_val = model["properties"][prop_name]
-            if prop_type == "float":
-                float(prop_val)
-            else:
-                assert prop_type == "str"
+        # Make sure that all the schema class properties are defined in the corpus data model
+        if check_type == "corpus":
+            for prop_name, prop_type in model_class["properties"].items():
+                if not (prop_name in model["properties"]):
+                    print("ERROR: Property {} is missing in {}".format(
+                        prop_name, model["model"]))
+                # assert prop_name in model["properties"], "property {} is missing in {}".format(
+                #    prop_name, model["model"])
+                else:
+                    prop_val = model["properties"][prop_name]
+                    if prop_type == "float":
+                        float(prop_val)
+                    else:
+                        assert prop_type == "str"
 
-        for param_name, param_type in model_class["parameters"].items():
-            if param_name not in model["parameters"]:
-                print("WARNING: parameter {} is missing in {}".format(
-                    param_name, model["model"]))
-                continue
+        # See if corpus data model has any properties not defined in the schema
+        if check_type == "schema":
+            for prop_name_corpus, prop_val_corpus in model["properties"].items():
+                if not (prop_name_corpus in model_class["properties"]):
+                    print("WARNING: Property {} from {} is not defined in the corpus schema".format(
+                        prop_name_corpus, model["model"]))
 
-            assert param_type in ["float", "int", "str"]
+        # Make sure that all the schema class parameters are defined in the corpus data model
+        if check_type == "corpus":
+            for param_name, param_type in model_class["parameters"].items():
+                if param_name not in model["parameters"]:
+                    print("ERROR: Parameter {} is missing in {}".format(
+                        param_name, model["model"]))
+                    continue
 
-            for param_val in model["parameters"][param_name].values():
-                if param_type == "float":
-                    float(param_val)
-                elif param_type == "int":
-                    int(param_val)
+                assert param_type in ["float", "int", "str"]
 
-            if param_type in ["float", "int"]:
-                minimum = float(model["parameters"][param_name].get(
-                    "minimum", "-inf"))
-                maximum = float(model["parameters"][param_name].get(
-                    "maximum", "inf"))
+                for param_val in model["parameters"][param_name].values():
+                    if param_type == "float":
+                        float(param_val)
+                    elif param_type == "int":
+                        int(param_val)
 
-                if minimum > maximum:
-                    print("WARNING: invalid minimum {} and maximum {} values of parameter {} in {}".
-                          format(minimum, maximum, param_name, model["model"]))
+                if param_type in ["float", "int"]:
+                    minimum = float(model["parameters"][param_name].get(
+                        "minimum", "-inf"))
+                    maximum = float(model["parameters"][param_name].get(
+                        "maximum", "inf"))
 
-                assigned = model["parameters"][param_name].get("assigned")
-                if assigned is not None:
-                    assigned = float(assigned)
+                    if minimum > maximum:
+                        print("WARNING: Invalid minimum {} and maximum {} values of parameter {} in {}".
+                              format(minimum, maximum, param_name, model["model"]))
 
-                    if assigned < minimum:
-                        print("WARNING: invalid assigned {} and minimum {} values of parameter {} in {}".
-                              format(assigned, minimum, param_name, model["model"]))
+                    assigned = model["parameters"][param_name].get("assigned")
+                    if assigned is not None:
+                        assigned = float(assigned)
 
-                    if assigned > maximum:
-                        print("WARNING: invalid assigned and maximum values of parameter {} in {}".
-                              format(assigned, maximum, param_name, model["model"]))
+                        if assigned < minimum:
+                            print("WARNING: Invalid assigned {} and minimum {} values of parameter {} in {}".
+                                  format(assigned, minimum, param_name, model["model"]))
 
-        for conn_name in model_class["connectors"]:
-            assert conn_name in model["connectors"], "connector {} is missing in {}".format(
-                conn_name, model["name"])
+                        if assigned > maximum:
+                            print("WARNING: Invalid assigned and maximum values of parameter {} in {}".
+                                  format(assigned, maximum, param_name, model["model"]))
+
+        # See if corpus data model has any properties not defined in the schema
+        if check_type == "schema":
+            for param_name_corpus, param_val_corpus in model["parameters"].items():
+                if param_name_corpus not in model_class["parameters"]:
+                    print("WARNING: Parameter {} from {} is not defined in the corpus schema".format(
+                        param_name_corpus, model["model"]))
+
+        # Make sure that all the schema class parameters are defined in the corpus data model
+        if check_type == "corpus":
+            for conn_name in model_class["connectors"]:
+                # assert conn_name in model["connectors"], "connector {} is missing in {}".format(
+                #    conn_name, model["model"])
+                if not (conn_name in model["connectors"]):
+                    print("ERROR: Connector {} is missing in {}".format(
+                        conn_name, model["model"]))
+
+        # See if corpus data model has any properties not defined in the schema
+        if check_type == "schema":
+            for conn_name_corpus in model["connectors"]:
+                if not (conn_name_corpus in model_class["connectors"]):
+                    print("WARNING: Connector {} from {} is not defined in the corpus schema".format(
+                        conn_name_corpus, model["model"]))
 
     print("Number of component types:")
     for prop_name, val in counts.items():
@@ -323,15 +359,15 @@ def create_all_propellers():
         designer_names[x].create_design(propdesign_name)
 
         designer_names[x].add_fuselage(name="fuselage",
-                            length=2000,
-                            sphere_diameter=1520,
-                            middle_length=300,
-                            tail_diameter=200,
-                            floor_height=150,
-                            seat_1_fb=1000,
-                            seat_1_lr=-210,
-                            seat_2_fb=1000,
-                            seat_2_lr=210)
+                                       length=2000,
+                                       sphere_diameter=1520,
+                                       middle_length=300,
+                                       tail_diameter=200,
+                                       floor_height=150,
+                                       seat_1_fb=1000,
+                                       seat_1_lr=-210,
+                                       seat_2_fb=1000,
+                                       seat_2_lr=210)
         previous.append(designer_names[x].fuselage)
 
     # Determine the cylinder length by adding the CAN diameter widths of each motor
@@ -344,7 +380,8 @@ def create_all_propellers():
     for model in CORPUS_DATA:
         if model["class"] == "Propeller":
             num_props += 1
-            print("Designer Name: %s" % designer_names[current_designer].design)
+            print("Designer Name: %s" %
+                  designer_names[current_designer].design)
 
             # Select motor to use for design creation
             # that matches propeller shaft diameter
@@ -358,14 +395,15 @@ def create_all_propellers():
 
             # Add a cylinder
             cylinder_length = motor_can_diameter + length_pad
-            cylinder_name = "cyl_" + designer_names[current_designer].get_name()
+            cylinder_name = "cyl_" + \
+                designer_names[current_designer].get_name()
             cyl_instance = designer_names[current_designer].add_cylinder(
                 name=cylinder_name,
                 port_thickness=cylinder_thickness,
                 diameter=cylinder_diameter,
                 length=cylinder_length)
             designer_names[current_designer].connect(previous[current_designer], "REAR_CONNECTOR",
-                             cyl_instance, "FRONT_CONNECTOR")
+                                                     cyl_instance, "FRONT_CONNECTOR")
             previous[current_designer] = cyl_instance
 
             # Add motor
@@ -375,10 +413,11 @@ def create_all_propellers():
                 model=motor_model
             )
             designer_names[current_designer].connect(cyl_instance, "TOP_CONNECTOR",
-                             motor_instance, "Base_Connector")
+                                                     motor_instance, "Base_Connector")
 
             # Add propeller
-            propeller_name = "prop_" + designer_names[current_designer].get_name()
+            propeller_name = "prop_" + \
+                designer_names[current_designer].get_name()
             propeller_instance = designer_names[current_designer].add_propeller(
                 name=propeller_name,
                 model=model["properties"]["MODEL"],
@@ -386,7 +425,7 @@ def create_all_propellers():
                 direction=int(model["parameters"]["Direction"]["assigned"])
             )
             designer_names[current_designer].connect(motor_instance, "Prop_Connector",
-                             propeller_instance, "MOTOR_CONNECTOR_CS_IN")
+                                                     propeller_instance, "MOTOR_CONNECTOR_CS_IN")
 
             current_designer += 1
             if current_designer == num_designs:
@@ -438,7 +477,7 @@ def validate_all_propellers(design_folder: str):
                     x["LIB_COMPONENT"] == model["properties"]["MODEL"]), design_comps[num]))
                 if comp:
                     found = True
-                    #print("%s propeller found in Design # %d" % (model["properties"]["MODEL"], num))
+                    # print("%s propeller found in Design # %d" % (model["properties"]["MODEL"], num))
                     # Check if parameters are correct, get design from graph
                     # Need information in designParameter.json file (Prop_type and Direction) - ticket submitted
                     break
@@ -448,7 +487,7 @@ def validate_all_propellers(design_folder: str):
                 design_num_propellers += 1
 
     print("Test propellers: %d, Design propellers: %d" %
-            (num_propellers, design_num_propellers))
+          (num_propellers, design_num_propellers))
     if num_propellers == design_num_propellers:
         print("SUCCESS: All propellers made it into the design")
     else:
@@ -460,8 +499,8 @@ def run(args=None):
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--corpus-data', action='store_true',
-                        help="validates the corpus against the schema")
+    parser.add_argument('--corpus-data', choices=["corpus", "schema"],
+                        help="validates the corpus against the schema (corpus) or schema against corpus (schema)")
     parser.add_argument('--create-instances', action='store_true',
                         help="creates a simple design for each model")
     parser.add_argument('--create-many-cylinders', action='store_true',
@@ -480,7 +519,8 @@ def run(args=None):
     args = parser.parse_args(args)
 
     if args.corpus_data:
-        validate_corpus_data()
+        check_type = args.corpus_data
+        validate_corpus_data(check_type)
     if args.create_instances:
         validate_create_instances()
     if args.create_many_cylinders:

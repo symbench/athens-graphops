@@ -29,6 +29,7 @@ def load_json(filename: str) -> Any:
         with open(os.path.join(DATA_DIR, filename), 'r') as file:
             return json.load(file)
     except:
+        print("failed to load %s" % filename)
         return []
 
 
@@ -52,9 +53,17 @@ def property_table(classification: str) -> List[Dict[str, Any]]:
             continue
 
         entry = dict(mod["properties"])
-        assert "MODEL" not in entry or entry["MODEL"] == mod["model"]
-        entry["MODEL"] = mod["model"]
-        result.append(entry)
+        #assert "MODEL" not in entry or entry["MODEL"] == mod["model"]
+        if "MODEL" not in entry:
+            #print("WARNING: no model property, added it - {}: {}".format(classification, mod["model"]))
+            entry["MODEL"] = mod["model"]
+            result.append(entry)
+        elif entry["MODEL"] != mod["model"]:
+            print("Entry: {}, Model: {}".format(entry["MODEL"], mod))
+            print("WARNING: model property does not match model for entry, changed it - {}: {}".format(
+                classification, mod["model"]))
+            entry["MODEL"] = mod["model"]
+            result.append(entry)
     return result
 
 
