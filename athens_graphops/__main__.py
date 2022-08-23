@@ -38,6 +38,7 @@ def run():
         "designer",
         "architect",
         "workflow",
+        "update"
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -89,6 +90,8 @@ def run():
         architect.run(args=sys.argv[pos:])
     elif args.command == "workflow":
         workflow.run(args=sys.argv[pos:])
+    elif args.command == "update":
+        batch.run_update_design(args=sys.argv[pos:])
     else:
         parser.print_help()
 

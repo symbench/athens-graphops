@@ -61,7 +61,7 @@ class Client():
             if os.path.exists(filename):
                 break
         else:
-            raise ValueError("sciprt {} not found".format(script))
+            raise ValueError("script {} not found".format(script))
 
         results = []
         with open(filename, "r") as file:
