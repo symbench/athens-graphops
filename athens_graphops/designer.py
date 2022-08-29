@@ -84,6 +84,15 @@ class Designer():
         self.client.assign_parameter(
             self.design, instance.name, param, full_name)
 
+    def get_parameter_name(self, instance: Instance, param: str):
+        assert isinstance(instance, Instance)
+
+        design_param_name = instance.name + "_" + param
+        # Make sure param_name is available in the design
+        design_param_map = self.client.get_parameter_map(self.design)
+        assert design_param_name in design_param_map
+        return design_param_name
+
     def set_config_param(self, param: str, value: Union[float, str]):
         self.client.create_parameter(self.design, param, value)
 

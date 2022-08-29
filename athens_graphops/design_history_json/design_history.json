@@ -1,0 +1,271 @@
+{
+    "random_0": {
+        "tbar_post_1": [
+            "tbar_post_1",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "tbar_post_2": [
+            "tbar_cross_2",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "tbar_cross_3": [
+            "tbar_cross_3",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "cross_bar_1": [
+            "cross_bar_1_TOP",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ],
+        "tbar_cross_4": [
+            "tbar_post_4",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_RIGHT",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ]
+    },
+    "random_1": {
+        "cross_bar_1": [
+            "cross_bar_1_TOP",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ]
+    },
+    "random_2": {},
+    "random_3": {
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "cross_bar_1": [
+            "cross_bar_1_TOP",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_TOP",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "rail_2": [
+            "rail_2",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ]
+    },
+    "random_4": {
+        "cross_bar_1": [
+            "cross_bar_1_LEFT",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "tbar_post_1": [
+            "tbar_cross_1",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_RIGHT",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "rail_2": [
+            "rail_2",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "rail_3": [
+            "rail_3",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ],
+        "wing_pair_2": [
+            "wing_pair_2",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "rail_4": [
+            "rail_4",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "cross_bar_3": [
+            "cross_bar_3_RIGHT",
+            "PORTED_CYL",
+            "LEFT_CONNECTOR"
+        ]
+    },
+    "random_5": {
+        "cross_bar_1": [
+            "cross_bar_1_RIGHT",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_BOTTOM",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "cross_bar_3": [
+            "cross_bar_3_LEFT",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ],
+        "cross_bar_4": [
+            "cross_bar_4_LEFT",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "cross_bar_5": [
+            "cross_bar_5_TOP",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ]
+    },
+    "random_6": {
+        "cross_bar_1": [
+            "cross_bar_1_LEFT",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_TOP",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "tbar_cross_1": [
+            "tbar_cross_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "LEFT_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ]
+    },
+    "random_7": {
+        "cross_bar_1": [
+            "cross_bar_1_TOP",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "tbar_cross_1": [
+            "tbar_cross_1",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_TOP",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "BOTTOM_CONNECTOR"
+        ],
+        "wing_pair_2": [
+            "wing_pair_2",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ]
+    },
+    "random_8": {
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ]
+    },
+    "random_9": {
+        "rail_1": [
+            "rail_1",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "rail_2": [
+            "rail_2",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ],
+        "rail_3": [
+            "rail_3",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "wing_pair_1": [
+            "wing_pair_1",
+            "PORTED_CYL",
+            "TOP_CONNECTOR"
+        ],
+        "cross_bar_1": [
+            "cross_bar_1_LEFT",
+            "PORTED_CYL",
+            "REAR_CONNECTOR"
+        ],
+        "cross_bar_2": [
+            "cross_bar_2_RIGHT",
+            "PORTED_CYL",
+            "RIGHT_CONNECTOR"
+        ],
+        "rail_4": [
+            "rail_4",
+            "PORTED_CYL",
+            "FRONT_CONNECTOR"
+        ],
+        "tbar_post_1": [
+            "tbar_post_1",
+            "PORTED_CYL",
+            "LEFT_CONNECTOR"
+        ],
+        "cross_bar_3": [
+            "cross_bar_3_BOTTOM",
+            "PORTED_CYL",
+            "LEFT_CONNECTOR"
+        ]
+    }
+}

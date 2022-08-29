@@ -40,6 +40,7 @@ def run():
         "architect",
         "workflow",
         "stringer",
+        "update"
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -93,6 +94,8 @@ def run():
         workflow.run(args=sys.argv[pos:])
     elif args.command == "stringer":
         stringer.run(args=sys.argv[pos:])
+    elif args.command == "update":
+        batch.run_update_design(args=sys.argv[pos:])
     else:
         parser.print_help()
 

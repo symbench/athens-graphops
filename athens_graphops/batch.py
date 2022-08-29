@@ -14,12 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import ssl
 from typing import Any, List
 
 import importlib.util
 import json
 import os
 import tempfile
+import shutil
 
 from . import CONFIG
 from . import query
@@ -28,7 +30,7 @@ from . import query
 def import_autoseed():
     spec = importlib.util.spec_from_file_location(
         "autoseed",
-        os.path.join(CONFIG["batch_dirs"][-1], "AutoSeed.py"))
+        os.path.join(CONFIG["batch_dirs"][-1], "autoseed2.py"))
     autoseed = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(autoseed)
     return autoseed
@@ -119,6 +121,152 @@ def autoseed(design: str, batchfile: str):
             ofile.write(ifile.read())
 
 
+def update_design(design_folder: str, design: str):
+    """ 
+    Update a design graph to match the parameters indicated in the 
+    designParameter.json file. 
+    
+    In parameter exploration, the designParameter.json file is updated 
+    and the tools run to explore the design space. Some designs will 
+    result in solutions that may be explored or analyzed future. This 
+    function will take the results data.zip file folder contents (with
+    modified designParameter.json files and create a new version of the 
+    design in the Janusgraph with the updated parameter values.
+
+    The design folder should be an absolute path. The design name can be the same as before or new.
+
+    Input jsons needed (found in top directory of data.zip file):
+    - info_paramMap4.json
+    - info_componentMapList1.json
+    - info_connectionMap6.json
+
+    Need to create:
+    - info_corpusComponents4.json
+
+    Steps taken:
+    1) Check if input json files are available
+    2) Update info_paramMap4.json from data.zip file - archive/result_1/designParam.json
+    3) Create the .csv file to create a design (using autoseed)
+    4) run autograph to create design in Janusgraph DB
+    5) re-create the <design name>_design_data.json file (prove change reflected in graph)
+    """ 
+    print("Updating {} design graph".format(design))
+    client = query.Client()
+
+    # Make sure result folder includes needed input json files which 
+    # describe the design and translate names to autoseed expected filenames
+    jsons_available = True
+    paramMap_filename_src = os.path.join(design_folder, 'info_paramMap4.json')
+    paramMap_filename_dest = os.path.join(design_folder, 'info_paramMap1.json')
+    if os.path.isfile(paramMap_filename_src):
+        try:
+            with open(paramMap_filename_src, 'r') as pfile:
+                paramMap = json.load(pfile)
+        except:
+            print("failed to load {}".format(paramMap_filename_src))
+            jsons_available = False
+    else:
+        print("Missing {} file".format(paramMap_filename_src))
+        jsons_available = False
+
+    connMap_filename_src = os.path.join(design_folder, 'info_connectionMap6.json')
+    connMap_filename_dest = os.path.join(design_folder, 'info_connectionMap3.json')
+    if os.path.isfile(connMap_filename_src):
+        shutil.copyfile(connMap_filename_src, connMap_filename_dest)
+    else:
+        print("Missing {} file".format(connMap_filename_src))
+        jsons_available = False
+
+    compMap_filename_src = os.path.join(design_folder, 'info_componentMapList1.json')
+    compMap_filename_dest = os.path.join(design_folder, 'info_componentMap2.json')
+    if os.path.isfile(compMap_filename_src):
+        shutil.copyfile(compMap_filename_src, compMap_filename_dest)
+    else:
+        print("Missing {} file".format(compMap_filename_src))
+        jsons_available = False
+
+    designParams_filename = os.path.join(design_folder, "archive/result_1/designParameters.json")
+    if os.path.isfile(designParams_filename):
+        try:
+            with open(designParams_filename, 'r') as dfile:
+                designParams = json.load(dfile)
+        except:
+            print("failed to load {}".format(designParams_filename))
+            jsons_available = False
+    else:
+        print("Missing {} file".format(designParams_filename))
+        jsons_available = False
+
+    # Create info_corpusComponents.json
+    corpus_fname = os.path.join(design_folder, "info_corpusComponents4.json")
+    result = client.submit_script("better_info_corpusComponents.groovy",
+                                      __SOURCEDESIGN__=design)
+    with open(corpus_fname, "w") as file:
+        json.dump(result[0], file)
+    
+    if jsons_available:
+        # If design already exists in the graph database, remove it
+        names = client.get_design_names()
+        print("Available Designs: {}".format(names))
+        if design in names:
+            client.delete_design(design)
+            print("Design {} found, deleted the design".format(design))   
+
+        # Make sure parameters in info_paramMap1.json are up to date with the design parameters
+        # file found in archive/result_1/designParam.json
+        for param in paramMap:
+            component = param["COMPONENT_NAME"]
+            designParam_comp = designParams.get(component)
+            param_name = param["COMPONENT_PARAM"].upper()
+            if param_name in designParam_comp:
+                if param_name == "NACA_PROFILE":
+                    param_val = str(int(designParam_comp[param_name])).rjust(4,"0")
+                else:
+                    param_val = designParam_comp[param_name]
+                param["DESIGN_PARAM_VAL"] = str(param_val)
+                print("*****designParam: {}, paramMap: {}".format(designParam_comp[param_name],param["DESIGN_PARAM_VAL"]))
+            else:
+                print("Parameter name not found in designParameters.json")     
+
+        # Save updated paramMap in current file and file needed for autoseed
+        with open(paramMap_filename_src, "w") as pfile_src:
+            json.dump(paramMap, pfile_src)
+        with open(paramMap_filename_dest, "w") as pfile_dest:
+            json.dump(paramMap, pfile_dest)
+
+        # Autograph opens a new client, so close here
+        client.close()
+
+        # Create build instruction csv file for the design
+        print("Importing autoseed module")
+        autoseed = import_autoseed()
+
+        print("Running autoseed {}".format(design))
+        current_dir = os.getcwd()
+        os.chdir(design_folder)
+        autoseed.genAutographScript(design, dst_folder=design_folder)
+        os.chdir(current_dir)
+
+        # Create design in graph DB
+        autoseed_outputfile = os.path.join(design_folder, design + ".csv")
+        autograph(autoseed_outputfile)
+
+        # Remove files created for autoseed
+        #os.remove(connMap_filename_dest)
+        #os.remove(compMap_filename_dest)
+        #os.remove(paramMap_filename_dest)
+        #os.remove(corpus_fname)
+
+        # Recreate design_data file for the design
+        # Open up the query client again to pull a new design data json
+        newClient = query.Client()
+        design_json = newClient.get_design_data(design)
+        designdata_file = os.path.join(design_folder, design + "_design_data.json")
+        with open(designdata_file, "w") as file:
+            json.dump(design_json, file)
+        newClient.close()
+
+
 def run_autograph(args=None):
     import argparse
 
@@ -146,6 +294,25 @@ def run_autoseed(args=None):
         args.name = os.path.splitext(os.path.basename(args.file))[0]
 
     autoseed(design=args.name, batchfile=args.file)
+
+
+def run_update_design(args=None):
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('folder', help="an unzipped result folder with updated design")
+    parser.add_argument('--name', help="design name to be updated")
+    args = parser.parse_args(args)
+
+    if os.path.isdir(args.folder):
+        # If design name is the same as the results folder, no need to identify
+        if args.name is None:
+            args.name = os.path.splitext(os.path.basename(args.file))[0]
+
+        update_design(design_folder=args.folder, design=args.name)
+    else: 
+        print("Design Folder {} not found. Please indicate the results folder with design to update in the graph DB".format(args.folder))
 
 
 if __name__ == '__main__':
