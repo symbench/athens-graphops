@@ -1,0 +1,36 @@
+design_name: "NewAxe"
+description: "Test Study Parameters for direct2cad Run"
+# The 'flight_paths' entry must be a list.  The 'analysis_type' is a
+# single integer number.  All other FDM parameters can 
+# be a single value or a list. If a list exists, it should be the same 
+# size as the 'flight_path' list
+num_samples: 3
+fdm:
+  Analysis_Type: 3
+  Flight_Path: [1, 3, 4, 5]
+  Requested_Lateral_Speed: [19, 21, 11, 10]
+  Requested_Vertical_Speed: 1.1
+  Q_Position: 1
+  Q_Velocity: 1
+  Q_Angular_Velocity: 1
+  Q_Angles: 1
+  Ctrl_R: 0.1
+# Include any parameters that should be varied
+params:
+# Example parameter for vari-vudoo (component set names and settings) 
+# User should select min/max based on the corpus_data.json
+  rail_insts: 
+    max_value: 250
+    min_value: 75
+    name: 
+      - Front_Rail
+      - Rear_Rail
+    parameter: Length
+  tube_insts: 
+    max_value: 160
+    min_value: 40
+    name: 
+      - Mid_Tube
+      - Top_Leg_Tube
+      - Vertical_Tube
+    parameter: Length

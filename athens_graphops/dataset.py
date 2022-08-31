@@ -74,7 +74,7 @@ PROPELLER_TABLE = property_table("Propeller")
 
 def get_component_parameters(classification: str, model: str) -> List[str]:
     """
-    Return the parameter list for the component specified
+    Return the parameter list for the component specified given the parameter name
     """
     result = []
     for mod in CORPUS_DATA:
@@ -83,6 +83,10 @@ def get_component_parameters(classification: str, model: str) -> List[str]:
             result.append(entry)
             # print(mod["model"])
             break
+
+    if len(result) == 0:
+        print("Model {} (class {}) is not a component of the corpus data!".format(
+            model, classification))
 
     return result
 
@@ -106,6 +110,38 @@ def random_component_selection(classification: str) -> str:
     # print(selected_component)
 
     return selected_component["MODEL"]
+
+
+def get_component_min_max(classification: str, component_model: str, parameter: str, max_multiply_factor=1) -> Any:
+    """
+    Pull the min/max value from the corpus_data.json file for the specific classification/component model
+    """
+    params = get_component_parameters(classification, component_model)
+    if parameter in params:
+        desired_param = params[parameter]
+        if 'minimum' in desired_param.key():
+            min_value = float(desired_param["minimum"])
+            if 'maximum' in desired_param.key():
+                max_value = float(desired_param["maximum"])
+            else:
+                max_value = float(
+                    desired_param["assigned"]) * max_multiply_factor
+                print("{} does not have a maximum value, set max to {}}".format(
+                    component_model, max_value))
+        else:
+            if parameter == "LENGTH":
+                min_value = 1.0
+                max_value = float(desired_param["assigned"])
+                print("{} does not have a minimum value, set min to 1.0 and max to {}}".format(
+                    component_model, max_value))
+            else:
+                min_value = float(desired_param["assigned"])
+                max_value = float(desired_param["assigned"])
+                print(
+                    "{} does not have a minimum value, set min/max to {}}".format(component_model, min_value))
+
+    print("{}: min = {}, max = {}".format(min_value, max_value))
+    return min_value, max_value
 
 
 def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:

@@ -62,6 +62,17 @@ class Architect():
                 "paramFile": "rand_design_runs.csv",
                 "resultsFileName": "results123"
             }
+            self.fdm_parameters = {
+                "Analysis_Type": 3,
+                "Flight_Path": [1, 3, 4, 5],
+                "Requested_Lateral_Speed": 1,
+                "Requested_Vertical_Speed": 19,
+                "Q_Position": 1,
+                "Q_Velocity": 1,
+                "Q_Angular_velocity": 1,
+                "Q_Angles": 1,
+                "Ctrl_R": 0.1
+            }
 
     def open_query_client(self):
         """Open a query client (gremlin) to grab the graph design information"""
@@ -142,6 +153,62 @@ class Architect():
     #    """ToDo: Remove HardCode"""
     #    p = subprocess.Popen(["restart_creoson.bat"], shell=False)
     #    time.sleep(2)
+
+
+def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
+    """
+    Given an existing design graph (in Janusgraph), randomize parameters that are defined in a yaml file.
+
+    At this point, it is expected that the config yaml files are located in the athens_graphops configs folder.
+    There is an example of the format - default_study_params.yaml
+    """
+    # Setup Gremlin query and Jenkins interfaces
+    architecture = Architect()
+    architecture.open_jenkins_client(workflow)
+
+    if (minio_bucket != ''):
+        architecture.update_parameters("minioBucket", minio_bucket)
+    else:
+        minio_bucket = architecture.jenkins_parameters.get("minioBucket")
+
+    # Convert yaml config file into csv file that indicates the parameter study desired.
+    # The desired design name is in the config file, so it is returned for reference here.
+    design_name_inst = architecture.jenkins_client.create_direct2cad_csv(
+        minio_bucket, config_file)
+    print("Design Name to test: {}".format(design_name_inst))
+
+    # Run UAM_Workflow on the yaml specified design
+    architecture.update_parameters("graphGUID", design_name_inst)
+    param_filename = config_file.replace(".yaml", ".csv")
+    architecture.update_parameters("paramFile", param_filename)
+    result_filename = config_file.replace(".yaml", "")
+    architecture.update_parameters("resultsFileName", result_filename)
+    print("Jenkins Parameter: {}".format(architecture.jenkins_parameters))
+
+    build = architecture.jenkins_client.build_and_wait(
+        workflow, architecture.jenkins_parameters)
+    architecture.jenkins_client.save_results_from_build(
+        build, design_name_inst)
+
+    # Create json of all design information and add it to the Jenkins data.zip file
+    architecture.open_query_client()
+    design_json = architecture.client.get_design_data(design_name_inst)
+    architecture.jenkins_client.add_design_json_to_results(
+        design_name_inst, design_json)
+
+    # For runs where the study CSV file is used, the partMass.json and partLocs.json are
+    # only the last run, so skip collecting these for now
+    # For uam_direct2cad, grab the partMass.json and partLocs.json files from the workflow directory
+    # and add it to the data.zip
+    # if workflow == "uam_direct2cad":
+    #    architecture.jenkins_client.grab_extra_jsons_direct2cad(
+    #        design_name_inst)
+    # In between runs, creoson should be stopped and started again, so stopping here
+    # architecture.stop_creoson()
+
+    architecture.close_client()
+    architecture.close_jenkins_client()
+    # architecture.disconnect_creoson_server()
 
 
 def create_minimal():
@@ -1334,7 +1401,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str):
             # architecture.stop_creoson()
 
         # Consider removing design after each run
-        #architecture.client.delete_design(design_name_inst)
+        # architecture.client.delete_design(design_name_inst)
         architecture.close_client()
 
     architecture.close_jenkins_client()
@@ -1350,15 +1417,25 @@ def run(args=None):
         "minimal",
         "tail-sitter",
         "vudoo",
-        "vari-vudoo"
+        "vari-vudoo",
+        "random-existing"
     ])
     parser.add_argument('--variable-design-name', type=str,
                         help="indicates base design name when create multiple designs with randomized parameters")
     parser.add_argument('--num-designs', type=int,
                         help="indicates number of designs to create")
+
+    # Currently only used in random_existing (uam_direct2cad workflow)
+    parser.add_argument('--config-file', type=str,
+                        help="indicates name of the yaml config file that defines the randomization for the runs")
+
     # Currently only used with vari-vudoo
     parser.add_argument('--workbench', choices=["UAM_Workflows", "uam_direct2cad"],
                         help="indicates which workflow to run when creating designs")
+
+    # Arguments for uam_direct2cad
+    parser.add_argument('--bucket', type=str, metavar='minio',
+                        help="indicates the minio bucket where the parameter file is located")
 
     args = parser.parse_args(args)
 
@@ -1366,6 +1443,11 @@ def run(args=None):
     aWorkflow = "UAM_Workflows"
     if args.workbench:
         aWorkflow = args.workbench
+
+    # Additional parameters for running uam_direct2cad workflow
+    minio_bucket = ""
+    if args.bucket:
+        minio_bucket = args.bucket
 
     if args.design == "minimal":
         create_minimal()
@@ -1381,6 +1463,15 @@ def run(args=None):
         else:
             print(
                 "Please indicate the base design name (--variable-design-name) and number of designs (--num-designs")
+    elif args.design == "random-existing":
+        if args.config_file:
+            config = args.config_file
+            # At this time (8/30/22), this option only works for uam_direct2cad workflow
+            # Providing minio_bucket name is optional
+            randomize_existing_design(config, "uam_direct2cad", minio_bucket)
+        else:
+            print(
+                "Please provide the name of a configuration file for the randomized run (yaml)")
     else:
         raise ValueError("unknown design")
 
