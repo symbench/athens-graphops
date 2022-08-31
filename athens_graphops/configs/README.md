@@ -13,6 +13,18 @@ There are three sections:
 
   These values can be either a single value or a list.  The `Flight_Path` is expected to be a list defining the desired flight paths to run.  All flight paths would be [1, 3, 4, 5].  If any of the other parameters are lists, they must be the same size as the flight path definition.
 
+  Information expected in fdm_params:
+  
+    - Analysis_Type - typically 3
+    - Flight_Paths - current options are [1, 3, 4, 5]
+    - Requested_Lateral_Speed
+    - Requested_Vertical_Speed
+    - Q_Position - value from 0-1
+    - Q_Velocity - value from 0-1
+    - Q_Angular_Velocity - value from 0-1
+    - Q_Angles - value from 0-1
+    - Ctrl_R - value from 0-1
+
 * Parameter Variation Definition
 
   The first item is an informational indicate of a component set that will be defined.  A component set is a set of component names that have the same value for the parameter defined.  This is used for preserving symmetry of the design.  So, if a section of a design is created to have the same parameter value (for example a cylinder length that is reused), it is defined in the same set so that the random value determine is applied to each of the named component instances (under `name`).
