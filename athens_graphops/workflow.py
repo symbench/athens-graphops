@@ -33,6 +33,7 @@ import requests
 import yaml
 import random
 import csv
+import copy
 
 from api4jenkins import Jenkins
 from api4jenkins.exceptions import ItemNotFoundError
@@ -83,7 +84,7 @@ class JenkinsClient:
 
         # Setup a dictionary to hold the information that will be save to or read in
         # from a yaml file which is used in the creation of the study_parameter.json file
-        study_keys = ["description", "num_samples" "fdm", "params"]
+        study_keys = ["description", "num_samples", "fdm", "params"]
         self.study_params_list = dict.fromkeys(study_keys, None)
         self.fdm_keys = ["Analysis_Type", "Flight_Path", "Requested_Lateral_Speed",
                          "Requested_Vertical_Speed", "Q_Position", "Q_Velocity", "Q_Angular_Velocity", "Q_Angles", "Ctrl_R"]
@@ -299,10 +300,11 @@ class JenkinsClient:
         outfilename = os.path.join(
             self.configs_dir, design_name + "_study_params.yaml")
 
+        #print("Before writing: {}".format(self.study_params_list))
         with open(outfilename, 'w') as file:
             yaml.dump(self.study_params_list, file)
 
-    def build_study_dict(self, design_name: str, desc: str, fdm_params: List[Dict[str, Any]], comp_set_name: str, comp_class: str, comp_modelname: str, comp_names: List[str], param_name: str, min_value=0.0, max_value=0.0, num_samples=1):
+    def build_study_dict(self, design_name: str, desc: str, fdm_params: List[Dict[str, Any]], comp_set_name: str, comp_class: str, comp_modelname: str, comp_names: List[str], param_name: str, num_samples=1, min_value=0.0, max_value=0.0):
         """
         Provide FDM params for the runs (flight_paths could be a list of paths) and components/parameter 
         information on what will be varied. Min/Max is optional, if not provided will be pulled from
@@ -317,15 +319,15 @@ class JenkinsClient:
                                     desired, if not provided assume 1
 
         Information expected in fdm_params:
-          * analysis_type - typically 3
-          * flight_paths - current options are [1, 3, 4, 5]
-          * requested_lateral_speed
-          * requested_vertical_speed
-          * q_position - value from 0-1
-          * q_velocity - value from 0-1
-          * q_angular_velocity - value from 0-1
-          * q_angles - value from 0-1
-          * ctrl_r - value from 0-1
+          * Analysis_Type - typically 3
+          * Flight_Paths - current options are [1, 3, 4, 5]
+          * Requested_Lateral_Speed
+          * Requested_Vertical_Speed
+          * Q_Position - value from 0-1
+          * Q_Velocity - value from 0-1
+          * Q_Angular_velocity - value from 0-1
+          * Q_Angles - value from 0-1
+          * Ctrl_R - value from 0-1
 
        Component parameter definition (comp_set_list: list of information provided from code building the graphs):
           * comp_set_name - this information is not translated into the yaml, but helps
@@ -340,6 +342,7 @@ class JenkinsClient:
           Note: if a specific value is desired, specify the same value for min/max information (defaults of 0.0/0.0 will use corpus data)
                 (optionally indicate num_samples = 1)
         """
+        print("Input Num_Samples: {}".format(num_samples))
         self.study_params_list['design_name'] = design_name
         self.study_params_list['description'] = desc
         self.study_params_list['fdm'] = fdm_params
@@ -347,6 +350,8 @@ class JenkinsClient:
 
         self.create_param_comp_entry(
             comp_set_name, comp_class, comp_modelname, comp_names, param_name, min_value, max_value)
+
+        print("Setup of study_params_list: {}".format(self.study_params_list))
 
     def create_param_comp_entry(self, comp_set_name: str, comp_class: str, comp_modelname: str, comp_names: List[str], param_name: str, min_value=0.0, max_value=0.0):
         """
@@ -358,11 +363,27 @@ class JenkinsClient:
                 comp_class, comp_modelname, param_name)
 
         comp_set_def = {comp_set_name: {"max_value": max_value,
-                                        "min_value": min_value, "name": comp_names, "parameter": param_name}}
+                                        "min_value": min_value,
+                                        "name": comp_names,
+                                        "parameter": param_name}}
         if self.study_params_list['params'] == None:
-            self.study_params_list['params'] = [comp_set_def]
+            self.study_params_list['params'] = comp_set_def
         else:
-            self.study_params_list['params'].append(comp_set_def)
+            self.study_params_list['params'][comp_set_name] = comp_set_def[comp_set_name]
+
+        #print("Current Param List: {}".format(self.study_params_list['params']))
+
+    def duplicate_param_comp_entry(self, ref_comp_set_name: str, new_comp_set_name: str, new_param_name: str):
+        """
+        Create a duplicate parameter entry with different component set name.
+        This is used when components have shared values for component parameters (such as CHORD_1 and CHORD_2 in wings)
+        """
+        params_dict = self.study_params_list['params']
+        new_dict_entry = copy.deepcopy(params_dict[ref_comp_set_name])
+        new_dict_entry['parameter'] = new_param_name
+        self.study_params_list['params'][new_comp_set_name] = new_dict_entry
+        print("New Entry in self.study_params_list: {}".format(
+            self.study_params_list['params']))
 
     def build_param_change_list(self) -> List[Dict[str, Any]]:
         """
@@ -441,6 +462,7 @@ class JenkinsClient:
         # Get a list of parameter information that will be applied to each FDM array item for each component/parameter:
         param_change_entries = self.build_param_change_list()
         #print("Parameter change entries: {}".format(param_change_entries))
+        print("Config information: {}".format(self.study_params_list))
 
         # Create a header for the csv file combining FDM and parameter information
         csv_file_entries = []
@@ -489,10 +511,6 @@ class JenkinsClient:
 
         print("Design CSV file written: {}".format(run_sweep_param_file))
         return self.study_params_list['design_name']
-
-    def run_athens_drag_runner(vehicle_name: str, num_runs: int, study_params: List[str]):
-        # MM TODO: for testing interface
-        pass
 
 
 def run(args=None):
