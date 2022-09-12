@@ -140,7 +140,8 @@ class Designer():
                      front_angle: float = 0,
                      name: Optional[str] = None,
                      mount_inst: Optional[Instance] = None,
-                     mount_conn: Optional[str] = None) -> str:
+                     mount_conn: Optional[str] = None,
+                     alt_connector: Optional[str] = None) -> str:
         # observed requirements in CREO, but min port_thickness is flaky
         assert 8 <= port_thickness < diameter <= length
         assert 0 <= front_angle <= 360
@@ -152,8 +153,12 @@ class Designer():
         self.set_parameter(instance, "FRONT_ANGLE", front_angle)
 
         if mount_inst:
-            self.connect(instance, "FRONT_CONNECTOR",
-                         mount_inst, mount_conn)
+            if alt_connector is not None:
+                self.connect(instance, alt_connector,
+                            mount_inst, mount_conn)
+            else:
+                 self.connect(instance, "FRONT_CONNECTOR",
+                            mount_inst, mount_conn)
 
         return instance
 

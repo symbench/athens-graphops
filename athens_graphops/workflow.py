@@ -179,7 +179,7 @@ class JenkinsClient:
                     raise FileNotFoundError
                 else:
                     artifacts_content = response.content
-                    filename = f"{self.results_dir}/{design_name}_data.zip"
+                    filename = f"{self.results_dir}/{design_name}_{str(build.number)}_data.zip"
                     with open(filename, "wb") as zip_artifact:
                         zip_artifact.write(artifacts_content)
         else:

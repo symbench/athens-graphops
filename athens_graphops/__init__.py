@@ -19,7 +19,7 @@ from .dataset import CORPUS_DATA, CORPUS_SCHEMA, BATTERY_TABLE, MOTOR_TABLE, PRO
 
 # these can be overwritten in __main__
 CONFIG = {
-    "hostname": "localhost",
+    "hostname": "10.55.25.40",
     "timeout": 30,
     "script_dirs": [
         '.',
@@ -33,6 +33,6 @@ CONFIG = {
         os.path.abspath(os.path.join(os.path.dirname(
             __file__), '..', 'autograph')),
     ],
-    "jenkinsuser": "symcps",
-    "jenkinspwd": "symcps2021"
+    "jenkinsuser": "symbench",
+    "jenkinspwd": "symbench"
 }

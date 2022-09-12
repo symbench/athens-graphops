@@ -58,7 +58,7 @@ class Architect():
         elif (self.workflow == "uam_direct2cad"):
             self.jenkins_parameters = {
                 "graphGUID": "Rake",
-                "minioBucket": "graphops",
+                "minioBucket": "exp2",  # was graphops?
                 "paramFile": "rand_design_runs.csv",
                 "resultsFileName": "results123"
             }
