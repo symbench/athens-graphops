@@ -17,7 +17,8 @@
       "MOUNT_SIDE": "int",
       "VOLTAGE_REQUEST": "float",
       "SPAN": "float",
-      "THICKNESS": "float"
+      "THICKNESS": "float",
+      "CORPUS": "str"
     },
     "connectors": {
       "Battery_Connector_1_out": "out",
@@ -64,6 +65,34 @@
       "Connector_In": "in"
     }
   },
+  "Cargo": {
+    "properties": {
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "WEIGHT": "float",
+      "WIDTH": "float" 
+    },
+    "parameters": {},
+    "connectors": {
+      "CargoConnector": "in"
+    }
+  },
+  "CargoCase": {
+    "properties": {
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "OD": "float",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "Rotation": "float"
+    },
+    "connectors": {
+      "CargoConnector": "out",
+      "Case2HubConnector": "in"
+    }
+  },
   "Cylinder": {
     "properties": {
       "WALL_THICKNESS": "float"
@@ -79,6 +108,7 @@
       "PORT_THICKNESS": "float"
     },
     "connectors": {
+      "BATTERY_CONNECTOR": "out",
       "BOTTOM_CONNECTOR": "in",
       "FRONT_CONNECTOR": "out",
       "LEFT_CONNECTOR": "in",
@@ -174,19 +204,29 @@
   },
   "Motor": {
     "properties": {
-      "TOTAL_LENGTH": "float",
-      "MAX_CURRENT": "float",
-      "KM": "float",
-      "MAX_POWER": "float",
-      "LENGTH": "float",
+      "ADAPTER_DIAMETER": "str",
+      "ADAPTER_LENGTH": "str",      
       "CAN_DIAMETER": "float",
+      "CAN_LENGTH": "float",
+      "CORPUS": "str",
+      "COST": "float",
+      "ESC_BEC_Class": "float",
       "INTERNAL_RESISTANCE": "float",
       "IO_IDLE_CURRENT_10V": "float",
+      "KM": "float",
       "KT": "float",
       "KV": "float",
+      "LENGTH": "float",
+      "MAX_CURRENT": "float",
+      "MAX_POWER": "float",
       "MODEL": "str",
-      "CAN_LENGTH": "float",
+      "Max_Cells": "int",
+      "Min_Cells": "int",
+      "PROP_PITCH_REC": "str",
+      "PROP_SIZE_REC": "str",
+      "Poles": "str",
       "SHAFT_DIAMETER": "float",
+      "TOTAL_LENGTH": "float",
       "WEIGHT": "float"
     },
     "parameters": {
@@ -218,6 +258,7 @@
       "Z_ANGLE": "float"
     },
     "connectors": {
+      "Mount": "out",
       "ORIENTCONN": "out"
     }
   },
@@ -232,13 +273,14 @@
   },
   "Propeller": {
     "properties": {
-      "SHAFT_DIAMETER": "float",
+      "CORPUS": "str",
       "DIAMETER": "float",
-      "Performance_File": "str",
-      "PITCH": "float",
-      "MODEL": "str",
       "HUB_THICKNESS": "float",
-      "Weight": "float"
+      "MODEL": "str", 
+      "PITCH": "float",
+      "Performance_File": "str",
+      "SHAFT_DIAMETER": "float",
+      "WEIGHT": "float"
     },
     "parameters": {
       "Prop_type": "int",
@@ -250,6 +292,7 @@
   },
   "Servo": {
     "properties": {
+      "CORPUS": "str",
       "Current_Idle": "float",
       "Current_No_Load": "float",
       "Deadband_Width": "float",
@@ -280,23 +323,30 @@
     }
   },
   "Wing": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
+      "AILERON_BIAS": "float",
       "CHORD_1": "float",
       "CHORD_2": "float",
+      "CONTROL_CHANNEL": "int",
       "FLAP_BIAS": "float",
       "LOAD": "float",
-      "AILERON_BIAS": "float",
-      "TAPER_OFFSET": "float",
       "NACA_Profile": "str",
+      "SERVO_LENGTH": "float",
+      "SERVO_THICKNESS": "float",
+      "SERVO_WIDTH": "float",
       "SPAN": "float",
-      "THICKNESS": "float"
+      "TAPER_OFFSET": "float",
+      "THICKNESS": "float",
+      "TUBE_DIAMETER": "float",
+      "TUBE_OFFSET": "float",
+      "TUBE_ROTATION": "float"
     },
     "connectors": {
-      "Battery_Connector_1": "in",
-      "Battery_Connector_2": "in",
-      "Connector_1": "out",
-      "Connector_2": "out"
+      "Wing_Servo_Connector": "out",
+      "Wing_Tube_Connector": "out"
     }
   }
 }

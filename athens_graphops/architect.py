@@ -15,8 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from distutils.command.build_scripts import first_line_re
+#from distutils.command.build_scripts import first_line_re
 from distutils.command.config import config
+from typing import Any, Dict, List, Optional
 from .designer import Designer
 from . import CONFIG
 from .workflow import JenkinsClient
@@ -75,6 +76,9 @@ class Architect():
                 "Q_Angles": 1,
                 "Ctrl_R": 0.1
             }
+
+    def set_fdm_parameters(self, parameters: Dict[str, Any]):
+        self.fdm_parameters = parameters
 
     def open_query_client(self):
         """Open a query client (gremlin) to grab the graph design information"""
@@ -229,11 +233,25 @@ def create_minimal():
     designer.close_design()
 
 
-def create_tail_sitter():
+def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     designer = Designer()
 
+    # Setup Gremlin query and Jenkins interfaces
+    architecture = Architect()
+    architecture.open_jenkins_client(workflow)
+
+    # Create dictionary of parameters that should vary for this design (designer knows the relationships)
+    # Dictionary will have changeable parameters and a list of component instantances that uses the parameter
+    # value.
+    # config_parameter_list = [
+    #    'wing_chord', 'bar1_length', 'bar2_length', 'stear_wing_chord']
+    config_parameter_list = [
+        'wing_chord', 'bar1_length', 'bar2_length']
+    config_parameter_dict = dict.fromkeys(config_parameter_list, None)
+
     if False:
-        designer.create_design("TailSitter3NarrowBody")
+        design_name_inst = "TailSitter3NarrowBody"
+        designer.create_design(design_name_inst)
 
         fuselage = designer.add_fuselage(name="fuselage",
                                          length=2345,
@@ -274,7 +292,8 @@ def create_tail_sitter():
         stear_wing_load = 1000
 
     else:
-        designer.create_design("TailSitter3JoyRide")
+        design_name_inst = "TailSitter3JoyRide"
+        designer.create_design(design_name_inst)
 
         fuselage = designer.add_fuselage(name="fuselage",
                                          length=500,
@@ -327,6 +346,7 @@ def create_tail_sitter():
                                    load=wing_load,
                                    left_inst=fuselage,
                                    left_conn="RIGHT_CONNECTOR")
+    config_parameter_dict["wing_chord"] = ["right_wing"]
 
     left_wing = designer.add_wing(name="left_wing",
                                   naca=wing_naca,
@@ -335,6 +355,7 @@ def create_tail_sitter():
                                   load=wing_load,
                                   right_inst=fuselage,
                                   right_conn="LEFT_CONNECTOR")
+    config_parameter_dict["wing_chord"].append("left_wing")
 
     battery_controller = designer.add_battery_controller("battery_controller")
 
@@ -366,6 +387,7 @@ def create_tail_sitter():
                                     port_thickness=port_thickness,
                                     mount_inst=fuselage,
                                     mount_conn="TOP_CONNECTOR")
+    config_parameter_dict["bar1_length"] = ["top_bar"]
 
     top_hub = designer.add_cylinder(name="top_hub",
                                     length=cylinder_diameter,
@@ -380,6 +402,7 @@ def create_tail_sitter():
                                           port_thickness=port_thickness,
                                           mount_inst=top_hub,
                                           mount_conn="LEFT_CONNECTOR")
+    config_parameter_dict["bar2_length"] = ["top_right_bar"]
 
     top_right_hub = designer.add_cylinder(name="top_right_hub",
                                           length=cylinder_diameter,
@@ -403,6 +426,7 @@ def create_tail_sitter():
                                          port_thickness=port_thickness,
                                          mount_inst=top_hub,
                                          mount_conn="RIGHT_CONNECTOR")
+    config_parameter_dict["bar2_length"].append("top_left_bar")
 
     top_left_hub = designer.add_cylinder(name="top_left_hub",
                                          length=cylinder_diameter,
@@ -426,6 +450,7 @@ def create_tail_sitter():
                                        port_thickness=port_thickness,
                                        mount_inst=fuselage,
                                        mount_conn="BOTTOM_CONNECTOR")
+    config_parameter_dict["bar1_length"] = ["bottom_bar"]
 
     bottom_hub = designer.add_cylinder(name="bottom_hub",
                                        length=cylinder_diameter,
@@ -440,6 +465,7 @@ def create_tail_sitter():
                                              port_thickness=port_thickness,
                                              mount_inst=bottom_hub,
                                              mount_conn="RIGHT_CONNECTOR")
+    config_parameter_dict["bar2_length"].append("bottom_right_bar")
 
     bottom_right_hub = designer.add_cylinder(name="bottom_right_hub",
                                              length=cylinder_diameter,
@@ -463,6 +489,7 @@ def create_tail_sitter():
                                             port_thickness=port_thickness,
                                             mount_inst=bottom_hub,
                                             mount_conn="LEFT_CONNECTOR")
+    config_parameter_dict["bar2_length"].append("bottom_left_bar")
 
     bottom_left_hub = designer.add_cylinder(name="bottom_left_hub",
                                             length=cylinder_diameter,
@@ -495,6 +522,7 @@ def create_tail_sitter():
                                            front_angle=45,
                                            mount_inst=stear_bar1,
                                            mount_conn="REAR_CONNECTOR")
+        #config_parameter_dict["stear_wing_chord"] = ["stear_bar2"]
 
         designer.add_wing(name="right_stear_wing",
                           naca=stear_wing_naca,
@@ -503,6 +531,7 @@ def create_tail_sitter():
                           load=stear_wing_load,
                           left_inst=stear_bar2,
                           left_conn="RIGHT_CONNECTOR")
+        # config_parameter_dict["stear_wing_chord"].append("right_stear_wing")
 
         designer.add_wing(name="left_stear_wing",
                           naca=stear_wing_naca,
@@ -511,6 +540,7 @@ def create_tail_sitter():
                           load=stear_wing_load,
                           left_inst=stear_bar2,
                           left_conn="TOP_CONNECTOR")
+        # config_parameter_dict["stear_wing_chord"].append("left_stear_wing")
 
     designer.set_config_param("Requested_Lateral_Speed_1", 50)
     designer.set_config_param("Requested_Lateral_Speed_3", 32)
@@ -521,7 +551,110 @@ def create_tail_sitter():
     designer.set_config_param("Q_Angular_Velocity_5", 0.1)
     designer.set_config_param("R_5", 0.1)
 
+    # MM TODO: A bit of duplication here, but pushing on through for now
+    design_fdm_parameters = {
+        "Analysis_Type": 3,
+        "Flight_Path": [1, 3, 4, 5],
+        "Requested_Lateral_Speed": [50, 32, 1, 46],
+        "Requested_Vertical_Speed": 19,
+        "Q_Position": [1, 1, 1, 0.01],
+        "Q_Velocity": [1, 1, 1, 0.1],
+        "Q_Angular_Velocity": [1, 1, 1, 0.1],
+        "Q_Angles": 1,
+        "Ctrl_R": 0.1
+    }
+    architecture.set_fdm_parameters(design_fdm_parameters)
+
     designer.close_design()
+
+    # Create configuration file for this design (yaml)
+    # using maximum configurability with corpus defined min/max (i.e. not specifying here)
+    # The structure is created in the workflow class.
+    #print("config_parameter_dict: {}".format(config_parameter_dict))
+    description = "Randomized Tailsitter design"
+
+    first_param = True
+    indx = 0
+    for key in config_parameter_dict:
+        # Since design creation is variable, make sure the value (list) for the current key is not NONE
+        if config_parameter_dict[key] != None:
+            #print("config_parameter_dict key: {}".format(key))
+            if key == "wing_chord" or key == "stear_wing_chord":
+                comp_type = "Wing"
+                comp_modelname = "naca_wing"
+                set_name = key + "_1"
+                entry_param_name = ["CHORD_1", "CHORD_2"]
+            # all other parameters are for cylinders
+            else:
+                comp_type = "Cylinder"
+                comp_modelname = "PORTED_CYL"
+                set_name = key
+                entry_param_name = ["LENGTH"]
+                minimum_value = 100
+                maximum_value = 5000
+            #print("config_parameter_dict entry: {}".format(config_parameter_dict[key]))
+            if first_param:
+                if comp_type == "Cylinder":
+                    architecture.jenkins_client.build_study_dict(
+                        design_name_inst, description, architecture.fdm_parameters, set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], num_samples, minimum_value, maximum_value)
+                else:
+                    architecture.jenkins_client.build_study_dict(
+                        design_name_inst, description, architecture.fdm_parameters, set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], num_samples)
+                first_param = False
+            # Append parameter information
+            else:
+                if comp_type == "Cylinder":
+                    architecture.jenkins_client.create_param_comp_entry(
+                        set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], minimum_value, maximum_value)
+                else:
+                    architecture.jenkins_client.create_param_comp_entry(
+                        set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0])
+            # For wings, chord_1 = chord_2, so create a duplicate entry
+            if (len(entry_param_name) - 1) > indx:
+                indx += 1
+                new_set_name = key + "_2"
+                architecture.jenkins_client.duplicate_param_comp_entry(
+                    set_name, new_set_name, entry_param_name[indx])
+
+    architecture.jenkins_client.write_study_config(design_name_inst)
+
+    if (minio_name == ""):
+        minio_name = architecture.jenkins_parameters.get("minioBucket")
+    else:
+        architecture.update_parameters("minioBucket", minio_name)
+
+    # Create Jenkins run CSV file from previously stored configuration file (yaml)
+    config_filename = design_name_inst + "_study_params.yaml"
+    config_design_name = architecture.jenkins_client.create_direct2cad_csv(
+        minio_name, config_filename)
+    print("Jenkins run CSV file ({}) has been written".format(config_design_name))
+
+    # For direct2cad, need to start creoson
+    # if workflow == "uam_direct2cad":
+    #    print("Starting CREO - architect")
+    #    architecture.start_creo()
+
+    # Run UAM_Workflow on the newly created design
+    architecture.update_parameters("graphGUID", design_name_inst)
+    param_filename = config_filename.replace(".yaml", ".csv")
+    architecture.update_parameters("paramFile", param_filename)
+    result_filename = config_filename.replace(".yaml", ".zip")
+    architecture.update_parameters("resultsFileName", result_filename)
+    print("Jenkins Parameter: {}".format(architecture.jenkins_parameters))
+
+    build = architecture.jenkins_client.build_and_wait(
+        workflow, architecture.jenkins_parameters)
+    architecture.jenkins_client.save_results_from_build(
+        build, design_name_inst)
+
+    # Create json of all design information and add it to the Jenkins data.zip file
+    architecture.open_query_client()
+    design_json = architecture.client.get_design_data(design_name_inst)
+    architecture.jenkins_client.add_design_json_to_results(
+        design_name_inst, design_json)
+
+    architecture.close_client()
+    architecture.close_jenkins_client()
 
 
 def create_vudoo():
@@ -827,7 +960,7 @@ def create_vudoo():
     designer.close_design()
 
 
-def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str):
+def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
     Create a Vudoo based design, but the parameters are randomize to create
     a unique design each time. User should supply the number of designs
@@ -1026,7 +1159,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         # The set is made up of 4 front propellers and 4 rear propellers
         # The random setup for a prop/motor set (or prop_set) will be one of four configurations:
         #     4 Front props/motors, 4
-        max_num_prop_sets = 16
+        max_num_prop_sets = 12
         num_prop_sets = round(random.uniform(0, max_num_prop_sets))
 
         prop_set_config = ["Front", "Rear", "All", "None"]
@@ -1200,8 +1333,12 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                                           port_thickness=port_thickness,
                                                           mount_inst=top_hub if count == 0 else top_right_hub,
                                                           mount_conn="LEFT_CONNECTOR" if count == 0 else "REAR_CONNECTOR")
-                    config_parameter_dict['spacer2_length'] = [
-                        "top_right_bar{}".format(count)]
+                    if config_parameter_dict['spacer2_length'] == None:
+                        config_parameter_dict['spacer2_length'] = [
+                            "top_right_bar{}".format(count)]
+                    else:
+                        config_parameter_dict['spacer2_length'].append(
+                            "top_right_bar{}".format(count))
 
                     top_right_hub = designer.add_cylinder(name="top_right_hub{}".format(count),
                                                           length=cylinder_diameter,
@@ -1401,7 +1538,6 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         # The structure is created in the workflow class.
         #print("config_parameter_dict: {}".format(config_parameter_dict))
         description = "Vari-Vudoo design"
-        samples = 3
 
         first_param = True
         indx = 0
@@ -1420,17 +1556,25 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                     comp_modelname = "PORTED_CYL"
                     set_name = key
                     entry_param_name = ["LENGTH"]
-
+                    minimum_value = 100
+                    maximum_value = 5000
                 #print("config_parameter_dict entry: {}".format(config_parameter_dict[key]))
                 if first_param:
-                    architecture.jenkins_client.build_study_dict(
-                        design_name_inst, description, architecture.fdm_parameters, set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], samples)
+                    if comp_type == "Cylinder":
+                        architecture.jenkins_client.build_study_dict(
+                            design_name_inst, description, architecture.fdm_parameters, set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], num_samples, minimum_value, maximum_value)
+                    else:
+                        architecture.jenkins_client.build_study_dict(
+                            design_name_inst, description, architecture.fdm_parameters, set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], num_samples)
                     first_param = False
                 # Append parameter information
                 else:
-                    architecture.jenkins_client.create_param_comp_entry(
-                        set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0])
-
+                    if comp_type == "Cylinder":
+                        architecture.jenkins_client.create_param_comp_entry(
+                            set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0], minimum_value, maximum_value)
+                    else:
+                        architecture.jenkins_client.create_param_comp_entry(
+                            set_name, comp_type, comp_modelname, config_parameter_dict[key], entry_param_name[0])
                 # For wings, chord_1 = chord_2, so create a duplicate entry
                 if (len(entry_param_name) - 1) > indx:
                     indx += 1
@@ -1510,6 +1654,9 @@ def run(args=None):
     parser.add_argument('--num-designs', type=int,
                         help="indicates number of designs to create")
 
+    parser.add_argument('--num-samples', type=int,
+                        help="indicates number of samples to run a each created design")
+
     # Currently only used in random_existing (uam_direct2cad workflow)
     parser.add_argument('--config-file', type=str,
                         help="indicates name of the yaml config file that defines the randomization for the runs")
@@ -1533,18 +1680,23 @@ def run(args=None):
     minio_bucket = ""
     if args.bucket:
         minio_bucket = args.bucket
+    if args.num_samples:
+        number_samples = args.num_samples
+    else:
+        number_samples = 1
 
     if args.design == "minimal":
         create_minimal()
     elif args.design == "tail-sitter":
-        create_tail_sitter()
+        create_tail_sitter(aWorkflow, minio_bucket, number_samples)
     elif args.design == "vudoo":
         create_vudoo()
     elif args.design == "vari-vudoo":
         if args.variable_design_name and args.num_designs:
             name = args.variable_design_name
             number_designs = args.num_designs
-            create_vari_vudoo(number_designs, name, aWorkflow, minio_bucket)
+            create_vari_vudoo(number_designs, name, aWorkflow,
+                              minio_bucket, number_samples)
         else:
             print(
                 "Please indicate the base design name (--variable-design-name) and number of designs (--num-designs")

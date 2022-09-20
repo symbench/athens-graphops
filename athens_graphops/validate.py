@@ -60,14 +60,16 @@ def validate_corpus_data(check_type='corpus'):
         if check_type == "corpus":
             for prop_name, prop_type in model_class["properties"].items():
                 if not (prop_name in model["properties"]):
-                    print("ERROR: Property {} is missing in {}".format(
-                        prop_name, model["model"]))
+                    print("ERROR: Property {} is missing in {} ({})".format(
+                        prop_name, model["model"], model["class"]))
                 # assert prop_name in model["properties"], "property {} is missing in {}".format(
                 #    prop_name, model["model"])
                 else:
                     prop_val = model["properties"][prop_name]
                     if prop_type == "float":
                         float(prop_val)
+                    elif prop_type == "int":
+                        int(prop_val)
                     else:
                         assert prop_type == "str"
 
@@ -75,15 +77,15 @@ def validate_corpus_data(check_type='corpus'):
         if check_type == "schema":
             for prop_name_corpus, prop_val_corpus in model["properties"].items():
                 if not (prop_name_corpus in model_class["properties"]):
-                    print("WARNING: Property {} from {} is not defined in the corpus schema".format(
-                        prop_name_corpus, model["model"]))
+                    print("WARNING: Property {} from {} ({}) is not defined in the corpus schema".format(
+                        prop_name_corpus, model["model"], model["class"]))
 
         # Make sure that all the schema class parameters are defined in the corpus data model
         if check_type == "corpus":
             for param_name, param_type in model_class["parameters"].items():
                 if param_name not in model["parameters"]:
-                    print("ERROR: Parameter {} is missing in {}".format(
-                        param_name, model["model"]))
+                    print("ERROR: Parameter {} is missing in {} ({})".format(
+                        param_name, model["model"], model["class"]))
                     continue
 
                 assert param_type in ["float", "int", "str"]
@@ -101,27 +103,27 @@ def validate_corpus_data(check_type='corpus'):
                         "maximum", "inf"))
 
                     if minimum > maximum:
-                        print("WARNING: Invalid minimum {} and maximum {} values of parameter {} in {}".
-                              format(minimum, maximum, param_name, model["model"]))
+                        print("WARNING: Invalid minimum {} and maximum {} values of parameter {} in {} ({})".
+                              format(minimum, maximum, param_name, model["model"], model["class"]))
 
                     assigned = model["parameters"][param_name].get("assigned")
                     if assigned is not None:
                         assigned = float(assigned)
 
                         if assigned < minimum:
-                            print("WARNING: Invalid assigned {} and minimum {} values of parameter {} in {}".
-                                  format(assigned, minimum, param_name, model["model"]))
+                            print("WARNING: Invalid assigned {} and minimum {} values of parameter {} in {} ({})".
+                                  format(assigned, minimum, param_name, model["model"], model["class"]))
 
                         if assigned > maximum:
-                            print("WARNING: Invalid assigned and maximum values of parameter {} in {}".
-                                  format(assigned, maximum, param_name, model["model"]))
+                            print("WARNING: Invalid assigned and maximum values of parameter {} in {} ({})".
+                                  format(assigned, maximum, param_name, model["model"], model["class"]))
 
         # See if corpus data model has any properties not defined in the schema
         if check_type == "schema":
             for param_name_corpus, param_val_corpus in model["parameters"].items():
                 if param_name_corpus not in model_class["parameters"]:
-                    print("WARNING: Parameter {} from {} is not defined in the corpus schema".format(
-                        param_name_corpus, model["model"]))
+                    print("WARNING: Parameter {} from {} ({}) is not defined in the corpus schema".format(
+                        param_name_corpus, model["model"], model["class"]))
 
         # Make sure that all the schema class parameters are defined in the corpus data model
         if check_type == "corpus":
@@ -129,15 +131,15 @@ def validate_corpus_data(check_type='corpus'):
                 # assert conn_name in model["connectors"], "connector {} is missing in {}".format(
                 #    conn_name, model["model"])
                 if not (conn_name in model["connectors"]):
-                    print("ERROR: Connector {} is missing in {}".format(
-                        conn_name, model["model"]))
+                    print("ERROR: Connector {} is missing in {} ({})".format(
+                        conn_name, model["model"], model["class"]))
 
         # See if corpus data model has any properties not defined in the schema
         if check_type == "schema":
             for conn_name_corpus in model["connectors"]:
                 if not (conn_name_corpus in model_class["connectors"]):
-                    print("WARNING: Connector {} from {} is not defined in the corpus schema".format(
-                        conn_name_corpus, model["model"]))
+                    print("WARNING: Connector {} from {} ({}) is not defined in the corpus schema".format(
+                        conn_name_corpus, model["model"], model["class"]))
 
     print("Number of component types:")
     for prop_name, val in counts.items():

@@ -397,6 +397,7 @@ class JenkinsClient:
         parameter_csv_entry = dict()
         design_param_map = self.client.get_parameter_map(
             self.study_params_list['design_name'])
+        print("design_param_map: {}".format(design_param_map))
 
         for comp_set_name in self.study_params_list['params']:
 
@@ -407,7 +408,8 @@ class JenkinsClient:
             # Create random values for the parameter
             rand_values = []
             for x in range(self.study_params_list['num_samples']):
-                rand_param = float(random.uniform(comp_set_min, comp_set_max))
+                rand_param = float(
+                    round(random.uniform(comp_set_min, comp_set_max)))
                 rand_values.append(rand_param)
 
             # Determine parameter names that will go into the header
@@ -418,12 +420,17 @@ class JenkinsClient:
                     self.study_params_list['params'][comp_set_name]['parameter']
                 # Check that component name/parameter is in the design
                 found = False
-                for dict_entry in design_param_map:
-                    if param_name in dict_entry.values():
-                        #print("Found parameter: {}".format(param_name))
-                        found = True
-                        break
-                assert found
+                if len(design_param_map) == 0:
+                    print(
+                        "Query failed to provide the design parameter map to lookup the available parameters")
+                else:
+                    for dict_entry in design_param_map:
+                        if param_name in dict_entry.values():
+                            #print("Found parameter: {}".format(param_name))
+                            found = True
+                            break
+                assert found, "{} not found in design parameter map".format(
+                    param_name)
 
                 parameter_csv_entry[param_name] = rand_values
 
