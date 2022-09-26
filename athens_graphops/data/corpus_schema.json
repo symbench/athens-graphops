@@ -1,33 +1,65 @@
 {
   "Battery": {
-    "properties": {
-      "CAPACITY": "float",
-      "MODULE_VOLUME": "float",
-      "BATTERY_TYPE": "str",
-      "CONT_DISCHARGE_RATE": "float",
-      "PEAK_DISCHARGE_RATE": "float",
-      "MODULE_MASS": "float",
-      "BASE_VOLTAGE": "float"
+    "UAV": {
+      "properties": {
+        "BATTERY_TYPE": "str",
+        "CAPACITY": "float",
+        "CHEMISTRY_TYPE": "str",
+        "CONT_DISCHARGE_RATE": "float",
+        "CORPUS": "str",
+        "COST": "float",
+        "DISCHARGE_PLUG": "str",
+        "LENGTH": "float",
+        "MODEL": "str",
+        "NUMBER_OF_CELLS": "str",
+        "PACK_RESISTANCE": "int",
+        "PEAK_DISCHARGE_RATE": "int",
+        "THICKNESS": "float",
+        "VOLTAGE": "float",
+        "WEIGHT": "float",
+        "WIDTH": "int"
+      },
+      "parameters": {
+        "ROTATION": "int"
+      },
+      "connectors": {
+        "Bottom_Connector": "in",
+        "PowerBus": "out",
+        "Top_Connector": "out"
+      }
     },
-    "parameters": {
-      "CHORD_1": "float",
-      "CHORD_2": "float",
-      "VOLUME_PERCENT": "float",
-      "TAPER_OFFSET": "float",
-      "MOUNT_SIDE": "int",
-      "VOLTAGE_REQUEST": "float",
-      "SPAN": "float",
-      "THICKNESS": "float",
-      "CORPUS": "str"
-    },
-    "connectors": {
-      "Battery_Connector_1_out": "out",
-      "Battery_Connector_2_out": "out",
-      "PowerBus": "out"
+    "UAM": {
+      "properties": {
+        "BASE_VOLTAGE": "float",
+        "BATTERY_TYPE": "str",
+        "CAPACITY": "float",
+        "CONT_DISCHARGE_RATE": "float",
+        "CORPUS": "str",
+        "MODULE_MASS": "float",
+        "MODULE_VOLUME": "float",
+        "PEAK_DISCHARGE_RATE": "float"
+      },
+      "parameters": {
+        "CHORD_1": "float",
+        "CHORD_2": "float",
+        "MOUNT_SIDE": "int",
+        "SPAN": "float",
+        "TAPER_OFFSET": "float",
+        "THICKNESS": "float",
+        "VOLUME_PERCENT": "float",
+        "VOLTAGE_REQUEST": "float"
+      },
+      "connectors": {
+        "Battery_Connector_1_out": "out",
+        "Battery_Connector_2_out": "out",
+        "PowerBus": "out"
+      }
     }
   },
   "BatteryController": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
       "Input_Voltage": "float",
       "Output_Voltage": "float"
@@ -38,7 +70,9 @@
     }
   },
   "Beam": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
       "BOTTOM_CONN_DISP": "float",
       "CHORD": "float",
@@ -56,7 +90,9 @@
     }
   },
   "Beam_Cap": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
       "CHORD": "float",
       "THICKNESS": "float"
@@ -67,18 +103,21 @@
   },
   "Cargo": {
     "properties": {
+      "CORPUS": "str",
       "HEIGHT": "float",
       "LENGTH": "float",
-      "WEIGHT": "float",
       "WIDTH": "float" 
     },
-    "parameters": {},
+    "parameters": {
+      "WEIGHT": "float"
+    },
     "connectors": {
       "CargoConnector": "in"
     }
   },
   "CargoCase": {
     "properties": {
+      "CORPUS": "str",
       "HEIGHT": "float",
       "LENGTH": "float",
       "OD": "float",
@@ -95,17 +134,18 @@
   },
   "Cylinder": {
     "properties": {
+      "CORPUS": "str",
       "WALL_THICKNESS": "float"
     },
     "parameters": {
-      "TOP_CONN_DISP": "float",
-      "RIGHT_CONN_DISP": "float",
-      "DIAMETER": "float",
       "BOTTOM_CONN_DISP": "float",
+      "DIAMETER": "float",
       "FRONT_ANGLE": "float",
       "LEFT_CONN_DISP": "float",
       "LENGTH": "float",
-      "PORT_THICKNESS": "float"
+      "PORT_THICKNESS": "float",
+      "RIGHT_CONN_DISP": "float",
+      "TOP_CONN_DISP": "float"
     },
     "connectors": {
       "BATTERY_CONNECTOR": "out",
@@ -119,6 +159,7 @@
   },
   "Cylinder_Flip": {
     "properties": {
+      "CORPUS": "str",
       "LENGTH": "float",
       "WALL_THICKNESS": "float"
     },
@@ -132,6 +173,7 @@
   },
   "Cylinder_Flip_Out": {
     "properties": {
+      "CORPUS": "str",
       "LENGTH": "float",
       "WALL_THICKNESS": "float"
     },
@@ -144,22 +186,24 @@
     }
   },
   "Fuselage": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
-      "SPHERE_DIAMETER": "float",
-      "SEAT_2_FB": "float",
+      "BOTTOM_PORT_DISP": "float",
       "FLOOR_HEIGHT": "float",
       "LENGTH": "float",
-      "PORT_THICKNESS": "float",
-      "SEAT_2_LR": "float",
-      "BOTTOM_PORT_DISP": "float",
-      "TOP_PORT_DISP": "float",
-      "SEAT_1_LR": "float",
-      "RIGHT_PORT_DISP": "float",
+      "LEFT_PORT_DISP": "float",
       "MIDDLE_LENGTH": "float",
+      "PORT_THICKNESS": "float",
+      "RIGHT_PORT_DISP": "float",
+      "SPHERE_DIAMETER": "float",
       "SEAT_1_FB": "float",
+      "SEAT_1_LR": "float",
+      "SEAT_2_FB": "float",
+      "SEAT_2_LR": "float",
       "TAIL_DIAMETER": "float",
-      "LEFT_PORT_DISP": "float"
+      "TOP_PORT_DISP": "float"
     },
     "connectors": {
       "BOTTOM_CONNECTOR": "in",
@@ -173,7 +217,9 @@
     }
   },
   "FuselageNACA": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
       "BOTTOM_PORT_DISP": "float",
       "CHORD": "float",
@@ -239,12 +285,15 @@
     }
   },
   "NACA_Port_Connector": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
-      "PORT_THICKNESS": "float",
+      "BOTTOM_CONNECTION_DISP": "float",
       "CHORD": "float",
-      "THICKNESS": "float",
-      "BOTTOM_CONNECTION_DISP": "float"
+      "PORT_THICKNESS": "float",
+      "THICKNESS": "float"
+      
     },
     "connectors": {
       "Bottom_Connector": "out",
@@ -253,7 +302,9 @@
     }
   },
   "Orient": {
-    "properties": {},
+    "properties": {
+      "CORPUS": "str"
+    },
     "parameters": {
       "Z_ANGLE": "float"
     },
@@ -264,6 +315,7 @@
   },
   "Passenger": {
     "properties": {
+      "CORPUS": "str",
       "WEIGHT": "float"
     },
     "parameters": {},
@@ -283,11 +335,28 @@
       "WEIGHT": "float"
     },
     "parameters": {
-      "Prop_type": "int",
-      "Direction": "int"
+      "Direction": "int",
+      "Prop_type": "int"
     },
     "connectors": {
       "MOTOR_CONNECTOR_CS_IN": "in"
+    }
+  },
+  "Sensor": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
     }
   },
   "Servo": {

@@ -1,0 +1,63 @@
+description: Randomized Tailsitter design
+design_name: TailSitter3JoyRide
+fdm:
+  Analysis_Type: 3
+  Ctrl_R: 0.1
+  Flight_Path:
+  - 1
+  - 3
+  - 4
+  - 5
+  Q_Angles: 1
+  Q_Angular_Velocity:
+  - 1
+  - 1
+  - 1
+  - 0.1
+  Q_Position:
+  - 1
+  - 1
+  - 1
+  - 0.01
+  Q_Velocity:
+  - 1
+  - 1
+  - 1
+  - 0.1
+  Requested_Lateral_Speed:
+  - 50
+  - 32
+  - 1
+  - 46
+  Requested_Vertical_Speed: 19
+num_samples: 2
+params:
+  bar1_length:
+    max_value: 5000
+    min_value: 100
+    name:
+    - bottom_bar
+    parameter: LENGTH
+  bar2_length:
+    max_value: 5000
+    min_value: 100
+    name:
+    - top_right_bar
+    - top_left_bar
+    - bottom_right_bar
+    - bottom_left_bar
+    parameter: LENGTH
+  wing_chord_1:
+    max_value: 1000.0
+    min_value: 1.0
+    name:
+    - right_wing
+    - left_wing
+    parameter: CHORD_1
+  wing_chord_2:
+    max_value: 1000.0
+    min_value: 1.0
+    name:
+    - right_wing
+    - left_wing
+    parameter: CHORD_2

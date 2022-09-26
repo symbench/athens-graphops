@@ -187,7 +187,7 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     architecture.update_parameters("graphGUID", design_name_inst)
     param_filename = config_file.replace(".yaml", ".csv")
     architecture.update_parameters("paramFile", param_filename)
-    result_filename = config_file.replace(".yaml", "")
+    result_filename = config_file.replace(".yaml", "zip")
     architecture.update_parameters("resultsFileName", result_filename)
     print("Jenkins Parameter: {}".format(architecture.jenkins_parameters))
 

@@ -53,8 +53,26 @@ def validate_corpus_data(check_type='corpus'):
             print("WARNING: Unknown component class {}".format(model["class"]))
             continue
 
+        # Parameters and properties may be different across corpus types (i.e. battery)
+        # Create a flag on status of the information, if it is not available, it will be
+        # caught in the next sections, so just not missing here
+        # Temporarily, sensors does not indicate CORPUS
+        if "CORPUS" in model["properties"].keys():
+            if model["properties"]["CORPUS"]:
+                model_corpus_type = model["properties"]["CORPUS"]
+            else:
+                # Assumes UAM parts may not include the flag yet
+                model_corpus_type = "UAM"
+            # If both are indicate, then they are the same so picked one
+            if model_corpus_type == "Both":
+                model_corpus_type = "UAM"
+        
+        
         counts[model["class"]] += 1
         model_class = CORPUS_SCHEMA[model["class"]]
+        if model["class"] == "Battery":
+            model_class = model_class[model_corpus_type]
+            #print("{} Battery schema used: {}".format(model["model"], model_class))
 
         # Make sure that all the schema class properties are defined in the corpus data model
         if check_type == "corpus":

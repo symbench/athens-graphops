@@ -50,6 +50,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "20.0",
       "CONT_DISCHARGE_RATE": "30.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.43",
       "MODULE_VOLUME": "11300222.044672",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -107,6 +108,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "20.0",
       "CONT_DISCHARGE_RATE": "30.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.43",
       "MODULE_VOLUME": "11300222.044672",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -164,6 +166,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "20.0",
       "CONT_DISCHARGE_RATE": "30.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.43",
       "MODULE_VOLUME": "11300222.044672",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -221,6 +224,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "35.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "25.5",
       "MODULE_VOLUME": "13530263.008",
       "PEAK_DISCHARGE_RATE": "55.0"
@@ -278,6 +282,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "35.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "25.5",
       "MODULE_VOLUME": "13530263.008",
       "PEAK_DISCHARGE_RATE": "55.0"
@@ -335,6 +340,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "35.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "25.5",
       "MODULE_VOLUME": "13530263.008",
       "PEAK_DISCHARGE_RATE": "55.0"
@@ -392,6 +398,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "21.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "20.32",
       "MODULE_VOLUME": "20701909.047712006",
       "PEAK_DISCHARGE_RATE": "36.0"
@@ -449,6 +456,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "21.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "20.32",
       "MODULE_VOLUME": "20701909.047712006",
       "PEAK_DISCHARGE_RATE": "36.0"
@@ -506,6 +514,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "21.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "20.32",
       "MODULE_VOLUME": "20701909.047712006",
       "PEAK_DISCHARGE_RATE": "36.0"
@@ -563,6 +572,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "36.42",
       "MODULE_VOLUME": "16782563.45792",
       "PEAK_DISCHARGE_RATE": "40.0"
@@ -620,6 +630,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "36.42",
       "MODULE_VOLUME": "16782563.45792",
       "PEAK_DISCHARGE_RATE": "40.0"
@@ -677,6 +688,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "40.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "36.42",
       "MODULE_VOLUME": "16782563.45792",
       "PEAK_DISCHARGE_RATE": "40.0"
@@ -734,6 +746,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "55.0",
       "CONT_DISCHARGE_RATE": "22.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "22.23",
       "MODULE_VOLUME": "12905171.367025",
       "PEAK_DISCHARGE_RATE": "30.0"
@@ -791,6 +804,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "55.0",
       "CONT_DISCHARGE_RATE": "22.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "22.23",
       "MODULE_VOLUME": "12905171.367025",
       "PEAK_DISCHARGE_RATE": "30.0"
@@ -848,6 +862,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "55.0",
       "CONT_DISCHARGE_RATE": "22.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "22.23",
       "MODULE_VOLUME": "12905171.367025",
       "PEAK_DISCHARGE_RATE": "30.0"
@@ -905,6 +920,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "60.0",
       "CONT_DISCHARGE_RATE": "18.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "30.43",
       "MODULE_VOLUME": "24086034.408479996",
       "PEAK_DISCHARGE_RATE": "25.0"
@@ -962,6 +978,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "60.0",
       "CONT_DISCHARGE_RATE": "18.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "30.43",
       "MODULE_VOLUME": "24086034.408479996",
       "PEAK_DISCHARGE_RATE": "25.0"
@@ -1019,6 +1036,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "60.0",
       "CONT_DISCHARGE_RATE": "18.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "30.43",
       "MODULE_VOLUME": "24086034.408479996",
       "PEAK_DISCHARGE_RATE": "25.0"
@@ -1076,6 +1094,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "0.22",
       "CONT_DISCHARGE_RATE": "10.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.0",
       "MODULE_VOLUME": "453295.128",
       "PEAK_DISCHARGE_RATE": "20.0"
@@ -1133,6 +1152,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "0.22",
       "CONT_DISCHARGE_RATE": "10.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.0",
       "MODULE_VOLUME": "453295.128",
       "PEAK_DISCHARGE_RATE": "20.0"
@@ -1190,6 +1210,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "0.22",
       "CONT_DISCHARGE_RATE": "10.3",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.0",
       "MODULE_VOLUME": "453295.128",
       "PEAK_DISCHARGE_RATE": "20.0"
@@ -1247,6 +1268,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "0.31",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.81",
       "MODULE_VOLUME": "661012.9020000001",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -1304,6 +1326,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "0.31",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.81",
       "MODULE_VOLUME": "661012.9020000001",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -1361,6 +1384,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "0.31",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.81",
       "MODULE_VOLUME": "661012.9020000001",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -1418,6 +1442,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "0.43",
       "CONT_DISCHARGE_RATE": "12.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.7",
       "MODULE_VOLUME": "797998.4040000001",
       "PEAK_DISCHARGE_RATE": "24.0"
@@ -1475,6 +1500,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "0.43",
       "CONT_DISCHARGE_RATE": "12.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.7",
       "MODULE_VOLUME": "797998.4040000001",
       "PEAK_DISCHARGE_RATE": "24.0"
@@ -1532,6 +1558,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "0.43",
       "CONT_DISCHARGE_RATE": "12.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.7",
       "MODULE_VOLUME": "797998.4040000001",
       "PEAK_DISCHARGE_RATE": "24.0"
@@ -1589,6 +1616,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "100.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "35.0",
       "MODULE_VOLUME": "37860732.0",
       "PEAK_DISCHARGE_RATE": "3.3"
@@ -1646,6 +1674,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "100.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "35.0",
       "MODULE_VOLUME": "37860732.0",
       "PEAK_DISCHARGE_RATE": "3.3"
@@ -1703,6 +1732,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "100.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "35.0",
       "MODULE_VOLUME": "37860732.0",
       "PEAK_DISCHARGE_RATE": "3.3"
@@ -1760,6 +1790,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "112.0",
       "CONT_DISCHARGE_RATE": "0.72",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.2",
       "MODULE_VOLUME": "27948128.0",
       "PEAK_DISCHARGE_RATE": "1.5"
@@ -1817,6 +1848,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "112.0",
       "CONT_DISCHARGE_RATE": "0.72",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.2",
       "MODULE_VOLUME": "27948128.0",
       "PEAK_DISCHARGE_RATE": "1.5"
@@ -1874,6 +1906,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "112.0",
       "CONT_DISCHARGE_RATE": "0.72",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.2",
       "MODULE_VOLUME": "27948128.0",
       "PEAK_DISCHARGE_RATE": "1.5"
@@ -1931,6 +1964,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "11.0",
       "CONT_DISCHARGE_RATE": "0.46",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.18",
       "MODULE_VOLUME": "765517.48",
       "PEAK_DISCHARGE_RATE": "1.2"
@@ -1988,6 +2022,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "11.0",
       "CONT_DISCHARGE_RATE": "0.46",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.18",
       "MODULE_VOLUME": "765517.48",
       "PEAK_DISCHARGE_RATE": "1.2"
@@ -2045,6 +2080,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "11.0",
       "CONT_DISCHARGE_RATE": "0.46",
+      "CORPUS": "UAM",
       "MODULE_MASS": "1.18",
       "MODULE_VOLUME": "765517.48",
       "PEAK_DISCHARGE_RATE": "1.2"
@@ -2102,6 +2138,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "1.58",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.3",
       "MODULE_VOLUME": "4817796.816000001",
       "PEAK_DISCHARGE_RATE": "3.0"
@@ -2159,6 +2196,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "1.58",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.3",
       "MODULE_VOLUME": "4817796.816000001",
       "PEAK_DISCHARGE_RATE": "3.0"
@@ -2216,6 +2254,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "1.58",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.3",
       "MODULE_VOLUME": "4817796.816000001",
       "PEAK_DISCHARGE_RATE": "3.0"
@@ -2273,6 +2312,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "200.0",
       "CONT_DISCHARGE_RATE": "0.77",
+      "CORPUS": "UAM",
       "MODULE_MASS": "63.5",
       "MODULE_VOLUME": "53190984.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -2330,6 +2370,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "200.0",
       "CONT_DISCHARGE_RATE": "0.77",
+      "CORPUS": "UAM",
       "MODULE_MASS": "63.5",
       "MODULE_VOLUME": "53190984.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -2387,6 +2428,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "200.0",
       "CONT_DISCHARGE_RATE": "0.77",
+      "CORPUS": "UAM",
       "MODULE_MASS": "63.5",
       "MODULE_VOLUME": "53190984.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -2444,6 +2486,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "250.0",
       "CONT_DISCHARGE_RATE": "0.36",
+      "CORPUS": "UAM",
       "MODULE_MASS": "59.0",
       "MODULE_VOLUME": "24698792.5",
       "PEAK_DISCHARGE_RATE": "0.8"
@@ -2501,6 +2544,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "250.0",
       "CONT_DISCHARGE_RATE": "0.36",
+      "CORPUS": "UAM",
       "MODULE_MASS": "59.0",
       "MODULE_VOLUME": "24698792.5",
       "PEAK_DISCHARGE_RATE": "0.8"
@@ -2558,6 +2602,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "250.0",
       "CONT_DISCHARGE_RATE": "0.36",
+      "CORPUS": "UAM",
       "MODULE_MASS": "59.0",
       "MODULE_VOLUME": "24698792.5",
       "PEAK_DISCHARGE_RATE": "0.8"
@@ -2615,6 +2660,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "4.26",
       "CONT_DISCHARGE_RATE": "16.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.16",
       "MODULE_VOLUME": "6551432.16",
       "PEAK_DISCHARGE_RATE": "32.0"
@@ -2672,6 +2718,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "4.26",
       "CONT_DISCHARGE_RATE": "16.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.16",
       "MODULE_VOLUME": "6551432.16",
       "PEAK_DISCHARGE_RATE": "32.0"
@@ -2729,6 +2776,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "4.26",
       "CONT_DISCHARGE_RATE": "16.4",
+      "CORPUS": "UAM",
       "MODULE_MASS": "11.16",
       "MODULE_VOLUME": "6551432.16",
       "PEAK_DISCHARGE_RATE": "32.0"
@@ -2786,6 +2834,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "0.54",
+      "CORPUS": "UAM",
       "MODULE_MASS": "24.5",
       "MODULE_VOLUME": "13747102.3",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -2843,6 +2892,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "0.54",
+      "CORPUS": "UAM",
       "MODULE_MASS": "24.5",
       "MODULE_VOLUME": "13747102.3",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -2900,6 +2950,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "0.54",
+      "CORPUS": "UAM",
       "MODULE_MASS": "24.5",
       "MODULE_VOLUME": "13747102.3",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -2957,6 +3008,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.32",
+      "CORPUS": "UAM",
       "MODULE_MASS": "17.24",
       "MODULE_VOLUME": "12896320.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3014,6 +3066,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.32",
+      "CORPUS": "UAM",
       "MODULE_MASS": "17.24",
       "MODULE_VOLUME": "12896320.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3071,6 +3124,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.32",
+      "CORPUS": "UAM",
       "MODULE_MASS": "17.24",
       "MODULE_VOLUME": "12896320.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3128,6 +3182,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "7.5",
       "CONT_DISCHARGE_RATE": "0.47",
+      "CORPUS": "UAM",
       "MODULE_MASS": "4.17",
       "MODULE_VOLUME": "2378317.8240000005",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -3185,6 +3240,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "7.5",
       "CONT_DISCHARGE_RATE": "0.47",
+      "CORPUS": "UAM",
       "MODULE_MASS": "4.17",
       "MODULE_VOLUME": "2378317.8240000005",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -3242,6 +3298,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "7.5",
       "CONT_DISCHARGE_RATE": "0.47",
+      "CORPUS": "UAM",
       "MODULE_MASS": "4.17",
       "MODULE_VOLUME": "2378317.8240000005",
       "PEAK_DISCHARGE_RATE": "1.0"
@@ -3299,6 +3356,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "24.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "48.0"
@@ -3356,6 +3414,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "24.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "48.0"
@@ -3413,6 +3472,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "24.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "48.0"
@@ -3470,6 +3530,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "6.0"
@@ -3527,6 +3588,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "6.0"
@@ -3584,6 +3646,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "50.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "27.0",
       "MODULE_VOLUME": "17295744.0",
       "PEAK_DISCHARGE_RATE": "6.0"
@@ -3641,6 +3704,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "18.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "5.0",
       "MODULE_VOLUME": "4989600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3698,6 +3762,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "18.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "5.0",
       "MODULE_VOLUME": "4989600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3755,6 +3820,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "18.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "5.0",
       "MODULE_VOLUME": "4989600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3812,6 +3878,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "72.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.8",
       "MODULE_VOLUME": "29695600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3869,6 +3936,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "72.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.8",
       "MODULE_VOLUME": "29695600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -3926,6 +3994,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "72.0",
       "CONT_DISCHARGE_RATE": "1.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "28.8",
       "MODULE_VOLUME": "29695600.0",
       "PEAK_DISCHARGE_RATE": "2.0"
@@ -4163,6 +4232,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "7.86",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4220,6 +4290,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "7.86",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4277,6 +4348,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "19.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "7.86",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4334,6 +4406,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "22.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "8.74",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4391,6 +4464,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "22.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "8.74",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4448,6 +4522,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "22.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "8.74",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4505,6 +4580,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.54",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4562,6 +4638,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.54",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -4619,6 +4696,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "25.0",
       "CONT_DISCHARGE_RATE": "25.0",
+      "CORPUS": "UAM",
       "MODULE_MASS": "9.54",
       "MODULE_VOLUME": "5991804.0",
       "PEAK_DISCHARGE_RATE": "50.0"
@@ -6512,6 +6590,7 @@
       "BATTERY_TYPE": "Wing",
       "CAPACITY": "1.0",
       "CONT_DISCHARGE_RATE": "0.01",
+      "CORPUS": "UAM",
       "MODULE_MASS": "0.004",
       "MODULE_VOLUME": "87500.0",
       "PEAK_DISCHARGE_RATE": "0.1"
@@ -6569,6 +6648,7 @@
       "BATTERY_TYPE": "Beam",
       "CAPACITY": "1.0",
       "CONT_DISCHARGE_RATE": "0.01",
+      "CORPUS": "UAM",
       "MODULE_MASS": "0.004",
       "MODULE_VOLUME": "87500.0",
       "PEAK_DISCHARGE_RATE": "0.1"
@@ -6626,6 +6706,7 @@
       "BATTERY_TYPE": "Cylinder",
       "CAPACITY": "1.0",
       "CONT_DISCHARGE_RATE": "0.01",
+      "CORPUS": "UAM",
       "MODULE_MASS": "0.004",
       "MODULE_VOLUME": "87500.0",
       "PEAK_DISCHARGE_RATE": "0.1"
@@ -6648,7 +6729,9 @@
         "assigned": "1"
       }
     },
-    "properties": {},
+    "properties": {
+      "CORPUS": "UAM"
+    },
     "schema_version": "2.5"
   },
   {
@@ -6683,7 +6766,9 @@
         "assigned": "0"
       }
     },
-    "properties": {},
+    "properties": {
+      "CORPUS": "UAM"
+    },
     "schema_version": "2.5"
   },
   {
@@ -6703,7 +6788,9 @@
         "minimum": "6"
       }
     },
-    "properties": {},
+    "properties": {
+      "CORPUS": "UAM"
+    },
     "schema_version": "2.5"
   },
   {
@@ -6713,11 +6800,17 @@
     ],
     "id": "f547fdf0-a569-4fdd-b57f-26422c37113c",
     "model": "Cargo",
-    "parameters": {},
+    "parameters": {
+      "WEIGHT": {
+        "assigned": "0.5",
+        "maximum": "0.5",
+        "minimum": "0"
+      }
+    },
     "properties": {
+      "CORPUS": "UAV",
       "HEIGHT": "125",
       "LENGTH": "250",
-      "WEIGHT": "0.5",
       "WIDTH": "250"
     },
     "schema_version": "2.5"
@@ -6738,6 +6831,7 @@
       }
     },
     "properties": {
+      "CORPUS": "UAV",
       "HEIGHT": "125",
       "LENGTH": "250",
       "OD": "10",
@@ -6794,6 +6888,7 @@
       }
     },
     "properties": {
+      "CORPUS": "UAM",
       "WALL_THICKNESS": "3"
     },
     "schema_version": "2.5"
@@ -6813,6 +6908,7 @@
       }
     },
     "properties": {
+      "CORPUS": "UAM",
       "LENGTH": "5",
       "WALL_THICKNESS": "3"
     },
@@ -6833,6 +6929,7 @@
       }
     },
     "properties": {
+      "CORPUS": "UAM",
       "LENGTH": "5",
       "WALL_THICKNESS": "3"
     },
@@ -6914,49 +7011,8 @@
         "minimum": "1"
       }
     },
-    "properties": {},
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Motor",
-    "connectors": [
-      "Base",
-      "Base_Connector",
-      "MotorPower",
-      "Power_Out",
-      "Prop_Connector"
-    ],
-    "id": "c68bea07-8b78-11ec-be4e-3887d5d99062",
-    "model": "U3_KV700",
-    "parameters": {
-      "CONTROL_CHANNEL": {
-        "assigned": "1"
-      }
-    },
     "properties": {
-      "ADAPTER_DIAMETER": "6",
-      "ADAPTER_LENGTH": "26",
-      "CAN_DIAMETER": "41.8",
-      "CAN_LENGTH": "15.0",
-      "COST": "0",
-      "ESC_BEC_Class": "2.0",
-      "INTERNAL_RESISTANCE": "50.0",
-      "IO_IDLE_CURRENT_10V": "0.5",
-      "KM": "0.06100821800718661",
-      "KT": "0.013641852265019601",
-      "KV": "700.0",
-      "LENGTH": "33.3",
-      "MAX_CURRENT": "25.0",
-      "MAX_POWER": "500.0",
-      "MODEL": "U3_KV700",
-      "Max_Cells": "4",
-      "Min_Cells": "3",
-      "PROP_PITCH_REC": "3,6",
-      "PROP_SIZE_REC": "10,14",
-      "Poles": "12S14P",
-      "SHAFT_DIAMETER": "4.0",
-      "TOTAL_LENGTH": "38.8",
-      "WEIGHT": "0.128"
+      "CORPUS": "UAM"
     },
     "schema_version": "2.5"
   },
@@ -14683,7 +14739,9 @@
         "minimum": "6"
       }
     },
-    "properties": {},
+    "properties": {
+      "CORPUS": "UAM"
+    },
     "schema_version": "2.5"
   },
   {
@@ -14699,7 +14757,9 @@
         "assigned": "0"
       }
     },
-    "properties": {},
+    "properties": {
+      "CORPUS": "BOTH"
+    },
     "schema_version": "2.5"
   },
   {
@@ -14711,6 +14771,7 @@
     "model": "Passenger",
     "parameters": {},
     "properties": {
+      "CORPUS": "UAM",
       "WEIGHT": "90"
     },
     "schema_version": "2.5"
@@ -54640,6 +54701,156 @@
       "Performance_File": "90x9_2_1800_41_1940.dat",
       "SHAFT_DIAMETER": "47.0",
       "WEIGHT": "2.241"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
+    "model": "Autopilot",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "12.0",
+      "LENGTH": "84.0",
+      "Manufacturer": "Pixhawk",
+      "Model": "Pixhawk_4",
+      "WEIGHT": "0.049",
+      "WIDTH": "44.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392c9ac7-3478-11ed-9858-047bcb1660cf",
+    "model": "Current",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "31.1",
+      "Manufacturer": "FrSKY",
+      "Model": "FCS_150A",
+      "WEIGHT": "0.0201",
+      "WIDTH": "18.3"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392c13a0-3478-11ed-b34d-047bcb1660cf",
+    "model": "GPS",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "15.8",
+      "LENGTH": "60.0",
+      "Manufacturer": "CUAV",
+      "Model": "CUAV_NEO_3",
+      "WEIGHT": "0.033",
+      "WIDTH": "60.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
+    "model": "RpmTemp",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "2.0",
+      "LENGTH": "29.0",
+      "Manufacturer": "FrSKY",
+      "Model": "SP_RPM",
+      "WEIGHT": "0.0067",
+      "WIDTH": "20.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392d7118-3478-11ed-a849-047bcb1660cf",
+    "model": "Variometer",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "31.1",
+      "Manufacturer": "FrSKY",
+      "Model": "Vari_H",
+      "WEIGHT": "0.0031",
+      "WIDTH": "18.3"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392d1b79-3478-11ed-bdbb-047bcb1660cf",
+    "model": "Voltage",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "35.0",
+      "Manufacturer": "FrSKY",
+      "Model": "FLVSS",
+      "WEIGHT": "0.006",
+      "WIDTH": "23.0"
     },
     "schema_version": "2.5"
   },
