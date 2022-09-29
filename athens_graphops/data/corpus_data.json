@@ -7027,7 +7027,7 @@
     "model": "embrax_Emrax188HV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7068,7 +7068,7 @@
     "model": "embrax_Emrax188LV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7109,7 +7109,7 @@
     "model": "embrax_Emrax188MV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7150,7 +7150,7 @@
     "model": "embrax_Emrax208HV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7191,7 +7191,7 @@
     "model": "embrax_Emrax208LV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7232,7 +7232,7 @@
     "model": "embrax_Emrax208MV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7273,7 +7273,7 @@
     "model": "embrax_Emrax228HV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7314,7 +7314,7 @@
     "model": "embrax_Emrax228LV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7355,7 +7355,7 @@
     "model": "embrax_Emrax228MV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7396,7 +7396,7 @@
     "model": "embrax_Emrax268HV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7437,7 +7437,7 @@
     "model": "embrax_Emrax268LV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7478,7 +7478,7 @@
     "model": "embrax_Emrax268MV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7519,7 +7519,7 @@
     "model": "embrax_Emrax348HV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7560,7 +7560,7 @@
     "model": "embrax_Emrax348LV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7601,7 +7601,7 @@
     "model": "embrax_Emrax348MV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7642,7 +7642,7 @@
     "model": "h3x_HPDM250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7683,7 +7683,7 @@
     "model": "kde_direct_KDE10218XF_105",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7724,7 +7724,7 @@
     "model": "kde_direct_KDE13218XF_105",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7765,7 +7765,7 @@
     "model": "kde_direct_KDE2306XF_2550",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7806,7 +7806,7 @@
     "model": "kde_direct_KDE2315XF_885",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7847,7 +7847,7 @@
     "model": "kde_direct_KDE2315XF_965",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7888,7 +7888,7 @@
     "model": "kde_direct_KDE2814XF_515",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7929,7 +7929,7 @@
     "model": "kde_direct_KDE2814XF_775",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -7970,7 +7970,7 @@
     "model": "kde_direct_KDE3510XF_475",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8011,7 +8011,7 @@
     "model": "kde_direct_KDE3510XF_715",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8052,7 +8052,7 @@
     "model": "kde_direct_KDE3520XF_400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8093,7 +8093,7 @@
     "model": "kde_direct_KDE4012XF_400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8134,7 +8134,7 @@
     "model": "kde_direct_KDE4014XF_380",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8175,7 +8175,7 @@
     "model": "kde_direct_KDE4213XF_360",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8216,7 +8216,7 @@
     "model": "kde_direct_KDE4215XF_465",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8257,7 +8257,7 @@
     "model": "kde_direct_KDE5215XF_220",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8298,7 +8298,7 @@
     "model": "kde_direct_KDE5215XF_330",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8339,7 +8339,7 @@
     "model": "kde_direct_KDE5215XF_435",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8380,7 +8380,7 @@
     "model": "kde_direct_KDE600XF_1100_G3",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8421,7 +8421,7 @@
     "model": "kde_direct_KDE600XF_530_G3",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8462,7 +8462,7 @@
     "model": "kde_direct_KDE6213XF_185",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8503,7 +8503,7 @@
     "model": "kde_direct_KDE6815XF_205",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8544,7 +8544,7 @@
     "model": "kde_direct_KDE700XF_295_G3",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8585,7 +8585,7 @@
     "model": "kde_direct_KDE700XF_455_G3",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8626,7 +8626,7 @@
     "model": "kde_direct_KDE700XF_535_G3",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8667,7 +8667,7 @@
     "model": "kde_direct_KDE7208XF_135",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8708,7 +8708,7 @@
     "model": "kde_direct_KDE7215XF_135",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8749,7 +8749,7 @@
     "model": "kde_direct_KDE8218XF_120",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8790,7 +8790,7 @@
     "model": "magicall_MAGiDRIVE12",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8831,7 +8831,7 @@
     "model": "magicall_MAGiDRIVE150",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8872,7 +8872,7 @@
     "model": "magicall_MAGiDRIVE20",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8913,7 +8913,7 @@
     "model": "magicall_MAGiDRIVE300",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8954,7 +8954,7 @@
     "model": "magicall_MAGiDRIVE40",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -8995,7 +8995,7 @@
     "model": "magicall_MAGiDRIVE500",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9036,7 +9036,7 @@
     "model": "magicall_MAGiDRIVE6",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9077,7 +9077,7 @@
     "model": "magicall_MAGiDRIVE75",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9118,7 +9118,7 @@
     "model": "magnix_Magni350",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9159,7 +9159,7 @@
     "model": "magnix_Magni650",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9200,7 +9200,7 @@
     "model": "mgm_compro_Reb30",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9241,7 +9241,7 @@
     "model": "mgm_compro_Reb50",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9282,7 +9282,7 @@
     "model": "mgm_compro_Reb60",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9323,7 +9323,7 @@
     "model": "mgm_compro_Reb90",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9364,7 +9364,7 @@
     "model": "mgm_compro_Reg60",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9405,7 +9405,7 @@
     "model": "mgm_compro_Ret20",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9446,7 +9446,7 @@
     "model": "mgm_compro_Ret30",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9487,7 +9487,7 @@
     "model": "mgm_compro_Ret60",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9528,7 +9528,7 @@
     "model": "mgm_compro_Rex30",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9569,7 +9569,7 @@
     "model": "mgm_compro_Rex50",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9610,7 +9610,7 @@
     "model": "mgm_compro_Rex90",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9651,7 +9651,7 @@
     "model": "pipistrel_E811",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9692,7 +9692,7 @@
     "model": "t_motor_AS2308KV1450",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9734,7 +9734,7 @@
     "model": "t_motor_AS2308KV2600",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9776,7 +9776,7 @@
     "model": "t_motor_AS2312KV1150",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9818,7 +9818,7 @@
     "model": "t_motor_AS2312KV1400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9860,7 +9860,7 @@
     "model": "t_motor_AS2317KV1250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9902,7 +9902,7 @@
     "model": "t_motor_AS2317KV1400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9944,7 +9944,7 @@
     "model": "t_motor_AS2317KV880",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -9986,7 +9986,7 @@
     "model": "t_motor_AS2814KV1050",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10028,7 +10028,7 @@
     "model": "t_motor_AS2814KV1200",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10070,7 +10070,7 @@
     "model": "t_motor_AS2814KV2000",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10112,7 +10112,7 @@
     "model": "t_motor_AS2814KV900",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10154,7 +10154,7 @@
     "model": "t_motor_AS2820KV1050",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10196,7 +10196,7 @@
     "model": "t_motor_AS2820KV1250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10238,7 +10238,7 @@
     "model": "t_motor_AS2820KV880",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10280,7 +10280,7 @@
     "model": "t_motor_AT2308KV1450",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10322,7 +10322,7 @@
     "model": "t_motor_AT2308KV2600",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10364,7 +10364,7 @@
     "model": "t_motor_AT2310KV2200",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10406,7 +10406,7 @@
     "model": "t_motor_AT2312KV1150",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10448,7 +10448,7 @@
     "model": "t_motor_AT2312KV1400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10490,7 +10490,7 @@
     "model": "t_motor_AT2317KV1250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10532,7 +10532,7 @@
     "model": "t_motor_AT2317KV1400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10574,7 +10574,7 @@
     "model": "t_motor_AT2317KV880",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10616,7 +10616,7 @@
     "model": "t_motor_AT2321KV1250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10658,7 +10658,7 @@
     "model": "t_motor_AT2321KV950",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10700,7 +10700,7 @@
     "model": "t_motor_AT2814KV1050",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10742,7 +10742,7 @@
     "model": "t_motor_AT2814KV1200",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10784,7 +10784,7 @@
     "model": "t_motor_AT2814KV900",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10826,7 +10826,7 @@
     "model": "t_motor_AT2820KV1050",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10868,7 +10868,7 @@
     "model": "t_motor_AT2820KV1250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10910,7 +10910,7 @@
     "model": "t_motor_AT2820KV880",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10952,7 +10952,7 @@
     "model": "t_motor_AT2826KV1100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -10994,7 +10994,7 @@
     "model": "t_motor_AT2826KV900",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11036,7 +11036,7 @@
     "model": "t_motor_AT3520KV550",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11078,7 +11078,7 @@
     "model": "t_motor_AT3520KV720",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11120,7 +11120,7 @@
     "model": "t_motor_AT3520KV850",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11162,7 +11162,7 @@
     "model": "t_motor_AT3530KV580",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11204,7 +11204,7 @@
     "model": "t_motor_AT4120KV250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11246,7 +11246,7 @@
     "model": "t_motor_AT4120KV500",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11288,7 +11288,7 @@
     "model": "t_motor_AT4120KV560",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11330,7 +11330,7 @@
     "model": "t_motor_AT4125KV250",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11372,7 +11372,7 @@
     "model": "t_motor_AT4125KV540",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11414,7 +11414,7 @@
     "model": "t_motor_AT4130KV230",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11456,7 +11456,7 @@
     "model": "t_motor_AT4130KV300",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11498,7 +11498,7 @@
     "model": "t_motor_AT4130KV450",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11540,7 +11540,7 @@
     "model": "t_motor_AntigravityMN1005V2KV90",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11581,7 +11581,7 @@
     "model": "t_motor_AntigravityMN2806KV401",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11622,7 +11622,7 @@
     "model": "t_motor_AntigravityMN2806KV650",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11663,7 +11663,7 @@
     "model": "t_motor_AntigravityMN4004KV300",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11704,7 +11704,7 @@
     "model": "t_motor_AntigravityMN4004KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11745,7 +11745,7 @@
     "model": "t_motor_AntigravityMN4006KV380",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11786,7 +11786,7 @@
     "model": "t_motor_AntigravityMN5006KV300",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11827,7 +11827,7 @@
     "model": "t_motor_AntigravityMN5006KV450",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11868,7 +11868,7 @@
     "model": "t_motor_AntigravityMN5008KV170",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11909,7 +11909,7 @@
     "model": "t_motor_AntigravityMN5008KV340",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11950,7 +11950,7 @@
     "model": "t_motor_AntigravityMN5008KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -11991,7 +11991,7 @@
     "model": "t_motor_AntigravityMN6007IIKV160",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12032,7 +12032,7 @@
     "model": "t_motor_AntigravityMN6007IIKV320",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12073,7 +12073,7 @@
     "model": "t_motor_AntigravityMN6007KV160",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12114,7 +12114,7 @@
     "model": "t_motor_AntigravityMN6007KV320",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12155,7 +12155,7 @@
     "model": "t_motor_AntigravityMN7005KV115",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12196,7 +12196,7 @@
     "model": "t_motor_AntigravityMN7005KV230",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12237,7 +12237,7 @@
     "model": "t_motor_AntigravityMN8012KV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12278,7 +12278,7 @@
     "model": "t_motor_AntigravityMN8014KV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12319,7 +12319,7 @@
     "model": "t_motor_AntigravityMN8017KV120",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12360,7 +12360,7 @@
     "model": "t_motor_MN22041400KV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12402,7 +12402,7 @@
     "model": "t_motor_MN2212KV780",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12444,7 +12444,7 @@
     "model": "t_motor_MN2212KV920",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12486,7 +12486,7 @@
     "model": "t_motor_MN3110KV470",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12528,7 +12528,7 @@
     "model": "t_motor_MN3110KV700",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12570,7 +12570,7 @@
     "model": "t_motor_MN3110KV780",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12612,7 +12612,7 @@
     "model": "t_motor_MN3508KV380",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12654,7 +12654,7 @@
     "model": "t_motor_MN3508KV580",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12696,7 +12696,7 @@
     "model": "t_motor_MN3508KV700",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12738,7 +12738,7 @@
     "model": "t_motor_MN3510KV360",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12780,7 +12780,7 @@
     "model": "t_motor_MN3510KV630",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12822,7 +12822,7 @@
     "model": "t_motor_MN3510KV700",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12864,7 +12864,7 @@
     "model": "t_motor_MN3515KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12906,7 +12906,7 @@
     "model": "t_motor_MN3520KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12948,7 +12948,7 @@
     "model": "t_motor_MN4010KV370",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -12990,7 +12990,7 @@
     "model": "t_motor_MN4010KV475",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13032,7 +13032,7 @@
     "model": "t_motor_MN4010KV580",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13074,7 +13074,7 @@
     "model": "t_motor_MN4012KV340",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13116,7 +13116,7 @@
     "model": "t_motor_MN4012KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13158,7 +13158,7 @@
     "model": "t_motor_MN4012KV480",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13200,7 +13200,7 @@
     "model": "t_motor_MN4014KV330",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13242,7 +13242,7 @@
     "model": "t_motor_MN4014KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13284,7 +13284,7 @@
     "model": "t_motor_MN5208KV340",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13326,7 +13326,7 @@
     "model": "t_motor_MN5212KV340",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13368,7 +13368,7 @@
     "model": "t_motor_MN5212KV420",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13410,7 +13410,7 @@
     "model": "t_motor_MT13063100KV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13451,7 +13451,7 @@
     "model": "t_motor_MT22081100KV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13492,7 +13492,7 @@
     "model": "t_motor_MT2216V2800KV",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13534,7 +13534,7 @@
     "model": "t_motor_P60KV170",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13575,7 +13575,7 @@
     "model": "t_motor_P60KV340",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13616,7 +13616,7 @@
     "model": "t_motor_P80IIIKV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13657,7 +13657,7 @@
     "model": "t_motor_P80IIIKV120",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13698,7 +13698,7 @@
     "model": "t_motor_U10IIKV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13739,7 +13739,7 @@
     "model": "t_motor_U11IIKV120",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13780,7 +13780,7 @@
     "model": "t_motor_U12IIKV120",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13821,7 +13821,7 @@
     "model": "t_motor_U12IIKV60",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13862,7 +13862,7 @@
     "model": "t_motor_U13IIKV130",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13903,7 +13903,7 @@
     "model": "t_motor_U13IIKV65",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13944,7 +13944,7 @@
     "model": "t_motor_U15IIKV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -13985,7 +13985,7 @@
     "model": "t_motor_U15IIKV80",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14026,7 +14026,7 @@
     "model": "t_motor_U3KV700",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14067,7 +14067,7 @@
     "model": "t_motor_U5KV400",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14108,7 +14108,7 @@
     "model": "t_motor_U7_V2.0KV280",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14149,7 +14149,7 @@
     "model": "t_motor_U7_V2.0KV420",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14190,7 +14190,7 @@
     "model": "t_motor_U7_V2.0KV490",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14231,7 +14231,7 @@
     "model": "t_motor_U8IIKV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14272,7 +14272,7 @@
     "model": "t_motor_U8IIKV150",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14313,7 +14313,7 @@
     "model": "t_motor_U8IIKV190",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14354,7 +14354,7 @@
     "model": "t_motor_U8IIKV85",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14395,7 +14395,7 @@
     "model": "t_motor_U8LiteKV100",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14436,7 +14436,7 @@
     "model": "t_motor_U8LiteKV150",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14477,7 +14477,7 @@
     "model": "t_motor_U8LiteKV190",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14518,7 +14518,7 @@
     "model": "t_motor_U8LiteKV85",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14559,7 +14559,7 @@
     "model": "t_motor_U8LiteLKV110",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14600,7 +14600,7 @@
     "model": "t_motor_U8LiteLKV95",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14641,7 +14641,7 @@
     "model": "yasa_750R",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -14682,7 +14682,7 @@
     "model": "yasa_P400R",
     "parameters": {
       "CONTROL_CHANNEL": {
-        "assigned": "1"
+        "assigned": "-1"
       }
     },
     "properties": {
@@ -55849,7 +55849,7 @@
         "minimum": "1"
       },
       "CONTROL_CHANNEL": {
-        "assigned": "0"
+        "assigned": "-1"
       },
       "FLAP_BIAS": {
         "assigned": "0.5",
@@ -55934,7 +55934,7 @@
         "minimum": "1"
       },
       "CONTROL_CHANNEL": {
-        "assigned": "0"
+        "assigned": "-1"
       },
       "FLAP_BIAS": {
         "assigned": "0.5",

@@ -192,8 +192,8 @@
     "parameters": {
       "BOTTOM_PORT_DISP": "float",
       "FLOOR_HEIGHT": "float",
-      "LENGTH": "float",
       "LEFT_PORT_DISP": "float",
+      "LENGTH": "float",
       "MIDDLE_LENGTH": "float",
       "PORT_THICKNESS": "float",
       "RIGHT_PORT_DISP": "float",
