@@ -185,35 +185,126 @@
       "Flip_Connector_2": "out"
     }
   },
-  "Fuselage": {
+  "0281_para_flange": {
     "properties": {
-      "CORPUS": "str"
+      "BOX": "float",
+      "CORPUS": "str",
+      "OD": "float"
     },
     "parameters": {
-      "BOTTOM_PORT_DISP": "float",
+      "BOTTOM_ANGLE": "int",
+      "SIDE_ANGLE": "int"
+    },
+    "connectors": {
+      "BottomConnector": "out",
+      "SideConnector": "in",
+      "TopConnector": "in"
+    }
+  },
+  "0394_para_flange": {
+    "properties": {
+      "BOX": "float",
+      "CORPUS": "str",
+      "OD": "float"
+    },
+    "parameters": {
+      "BOTTOM_ANGLE": "int",
+      "SIDE_ANGLE": "int"
+    },
+    "connectors": {
+      "BottomConnector": "out",
+      "SideConnector": "in",
+      "TopConnector": "in"
+    }
+  },
+  "05OD_para_flange": {
+    "properties": {
+      "BOX": "float",
+      "CORPUS": "str",
+      "OD": "float"
+    },
+    "parameters": {
+      "BOTTOM_ANGLE": "int",
+      "SIDE_ANGLE": "int"
+    },
+    "connectors": {
+      "BottomConnector": "out",
+      "SideConnector": "in",
+      "TopConnector": "in"
+    }
+  },
+  "capsule_fuselage": {
+    "properties": {
+      "CORPUS": "str",
+      "WALL_THICKNESS": "float"
+    },
+    "parameters": {
+      "BOTTOM_CONNECTOR_OFFSET_LENGTH": "float",
+      "BOTTOM_CONNECTOR_OFFSET_WIDTH": "float",
+      "BOTTOM_CONNECTOR_ROTATION": "int",
+      "FLOOR_CONNECTOR_1_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_1_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_2_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_2_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_3_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_3_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_4_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_4_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_5_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_5_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_6_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_6_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_7_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_7_DISP_WIDTH": "float",
+      "FLOOR_CONNECTOR_8_DISP_LENGTH": "float",
+      "FLOOR_CONNECTOR_8_DISP_WIDTH": "float",
       "FLOOR_HEIGHT": "float",
-      "LEFT_PORT_DISP": "float",
+      "HORZ_DIAMETER": "float",
+      "TUBE_LENGTH": "float",
+      "VERT_DIAMETER": "float"
+    },
+    "connectors": {
+      "BottomConnector": "in",
+      "FloorConnector1": "out",
+      "FloorConnector2": "out",
+      "FloorConnector3": "out",
+      "FloorConnector4": "out",
+      "FloorConnector5": "out",
+      "FloorConnector6": "out",
+      "FloorConnector7": "out",
+      "FloorConnector8": "out"
+    }
+  },
+  "Fuselage": {
+    "properties": {
+      "CORPUS": "str",
+      "WALL_THICKNESS": "float"
+    },
+    "parameters": {
+      "SPHERE_DIAMETER": "float",
+      "FLOOR_HEIGHT": "float",
       "LENGTH": "float",
       "MIDDLE_LENGTH": "float",
+      "TAIL_DIAMETER": "float",
       "PORT_THICKNESS": "float",
-      "RIGHT_PORT_DISP": "float",
-      "SPHERE_DIAMETER": "float",
-      "SEAT_1_FB": "float",
       "SEAT_1_LR": "float",
+      "SEAT_1_FB": "float",
       "SEAT_2_FB": "float",
       "SEAT_2_LR": "float",
-      "TAIL_DIAMETER": "float",
-      "TOP_PORT_DISP": "float"
+      "BOTTOM_PORT_DISP": "float",
+      "TOP_PORT_DISP": "float",
+      "LEFT_PORT_DISP": "float",
+      "RIGHT_PORT_DISP": "float"
     },
     "connectors": {
       "BOTTOM_CONNECTOR": "in",
+      "TOP_CONNECTOR": "in",
       "LEFT_CONNECTOR": "in",
-      "ORIENT": "in",
-      "REAR_CONNECTOR": "in",
       "RIGHT_CONNECTOR": "in",
+      "REAR_CONNECTOR": "in",
       "SEAT_1_CONNECTOR": "in",
       "SEAT_2_CONNECTOR": "in",
-      "TOP_CONNECTOR": "in"
+      "ORIENT": "in"
     }
   },
   "FuselageNACA": {
@@ -221,32 +312,134 @@
       "CORPUS": "str"
     },
     "parameters": {
-      "BOTTOM_PORT_DISP": "float",
       "CHORD": "float",
       "FLOOR_HEIGHT": "float",
-      "LEFT_PORT_DISP": "float",
       "LENGTH": "float",
+      "THICKNESS": "float",
       "PORT_CHORD": "float",
       "PORT_OFFSET": "float",
       "PORT_THICKNESS": "float",
-      "RIGHT_PORT_DISP": "float",
       "SEAT_1_FB": "float",
       "SEAT_1_LR": "float",
       "SEAT_2_FB": "float",
       "SEAT_2_LR": "float",
-      "THICKNESS": "float",
-      "TOP_PORT_DISP": "float"
+      "BOTTOM_PORT_DISP": "float",
+      "TOP_PORT_DISP": "float",
+      "LEFT_PORT_DISP": "float",
+      "RIGHT_PORT_DISP": "float"
     },
     "connectors": {
       "BOTTOM_CONNECTOR": "in",
+      "TOP_CONNECTOR": "in",
       "LEFT_CONNECTOR": "in",
-      "ORIENT": "in",
-      "REAR_CONNECTOR": "in",
       "RIGHT_CONNECTOR": "in",
+      "REAR_CONNECTOR": "in",
       "SEAT_1_CONNECTOR": "in",
       "SEAT_2_CONNECTOR": "in",
-      "TOP_CONNECTOR": "in"
+      "ORIENT": "in"
     }
+  },
+  "0394od_para_hub_2": {
+    "properties": {
+      "CORPUS": "str",
+      "NUMHORZCONN": "int"
+    },
+    "parameters": {
+      "ANGHORZCONN": "int",
+      "ANGVERTCONN": "int",
+      "DIAMETER": "float"
+    },
+    "connectors": {
+      "Bottom_Connector": "out",
+      "Center_Connector": "in",
+      "Orient_Connector": "in",
+      "Side_Connector_1": "out",
+      "Side_Connector_2": "out",
+      "Top_Connector": "out"
+    }
+  },
+  "0394od_para_hub_3": {
+    "properties": {
+      "CORPUS": "str",
+      "NUMHORZCONN": "int"
+    },
+    "parameters": {
+      "ANGHORZCONN": "int",
+      "ANGVERTCONN": "int",
+      "DIAMETER": "float"
+    },
+    "connectors": {
+      "Bottom_Connector": "out",
+      "Center_Connector": "in",
+      "Orient_Connector": "in",
+      "Side_Connector_1": "out",
+      "Side_Connector_2": "out",
+      "Side_Connector_3": "out",
+      "Top_Connector": "out"
+    }
+  },
+  "0394od_para_hub_4": {
+    "properties": {
+      "CORPUS": "str",
+      "NUMHORZCONN": "int"
+    },
+    "parameters": {
+      "ANGHORZCONN": "int",
+      "ANGVERTCONN": "int",
+      "DIAMETER": "float"
+    },
+    "connectors": {
+      "Bottom_Connector": "out",
+      "Center_Connector": "in",
+      "Orient_Connector": "in",
+      "Side_Connector_1": "out",
+      "Side_Connector_2": "out",
+      "Side_Connector_3": "out",
+      "Side_Connector_4": "out",
+      "Top_Connector": "out"    }
+  },
+  "0394od_para_hub_5": {
+    "properties": {
+      "CORPUS": "str",
+      "NUMHORZCONN": "int"
+    },
+    "parameters": {
+      "ANGHORZCONN": "int",
+      "ANGVERTCONN": "int",
+      "DIAMETER": "float"
+    },
+    "connectors": {
+      "Bottom_Connector": "out",
+      "Center_Connector": "in",
+      "Orient_Connector": "in",
+      "Side_Connector_1": "out",
+      "Side_Connector_2": "out",
+      "Side_Connector_3": "out",
+      "Side_Connector_4": "out",
+      "Side_Connector_5": "out",
+      "Top_Connector": "out"    }
+  },
+  "0394od_para_hub_6": {
+    "properties": {
+      "CORPUS": "str",
+      "NUMHORZCONN": "int"
+    },
+    "parameters": {
+      "ANGHORZCONN": "int",
+      "ANGVERTCONN": "int",
+      "DIAMETER": "float"
+    },
+    "connectors": {
+      "Bottom_Connector": "out",
+      "Center_Connector": "in",
+      "Orient_Connector": "in",
+      "Side_Connector_1": "out",
+      "Side_Connector_2": "out",
+      "Side_Connector_3": "out",
+      "Side_Connector_4": "out",
+      "Side_Connector_5": "out",
+      "Side_Connector_6": "out",
+      "Top_Connector": "out"    }
   },
   "Motor": {
     "properties": {
@@ -359,6 +552,74 @@
       "SensorConnector": "in"
     }
   },
+  "Autopilot": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
+  "Current": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
+  "GPS": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
+  "Voltage": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
   "Servo": {
     "properties": {
       "CORPUS": "str",
@@ -391,6 +652,89 @@
       "Connector": "in"
     }
   },
+  "0281OD_para_tube": {
+    "properties": {
+      "CORPUS": "str",
+      "ID": "float",
+      "OD": "float"
+    },
+    "parameters": {
+      "Length": "float"
+    },
+    "connectors": {
+      "End Connection 1": "in",
+      "End Connection 2": "in"
+    }
+  },
+  "0394OD_para_tube": {
+    "properties": {
+      "CORPUS": "str",
+      "ID": "float",
+      "OD": "float"
+    },
+    "parameters": {
+      "BASE_ROT": "int",
+      "END_ROT": "int",
+      "Length": "float",
+      "Offset1": "float",
+      "Offset2": "float"
+    },
+    "connectors": {
+      "BaseConnection": "in",
+      "EndConnection": "in",
+      "OffsetConnection1": "out",
+      "OffsetConnection2": "out"
+    }
+  },
+  "05OD_para_tube": {
+    "properties": {
+      "CORPUS": "str",
+      "ID": "float",
+      "OD": "float"
+    },
+    "parameters": {
+      "BASE_ROT": "int",
+      "END_ROT": "int",
+      "Length": "float",
+      "Offset1": "float",
+      "Offset2": "float"
+    },
+    "connectors": {
+      "BaseConnection": "in",
+      "EndConnection": "in",
+      "OffsetConnection1": "out",
+      "OffsetConnection2": "out"
+    }
+  },
+  "UAM_Wing": {
+    "properties": {
+      "CORPUS": "str"
+    },
+    "parameters": {
+      "AILERON_BIAS": "float",
+      "CHORD_1": "float",
+      "CHORD_2": "float",
+      "CONTROL_CHANNEL": "int",
+      "FLAP_BIAS": "float",
+      "LOAD": "float",
+      "NACA_Profile": "str",
+      "SERVO_LENGTH": "float",
+      "SERVO_THICKNESS": "float",
+      "SERVO_WIDTH": "float",
+      "SPAN": "float",
+      "TAPER_OFFSET": "float",
+      "THICKNESS": "float",
+      "TUBE_DIAMETER": "float",
+      "TUBE_OFFSET": "float",
+      "TUBE_ROTATION": "float"
+    },
+    "connectors": {
+      "Connector_1": "in",
+      "Connector_2": "in",
+      "Battery_Connector_1": "out",
+      "Battery_Connector_2": "out"
+    }
+  },
   "Wing": {
     "properties": {
       "CORPUS": "str"
@@ -414,8 +758,8 @@
       "TUBE_ROTATION": "float"
     },
     "connectors": {
-      "Wing_Servo_Connector": "out",
-      "Wing_Tube_Connector": "out"
+      "Wing_Servo_Connector": "in",
+      "Wing_Tube_Connector": "in"
     }
   }
 }

@@ -187,7 +187,7 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     architecture.update_parameters("graphGUID", design_name_inst)
     param_filename = config_file.replace(".yaml", ".csv")
     architecture.update_parameters("paramFile", param_filename)
-    result_filename = config_file.replace(".yaml", "zip")
+    result_filename = config_file.replace(".yaml", ".zip")
     architecture.update_parameters("resultsFileName", result_filename)
     print("Jenkins Parameter: {}".format(architecture.jenkins_parameters))
 
@@ -216,11 +216,11 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     architecture.close_jenkins_client()
     # architecture.disconnect_creoson_server()
 
-
-def create_minimal():
+# This is for the UAM corpus
+def create_minimal_uam():
     designer = Designer()
     designer.create_design("Minimal")
-    designer.add_fuselage(name="fuselage",
+    designer.add_fuselage_uam(name="fuselage",
                           length=2000,
                           sphere_diameter=1520,
                           middle_length=300,
@@ -232,7 +232,306 @@ def create_minimal():
                           seat_2_lr=210)
     designer.close_design()
 
+def create_minimal_uav():
+    designer = Designer()
+    designer.create_design("Minimal")
+    fuselage = designer.add_fuselage_uav(name="fuselage",
+                              floor_height = 20,
+                              fuse_width = 80,
+                              fuse_height = 105,
+                              tube_length = 150,
+                              bottom_connector_rotation = 90)
+    cargo, cargo_case = designer.add_cargo(name="cargo")
 
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    designer.add_hub(name="main_hub",
+                     num_connects=3,
+                     connector_horizonal_angle=90,
+                     connects=["Top_Connector", "Bottom_Connector"],
+                     mount_inst=[fuselage, cargo_case],
+                     mount_conn=["BottomConnector", "Case2HubConnector"])
+    designer.close_design(corpus="uav", orient_z_angle=90)
+
+# Recreating NewAxe_Cargo design
+def create_new_axe_cargo():
+    designer = Designer()
+    designer.create_design("NewAxeCargo")
+    fuselage = designer.add_fuselage_uav(name="fuselage",
+                              floor_height = 20,
+                              fuse_width = 300,
+                              fuse_height = 105,
+                              tube_length = 150,
+                              bottom_connector_rotation = 90,
+                              floor_connector_1_disp_width = 70,
+                              floor_connector_2_disp_width = -70,
+                              floor_connector_3_disp_length = -20,
+                              floor_connector_3_disp_width = 33,
+                              floor_connector_4_disp_length = -20,
+                              floor_connector_4_disp_width = -30,
+                              floor_connector_5_disp_length = 50,
+                              floor_connector_6_disp_length = -20,
+                              floor_connector_6_disp_width = 11,
+                              floor_connector_7_disp_length = -80,
+                              floor_connector_8_disp_length = -20,
+                              floor_connector_8_disp_width = -11)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
+    # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
+    # capsule_fuselage:FloorConnector3 to RpmTemp:SensorConnector
+    # capsule_fuselage:FloorConnector4 to Current:SensorConnector
+    # capsule_fuselage:FloorConnector5 to Autopilot:SensorConnector
+    # capsule_fuselage:FloorConnector6 to Voltage:SensorConnector
+    # capsule_fuselage:FloorConnector7 to GPS:SensorConnector
+    # capsule_fuselage:FloorConnector8 to Variometer:SensorConnector
+    # capsule_fuselage:BottomConnector to main_hub:Top_Connector
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    designer.add_hub(name="main_hub",
+                     num_connects=3,
+                     connector_horizonal_angle=90,
+                     connects=["Top_Connector","Bottom_Connector"],
+                     mount_inst=[fuselage, cargo_case],
+                     mount_conn=["BottomConnector", "Case2HubConnector"])
+
+    # other main hub connections
+    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
+    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
+ 
+    # other main_hub connections
+    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
+    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
+    # main_hub:Orient_Connector to Orient:ORIENTCONN - in close_design 
+ 
+    # Battery connections
+    # Battery_1, Battery_2 - TurnigyGraphene6000mAh6S75C
+    # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
+    # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
+    # 
+    #   
+    # BatteryController connections
+    # Battery_2:PowerBus to BatteryController:BatteryPower
+    # Battery_1:PowerBus to BatteryController:BatteryPower
+    # front_motor_l:MotorPower to BatteryController:MotorPower
+    # front_motor_r:MotorPower to BatteryController:MotorPower
+    # rear_motor_r:MotorPower to BatteryController:MotorPower
+    # rear_motor_l:MotorPower to BatteryController:MotorPower
+
+    # Tubes - 0394OD_para_tube
+    # top_leg_r, top_leg_l
+    # bottom_leg_r, bottom_leg_l
+    # front_wing_tube_r, front_wing_tube_l
+    # front_rail_l, front_rail_r
+    # vertical_l, vertical_r
+    # rear_rail_l, rear_rail_r
+    # rudder_tube_l, rudder_tube_r
+    # mid_tube_r, mid_tube_l
+    # top_leg_r:BaseConnection to rear_flange_r:BottomConnector
+    # vertical_l:OffsetConnection1 to rear_left_wing:Wing_Tube_Connector
+    # vertical_l:BaseConnection to rear_hub_l:Side_Connector_2
+    # vertical_r:EndConnection to rear_flange_r:SideConnector
+    # vertical_r:OffsetConnection1 to rear_right_wing:Wing_Tube_Connector
+    # rear_rail_l:EndConnection to rear_hub_l:Side_Connector_1
+    # rear_rail_l:BaseConnection to side_hub_l:Side_Connector_1
+    # rear_rail_r:BaseConnection to side_hub_r:Side_Connector_1
+    # rudder_tube_l:BaseConnection to rear_hub_l:Center_Connector
+    # mid_tube_r:EndConnection to side_hub_r:Side_Connector_2
+    # front_rail_r:EndConnection to front_flange_r:BottomConnector
+    # front_rail_r:BaseConnection to side_hub_r:Side_Connector_3
+    # Front_Rail_Length:135
+    # front_rail_r:Length-Front_Rail_Length
+    # front_rail_l:Length-Front_Rail_Length
+    # Mid_Tube_Length:140
+    # mid_tube_r:Length-Mid_Tube_Length
+    # mid_tube_l:Length-Mid_Tube_Length
+    # rear_rail_l:END_ROT-BodyRotAngle
+    # front_rail_r:END_ROT-BodyRotAngle
+    # vertical_l:END_ROT-BodyRotAngle
+    # rear_rail_r:END_ROT-BodyRotAngle
+    # Param_11:180 - see wings
+    # mid_tube_l:END_ROT-Param_11
+    # Rear_Rail_Length:220
+    # rear_rail_l:Length-Rear_Rail_Length
+    # rear_rail_r:Length-Rear_Rail_Length
+    # Top_Leg_Tube_Length:150.1524
+    # top_leg_l:Length-Top_Leg_Tube_Length
+    # top_leg_r:Length-Top_Leg_Tube_Length
+    # Rudder_Tube_Length:41
+    # rudder_tube_r:Length-Rudder_Tube_Length
+    # rudder_tube_l:Length-Rudder_Tube_Length
+    # vertical_r:Length-Vertical_Tube_Length
+    # vertical_l:Length-Vertical_Tube_Length
+    # Vertical_Tube_Length:150 - see tubes
+    # bottom_leg_r:Length-Vertical_Tube_Length
+    # bottom_leg_l:Length-Vertical_Tube_Length
+
+    # Flange - 0394_para_flange
+    # front_flange_l, front_flange_r
+    # rear_flange_l, rear_flange_r
+    # front_flange_l:TopConnector to front_motor_l:Base_Connector
+    # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
+    # front_flange_l:BottomConnector to front_rail_l:EndConnection
+    # rear_flange_l:SideConnector to vertical_l:EndConnection
+    # rear_flange_l:BottomConnector to top_leg_l:BaseConnection
+    # rear_flange_l:TopConnector to rear_motor_l:Base_Connector
+    # BodyRotAngle:90 - see tubes and fuselage
+    # front_flange_r:BOTTOM_ANGLE-BodyRotAngle
+
+    # Wings
+    # Wing_vert_hole - right_rudder, left_rudder, 
+    #                  front_left_wing, front_right_wing
+    #                  rear_left_wing, rear_right_wing 
+    # front_wing_tube_r:BaseConnection to front_flange_r:SideConnector
+    # front_wing_tube_r:EndConnection to front_right_wing:Wing_Tube_Connector
+    # front_left_wing:Wing_Tube_Connector to front_wing_tube_l:EndConnection
+    # right_rudder:Wing_Tube_Connector to rudder_tube_r:EndConnection
+    # left_rudder:Wing_Tube_Connector to rudder_tube_l:EndConnection
+    # angle_270:270
+    # rear_left_wing:TUBE_ROTATION-angle_270
+    # front_rail_l:END_ROT-angle_270
+    # vertical_r:END_ROT-angle_270
+    # Channel_7:7
+    # rear_right_wing:CONTROL_CHANNEL-Channel_7
+    # Channel_10:10
+    # left_rudder:CONTROL_CHANNEL-Channel_10
+    # Front_Wing_Tube_Length:52
+    # front_wing_tube_r:Length-Front_Wing_Tube_Length
+    # front_wing_tube_l:Length-Front_Wing_Tube_Length
+    # Channel_6:6
+    # front_right_wing:CONTROL_CHANNEL-Channel_6
+    # rear_right_wing:TUBE_ROTATION-Param_12
+    # Channel_9:9
+    # right_rudder:CONTROL_CHANNEL-Channel_9
+    # front_l_wing_offset:289.68
+    # front_left_wing:TUBE_OFFSET-front_l_wing_offset
+    # left_rudder:TUBE_ROTATION-Param_11
+    # front_right_wing:TUBE_ROTATION-Param_11
+    # front_left_wing:TUBE_ROTATION-Param_11
+    # r_rudder_offset:50
+    # right_rudder:TUBE_OFFSET-r_rudder_offset
+    # Channel_5:5
+    # front_left_wing:CONTROL_CHANNEL-Channel_5
+    # front_wing_span:450
+    # front_left_wing:SPAN-front_wing_span
+    # front_right_wing:SPAN-front_wing_span
+    # rear_wing_offset:90
+    # vertical_l:Offset1-rear_wing_offset
+    # vertical_r:Offset1-rear_wing_offset
+    # Param_14:448.68
+    # rear_left_wing:TUBE_OFFSET-Param_14
+    # front_wing_chord:150
+    # front_right_wing:CHORD_2-front_wing_chord
+    # front_left_wing:CHORD_1-front_wing_chord
+    # front_right_wing:CHORD_1-front_wing_chord
+    # front_left_wing:CHORD_2-front_wing_chord
+    # rear_wing_chord:180
+    # rear_left_wing:CHORD_2-rear_wing_chord
+    # rear_right_wing:CHORD_2-rear_wing_chord
+    # rear_right_wing:CHORD_1-rear_wing_chord
+    # rear_left_wing:CHORD_1-rear_wing_chord
+    # rudder_span:140
+    # left_rudder:SPAN-rudder_span
+    # right_rudder:SPAN-rudder_span
+    # l_rudder_offset:90
+    # left_rudder:TUBE_OFFSET-l_rudder_offset
+    # rudder_chord:100
+    # left_rudder:CHORD_2-rudder_chord
+    # right_rudder:CHORD_1-rudder_chord
+    # left_rudder:CHORD_1-rudder_chord
+    # right_rudder:CHORD_2-rudder_chord
+    # front_r_wing_offset:160.32
+    # front_right_wing:TUBE_OFFSET-front_r_wing_offset
+    # rear_right_wing:TUBE_OFFSET-front_r_wing_offset
+    # NACA_profile:0012
+    # rear_right_wing:NACA_Profile-NACA_profile
+    # front_right_wing:NACA_Profile-NACA_profile
+    # front_left_wing:NACA_Profile-NACA_profile
+    # rear_left_wing:NACA_Profile-NACA_profile
+    # left_rudder:NACA_Profile-NACA_profile
+    # right_rudder:NACA_Profile-NACA_profile
+    # rear_wing_span:609
+    # rear_left_wing:SPAN-rear_wing_span
+    # rear_right_wing:SPAN-rear_wing_span
+    # wing_thickness:12
+    # right_rudder:THICKNESS-wing_thickness
+    # front_right_wing:THICKNESS-wing_thickness
+    # front_left_wing:THICKNESS-wing_thickness
+    # rear_left_wing:THICKNESS-wing_thickness
+    # rear_right_wing:THICKNESS-wing_thickness
+    # left_rudder:THICKNESS-wing_thickness
+    # Channel_8:8
+    # rear_left_wing:CONTROL_CHANNEL-Channel_8
+
+    # Other hubs - 0394od_para_hub_3
+    # rear_hub_r, rear_hub_l, side_hub_l, side_hub_r 
+    # rear_hub_r:Side_Connector_1 to bottom_leg_r:BaseConnection
+    # rear_hub_r:Side_Connector_2 to vertical_r:BaseConnection
+    # rear_hub_r:Center_Connector to rudder_tube_r:BaseConnection
+    # rear_hub_r:Side_Connector_3 to rear_rail_r:EndConnection
+    # rear_hub_l:Side_Connector_3 to bottom_leg_l:BaseConnection
+    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
+    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
+    # main_hub:Bottom_Connector to CargoCase:Case2HubConnector
+    # main_hub:Orient_Connector to Orient:ORIENTCONN
+    # side_hub_l:Side_Connector_3 to front_rail_l:BaseConnection
+    # side_hub_l:Side_Connector_2 to mid_tube_l:EndConnection
+    # Param_12:90 -- see rear_right_wing
+    # rear_hub_l:ANGHORZCONN-Param_12
+    # side_hub_l:ANGHORZCONN-Param_12
+    # main_hub:ANGHORZCONN-Param_12
+    # side_hub_r:ANGHORZCONN-Param_12
+    # rear_hub_r:ANGHORZCONN-Param_12
+
+    # Sensors 
+    # Voltage (Voltage), Variometer (Variometer), Current (Current)
+    # Autopilot (Autopilot), RpmTemp (RpmTemp), GPS (GPS)
+
+    # Propellers - apc_propellers_7x5E
+    # rear_prop_r, rear_prop_l, front_prop_l, front_prop_r
+    # rear_prop_r:MOTOR_CONNECTOR_CS_IN to rear_motor_r:Prop_Connector
+    # rear_prop_l:MOTOR_CONNECTOR_CS_IN to rear_motor_l:Prop_Connector
+    # FwdFacingCCW_PropType:-1
+    # rear_prop_l:Prop_type-FwdFacingCCW_PropType
+    # front_prop_l:Prop_type-FwdFacingCCW_PropType
+    # FwdFacingCCW_Spin:-1
+    # front_prop_l:Direction-FwdFacingCCW_Spin
+    # rear_prop_l:Direction-FwdFacingCCW_Spin
+    # FwdFacingCW_Spin:1
+    # front_prop_r:Direction-FwdFacingCW_Spin
+    # rear_prop_r:Direction-FwdFacingCW_Spin
+    # FwdFacingCW_PropType:1
+    # front_prop_r:Prop_type-FwdFacingCW_PropType
+    # rear_prop_r:Prop_type-FwdFacingCW_PropType
+
+    # Motor - kde_direct_KDE2315XF_885
+    # front_motor_l, front_motor_r, rear_motor_r, rear_motor_l
+    # front_motor_l:Prop_Connector to front_prop_l:MOTOR_CONNECTOR_CS_IN
+    # front_motor_l:MotorPower to BatteryController:MotorPower
+    # front_motor_r:MotorPower to BatteryController:MotorPower
+    # front_motor_r:Base_Connector to front_flange_r:TopConnector
+    # front_motor_r:Prop_Connector to front_prop_r:MOTOR_CONNECTOR_CS_IN
+    # rear_motor_r:MotorPower to BatteryController:MotorPower
+    # rear_motor_r:Base_Connector to rear_flange_r:TopConnector
+    # rear_motor_l:MotorPower to BatteryController:MotorPower
+    # Channel_3:3
+    # rear_motor_l:CONTROL_CHANNEL-Channel_3
+    # Channel_2:2
+    # front_motor_r:CONTROL_CHANNEL-Channel_2
+    # Channel_1:1
+    # front_motor_l:CONTROL_CHANNEL-Channel_1
+    # Channel_4:4
+    # rear_motor_r:CONTROL_CHANNEL-Channel_4
+
+   #   MM TODO: check TestQuad to see if connection location is a design decision or always the same for UAV
+
+    designer.close_design(corpus="uav", orient_z_angle=90)
+
+# This is for the UAM corpus
 def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     designer = Designer()
 
@@ -253,7 +552,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
         design_name_inst = "TailSitter3NarrowBody"
         designer.create_design(design_name_inst)
 
-        fuselage = designer.add_fuselage(name="fuselage",
+        fuselage = designer.add_fuselage_uam(name="fuselage",
                                          length=2345,
                                          sphere_diameter=1201,
                                          middle_length=1517,
@@ -295,7 +594,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
         design_name_inst = "TailSitter3JoyRide"
         designer.create_design(design_name_inst)
 
-        fuselage = designer.add_fuselage(name="fuselage",
+        fuselage = designer.add_fuselage_uam(name="fuselage",
                                          length=500,
                                          sphere_diameter=160,
                                          middle_length=400,
@@ -339,7 +638,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                            fuselage_inst=fuselage,
                            fuselage_conn="SEAT_2_CONNECTOR")
 
-    right_wing = designer.add_wing(name="right_wing",
+    right_wing = designer.add_wing_uam(name="right_wing",
                                    naca=wing_naca,
                                    chord=wing_chord,
                                    span=wing_span,
@@ -348,7 +647,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                                    left_conn="RIGHT_CONNECTOR")
     config_parameter_dict["wing_chord"] = ["right_wing"]
 
-    left_wing = designer.add_wing(name="left_wing",
+    left_wing = designer.add_wing_uam(name="left_wing",
                                   naca=wing_naca,
                                   chord=wing_chord,
                                   span=wing_span,
@@ -359,7 +658,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
 
     battery_controller = designer.add_battery_controller("battery_controller")
 
-    designer.add_battery(battery_model,
+    designer.add_battery_uam(battery_model,
                          name="right_battery",
                          naca=wing_naca,
                          chord=wing_chord,
@@ -370,7 +669,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                          wing_inst=right_wing,
                          controller_inst=battery_controller)
 
-    designer.add_battery(battery_model,
+    designer.add_battery_uam(battery_model,
                          name="left_battery",
                          naca=wing_naca,
                          chord=wing_chord,
@@ -524,7 +823,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                                            mount_conn="REAR_CONNECTOR")
         #config_parameter_dict["stear_wing_chord"] = ["stear_bar2"]
 
-        designer.add_wing(name="right_stear_wing",
+        designer.add_wing_uam(name="right_stear_wing",
                           naca=stear_wing_naca,
                           chord=stear_wing_chord,
                           span=stear_wing_span,
@@ -533,7 +832,7 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                           left_conn="RIGHT_CONNECTOR")
         # config_parameter_dict["stear_wing_chord"].append("right_stear_wing")
 
-        designer.add_wing(name="left_stear_wing",
+        designer.add_wing_uam(name="left_stear_wing",
                           naca=stear_wing_naca,
                           chord=stear_wing_chord,
                           span=stear_wing_span,
@@ -656,12 +955,12 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     architecture.close_client()
     architecture.close_jenkins_client()
 
-
+# This is for the UAM corpus
 def create_vudoo():
     designer = Designer()
     designer.create_design("VUdoo5")
 
-    fuselage = designer.add_fuselage(name="fuselage",
+    fuselage = designer.add_fuselage_uam(name="fuselage",
                                      length=2000,
                                      sphere_diameter=1520,
                                      middle_length=750,
@@ -717,7 +1016,7 @@ def create_vudoo():
 
     battery_controller = designer.add_battery_controller("battery_controller")
 
-    right_wing = designer.add_wing(name="right_wing",
+    right_wing = designer.add_wing_uam(name="right_wing",
                                    naca=wing_naca,
                                    chord=wing_chord,
                                    span=wing_span,
@@ -725,7 +1024,7 @@ def create_vudoo():
                                    left_inst=fuselage,
                                    left_conn="RIGHT_CONNECTOR")
 
-    left_wing = designer.add_wing(name="left_wing",
+    left_wing = designer.add_wing_uam(name="left_wing",
                                   naca=wing_naca,
                                   chord=wing_chord,
                                   span=wing_span,
@@ -733,7 +1032,7 @@ def create_vudoo():
                                   right_inst=fuselage,
                                   right_conn="LEFT_CONNECTOR")
 
-    designer.add_battery(battery_model,
+    designer.add_battery_uam(battery_model,
                          name="right_battery",
                          naca=wing_naca,
                          chord=wing_chord,
@@ -744,7 +1043,7 @@ def create_vudoo():
                          wing_inst=right_wing,
                          controller_inst=battery_controller)
 
-    designer.add_battery(battery_model,
+    designer.add_battery_uam(battery_model,
                          name="left_battery",
                          naca=wing_naca,
                          chord=wing_chord,
@@ -941,7 +1240,7 @@ def create_vudoo():
                                            mount_inst=stear_bar1,
                                            mount_conn="REAR_CONNECTOR")
 
-        designer.add_wing(name="right_stear_wing",
+        designer.add_wing_uam(name="right_stear_wing",
                           naca=stear_wing_naca,
                           chord=stear_wing_chord,
                           span=stear_wing_span,
@@ -949,7 +1248,7 @@ def create_vudoo():
                           left_inst=stear_bar2,
                           left_conn="RIGHT_CONNECTOR")
 
-        designer.add_wing(name="left_stear_wing",
+        designer.add_wing_uam(name="left_stear_wing",
                           naca=stear_wing_naca,
                           chord=stear_wing_chord,
                           span=stear_wing_span,
@@ -959,7 +1258,7 @@ def create_vudoo():
 
     designer.close_design()
 
-
+# This is for the UAM corpus
 def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
     Create a Vudoo based design, but the parameters are randomize to create
@@ -979,10 +1278,10 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         designer = Designer()
         designer.create_design(design_name_inst)
 
-        # Note: There are two fuselages, with differing parameter names
-        # Current designer.add_fuselage is for the "FUSE_SPHERE_CYL_CONE" version,
+        # Note (prior to 10/2022): There are two fuselages, with differing parameter names
+        # Current designer.add_fuselage_uam is for the "FUSE_SPHERE_CYL_CONE" version,
         # not the NACA_Fuse. This can be randomized in the future when
-        # designer.add_fuselage is made more generic. For now, assuming only
+        # designer.add_fuselage_uam is made more generic. For now, assuming only
         # 1 option available.
         fuse_params = get_component_parameters(
             "Fuselage", "FUSE_SPHERE_CYL_CONE")
@@ -1032,7 +1331,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         # print("Fuselage floor height, seat 1 fb/lr, seat 2 fb/lr: %f, %f,%f,%f,%f" % (fuse_floor_height, fuse_seat_1_fb, fuse_seat_1_lr, fuse_seat_2_fb, fuse_seat_2_lr))
         # print("Fuselage ports - top/bottom/left/right: %f, %f, %f, %f" % (fuse_top_port_disp, fuse_bottom_port_disp, fuse_left_port_disp, fuse_right_port_disp))
 
-        fuselage = designer.add_fuselage(name="fuselage",
+        fuselage = designer.add_fuselage_uam(name="fuselage",
                                          length=fuse_length,
                                          sphere_diameter=fuse_sphere_diameter,
                                          middle_length=fuse_middle_length,
@@ -1245,7 +1544,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         battery_controller = designer.add_battery_controller(
             "battery_controller")
 
-        right_wing = designer.add_wing(name="right_wing",
+        right_wing = designer.add_wing_uam(name="right_wing",
                                        naca=wing_naca,
                                        chord=wing_chord,
                                        span=wing_span,
@@ -1254,7 +1553,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                        left_conn="RIGHT_CONNECTOR")
         config_parameter_dict["wing_chord"] = ["right_wing"]
 
-        left_wing = designer.add_wing(name="left_wing",
+        left_wing = designer.add_wing_uam(name="left_wing",
                                       naca=wing_naca,
                                       chord=wing_chord,
                                       span=wing_span,
@@ -1263,7 +1562,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                       right_conn="LEFT_CONNECTOR")
         config_parameter_dict["wing_chord"].append("left_wing")
 
-        designer.add_battery(battery_model,
+        designer.add_battery_uam(battery_model,
                              name="right_battery",
                              naca=wing_naca,
                              chord=wing_chord,
@@ -1274,7 +1573,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                              wing_inst=right_wing,
                              controller_inst=battery_controller)
 
-        designer.add_battery(battery_model,
+        designer.add_battery_uam(battery_model,
                              name="left_battery",
                              naca=wing_naca,
                              chord=wing_chord,
@@ -1515,7 +1814,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                                    mount_inst=stear_bar1,
                                                    mount_conn="REAR_CONNECTOR")
 
-                designer.add_wing(name="right_stear_wing",
+                designer.add_wing_uam(name="right_stear_wing",
                                   naca=stear_wing_naca,
                                   chord=stear_wing_chord,
                                   span=stear_wing_span,
@@ -1523,7 +1822,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                   left_inst=stear_bar2,
                                   left_conn="RIGHT_CONNECTOR")
 
-                designer.add_wing(name="left_stear_wing",
+                designer.add_wing_uam(name="left_stear_wing",
                                   naca=stear_wing_naca,
                                   chord=stear_wing_chord,
                                   span=stear_wing_span,
@@ -1636,7 +1935,6 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
     architecture.close_jenkins_client()
     # architecture.disconnect_creoson_server()
 
-
 def run(args=None):
     import argparse
 
@@ -1649,6 +1947,9 @@ def run(args=None):
         "vari-vudoo",
         "random-existing"
     ])
+    parser.add_argument('--corpus', choices=["uam", "uav"],
+                        help="indicate corpus name")
+
     parser.add_argument('--variable-design-name', type=str,
                         help="indicates base design name when create multiple designs with randomized parameters")
     parser.add_argument('--num-designs', type=int,
@@ -1686,7 +1987,12 @@ def run(args=None):
         number_samples = 1
 
     if args.design == "minimal":
-        create_minimal()
+        if args.corpus == "uam" or args.corpus == "UAM":
+            create_minimal_uam()
+        elif args.corpus == "uav" or args.corpus == "UAV":
+            create_minimal_uav()
+        else: 
+            print("Please indicate a corpus (--corpus)")
     elif args.design == "tail-sitter":
         create_tail_sitter(aWorkflow, minio_bucket, number_samples)
     elif args.design == "vudoo":

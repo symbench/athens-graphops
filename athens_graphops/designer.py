@@ -96,7 +96,11 @@ class Designer():
     def set_config_param(self, param: str, value: Union[float, str]):
         self.client.create_parameter(self.design, param, value)
 
-    def add_fuselage(self,
+    # Note (10/2022): This was written when FUSE_SPHERE_CYL_CONE class existed along
+    # with FuselageNACA class.  But now only the FuselageNACA is available.
+    # The parameters/properties and connections are the same, so leaving this 
+    # alone for now.  Plan to update when the program returns to UAM designs
+    def add_fuselage_uam(self,
                      length: float,
                      sphere_diameter: float,
                      middle_length: float,
@@ -133,6 +137,64 @@ class Designer():
         self.fuselage = instance
         return instance
 
+    # capsule_fuselage class
+    def add_fuselage_uav(self,
+                     floor_height: float,
+                     fuse_width: float,
+                     fuse_height: float,
+                     tube_length: float,
+                     bottom_connector_offset_length: float = 0,
+                     bottom_connector_offset_width: float = 0,
+                     bottom_connector_rotation: float = 0,
+                     floor_connector_1_disp_length: float = 0,
+                     floor_connector_1_disp_width: float = 0,
+                     floor_connector_2_disp_length: float = 0,
+                     floor_connector_2_disp_width: float = 0,
+                     floor_connector_3_disp_length: float = 0,
+                     floor_connector_3_disp_width: float = 0,
+                     floor_connector_4_disp_length: float = 0,
+                     floor_connector_4_disp_width: float = 0,
+                     floor_connector_5_disp_length: float = 0,
+                     floor_connector_5_disp_width: float = 0,
+                     floor_connector_6_disp_length: float = 0,
+                     floor_connector_6_disp_width: float = 0,
+                     floor_connector_7_disp_length: float = 0,
+                     floor_connector_7_disp_width: float = 0,
+                     floor_connector_8_disp_length: float = 0,
+                     floor_connector_8_disp_width: float = 0,
+                     name: Optional[str] = None):
+        assert self.fuselage is None
+
+        instance = self.add_instance("capsule_fuselage", name)
+        self.set_parameter(instance, "FLOOR_HEIGHT", floor_height)
+        self.set_parameter(instance, "HORZ_DIAMETER", fuse_width)
+        self.set_parameter(instance, "VERT_DIAMETER", fuse_height)
+        self.set_parameter(instance, "TUBE_LENGTH", tube_length)
+        self.set_parameter(instance, "BOTTOM_CONNECTOR_OFFSET_LENGTH", bottom_connector_offset_length)
+        self.set_parameter(instance, "BOTTOM_CONNECTOR_OFFSET_WIDTH", bottom_connector_offset_width)
+        self.set_parameter(instance, "BOTTOM_CONNECTOR_ROTATION", bottom_connector_rotation)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_1_DISP_LENGTH", floor_connector_1_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_1_DISP_WIDTH", floor_connector_1_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_2_DISP_LENGTH", floor_connector_2_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_2_DISP_WIDTH", floor_connector_2_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_3_DISP_LENGTH", floor_connector_3_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_3_DISP_WIDTH", floor_connector_3_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_4_DISP_LENGTH", floor_connector_4_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_4_DISP_WIDTH", floor_connector_4_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_5_DISP_LENGTH", floor_connector_5_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_5_DISP_WIDTH", floor_connector_5_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_6_DISP_LENGTH", floor_connector_6_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_6_DISP_WIDTH", floor_connector_6_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_7_DISP_LENGTH", floor_connector_7_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_7_DISP_WIDTH", floor_connector_7_disp_width)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_8_DISP_LENGTH", floor_connector_8_disp_length)
+        self.set_parameter(instance, "FLOOR_CONNECTOR_8_DISP_WIDTH", floor_connector_8_disp_width)
+
+        self.fuselage = instance
+        return instance
+
+    # UAM specific components
+    # -----------------------
     def add_cylinder(self,
                      length: float,
                      diameter: float,
@@ -193,11 +255,150 @@ class Designer():
                          fuselage_inst, fuselage_conn)
         return instance
 
+    # UAV specific components
+    # -----------------------
+    # Add cargo and cargo case
+    def add_cargo(self, 
+                  weight: float = 0.5, 
+                  rotation: float = 0,
+                  name: Optional[str] = None,
+                  mount_inst: Optional[Instance] = None,
+                  mount_conn: Optional[str] = None) -> Tuple[str, str]:
+
+        # Only two weights are valid
+        assert weight == 0.001 or weight == 0.5
+
+        instance_cargo = self.add_instance("Cargo", name)
+        self.set_parameter(instance_cargo, "WEIGHT", weight)
+
+        # add cargo case (for attachment)
+        case_name = name + "_case"
+        instance_case = self.add_instance("CargoCase", case_name)
+        self.set_parameter(instance_case, "Rotation", rotation)
+
+        # mount cargo in case
+        self.connect(instance_case, "CargoConnector", instance_cargo, "CargoConnector")
+
+        # mount case to the fuselage
+        if mount_inst:
+            self.connect(instance_case, "Case2HubConnector",
+                         mount_inst, mount_conn)
+
+        return instance_cargo, instance_case
+
+     # Only 3 flange options (0281, 0394, 05) are valid
+     # Tubes (of the same size as flange) are inserted into the flange
+    def add_flange(self, 
+                   size: str,
+                   bottom_angle: int = 0,
+                   side_angle: int = 0,
+                   name: Optional[str] = None,
+                   mount_inst: Optional[Instance] = None,
+                   mount_conn: Optional[str] = None) -> str:
+        # Only 3 sizes are valid
+        assert size == "0281" or size == "0394" or size == "05"
+
+        flange_model_dict = {"0281": "0281_para_flange", "0394": "0394_para_flange", "05": "05OD_para_flange"}
+        instance = self.add_instance(flange_model_dict[size], name)
+        self.set_parameter(instance, "BOTTOM_ANGLE", bottom_angle)
+        self.set_parameter(instance, "SIDE_ANGLE", side_angle)
+
+        if mount_inst:
+            self.connect(instance, "BottomConnector",
+                         mount_inst, mount_conn)
+
+        return instance
+
+    # Only 3 tube options (0281, 0394, 05) are valid
+    def add_tube(self, 
+                 size: str,
+                 length: float,
+                 base_rotation: int = 0,
+                 end_rotation: int = 0,
+                 offset_1: float = 0,
+                 offset_2: float = 0,
+                 name: Optional[str] = None,
+                 mount_inst: Optional[Instance] = None,
+                 mount_conn: Optional[str] = None) -> str:
+        # Only 3 sizes are valid
+        assert size == "0281" or size == "0394" or size == "05"
+
+        tube_model_dict = {"0281": "0281OD_para_tube", "0394": "0394OD_para_tube", "05": "05OD_para_tube"}
+        instance = self.add_instance(tube_model_dict[size], name)
+        self.set_parameter(instance, "Length", length)
+
+        # larger sizes do not have these parameters
+        if size != "0281":
+            self.set_parameter(instance, "BASE_ROT", base_rotation)
+            self.set_parameter(instance, "END_ROT", end_rotation)
+            self.set_parameter(instance, "Offset1", offset_1)
+            self.set_parameter(instance, "Offset2", offset_2)
+
+            if mount_inst:
+                self.connect(instance, "EndConnection",
+                            mount_inst, mount_conn)
+        else:
+            if mount_inst:
+                self.connect(instance, "End Connection 1",
+                             mount_inst, mount_conn)
+
+        return instance
+
+    # 5 hub options
+    def add_hub(self, 
+                num_connects: int,
+                diameter: float = 10.0076,
+                connector_horizonal_angle: int = 120,
+                connector_vertical_angle: int = 0, 
+                name: Optional[str] = None,
+                connects: Optional[str] = None,
+                mount_inst: Optional[Instance] = None,
+                mount_conn: Optional[str] = None) -> str:
+
+        hub_model = "0394od_para_hub_" + str(num_connects)
+        instance = self.add_instance(hub_model, name)
+        self.set_parameter(instance, "DIAMETER", diameter)
+        self.set_parameter(instance, "ANGHORZCONN", connector_horizonal_angle)
+        self.set_parameter(instance, "ANGVERTCONN", connector_vertical_angle)
+
+        # MM TODO:  need to figure out how to make connection
+        #           consider having a connect hub side function
+        # ,main_hub,__SOURCECONN__,Orient_Connector,__DESTCOMP__,Orient,__DESTCONN__,ORIENTCONN
+        if connects:
+            for i in range(len(connects)):
+                self.connect(instance, connects[i], 
+                             mount_inst[i], mount_conn[i])
+
+        # main_hub will be where the connection to Orient occurs
+        if name == "main_hub":
+            self.main_hub = instance
+
+        return instance
+
+    # 6 sensor options
+    def add_sensor(self, 
+                   sensor_model: str,
+                   rotation: float,
+                   name: Optional[str] = None,
+                   mount_inst: Optional[Instance] = None,
+                   mount_conn: Optional[str] = None) -> str:
+
+        instance = self.add_instance(sensor_model, name)
+        self.set_parameter(instance, "ROTATION", rotation)
+
+        if mount_inst:
+            self.connect(instance, "SensorConnector",
+                         mount_inst, mount_conn)
+
+        return instance
+
+    # Common components
+    # -----------------
     def add_battery_controller(self, name: Optional[str] = None) -> str:
         instance = self.add_instance("BatteryController", name)
         return instance
 
-    def add_wing(self,
+    def add_wing_uam(self,
                  naca: str,
                  chord: float,
                  span: float,
@@ -226,7 +427,59 @@ class Designer():
 
         return instance
 
-    def add_battery(self, model: str,
+    def add_wing_uav(self,
+                 direction: str,
+                 chord: float,
+                 span: float,
+                 thickness: float,
+                 load: float,
+                 naca: str,
+                 tube_diameter: float = 10,
+                 tube_offset: float = 100,
+                 tube_rotation: float = 0,
+                 taper_offset: float = 0,
+                 channel: int = 0,
+                 flap_bias: float = 0.5,
+                 aileron_bias: float = 0.5,
+                 servo_length: float = 0.1,
+                 servo_thickness: float = 0.1,
+                 servo_width: float = 0.1,
+                 name: Optional[str] = None,
+                 tube_inst: Optional[Instance] = None,
+                 tube_conn: Optional[str] = None):
+        assert len(naca) == 4 and chord >= 1 and span >= 1 and load >= 1
+        thickness = int(naca[2:4])
+
+        if direction == "Horizontal":
+            instance = self.add_instance("Wing_horiz_hole", name)
+        elif direction == "Vertical":
+            instance = self.add_instance("Wing_vert_hole", name)
+
+        self.set_parameter(instance, "CHORD_1", chord)
+        self.set_parameter(instance, "CHORD_2", chord)
+        self.set_parameter(instance, "NACA_Profile", naca)
+        self.set_parameter(instance, "THICKNESS", thickness)
+        self.set_parameter(instance, "SPAN", span)
+        self.set_parameter(instance, "LOAD", load)
+
+        self.set_parameter(instance, "TUBE_DIAMETER", tube_diameter)
+        self.set_parameter(instance, "TUBE_OFFSET", tube_offset)
+        self.set_parameter(instance, "TUBE_ROTATION", tube_rotation)
+        self.set_parameter(instance, "TAPER_OFFSET", taper_offset)
+        self.set_parameter(instance, "CONTROL_CHANNEL", channel)
+        self.set_parameter(instance, "FLAP_BIAS", flap_bias)
+        self.set_parameter(instance, "AILERON_BIAS", aileron_bias)
+        self.set_parameter(instance, "SERVO_LENGTH", servo_length)
+        self.set_parameter(instance, "SERVO_THICKNESS", servo_thickness)
+        self.set_parameter(instance, "SERVO_WIDTH", servo_width)
+
+        # Not connecting servo since it does not exist in UAV now
+        if tube_inst:
+            self.connect(instance, "Wing_Tube_Connector", tube_inst, tube_conn)
+
+        return instance
+
+    def add_battery_uam(self, model: str,
                     naca: str,
                     chord: float,
                     span: float,
@@ -256,6 +509,32 @@ class Designer():
             else:
                 self.connect(instance, "Battery_Connector_2_out",
                              wing_inst, "Battery_Connector_2")
+
+        if controller_inst:
+            self.connect(instance, "PowerBus",
+                         controller_inst, "BatteryPower")
+
+        return instance
+
+    # MM TODO:  need to update connections
+    def add_battery_uav(self, model: str,
+                    rotation: int = 0,
+                    name: Optional[str] = None,
+                    wing_inst: Optional[Instance] = None,
+                    controller_inst: Optional[Instance] = None):
+        assert len(naca) == 4 and chord >= 1 and span >= 1
+        assert mount_side in [1, 2] and 0 <= volume_percent <= 100
+        thickness = int(naca[2:4])
+
+        instance = self.add_instance(model, name)
+        self.set_parameter(instance, "ROTATION", rotation)
+
+        # MM TODO:  update connections to battery (Bottom_Connector, Top_Connector)
+        if wing_inst:
+            self.connect(instance, "Bottom_Connector",
+                         wing_inst, "???")
+            self.connect(instance, "Top_Connector",
+                         wing_inst, "???")
 
         if controller_inst:
             self.connect(instance, "PowerBus",
@@ -323,15 +602,26 @@ class Designer():
 
         return motor_inst, prop_inst
 
-    def close_design(self):
+    def close_design(self,
+                     corpus: str = "uam",
+                     orient_z_angle: int = 90):
         assert self.fuselage is not None
 
         orient = self.add_instance("Orient", "Orient")
-        self.connect(orient, "ORIENTCONN", self.fuselage, "ORIENT")
+        if corpus == "uam":
+            self.connect(orient, "ORIENTCONN", self.fuselage, "ORIENT")
+        # uav corpus
+        else:
+            self.set_parameter(orient, "Z_ANGLE", orient_z_angle)
+            self.connect(orient, "ORIENTCONN", self.main_hub, "Orient_Connector")
+
         self.client.orient_design(self.design, orient.name)
 
         print("Closing design", self.design)
-        self.fuselage = None
+        if corpus == "uam":
+            self.fuselage = None
+        else: 
+            self.main_hub = None
         self.design = None
 
         self.client.close()
