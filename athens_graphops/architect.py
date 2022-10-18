@@ -263,31 +263,9 @@ def create_new_axe_cargo():
                               fuse_width = 300,
                               fuse_height = 105,
                               tube_length = 150,
-                              bottom_connector_rotation = 90,
-                              floor_connector_1_disp_width = 70,
-                              floor_connector_2_disp_width = -70,
-                              floor_connector_3_disp_length = -20,
-                              floor_connector_3_disp_width = 33,
-                              floor_connector_4_disp_length = -20,
-                              floor_connector_4_disp_width = -30,
-                              floor_connector_5_disp_length = 50,
-                              floor_connector_6_disp_length = -20,
-                              floor_connector_6_disp_width = 11,
-                              floor_connector_7_disp_length = -80,
-                              floor_connector_8_disp_length = -20,
-                              floor_connector_8_disp_width = -11)
+                              bottom_connector_rotation = 90)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
-
-    # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
-    # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
-    # capsule_fuselage:FloorConnector3 to RpmTemp:SensorConnector
-    # capsule_fuselage:FloorConnector4 to Current:SensorConnector
-    # capsule_fuselage:FloorConnector5 to Autopilot:SensorConnector
-    # capsule_fuselage:FloorConnector6 to Voltage:SensorConnector
-    # capsule_fuselage:FloorConnector7 to GPS:SensorConnector
-    # capsule_fuselage:FloorConnector8 to Variometer:SensorConnector
-    # capsule_fuselage:BottomConnector to main_hub:Top_Connector
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
@@ -299,24 +277,62 @@ def create_new_axe_cargo():
                      mount_inst=[fuselage, cargo_case],
                      mount_conn=["BottomConnector", "Case2HubConnector"])
 
-    # other main hub connections
-    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
-    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
- 
-    # other main_hub connections
-    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
-    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
-    # main_hub:Orient_Connector to Orient:ORIENTCONN - in close_design 
- 
+    battery_control = designer.add_battery_controller(name="BatteryController")
     # Battery connections
     # Battery_1, Battery_2 - TurnigyGraphene6000mAh6S75C
     # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
     # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
-    # 
-    #   
-    # BatteryController connections
-    # Battery_2:PowerBus to BatteryController:BatteryPower
-    # Battery_1:PowerBus to BatteryController:BatteryPower
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1"
+                             fuse_conn_num=2,
+                             mount_length=0, 
+                             mount_width=-70,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2"
+                             fuse_conn_num=1,
+                             mount_length=0, 
+                             mount_width=70,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        mount_length=-20,
+                        mount_width=33)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        mount_length=-20,
+                        mount_width=-30)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        mount_length=50,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        mount_length=-20,
+                        mount_width=11)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-80,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        mount_length=-20,
+                        mount_width=-11)
+
+
+    # Add tubes attached to main_hub - mid_tube_r, mid_tube_l
+
+
+    # BatteryController connections - done in battery and motor adds
     # front_motor_l:MotorPower to BatteryController:MotorPower
     # front_motor_r:MotorPower to BatteryController:MotorPower
     # rear_motor_r:MotorPower to BatteryController:MotorPower
@@ -324,63 +340,63 @@ def create_new_axe_cargo():
 
     # Tubes - 0394OD_para_tube
     # top_leg_r, top_leg_l
+        # Top_Leg_Tube_Length:150.1524
+        # top_leg_l:Length-Top_Leg_Tube_Length
+        # top_leg_r:Length-Top_Leg_Tube_Length
+        # top_leg_r:BaseConnection to rear_flange_r:BottomConnector
     # bottom_leg_r, bottom_leg_l
+        # bottom_leg_r:Length-Vertical_Tube_Length
+        # bottom_leg_l:Length-Vertical_Tube_Length
     # front_wing_tube_r, front_wing_tube_l
     # front_rail_l, front_rail_r
+        # Front_Rail_Length = 135
+        # front_rail_r:END_ROT-BodyRotAngle
+        # front_rail_r:Length-Front_Rail_Length
+        # front_rail_l:Length-Front_Rail_Length
+        # front_rail_r:EndConnection to front_flange_r:BottomConnector
+        # front_rail_r:BaseConnection to side_hub_r:Side_Connector_3
     # vertical_l, vertical_r
+        # vertical_l:END_ROT-BodyRotAngle
+        # Vertical_Tube_Length:150 - see tubes
+        # vertical_r:Length-Vertical_Tube_Length
+        # vertical_l:Length-Vertical_Tube_Length
+        # vertical_l:OffsetConnection1 to rear_left_wing:Wing_Tube_Connector
+        # vertical_l:BaseConnection to rear_hub_l:Side_Connector_2
+        # vertical_r:EndConnection to rear_flange_r:SideConnector
+        # vertical_r:OffsetConnection1 to rear_right_wing:Wing_Tube_Connector
     # rear_rail_l, rear_rail_r
+        # rear_rail_l:END_ROT-BodyRotAngle
+        # rear_rail_r:END_ROT-BodyRotAngle
+        # Rear_Rail_Length:220
+        # rear_rail_l:Length-Rear_Rail_Length
+        # rear_rail_r:Length-Rear_Rail_Length
+        # rear_rail_l:EndConnection to rear_hub_l:Side_Connector_1
+        # rear_rail_l:BaseConnection to side_hub_l:Side_Connector_1
+        # rear_rail_r:BaseConnection to side_hub_r:Side_Connector_1
     # rudder_tube_l, rudder_tube_r
-    # mid_tube_r, mid_tube_l
-    # top_leg_r:BaseConnection to rear_flange_r:BottomConnector
-    # vertical_l:OffsetConnection1 to rear_left_wing:Wing_Tube_Connector
-    # vertical_l:BaseConnection to rear_hub_l:Side_Connector_2
-    # vertical_r:EndConnection to rear_flange_r:SideConnector
-    # vertical_r:OffsetConnection1 to rear_right_wing:Wing_Tube_Connector
-    # rear_rail_l:EndConnection to rear_hub_l:Side_Connector_1
-    # rear_rail_l:BaseConnection to side_hub_l:Side_Connector_1
-    # rear_rail_r:BaseConnection to side_hub_r:Side_Connector_1
-    # rudder_tube_l:BaseConnection to rear_hub_l:Center_Connector
-    # mid_tube_r:EndConnection to side_hub_r:Side_Connector_2
-    # front_rail_r:EndConnection to front_flange_r:BottomConnector
-    # front_rail_r:BaseConnection to side_hub_r:Side_Connector_3
-    # Front_Rail_Length:135
-    # front_rail_r:Length-Front_Rail_Length
-    # front_rail_l:Length-Front_Rail_Length
-    # Mid_Tube_Length:140
-    # mid_tube_r:Length-Mid_Tube_Length
-    # mid_tube_l:Length-Mid_Tube_Length
-    # rear_rail_l:END_ROT-BodyRotAngle
-    # front_rail_r:END_ROT-BodyRotAngle
-    # vertical_l:END_ROT-BodyRotAngle
-    # rear_rail_r:END_ROT-BodyRotAngle
-    # Param_11:180 - see wings
-    # mid_tube_l:END_ROT-Param_11
-    # Rear_Rail_Length:220
-    # rear_rail_l:Length-Rear_Rail_Length
-    # rear_rail_r:Length-Rear_Rail_Length
-    # Top_Leg_Tube_Length:150.1524
-    # top_leg_l:Length-Top_Leg_Tube_Length
-    # top_leg_r:Length-Top_Leg_Tube_Length
-    # Rudder_Tube_Length:41
-    # rudder_tube_r:Length-Rudder_Tube_Length
-    # rudder_tube_l:Length-Rudder_Tube_Length
-    # vertical_r:Length-Vertical_Tube_Length
-    # vertical_l:Length-Vertical_Tube_Length
-    # Vertical_Tube_Length:150 - see tubes
-    # bottom_leg_r:Length-Vertical_Tube_Length
-    # bottom_leg_l:Length-Vertical_Tube_Length
+        # Rudder_Tube_Length:41
+        # rudder_tube_r:Length-Rudder_Tube_Length
+        # rudder_tube_l:Length-Rudder_Tube_Length
+        # rudder_tube_l:BaseConnection to rear_hub_l:Center_Connector
+    # mid_tube_r, mid_tube_l -- also connects to main_hub side connectors (base)
+        # Param_11:180 - see wings
+        # mid_tube_l:END_ROT-Param_11
+        # Mid_Tube_Length = 140
+        # mid_tube_r:Length-Mid_Tube_Length
+        # mid_tube_l:Length-Mid_Tube_Length
+        # mid_tube_r:EndConnection to side_hub_r:Side_Connector_2
 
     # Flange - 0394_para_flange
     # front_flange_l, front_flange_r
+        # BodyRotAngle:90 - see tubes and fuselage
+        # front_flange_r:BOTTOM_ANGLE-BodyRotAngle
+        # front_flange_l:TopConnector to front_motor_l:Base_Connector
+        # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
+        # front_flange_l:BottomConnector to front_rail_l:EndConnection
     # rear_flange_l, rear_flange_r
-    # front_flange_l:TopConnector to front_motor_l:Base_Connector
-    # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
-    # front_flange_l:BottomConnector to front_rail_l:EndConnection
-    # rear_flange_l:SideConnector to vertical_l:EndConnection
-    # rear_flange_l:BottomConnector to top_leg_l:BaseConnection
-    # rear_flange_l:TopConnector to rear_motor_l:Base_Connector
-    # BodyRotAngle:90 - see tubes and fuselage
-    # front_flange_r:BOTTOM_ANGLE-BodyRotAngle
+        # rear_flange_l:SideConnector to vertical_l:EndConnection
+        # rear_flange_l:BottomConnector to top_leg_l:BaseConnection
+        # rear_flange_l:TopConnector to rear_motor_l:Base_Connector
 
     # Wings
     # Wing_vert_hole - right_rudder, left_rudder, 
@@ -486,10 +502,6 @@ def create_new_axe_cargo():
     # main_hub:ANGHORZCONN-Param_12
     # side_hub_r:ANGHORZCONN-Param_12
     # rear_hub_r:ANGHORZCONN-Param_12
-
-    # Sensors 
-    # Voltage (Voltage), Variometer (Variometer), Current (Current)
-    # Autopilot (Autopilot), RpmTemp (RpmTemp), GPS (GPS)
 
     # Propellers - apc_propellers_7x5E
     # rear_prop_r, rear_prop_l, front_prop_l, front_prop_r

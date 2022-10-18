@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple, Union, Any, List, Dict
 
 from .query import Client
 from .dataset import get_model_data
@@ -146,24 +146,10 @@ class Designer():
                      bottom_connector_offset_length: float = 0,
                      bottom_connector_offset_width: float = 0,
                      bottom_connector_rotation: float = 0,
-                     floor_connector_1_disp_length: float = 0,
-                     floor_connector_1_disp_width: float = 0,
-                     floor_connector_2_disp_length: float = 0,
-                     floor_connector_2_disp_width: float = 0,
-                     floor_connector_3_disp_length: float = 0,
-                     floor_connector_3_disp_width: float = 0,
-                     floor_connector_4_disp_length: float = 0,
-                     floor_connector_4_disp_width: float = 0,
-                     floor_connector_5_disp_length: float = 0,
-                     floor_connector_5_disp_width: float = 0,
-                     floor_connector_6_disp_length: float = 0,
-                     floor_connector_6_disp_width: float = 0,
-                     floor_connector_7_disp_length: float = 0,
-                     floor_connector_7_disp_width: float = 0,
-                     floor_connector_8_disp_length: float = 0,
-                     floor_connector_8_disp_width: float = 0,
                      name: Optional[str] = None):
         assert self.fuselage is None
+        # provided by SwRI
+        assert floor_height > 0 and floor_height < fuse_height
 
         instance = self.add_instance("capsule_fuselage", name)
         self.set_parameter(instance, "FLOOR_HEIGHT", floor_height)
@@ -173,25 +159,35 @@ class Designer():
         self.set_parameter(instance, "BOTTOM_CONNECTOR_OFFSET_LENGTH", bottom_connector_offset_length)
         self.set_parameter(instance, "BOTTOM_CONNECTOR_OFFSET_WIDTH", bottom_connector_offset_width)
         self.set_parameter(instance, "BOTTOM_CONNECTOR_ROTATION", bottom_connector_rotation)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_1_DISP_LENGTH", floor_connector_1_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_1_DISP_WIDTH", floor_connector_1_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_2_DISP_LENGTH", floor_connector_2_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_2_DISP_WIDTH", floor_connector_2_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_3_DISP_LENGTH", floor_connector_3_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_3_DISP_WIDTH", floor_connector_3_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_4_DISP_LENGTH", floor_connector_4_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_4_DISP_WIDTH", floor_connector_4_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_5_DISP_LENGTH", floor_connector_5_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_5_DISP_WIDTH", floor_connector_5_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_6_DISP_LENGTH", floor_connector_6_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_6_DISP_WIDTH", floor_connector_6_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_7_DISP_LENGTH", floor_connector_7_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_7_DISP_WIDTH", floor_connector_7_disp_width)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_8_DISP_LENGTH", floor_connector_8_disp_length)
-        self.set_parameter(instance, "FLOOR_CONNECTOR_8_DISP_WIDTH", floor_connector_8_disp_width)
 
         self.fuselage = instance
         return instance
+
+    # This defines how components are attached to the fuselage floor
+    # BottomConnector is attached when defining the "main_hub", so not included here
+    # Connects, mount_inst and mount_conn are lists that indicates:
+    #    connects: which floor connection numbers to use  and the locations
+    #              key: number, values: length, width
+    #    mount_inst: the component instance mounting to the connects (same size as connects list)
+    #    mount_conn: the mount_inst connection (same size as connects list)
+    # NOTE: This function can be used if wanting to do all connects at once.
+    # Otherwise, connections can be indicated when creating instances of sensors
+    # and batteries which attach to the fuselage floor.
+    def add_fuselage_uav_connects(self,
+                     connects: List[Dict[int, Any]] = None,
+                     mount_inst: List[Instance] = None,
+                     mount_conn: List[str] = None):
+        assert self.fuselage is not None
+
+        for num in connects:
+            connect_length_name = "FLOOR_CONNECTOR_" + str(num) + "_DISP_LENGTH"
+            connect_width_name = "FLOOR_CONNECTOR_" + str(num) + "_DISP_WIDTH"
+            connect_name = "FloorConnector" + str(num)
+            size_list = connects[num]
+            self.set_parameter(self.fuselage, connect_length_name, size_list[0])
+            self.set_parameter(self.fuselage, connect_width_name, size_list[1])
+            self.connect(self.fuselage, connect_name, 
+                         mount_inst[num], mount_conn[num])
 
     # UAM specific components
     # -----------------------
@@ -293,8 +289,12 @@ class Designer():
                    bottom_angle: int = 0,
                    side_angle: int = 0,
                    name: Optional[str] = None,
-                   mount_inst: Optional[Instance] = None,
-                   mount_conn: Optional[str] = None) -> str:
+                   mount_top_inst: Optional[Instance] = None,
+                   mount_top_conn: Optional[str] = None,
+                   mount_bottom_inst: Optional[Instance] = None,
+                   mount_bottom_conn: Optional[str] = None,
+                   mount_side_inst: Optional[Instance] = None,
+                   mount_side_conn: Optional[str] = None) -> str:
         # Only 3 sizes are valid
         assert size == "0281" or size == "0394" or size == "05"
 
@@ -303,9 +303,15 @@ class Designer():
         self.set_parameter(instance, "BOTTOM_ANGLE", bottom_angle)
         self.set_parameter(instance, "SIDE_ANGLE", side_angle)
 
-        if mount_inst:
+        if mount_top_inst:
+            self.connect(instance, "TopConnector",
+                         mount_top_inst, mount_top_conn)
+        if mount_bottom_inst:
             self.connect(instance, "BottomConnector",
-                         mount_inst, mount_conn)
+                         mount_bottom_inst, mount_bottom_conn)
+        if mount_side_inst:
+            self.connect(instance, "SideConnector",
+                         mount_side_inst, mount_side_conn)
 
         return instance
 
@@ -318,8 +324,10 @@ class Designer():
                  offset_1: float = 0,
                  offset_2: float = 0,
                  name: Optional[str] = None,
-                 mount_inst: Optional[Instance] = None,
-                 mount_conn: Optional[str] = None) -> str:
+                 mount_base_inst: Optional[Instance] = None,
+                 mount_base_conn: Optional[str] = None,
+                 mount_end_inst: Optional[Instance] = None,
+                 mount_end_conn: Optional[str] = None) -> str:
         # Only 3 sizes are valid
         assert size == "0281" or size == "0394" or size == "05"
 
@@ -334,26 +342,37 @@ class Designer():
             self.set_parameter(instance, "Offset1", offset_1)
             self.set_parameter(instance, "Offset2", offset_2)
 
-            if mount_inst:
-                self.connect(instance, "EndConnection",
-                            mount_inst, mount_conn)
-        else:
-            if mount_inst:
+        if mount_base_inst:
+            if size != "0281":
                 self.connect(instance, "End Connection 1",
-                             mount_inst, mount_conn)
+                             mount_base_inst, mount_base_conn)
+            else:
+                self.connect(instance, "BaseConnection",
+                             mount_base_inst, mount_base_conn)
+        if mount_end_inst:
+            if size != "0281":
+                self.connect(instance, "End Connection 2",
+                             mount_end_inst, mount_end_conn)
+            else:
+                self.connect(instance, "EndConnection",
+                             mount_end_inst, mount_end_conn)
 
         return instance
 
     # 5 hub options
+    # Connects, mount_inst and mount_conn are lists that indicates:
+    #    connects: which hub connections to use
+    #    mount_inst: the component instance mounting to the connects  (same size as connects list)
+    #    mount_conn: the mount_inst connection  (same size as connects list)
     def add_hub(self, 
                 num_connects: int,
                 diameter: float = 10.0076,
                 connector_horizonal_angle: int = 120,
                 connector_vertical_angle: int = 0, 
                 name: Optional[str] = None,
-                connects: Optional[str] = None,
-                mount_inst: Optional[Instance] = None,
-                mount_conn: Optional[str] = None) -> str:
+                connects: Optional[List[str]] = None,
+                mount_inst: Optional[List[Instance]] = None,
+                mount_conn: Optional[List[str]] = None) -> str:
 
         hub_model = "0394od_para_hub_" + str(num_connects)
         instance = self.add_instance(hub_model, name)
@@ -376,19 +395,31 @@ class Designer():
         return instance
 
     # 6 sensor options
+    # If indicating mount connection number, also indicate the mount_length and mount_width
+    # to allow connector placement on the fuselage floor
     def add_sensor(self, 
                    sensor_model: str,
                    rotation: float,
                    name: Optional[str] = None,
-                   mount_inst: Optional[Instance] = None,
-                   mount_conn: Optional[str] = None) -> str:
+                   mount_conn_num: Optional[int] = None,
+                   mount_length: Optional[float] = 0,
+                   mount_width: Optional[float] = 0) -> str:
+
+        assert self.fuselage is not None
 
         instance = self.add_instance(sensor_model, name)
         self.set_parameter(instance, "ROTATION", rotation)
 
-        if mount_inst:
+        if mount_conn_num:
+            connect_length_name = "FLOOR_CONNECTOR_" + str(mount_conn_num) + "_DISP_LENGTH"
+            connect_width_name = "FLOOR_CONNECTOR_" + str(mount_conn_num) + "_DISP_WIDTH"
+            connect_name = "FloorConnector" + str(mount_conn_num)
+            self.set_parameter(self.fuselage, connect_length_name, mount_length)
+            self.set_parameter(self.fuselage, connect_width_name, mount_width)
             self.connect(instance, "SensorConnector",
-                         mount_inst, mount_conn)
+                         self.fuselage, connect_name)
+
+                         
 
         return instance
 
@@ -461,7 +492,6 @@ class Designer():
         self.set_parameter(instance, "THICKNESS", thickness)
         self.set_parameter(instance, "SPAN", span)
         self.set_parameter(instance, "LOAD", load)
-
         self.set_parameter(instance, "TUBE_DIAMETER", tube_diameter)
         self.set_parameter(instance, "TUBE_OFFSET", tube_offset)
         self.set_parameter(instance, "TUBE_ROTATION", tube_rotation)
@@ -516,26 +546,39 @@ class Designer():
 
         return instance
 
-    # MM TODO:  need to update connections
+    # Battery goes in the fuselage and is connected to the floor of the fuselage
+    # There is a top and bottom connection, assuming that only 
+    # bottom connection is used.  top_bottom_conn is available to 
+    # change the connection to the top (for the creative option ;-))
+    # top_bottom_conn: Top = 0, Bottom = 1 (default)
     def add_battery_uav(self, model: str,
                     rotation: int = 0,
+                    top_bottom_conn: int = 1,
                     name: Optional[str] = None,
-                    wing_inst: Optional[Instance] = None,
-                    controller_inst: Optional[Instance] = None):
-        assert len(naca) == 4 and chord >= 1 and span >= 1
-        assert mount_side in [1, 2] and 0 <= volume_percent <= 100
-        thickness = int(naca[2:4])
+                    fuse_conn_num: Optional[int] = None,
+                    mount_length: Optional[float] = 0,
+                    mount_width: Optional[float] = 0,
+                    controller_inst: Optional[Instance] = None) -> str:
+
+        assert top_bottom_conn in [0, 1]
+        assert self.fuselage is not None
 
         instance = self.add_instance(model, name)
         self.set_parameter(instance, "ROTATION", rotation)
 
-        # MM TODO:  update connections to battery (Bottom_Connector, Top_Connector)
-        if wing_inst:
+        connect_length_name = "FLOOR_CONNECTOR_" + str(fuse_conn_num) + "_DISP_LENGTH"
+        connect_width_name = "FLOOR_CONNECTOR_" + str(fuse_conn_num) + "_DISP_WIDTH"
+        self.set_parameter(self.fuselage, connect_length_name, mount_length)
+        self.set_parameter(self.fuselage, connect_width_name, mount_width)
+ 
+        floor_connect = "FloorConnector" + str(fuse_conn_num)
+        if top_bottom_conn:
             self.connect(instance, "Bottom_Connector",
-                         wing_inst, "???")
+                         self.fuselage, floor_connect)
+        else:
             self.connect(instance, "Top_Connector",
-                         wing_inst, "???")
-
+                         self.fuselage, floor_connect)
+            
         if controller_inst:
             self.connect(instance, "PowerBus",
                          controller_inst, "BatteryPower")
@@ -543,11 +586,13 @@ class Designer():
         return instance
 
     def add_motor(self, model: str,
+                  channel: int = 0,
                   name: Optional[str] = None,
                   mount_inst: Optional[Instance] = None,
                   mount_conn: Optional[str] = None,
                   controller_inst: Optional[Instance] = None):
         instance = self.add_instance(model, name)
+        self.set_parameter(instance, "CONTROL_CHANNEL", channel)
 
         if mount_inst:
             self.connect(instance, "Base_Connector",
@@ -581,12 +626,14 @@ class Designer():
                             prop_model: str,
                             prop_type: int,
                             direction: int,
+                            control_channel: int = 0,
                             name_prefix: Optional[str] = None,
                             mount_inst: Optional[Instance] = None,
                             mount_conn: Optional[str] = None,
                             controller_inst: Optional[Instance] = None):
         motor_inst = self.add_motor(
             model=motor_model,
+            channel=control_channel,
             name=name_prefix + "_motor" if name_prefix else None,
             mount_inst=mount_inst,
             mount_conn=mount_conn,
