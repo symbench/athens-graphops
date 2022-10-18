@@ -283,14 +283,14 @@ def create_new_axe_cargo():
     # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
     # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
-                             name="Battery_1"
+                             name="Battery_1",
                              fuse_conn_num=2,
                              mount_length=0, 
                              mount_width=-70,
                              controller_inst=battery_control)
 
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
-                             name="Battery_2"
+                             name="Battery_2",
                              fuse_conn_num=1,
                              mount_length=0, 
                              mount_width=70,
