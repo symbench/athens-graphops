@@ -23,12 +23,13 @@ setup(
     license='GPL 3',
     description="Sciprts to access the Athens graph database",
     long_description=open('README.md').read(),
-    python_requires='>3.6',
+    python_requires='>3.6,<3.10',
     # do not list standard packages
     install_requires=[
-        "gremlinpython",
+        "gremlinpython<=3.5",
         "api4jenkins",
-        "creopyson"
+        "creopyson",
+        "pyyaml"
     ],
     entry_points={
         'console_scripts': [
