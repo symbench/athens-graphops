@@ -399,7 +399,7 @@ class Designer():
     # to allow connector placement on the fuselage floor
     def add_sensor(self, 
                    sensor_model: str,
-                   rotation: float,
+                   rotation: float = 0,
                    name: Optional[str] = None,
                    mount_conn_num: Optional[int] = None,
                    mount_length: Optional[float] = 0,

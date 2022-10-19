@@ -237,11 +237,12 @@ def create_minimal_uav():
     designer.create_design("Minimal")
     fuselage = designer.add_fuselage_uav(name="fuselage",
                               floor_height = 20,
-                              fuse_width = 80,
+                              fuse_width = 300,
                               fuse_height = 105,
                               tube_length = 150,
                               bottom_connector_rotation = 90)
-    cargo, cargo_case = designer.add_cargo(name="cargo")
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
@@ -252,6 +253,53 @@ def create_minimal_uav():
                      connects=["Top_Connector", "Bottom_Connector"],
                      mount_inst=[fuselage, cargo_case],
                      mount_conn=["BottomConnector", "Case2HubConnector"])
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1",
+                             fuse_conn_num=2,
+                             mount_length=0, 
+                             mount_width=-70,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2",
+                             fuse_conn_num=1,
+                             mount_length=0, 
+                             mount_width=70,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        mount_length=-20,
+                        mount_width=33)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        mount_length=-20,
+                        mount_width=-30)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        mount_length=50,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        mount_length=-20,
+                        mount_width=11)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-80,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        mount_length=-20,
+                        mount_width=-11)
     designer.close_design(corpus="uav", orient_z_angle=90)
 
 # Recreating NewAxe_Cargo design
@@ -270,7 +318,7 @@ def create_new_axe_cargo():
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
     # Not all connections are needed
-    designer.add_hub(name="main_hub",
+    hub_main = designer.add_hub(name="main_hub",
                      num_connects=3,
                      connector_horizonal_angle=90,
                      connects=["Top_Connector","Bottom_Connector"],
@@ -328,15 +376,83 @@ def create_new_axe_cargo():
                         mount_length=-20,
                         mount_width=-11)
 
-
-    # Add tubes attached to main_hub - mid_tube_r, mid_tube_l
+    # Create front propellers section
+    # Start at main hub, connect tubes on sides to side hubs,
+    # then front flange and rail attach to propellers/motors
+    mid_tube_l = designer.add_tube(size="0394",
+                                   length=140,
+                                   end_rotation=180,
+                                   name="mid_tube_l",
+                                   mount_base_inst=hub_main,
+                                   mount_base_conn="Side_Connector_3")
+    mid_tube_r = designer.add_tube(size="0394",
+                                   length=140,
+                                   name="mid_tube_r",
+                                   mount_base_inst=hub_main,
+                                   mount_base_conn="Side_Connector_1")
+    # side_hub_l = designer.add_hub(name="side_hub_l",
+    #                               num_connects=3,
+    #                               connector_horizonal_angle=90,
+    #                               connects=["Side_Connector_2"],
+    #                               mount_inst=[mid_tube_l],
+    #                               mount_conn=["EndConnection"])
+    # side_hub_r = designer.add_hub(name="side_hub_r",
+    #                               num_connects=3,
+    #                               connector_horizonal_angle=90,
+    #                               connects=["Side_Connector_2"],
+    #                               mount_inst=[mid_tube_r],
+    #                               mount_conn=["EndConnection"])
+    # front_rail_l = designer.add_tube(size="0394",
+    #                                length=135,
+    #                                end_rotation=270,
+    #                                name="front_rail_l",
+    #                                mount_base_inst=side_hub_l,
+    #                                mount_base_conn="Side_Connector_3")
+    # front_rail_r = designer.add_tube(size="0394",
+    #                                length=135,
+    #                                end_rotation=90,
+    #                                name="front_rail_r",
+    #                                mount_base_inst=side_hub_r,
+    #                                mount_base_conn="Side_Connector_3")
+    # front_flange_l = designer.add_flange(size="0394",
+    #                                      name="front_flange_l",
+    #                                      mount_bottom_inst=front_rail_l,
+    #                                      mount_bottom_conn="EndConnection"
+    #                                     )
+    # front_flange_r = designer.add_flange(size="0394",
+    #                                      bottom_angle=90,
+    #                                      name="front_flange_r",
+    #                                      mount_bottom_inst=front_rail_r,
+    #                                      mount_bottom_conn="EndConnection"
+    #                                     )
+    # designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+    #                              prop_model="apc_propellers_7x5E",
+    #                              prop_type=-1,
+    #                              direction=-1,
+    #                              control_channel=1,
+    #                              name_prefix="front_l",
+    #                              mount_inst=front_flange_l,
+    #                              mount_conn="TopConnector",
+    #                              controller_inst=battery_control)
+    # designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+    #                              prop_model="apc_propellers_7x5E",
+    #                              prop_type=1,
+    #                              direction=1,
+    #                              control_channel=2,
+    #                              name_prefix="front_r",
+    #                              mount_inst=front_flange_r,
+    #                              mount_conn="TopConnector",
+    #                              controller_inst=battery_control)
+    #side hubs, mid tubes, front rails, front flange, front moter/propeller
+    # front_flange_l, front_flange_r
+        # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
 
 
     # BatteryController connections - done in battery and motor adds
-    # front_motor_l:MotorPower to BatteryController:MotorPower
-    # front_motor_r:MotorPower to BatteryController:MotorPower
     # rear_motor_r:MotorPower to BatteryController:MotorPower
     # rear_motor_l:MotorPower to BatteryController:MotorPower
+
+    # BodyRotAngle:90 - see tubes and fuselage
 
     # Tubes - 0394OD_para_tube
     # top_leg_r, top_leg_l
@@ -348,13 +464,6 @@ def create_new_axe_cargo():
         # bottom_leg_r:Length-Vertical_Tube_Length
         # bottom_leg_l:Length-Vertical_Tube_Length
     # front_wing_tube_r, front_wing_tube_l
-    # front_rail_l, front_rail_r
-        # Front_Rail_Length = 135
-        # front_rail_r:END_ROT-BodyRotAngle
-        # front_rail_r:Length-Front_Rail_Length
-        # front_rail_l:Length-Front_Rail_Length
-        # front_rail_r:EndConnection to front_flange_r:BottomConnector
-        # front_rail_r:BaseConnection to side_hub_r:Side_Connector_3
     # vertical_l, vertical_r
         # vertical_l:END_ROT-BodyRotAngle
         # Vertical_Tube_Length:150 - see tubes
@@ -378,21 +487,9 @@ def create_new_axe_cargo():
         # rudder_tube_r:Length-Rudder_Tube_Length
         # rudder_tube_l:Length-Rudder_Tube_Length
         # rudder_tube_l:BaseConnection to rear_hub_l:Center_Connector
-    # mid_tube_r, mid_tube_l -- also connects to main_hub side connectors (base)
-        # Param_11:180 - see wings
-        # mid_tube_l:END_ROT-Param_11
-        # Mid_Tube_Length = 140
-        # mid_tube_r:Length-Mid_Tube_Length
-        # mid_tube_l:Length-Mid_Tube_Length
-        # mid_tube_r:EndConnection to side_hub_r:Side_Connector_2
+
 
     # Flange - 0394_para_flange
-    # front_flange_l, front_flange_r
-        # BodyRotAngle:90 - see tubes and fuselage
-        # front_flange_r:BOTTOM_ANGLE-BodyRotAngle
-        # front_flange_l:TopConnector to front_motor_l:Base_Connector
-        # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
-        # front_flange_l:BottomConnector to front_rail_l:EndConnection
     # rear_flange_l, rear_flange_r
         # rear_flange_l:SideConnector to vertical_l:EndConnection
         # rear_flange_l:BottomConnector to top_leg_l:BaseConnection
@@ -407,6 +504,8 @@ def create_new_axe_cargo():
     # front_left_wing:Wing_Tube_Connector to front_wing_tube_l:EndConnection
     # right_rudder:Wing_Tube_Connector to rudder_tube_r:EndConnection
     # left_rudder:Wing_Tube_Connector to rudder_tube_l:EndConnection
+    # Param_12:90 -- see rear_right_wing
+    # Param_11:180 - see wings
     # angle_270:270
     # rear_left_wing:TUBE_ROTATION-angle_270
     # front_rail_l:END_ROT-angle_270
@@ -490,17 +589,8 @@ def create_new_axe_cargo():
     # rear_hub_r:Center_Connector to rudder_tube_r:BaseConnection
     # rear_hub_r:Side_Connector_3 to rear_rail_r:EndConnection
     # rear_hub_l:Side_Connector_3 to bottom_leg_l:BaseConnection
-    # main_hub:Side_Connector_1 to mid_tube_r:BaseConnection
-    # main_hub:Side_Connector_3 to mid_tube_l:BaseConnection
-    # main_hub:Bottom_Connector to CargoCase:Case2HubConnector
-    # main_hub:Orient_Connector to Orient:ORIENTCONN
-    # side_hub_l:Side_Connector_3 to front_rail_l:BaseConnection
-    # side_hub_l:Side_Connector_2 to mid_tube_l:EndConnection
     # Param_12:90 -- see rear_right_wing
     # rear_hub_l:ANGHORZCONN-Param_12
-    # side_hub_l:ANGHORZCONN-Param_12
-    # main_hub:ANGHORZCONN-Param_12
-    # side_hub_r:ANGHORZCONN-Param_12
     # rear_hub_r:ANGHORZCONN-Param_12
 
     # Propellers - apc_propellers_7x5E
@@ -509,33 +599,20 @@ def create_new_axe_cargo():
     # rear_prop_l:MOTOR_CONNECTOR_CS_IN to rear_motor_l:Prop_Connector
     # FwdFacingCCW_PropType:-1
     # rear_prop_l:Prop_type-FwdFacingCCW_PropType
-    # front_prop_l:Prop_type-FwdFacingCCW_PropType
     # FwdFacingCCW_Spin:-1
-    # front_prop_l:Direction-FwdFacingCCW_Spin
     # rear_prop_l:Direction-FwdFacingCCW_Spin
     # FwdFacingCW_Spin:1
-    # front_prop_r:Direction-FwdFacingCW_Spin
     # rear_prop_r:Direction-FwdFacingCW_Spin
     # FwdFacingCW_PropType:1
-    # front_prop_r:Prop_type-FwdFacingCW_PropType
     # rear_prop_r:Prop_type-FwdFacingCW_PropType
 
     # Motor - kde_direct_KDE2315XF_885
-    # front_motor_l, front_motor_r, rear_motor_r, rear_motor_l
-    # front_motor_l:Prop_Connector to front_prop_l:MOTOR_CONNECTOR_CS_IN
-    # front_motor_l:MotorPower to BatteryController:MotorPower
-    # front_motor_r:MotorPower to BatteryController:MotorPower
-    # front_motor_r:Base_Connector to front_flange_r:TopConnector
-    # front_motor_r:Prop_Connector to front_prop_r:MOTOR_CONNECTOR_CS_IN
+    # rear_motor_r, rear_motor_l
     # rear_motor_r:MotorPower to BatteryController:MotorPower
     # rear_motor_r:Base_Connector to rear_flange_r:TopConnector
     # rear_motor_l:MotorPower to BatteryController:MotorPower
     # Channel_3:3
     # rear_motor_l:CONTROL_CHANNEL-Channel_3
-    # Channel_2:2
-    # front_motor_r:CONTROL_CHANNEL-Channel_2
-    # Channel_1:1
-    # front_motor_l:CONTROL_CHANNEL-Channel_1
     # Channel_4:4
     # rear_motor_r:CONTROL_CHANNEL-Channel_4
 
@@ -1957,7 +2034,8 @@ def run(args=None):
         "tail-sitter",
         "vudoo",
         "vari-vudoo",
-        "random-existing"
+        "random-existing",
+        "newaxe-cargo"
     ])
     parser.add_argument('--corpus', choices=["uam", "uav"],
                         help="indicate corpus name")
@@ -2027,6 +2105,8 @@ def run(args=None):
         else:
             print(
                 "Please provide the name of a configuration file for the randomized run (yaml)")
+    elif args.design == "newaxe-cargo":
+        create_new_axe_cargo()
     else:
         raise ValueError("unknown design")
 
