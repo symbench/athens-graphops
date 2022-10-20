@@ -217,30 +217,33 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     # architecture.disconnect_creoson_server()
 
 # This is for the UAM corpus
+
+
 def create_minimal_uam():
     designer = Designer()
     designer.create_design("Minimal")
     designer.add_fuselage_uam(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
+                              length=2000,
+                              sphere_diameter=1520,
+                              middle_length=300,
+                              tail_diameter=200,
+                              floor_height=150,
+                              seat_1_fb=1000,
+                              seat_1_lr=-210,
+                              seat_2_fb=1000,
+                              seat_2_lr=210)
     designer.close_design()
+
 
 def create_minimal_uav():
     designer = Designer()
     designer.create_design("Minimal")
     fuselage = designer.add_fuselage_uav(name="fuselage",
-                              floor_height = 20,
-                              fuse_width = 300,
-                              fuse_height = 105,
-                              tube_length = 150,
-                              bottom_connector_rotation = 90)
+                                         floor_height=20,
+                                         fuse_width=300,
+                                         fuse_height=105,
+                                         tube_length=150,
+                                         bottom_connector_rotation=90)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
 
@@ -258,14 +261,14 @@ def create_minimal_uav():
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_1",
                              fuse_conn_num=2,
-                             mount_length=0, 
+                             mount_length=0,
                              mount_width=-70,
                              controller_inst=battery_control)
 
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_2",
                              fuse_conn_num=1,
-                             mount_length=0, 
+                             mount_length=0,
                              mount_width=70,
                              controller_inst=battery_control)
 
@@ -303,15 +306,17 @@ def create_minimal_uav():
     designer.close_design(corpus="uav", orient_z_angle=90)
 
 # Recreating NewAxe_Cargo design
+
+
 def create_new_axe_cargo():
     designer = Designer()
     designer.create_design("NewAxeCargo")
     fuselage = designer.add_fuselage_uav(name="fuselage",
-                              floor_height = 20,
-                              fuse_width = 300,
-                              fuse_height = 105,
-                              tube_length = 150,
-                              bottom_connector_rotation = 90)
+                                         floor_height=20,
+                                         fuse_width=300,
+                                         fuse_height=105,
+                                         tube_length=150,
+                                         bottom_connector_rotation=90)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
 
@@ -319,11 +324,11 @@ def create_new_axe_cargo():
     # Create hub connection lists (size of num_connections max)
     # Not all connections are needed
     hub_main = designer.add_hub(name="main_hub",
-                     num_connects=3,
-                     connector_horizonal_angle=90,
-                     connects=["Top_Connector","Bottom_Connector"],
-                     mount_inst=[fuselage, cargo_case],
-                     mount_conn=["BottomConnector", "Case2HubConnector"])
+                                num_connects=3,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector", "Case2HubConnector"])
 
     battery_control = designer.add_battery_controller(name="BatteryController")
     # Battery connections
@@ -333,14 +338,14 @@ def create_new_axe_cargo():
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_1",
                              fuse_conn_num=2,
-                             mount_length=0, 
+                             mount_length=0,
                              mount_width=-70,
                              controller_inst=battery_control)
 
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_2",
                              fuse_conn_num=1,
-                             mount_length=0, 
+                             mount_length=0,
                              mount_width=70,
                              controller_inst=battery_control)
 
@@ -390,237 +395,261 @@ def create_new_axe_cargo():
                                    name="mid_tube_r",
                                    mount_base_inst=hub_main,
                                    mount_base_conn="Side_Connector_1")
-    # side_hub_l = designer.add_hub(name="side_hub_l",
-    #                               num_connects=3,
-    #                               connector_horizonal_angle=90,
-    #                               connects=["Side_Connector_2"],
-    #                               mount_inst=[mid_tube_l],
-    #                               mount_conn=["EndConnection"])
-    # side_hub_r = designer.add_hub(name="side_hub_r",
-    #                               num_connects=3,
-    #                               connector_horizonal_angle=90,
-    #                               connects=["Side_Connector_2"],
-    #                               mount_inst=[mid_tube_r],
-    #                               mount_conn=["EndConnection"])
-    # front_rail_l = designer.add_tube(size="0394",
-    #                                length=135,
-    #                                end_rotation=270,
-    #                                name="front_rail_l",
-    #                                mount_base_inst=side_hub_l,
-    #                                mount_base_conn="Side_Connector_3")
-    # front_rail_r = designer.add_tube(size="0394",
-    #                                length=135,
-    #                                end_rotation=90,
-    #                                name="front_rail_r",
-    #                                mount_base_inst=side_hub_r,
-    #                                mount_base_conn="Side_Connector_3")
-    # front_flange_l = designer.add_flange(size="0394",
-    #                                      name="front_flange_l",
-    #                                      mount_bottom_inst=front_rail_l,
-    #                                      mount_bottom_conn="EndConnection"
-    #                                     )
-    # front_flange_r = designer.add_flange(size="0394",
-    #                                      bottom_angle=90,
-    #                                      name="front_flange_r",
-    #                                      mount_bottom_inst=front_rail_r,
-    #                                      mount_bottom_conn="EndConnection"
-    #                                     )
-    # designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-    #                              prop_model="apc_propellers_7x5E",
-    #                              prop_type=-1,
-    #                              direction=-1,
-    #                              control_channel=1,
-    #                              name_prefix="front_l",
-    #                              mount_inst=front_flange_l,
-    #                              mount_conn="TopConnector",
-    #                              controller_inst=battery_control)
-    # designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-    #                              prop_model="apc_propellers_7x5E",
-    #                              prop_type=1,
-    #                              direction=1,
-    #                              control_channel=2,
-    #                              name_prefix="front_r",
-    #                              mount_inst=front_flange_r,
-    #                              mount_conn="TopConnector",
-    #                              controller_inst=battery_control)
-    #side hubs, mid tubes, front rails, front flange, front moter/propeller
-    # front_flange_l, front_flange_r
-        # front_flange_l:SideConnector to front_wing_tube_l:BaseConnection
+    side_hub_l = designer.add_hub(name="side_hub_l",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_2"],
+                                  mount_inst=[mid_tube_l],
+                                  mount_conn=["EndConnection"])
+    side_hub_r = designer.add_hub(name="side_hub_r",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_2"],
+                                  mount_inst=[mid_tube_r],
+                                  mount_conn=["EndConnection"])
+    front_rail_l = designer.add_tube(size="0394",
+                                     length=135,
+                                     end_rotation=270,
+                                     name="front_rail_l",
+                                     mount_base_inst=side_hub_l,
+                                     mount_base_conn="Side_Connector_3")
+    front_rail_r = designer.add_tube(size="0394",
+                                     length=135,
+                                     end_rotation=90,
+                                     name="front_rail_r",
+                                     mount_base_inst=side_hub_r,
+                                     mount_base_conn="Side_Connector_3")
+    front_flange_l = designer.add_flange(size="0394",
+                                         name="front_flange_l",
+                                         mount_bottom_inst=front_rail_l,
+                                         mount_bottom_conn="EndConnection"
+                                         )
+    front_flange_r = designer.add_flange(size="0394",
+                                         bottom_angle=90,
+                                         name="front_flange_r",
+                                         mount_bottom_inst=front_rail_r,
+                                         mount_bottom_conn="EndConnection"
+                                         )
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=1,
+                                 name_prefix="front_l",
+                                 mount_inst=front_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=2,
+                                 name_prefix="front_r",
+                                 mount_inst=front_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    # Add front wings
+    Front_Wing_Tube_Length = 52
+    front_wing_tube_l = designer.add_tube(size="0394",
+                                          length=Front_Wing_Tube_Length,
+                                          end_rotation=270,
+                                          name="front_wing_tube_l",
+                                          mount_base_inst=front_flange_l,
+                                          mount_base_conn="SideConnector")
+    front_wing_tube_r = designer.add_tube(size="0394",
+                                          length=Front_Wing_Tube_Length,
+                                          name="front_wing_tube_r",
+                                          mount_base_inst=front_flange_r,
+                                          mount_base_conn="SideConnector")
+    NACA_profile = "0012"
+    front_wing_span = 450
+    front_wing_chord = 150
+    wing_thickness = 12
+    # Note: the autograph for the seed design indicates a tube_rotation of 180 for left wing, 90 looks more correct (MM)
+    designer.add_wing_uav(direction="Vertical",
+                          chord=front_wing_chord,
+                          span=front_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=289.68,
+                          tube_rotation=90,
+                          channel=5,
+                          name="front_left_wing",
+                          tube_inst=front_wing_tube_l,
+                          tube_conn="EndConnection")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=front_wing_chord,
+                          span=front_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=160.32,
+                          tube_rotation=180,
+                          channel=6,
+                          name="front_right_wing",
+                          tube_inst=front_wing_tube_r,
+                          tube_conn="EndConnection")
 
+    # Add rear wings
+    Rear_Rail_Length = 220
+    rear_rail_l = designer.add_tube(size="0394",
+                                    length=Rear_Rail_Length,
+                                    end_rotation=90,
+                                    name="rear_rail_l",
+                                    mount_base_inst=side_hub_l,
+                                    mount_base_conn="Side_Connector_1")
+    rear_rail_r = designer.add_tube(size="0394",
+                                    length=Rear_Rail_Length,
+                                    end_rotation=90,
+                                    name="rear_rail_r",
+                                    mount_base_inst=side_hub_r,
+                                    mount_base_conn="Side_Connector_1")
+    rear_hub_l = designer.add_hub(name="rear_hub_l",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_1"],
+                                  mount_inst=[rear_rail_l],
+                                  mount_conn=["EndConnection"])
+    rear_hub_r = designer.add_hub(name="rear_hub_r",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_3"],
+                                  mount_inst=[rear_rail_r],
+                                  mount_conn=["EndConnection"])
+    bottom_leg_l = designer.add_tube(size="0394",
+                                     length=150,
+                                     name="bottom_leg_l",
+                                     mount_base_inst=rear_hub_l,
+                                     mount_base_conn="Side_Connector_3")
+    bottom_leg_r = designer.add_tube(size="0394",
+                                     length=150,
+                                     name="bottom_leg_r",
+                                     mount_base_inst=rear_hub_r,
+                                     mount_base_conn="Side_Connector_1")
+    vertical_l = designer.add_tube(size="0394",
+                                   length=150,
+                                   end_rotation=90,
+                                   offset_1=90,
+                                   name="vertical_l",
+                                   mount_base_inst=rear_hub_l,
+                                   mount_base_conn="Side_Connector_2")
+    vertical_r = designer.add_tube(size="0394",
+                                   length=150,
+                                   end_rotation=270,
+                                   offset_1=90,
+                                   name="vertical_r",
+                                   mount_base_inst=rear_hub_r,
+                                   mount_base_conn="Side_Connector_2")
+    rear_wing_span = 609
+    rear_wing_chord = 180
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rear_wing_chord,
+                          span=rear_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=448.68,
+                          tube_rotation=270,
+                          channel=8,
+                          name="rear_left_wing",
+                          tube_inst=vertical_l,
+                          tube_conn="OffsetConnection1")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rear_wing_chord,
+                          span=rear_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=160.32,
+                          tube_rotation=90,
+                          channel=7,
+                          name="rear_right_wing",
+                          tube_inst=vertical_r,
+                          tube_conn="OffsetConnection1")
+    rear_flange_l = designer.add_flange(size="0394",
+                                        name="rear_flange_l",
+                                        mount_side_inst=vertical_l,
+                                        mount_side_conn="EndConnection"
+                                        )
+    rear_flange_r = designer.add_flange(size="0394",
+                                        name="rear_flange_r",
+                                        mount_side_inst=vertical_r,
+                                        mount_side_conn="EndConnection"
+                                        )
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=3,
+                                 name_prefix="rear_l",
+                                 mount_inst=rear_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=4,
+                                 name_prefix="rear_r",
+                                 mount_inst=rear_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    Top_Leg_Tube_Length = 150.1524
+    top_leg_l = designer.add_tube(size="0394",
+                                  length=Top_Leg_Tube_Length,
+                                  name="top_leg_l",
+                                  mount_base_inst=rear_flange_l,
+                                  mount_base_conn="BottomConnector")
+    top_leg_r = designer.add_tube(size="0394",
+                                  length=Top_Leg_Tube_Length,
+                                  name="top_leg_r",
+                                  mount_base_inst=rear_flange_r,
+                                  mount_base_conn="BottomConnector")
 
-    # BatteryController connections - done in battery and motor adds
-    # rear_motor_r:MotorPower to BatteryController:MotorPower
-    # rear_motor_l:MotorPower to BatteryController:MotorPower
-
-    # BodyRotAngle:90 - see tubes and fuselage
-
-    # Tubes - 0394OD_para_tube
-    # top_leg_r, top_leg_l
-        # Top_Leg_Tube_Length:150.1524
-        # top_leg_l:Length-Top_Leg_Tube_Length
-        # top_leg_r:Length-Top_Leg_Tube_Length
-        # top_leg_r:BaseConnection to rear_flange_r:BottomConnector
-    # bottom_leg_r, bottom_leg_l
-        # bottom_leg_r:Length-Vertical_Tube_Length
-        # bottom_leg_l:Length-Vertical_Tube_Length
-    # front_wing_tube_r, front_wing_tube_l
-    # vertical_l, vertical_r
-        # vertical_l:END_ROT-BodyRotAngle
-        # Vertical_Tube_Length:150 - see tubes
-        # vertical_r:Length-Vertical_Tube_Length
-        # vertical_l:Length-Vertical_Tube_Length
-        # vertical_l:OffsetConnection1 to rear_left_wing:Wing_Tube_Connector
-        # vertical_l:BaseConnection to rear_hub_l:Side_Connector_2
-        # vertical_r:EndConnection to rear_flange_r:SideConnector
-        # vertical_r:OffsetConnection1 to rear_right_wing:Wing_Tube_Connector
-    # rear_rail_l, rear_rail_r
-        # rear_rail_l:END_ROT-BodyRotAngle
-        # rear_rail_r:END_ROT-BodyRotAngle
-        # Rear_Rail_Length:220
-        # rear_rail_l:Length-Rear_Rail_Length
-        # rear_rail_r:Length-Rear_Rail_Length
-        # rear_rail_l:EndConnection to rear_hub_l:Side_Connector_1
-        # rear_rail_l:BaseConnection to side_hub_l:Side_Connector_1
-        # rear_rail_r:BaseConnection to side_hub_r:Side_Connector_1
-    # rudder_tube_l, rudder_tube_r
-        # Rudder_Tube_Length:41
-        # rudder_tube_r:Length-Rudder_Tube_Length
-        # rudder_tube_l:Length-Rudder_Tube_Length
-        # rudder_tube_l:BaseConnection to rear_hub_l:Center_Connector
-
-
-    # Flange - 0394_para_flange
-    # rear_flange_l, rear_flange_r
-        # rear_flange_l:SideConnector to vertical_l:EndConnection
-        # rear_flange_l:BottomConnector to top_leg_l:BaseConnection
-        # rear_flange_l:TopConnector to rear_motor_l:Base_Connector
-
-    # Wings
-    # Wing_vert_hole - right_rudder, left_rudder, 
-    #                  front_left_wing, front_right_wing
-    #                  rear_left_wing, rear_right_wing 
-    # front_wing_tube_r:BaseConnection to front_flange_r:SideConnector
-    # front_wing_tube_r:EndConnection to front_right_wing:Wing_Tube_Connector
-    # front_left_wing:Wing_Tube_Connector to front_wing_tube_l:EndConnection
-    # right_rudder:Wing_Tube_Connector to rudder_tube_r:EndConnection
-    # left_rudder:Wing_Tube_Connector to rudder_tube_l:EndConnection
-    # Param_12:90 -- see rear_right_wing
-    # Param_11:180 - see wings
-    # angle_270:270
-    # rear_left_wing:TUBE_ROTATION-angle_270
-    # front_rail_l:END_ROT-angle_270
-    # vertical_r:END_ROT-angle_270
-    # Channel_7:7
-    # rear_right_wing:CONTROL_CHANNEL-Channel_7
-    # Channel_10:10
-    # left_rudder:CONTROL_CHANNEL-Channel_10
-    # Front_Wing_Tube_Length:52
-    # front_wing_tube_r:Length-Front_Wing_Tube_Length
-    # front_wing_tube_l:Length-Front_Wing_Tube_Length
-    # Channel_6:6
-    # front_right_wing:CONTROL_CHANNEL-Channel_6
-    # rear_right_wing:TUBE_ROTATION-Param_12
-    # Channel_9:9
-    # right_rudder:CONTROL_CHANNEL-Channel_9
-    # front_l_wing_offset:289.68
-    # front_left_wing:TUBE_OFFSET-front_l_wing_offset
-    # left_rudder:TUBE_ROTATION-Param_11
-    # front_right_wing:TUBE_ROTATION-Param_11
-    # front_left_wing:TUBE_ROTATION-Param_11
-    # r_rudder_offset:50
-    # right_rudder:TUBE_OFFSET-r_rudder_offset
-    # Channel_5:5
-    # front_left_wing:CONTROL_CHANNEL-Channel_5
-    # front_wing_span:450
-    # front_left_wing:SPAN-front_wing_span
-    # front_right_wing:SPAN-front_wing_span
-    # rear_wing_offset:90
-    # vertical_l:Offset1-rear_wing_offset
-    # vertical_r:Offset1-rear_wing_offset
-    # Param_14:448.68
-    # rear_left_wing:TUBE_OFFSET-Param_14
-    # front_wing_chord:150
-    # front_right_wing:CHORD_2-front_wing_chord
-    # front_left_wing:CHORD_1-front_wing_chord
-    # front_right_wing:CHORD_1-front_wing_chord
-    # front_left_wing:CHORD_2-front_wing_chord
-    # rear_wing_chord:180
-    # rear_left_wing:CHORD_2-rear_wing_chord
-    # rear_right_wing:CHORD_2-rear_wing_chord
-    # rear_right_wing:CHORD_1-rear_wing_chord
-    # rear_left_wing:CHORD_1-rear_wing_chord
-    # rudder_span:140
-    # left_rudder:SPAN-rudder_span
-    # right_rudder:SPAN-rudder_span
-    # l_rudder_offset:90
-    # left_rudder:TUBE_OFFSET-l_rudder_offset
-    # rudder_chord:100
-    # left_rudder:CHORD_2-rudder_chord
-    # right_rudder:CHORD_1-rudder_chord
-    # left_rudder:CHORD_1-rudder_chord
-    # right_rudder:CHORD_2-rudder_chord
-    # front_r_wing_offset:160.32
-    # front_right_wing:TUBE_OFFSET-front_r_wing_offset
-    # rear_right_wing:TUBE_OFFSET-front_r_wing_offset
-    # NACA_profile:0012
-    # rear_right_wing:NACA_Profile-NACA_profile
-    # front_right_wing:NACA_Profile-NACA_profile
-    # front_left_wing:NACA_Profile-NACA_profile
-    # rear_left_wing:NACA_Profile-NACA_profile
-    # left_rudder:NACA_Profile-NACA_profile
-    # right_rudder:NACA_Profile-NACA_profile
-    # rear_wing_span:609
-    # rear_left_wing:SPAN-rear_wing_span
-    # rear_right_wing:SPAN-rear_wing_span
-    # wing_thickness:12
-    # right_rudder:THICKNESS-wing_thickness
-    # front_right_wing:THICKNESS-wing_thickness
-    # front_left_wing:THICKNESS-wing_thickness
-    # rear_left_wing:THICKNESS-wing_thickness
-    # rear_right_wing:THICKNESS-wing_thickness
-    # left_rudder:THICKNESS-wing_thickness
-    # Channel_8:8
-    # rear_left_wing:CONTROL_CHANNEL-Channel_8
-
-    # Other hubs - 0394od_para_hub_3
-    # rear_hub_r, rear_hub_l, side_hub_l, side_hub_r 
-    # rear_hub_r:Side_Connector_1 to bottom_leg_r:BaseConnection
-    # rear_hub_r:Side_Connector_2 to vertical_r:BaseConnection
-    # rear_hub_r:Center_Connector to rudder_tube_r:BaseConnection
-    # rear_hub_r:Side_Connector_3 to rear_rail_r:EndConnection
-    # rear_hub_l:Side_Connector_3 to bottom_leg_l:BaseConnection
-    # Param_12:90 -- see rear_right_wing
-    # rear_hub_l:ANGHORZCONN-Param_12
-    # rear_hub_r:ANGHORZCONN-Param_12
-
-    # Propellers - apc_propellers_7x5E
-    # rear_prop_r, rear_prop_l, front_prop_l, front_prop_r
-    # rear_prop_r:MOTOR_CONNECTOR_CS_IN to rear_motor_r:Prop_Connector
-    # rear_prop_l:MOTOR_CONNECTOR_CS_IN to rear_motor_l:Prop_Connector
-    # FwdFacingCCW_PropType:-1
-    # rear_prop_l:Prop_type-FwdFacingCCW_PropType
-    # FwdFacingCCW_Spin:-1
-    # rear_prop_l:Direction-FwdFacingCCW_Spin
-    # FwdFacingCW_Spin:1
-    # rear_prop_r:Direction-FwdFacingCW_Spin
-    # FwdFacingCW_PropType:1
-    # rear_prop_r:Prop_type-FwdFacingCW_PropType
-
-    # Motor - kde_direct_KDE2315XF_885
-    # rear_motor_r, rear_motor_l
-    # rear_motor_r:MotorPower to BatteryController:MotorPower
-    # rear_motor_r:Base_Connector to rear_flange_r:TopConnector
-    # rear_motor_l:MotorPower to BatteryController:MotorPower
-    # Channel_3:3
-    # rear_motor_l:CONTROL_CHANNEL-Channel_3
-    # Channel_4:4
-    # rear_motor_r:CONTROL_CHANNEL-Channel_4
-
-   #   MM TODO: check TestQuad to see if connection location is a design decision or always the same for UAV
+    # Add rudders
+    Rudder_Tube_Length = 41
+    rudder_tube_l = designer.add_tube(size="0394",
+                                      length=Rudder_Tube_Length,
+                                      name="rudder_tube_l",
+                                      mount_base_inst=rear_hub_l,
+                                      mount_base_conn="Center_Connector")
+    rudder_tube_r = designer.add_tube(size="0394",
+                                      length=Rudder_Tube_Length,
+                                      name="rudder_tube_r",
+                                      mount_base_inst=rear_hub_r,
+                                      mount_base_conn="Center_Connector")
+    rudder_span = 140
+    rudder_chord = 100
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rudder_chord,
+                          span=rudder_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=90,
+                          tube_rotation=180,
+                          channel=10,
+                          name="left_rudder",
+                          tube_inst=rudder_tube_l,
+                          tube_conn="EndConnection")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rudder_chord,
+                          span=rudder_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=50,
+                          channel=9,
+                          name="right_rudder",
+                          tube_inst=rudder_tube_r,
+                          tube_conn="EndConnection")
 
     designer.close_design(corpus="uav", orient_z_angle=90)
 
 # This is for the UAM corpus
+
+
 def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     designer = Designer()
 
@@ -642,19 +671,19 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
         designer.create_design(design_name_inst)
 
         fuselage = designer.add_fuselage_uam(name="fuselage",
-                                         length=2345,
-                                         sphere_diameter=1201,
-                                         middle_length=1517,
-                                         tail_diameter=107,
-                                         floor_height=110,
-                                         seat_1_fb=1523,
-                                         seat_1_lr=0,
-                                         seat_2_fb=690,
-                                         seat_2_lr=0,
-                                         top_port_disp=0,
-                                         bottom_port_disp=0,
-                                         left_port_disp=0,
-                                         right_port_disp=0)
+                                             length=2345,
+                                             sphere_diameter=1201,
+                                             middle_length=1517,
+                                             tail_diameter=107,
+                                             floor_height=110,
+                                             seat_1_fb=1523,
+                                             seat_1_lr=0,
+                                             seat_2_fb=690,
+                                             seat_2_lr=0,
+                                             top_port_disp=0,
+                                             bottom_port_disp=0,
+                                             left_port_disp=0,
+                                             right_port_disp=0)
 
         wing_naca = "0015"
         wing_chord = 1400
@@ -684,18 +713,18 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
         designer.create_design(design_name_inst)
 
         fuselage = designer.add_fuselage_uam(name="fuselage",
-                                         length=500,
-                                         sphere_diameter=160,
-                                         middle_length=400,
-                                         tail_diameter=100,
-                                         floor_height=130,
-                                         seat_1_fb=1400,
-                                         seat_1_lr=0,
-                                         seat_2_fb=2300,
-                                         seat_2_lr=0,
-                                         port_thickness=75,
-                                         left_port_disp=-550,
-                                         right_port_disp=-550)
+                                             length=500,
+                                             sphere_diameter=160,
+                                             middle_length=400,
+                                             tail_diameter=100,
+                                             floor_height=130,
+                                             seat_1_fb=1400,
+                                             seat_1_lr=0,
+                                             seat_2_fb=2300,
+                                             seat_2_lr=0,
+                                             port_thickness=75,
+                                             left_port_disp=-550,
+                                             right_port_disp=-550)
 
         wing_naca = "0015"
         wing_chord = 1400
@@ -728,46 +757,46 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
                            fuselage_conn="SEAT_2_CONNECTOR")
 
     right_wing = designer.add_wing_uam(name="right_wing",
-                                   naca=wing_naca,
-                                   chord=wing_chord,
-                                   span=wing_span,
-                                   load=wing_load,
-                                   left_inst=fuselage,
-                                   left_conn="RIGHT_CONNECTOR")
+                                       naca=wing_naca,
+                                       chord=wing_chord,
+                                       span=wing_span,
+                                       load=wing_load,
+                                       left_inst=fuselage,
+                                       left_conn="RIGHT_CONNECTOR")
     config_parameter_dict["wing_chord"] = ["right_wing"]
 
     left_wing = designer.add_wing_uam(name="left_wing",
-                                  naca=wing_naca,
-                                  chord=wing_chord,
-                                  span=wing_span,
-                                  load=wing_load,
-                                  right_inst=fuselage,
-                                  right_conn="LEFT_CONNECTOR")
+                                      naca=wing_naca,
+                                      chord=wing_chord,
+                                      span=wing_span,
+                                      load=wing_load,
+                                      right_inst=fuselage,
+                                      right_conn="LEFT_CONNECTOR")
     config_parameter_dict["wing_chord"].append("left_wing")
 
     battery_controller = designer.add_battery_controller("battery_controller")
 
     designer.add_battery_uam(battery_model,
-                         name="right_battery",
-                         naca=wing_naca,
-                         chord=wing_chord,
-                         span=wing_span,
-                         mount_side=1,
-                         voltage_request=battery_voltage,
-                         volume_percent=battery_percent,
-                         wing_inst=right_wing,
-                         controller_inst=battery_controller)
+                             name="right_battery",
+                             naca=wing_naca,
+                             chord=wing_chord,
+                             span=wing_span,
+                             mount_side=1,
+                             voltage_request=battery_voltage,
+                             volume_percent=battery_percent,
+                             wing_inst=right_wing,
+                             controller_inst=battery_controller)
 
     designer.add_battery_uam(battery_model,
-                         name="left_battery",
-                         naca=wing_naca,
-                         chord=wing_chord,
-                         span=wing_span,
-                         mount_side=2,
-                         voltage_request=battery_voltage,
-                         volume_percent=battery_percent,
-                         wing_inst=left_wing,
-                         controller_inst=battery_controller)
+                             name="left_battery",
+                             naca=wing_naca,
+                             chord=wing_chord,
+                             span=wing_span,
+                             mount_side=2,
+                             voltage_request=battery_voltage,
+                             volume_percent=battery_percent,
+                             wing_inst=left_wing,
+                             controller_inst=battery_controller)
 
     top_bar = designer.add_cylinder(name="top_bar",
                                     length=bar1_length,
@@ -913,21 +942,21 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
         #config_parameter_dict["stear_wing_chord"] = ["stear_bar2"]
 
         designer.add_wing_uam(name="right_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="RIGHT_CONNECTOR")
+                              naca=stear_wing_naca,
+                              chord=stear_wing_chord,
+                              span=stear_wing_span,
+                              load=stear_wing_load,
+                              left_inst=stear_bar2,
+                              left_conn="RIGHT_CONNECTOR")
         # config_parameter_dict["stear_wing_chord"].append("right_stear_wing")
 
         designer.add_wing_uam(name="left_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="TOP_CONNECTOR")
+                              naca=stear_wing_naca,
+                              chord=stear_wing_chord,
+                              span=stear_wing_span,
+                              load=stear_wing_load,
+                              left_inst=stear_bar2,
+                              left_conn="TOP_CONNECTOR")
         # config_parameter_dict["stear_wing_chord"].append("left_stear_wing")
 
     designer.set_config_param("Requested_Lateral_Speed_1", 50)
@@ -1045,24 +1074,26 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     architecture.close_jenkins_client()
 
 # This is for the UAM corpus
+
+
 def create_vudoo():
     designer = Designer()
     designer.create_design("VUdoo5")
 
     fuselage = designer.add_fuselage_uam(name="fuselage",
-                                     length=2000,
-                                     sphere_diameter=1520,
-                                     middle_length=750,
-                                     tail_diameter=200,
-                                     floor_height=150,
-                                     seat_1_fb=1000,
-                                     seat_1_lr=-210,
-                                     seat_2_fb=1000,
-                                     seat_2_lr=210,
-                                     top_port_disp=300,
-                                     bottom_port_disp=300,
-                                     left_port_disp=0,
-                                     right_port_disp=0)
+                                         length=2000,
+                                         sphere_diameter=1520,
+                                         middle_length=750,
+                                         tail_diameter=200,
+                                         floor_height=150,
+                                         seat_1_fb=1000,
+                                         seat_1_lr=-210,
+                                         seat_2_fb=1000,
+                                         seat_2_lr=210,
+                                         top_port_disp=300,
+                                         bottom_port_disp=300,
+                                         left_port_disp=0,
+                                         right_port_disp=0)
 
     wing_naca = "0015"
     wing_chord = 1200
@@ -1106,42 +1137,42 @@ def create_vudoo():
     battery_controller = designer.add_battery_controller("battery_controller")
 
     right_wing = designer.add_wing_uam(name="right_wing",
-                                   naca=wing_naca,
-                                   chord=wing_chord,
-                                   span=wing_span,
-                                   load=wing_load,
-                                   left_inst=fuselage,
-                                   left_conn="RIGHT_CONNECTOR")
+                                       naca=wing_naca,
+                                       chord=wing_chord,
+                                       span=wing_span,
+                                       load=wing_load,
+                                       left_inst=fuselage,
+                                       left_conn="RIGHT_CONNECTOR")
 
     left_wing = designer.add_wing_uam(name="left_wing",
-                                  naca=wing_naca,
-                                  chord=wing_chord,
-                                  span=wing_span,
-                                  load=wing_load,
-                                  right_inst=fuselage,
-                                  right_conn="LEFT_CONNECTOR")
+                                      naca=wing_naca,
+                                      chord=wing_chord,
+                                      span=wing_span,
+                                      load=wing_load,
+                                      right_inst=fuselage,
+                                      right_conn="LEFT_CONNECTOR")
 
     designer.add_battery_uam(battery_model,
-                         name="right_battery",
-                         naca=wing_naca,
-                         chord=wing_chord,
-                         span=wing_span,
-                         mount_side=1,
-                         voltage_request=battery_voltage,
-                         volume_percent=battery_percent,
-                         wing_inst=right_wing,
-                         controller_inst=battery_controller)
+                             name="right_battery",
+                             naca=wing_naca,
+                             chord=wing_chord,
+                             span=wing_span,
+                             mount_side=1,
+                             voltage_request=battery_voltage,
+                             volume_percent=battery_percent,
+                             wing_inst=right_wing,
+                             controller_inst=battery_controller)
 
     designer.add_battery_uam(battery_model,
-                         name="left_battery",
-                         naca=wing_naca,
-                         chord=wing_chord,
-                         span=wing_span,
-                         mount_side=2,
-                         voltage_request=battery_voltage,
-                         volume_percent=battery_percent,
-                         wing_inst=left_wing,
-                         controller_inst=battery_controller)
+                             name="left_battery",
+                             naca=wing_naca,
+                             chord=wing_chord,
+                             span=wing_span,
+                             mount_side=2,
+                             voltage_request=battery_voltage,
+                             volume_percent=battery_percent,
+                             wing_inst=left_wing,
+                             controller_inst=battery_controller)
 
     top_bar = designer.add_cylinder(name="top_bar",
                                     length=spacer1_length,
@@ -1330,24 +1361,26 @@ def create_vudoo():
                                            mount_conn="REAR_CONNECTOR")
 
         designer.add_wing_uam(name="right_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="RIGHT_CONNECTOR")
+                              naca=stear_wing_naca,
+                              chord=stear_wing_chord,
+                              span=stear_wing_span,
+                              load=stear_wing_load,
+                              left_inst=stear_bar2,
+                              left_conn="RIGHT_CONNECTOR")
 
         designer.add_wing_uam(name="left_stear_wing",
-                          naca=stear_wing_naca,
-                          chord=stear_wing_chord,
-                          span=stear_wing_span,
-                          load=stear_wing_load,
-                          left_inst=stear_bar2,
-                          left_conn="TOP_CONNECTOR")
+                              naca=stear_wing_naca,
+                              chord=stear_wing_chord,
+                              span=stear_wing_span,
+                              load=stear_wing_load,
+                              left_inst=stear_bar2,
+                              left_conn="TOP_CONNECTOR")
 
     designer.close_design()
 
 # This is for the UAM corpus
+
+
 def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
     Create a Vudoo based design, but the parameters are randomize to create
@@ -1421,19 +1454,19 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
         # print("Fuselage ports - top/bottom/left/right: %f, %f, %f, %f" % (fuse_top_port_disp, fuse_bottom_port_disp, fuse_left_port_disp, fuse_right_port_disp))
 
         fuselage = designer.add_fuselage_uam(name="fuselage",
-                                         length=fuse_length,
-                                         sphere_diameter=fuse_sphere_diameter,
-                                         middle_length=fuse_middle_length,
-                                         tail_diameter=fuse_tail_diameter,
-                                         floor_height=fuse_floor_height,
-                                         seat_1_fb=fuse_seat_1_fb,
-                                         seat_1_lr=fuse_seat_1_lr,
-                                         seat_2_fb=fuse_seat_2_fb,
-                                         seat_2_lr=fuse_seat_2_lr,
-                                         top_port_disp=fuse_top_port_disp,
-                                         bottom_port_disp=fuse_bottom_port_disp,
-                                         left_port_disp=fuse_left_port_disp,
-                                         right_port_disp=fuse_right_port_disp)
+                                             length=fuse_length,
+                                             sphere_diameter=fuse_sphere_diameter,
+                                             middle_length=fuse_middle_length,
+                                             tail_diameter=fuse_tail_diameter,
+                                             floor_height=fuse_floor_height,
+                                             seat_1_fb=fuse_seat_1_fb,
+                                             seat_1_lr=fuse_seat_1_lr,
+                                             seat_2_fb=fuse_seat_2_fb,
+                                             seat_2_lr=fuse_seat_2_lr,
+                                             top_port_disp=fuse_top_port_disp,
+                                             bottom_port_disp=fuse_bottom_port_disp,
+                                             left_port_disp=fuse_left_port_disp,
+                                             right_port_disp=fuse_right_port_disp)
 
         # Randomize wing parameters
         wing_params = get_component_parameters("Wing", "naca_wing")
@@ -1634,44 +1667,44 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
             "battery_controller")
 
         right_wing = designer.add_wing_uam(name="right_wing",
-                                       naca=wing_naca,
-                                       chord=wing_chord,
-                                       span=wing_span,
-                                       load=wing_load,
-                                       left_inst=fuselage,
-                                       left_conn="RIGHT_CONNECTOR")
+                                           naca=wing_naca,
+                                           chord=wing_chord,
+                                           span=wing_span,
+                                           load=wing_load,
+                                           left_inst=fuselage,
+                                           left_conn="RIGHT_CONNECTOR")
         config_parameter_dict["wing_chord"] = ["right_wing"]
 
         left_wing = designer.add_wing_uam(name="left_wing",
-                                      naca=wing_naca,
-                                      chord=wing_chord,
-                                      span=wing_span,
-                                      load=wing_load,
-                                      right_inst=fuselage,
-                                      right_conn="LEFT_CONNECTOR")
+                                          naca=wing_naca,
+                                          chord=wing_chord,
+                                          span=wing_span,
+                                          load=wing_load,
+                                          right_inst=fuselage,
+                                          right_conn="LEFT_CONNECTOR")
         config_parameter_dict["wing_chord"].append("left_wing")
 
         designer.add_battery_uam(battery_model,
-                             name="right_battery",
-                             naca=wing_naca,
-                             chord=wing_chord,
-                             span=wing_span,
-                             mount_side=1,
-                             voltage_request=battery_voltage,
-                             volume_percent=battery_percent,
-                             wing_inst=right_wing,
-                             controller_inst=battery_controller)
+                                 name="right_battery",
+                                 naca=wing_naca,
+                                 chord=wing_chord,
+                                 span=wing_span,
+                                 mount_side=1,
+                                 voltage_request=battery_voltage,
+                                 volume_percent=battery_percent,
+                                 wing_inst=right_wing,
+                                 controller_inst=battery_controller)
 
         designer.add_battery_uam(battery_model,
-                             name="left_battery",
-                             naca=wing_naca,
-                             chord=wing_chord,
-                             span=wing_span,
-                             mount_side=2,
-                             voltage_request=battery_voltage,
-                             volume_percent=battery_percent,
-                             wing_inst=left_wing,
-                             controller_inst=battery_controller)
+                                 name="left_battery",
+                                 naca=wing_naca,
+                                 chord=wing_chord,
+                                 span=wing_span,
+                                 mount_side=2,
+                                 voltage_request=battery_voltage,
+                                 volume_percent=battery_percent,
+                                 wing_inst=left_wing,
+                                 controller_inst=battery_controller)
 
         top_bar = designer.add_cylinder(name="top_bar",
                                         length=spacer1_length,
@@ -1904,20 +1937,20 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
                                                    mount_conn="REAR_CONNECTOR")
 
                 designer.add_wing_uam(name="right_stear_wing",
-                                  naca=stear_wing_naca,
-                                  chord=stear_wing_chord,
-                                  span=stear_wing_span,
-                                  load=stear_wing_load,
-                                  left_inst=stear_bar2,
-                                  left_conn="RIGHT_CONNECTOR")
+                                      naca=stear_wing_naca,
+                                      chord=stear_wing_chord,
+                                      span=stear_wing_span,
+                                      load=stear_wing_load,
+                                      left_inst=stear_bar2,
+                                      left_conn="RIGHT_CONNECTOR")
 
                 designer.add_wing_uam(name="left_stear_wing",
-                                  naca=stear_wing_naca,
-                                  chord=stear_wing_chord,
-                                  span=stear_wing_span,
-                                  load=stear_wing_load,
-                                  left_inst=stear_bar2,
-                                  left_conn="TOP_CONNECTOR")
+                                      naca=stear_wing_naca,
+                                      chord=stear_wing_chord,
+                                      span=stear_wing_span,
+                                      load=stear_wing_load,
+                                      left_inst=stear_bar2,
+                                      left_conn="TOP_CONNECTOR")
 
         designer.close_design()
 
@@ -2024,6 +2057,7 @@ def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_n
     architecture.close_jenkins_client()
     # architecture.disconnect_creoson_server()
 
+
 def run(args=None):
     import argparse
 
@@ -2081,7 +2115,7 @@ def run(args=None):
             create_minimal_uam()
         elif args.corpus == "uav" or args.corpus == "UAV":
             create_minimal_uav()
-        else: 
+        else:
             print("Please indicate a corpus (--corpus)")
     elif args.design == "tail-sitter":
         create_tail_sitter(aWorkflow, minio_bucket, number_samples)
