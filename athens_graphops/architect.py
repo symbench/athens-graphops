@@ -217,8 +217,6 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     # architecture.disconnect_creoson_server()
 
 # This is for the UAM corpus
-
-
 def create_minimal_uam():
     designer = Designer()
     designer.create_design("Minimal")
@@ -255,7 +253,8 @@ def create_minimal_uav():
                      connector_horizonal_angle=90,
                      connects=["Top_Connector", "Bottom_Connector"],
                      mount_inst=[fuselage, cargo_case],
-                     mount_conn=["BottomConnector", "Case2HubConnector"])
+                     mount_conn=["BottomConnector", "Case2HubConnector"],
+                     orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
@@ -306,8 +305,6 @@ def create_minimal_uav():
     designer.close_design(corpus="uav", orient_z_angle=90)
 
 # Recreating NewAxe_Cargo design
-
-
 def create_new_axe_cargo():
     designer = Designer()
     designer.create_design("NewAxeCargo")
@@ -328,13 +325,10 @@ def create_new_axe_cargo():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"])
-
+                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                orient_base=True)
+    # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    # Battery connections
-    # Battery_1, Battery_2 - TurnigyGraphene6000mAh6S75C
-    # capsule_fuselage:FloorConnector1 to Battery_2:Bottom_Connector
-    # capsule_fuselage:FloorConnector2 to Battery_1:Bottom_Connector
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_1",
                              fuse_conn_num=2,
@@ -647,9 +641,92 @@ def create_new_axe_cargo():
 
     designer.close_design(corpus="uav", orient_z_angle=90)
 
+
+# Recreating TestQuad_Cargo design
+# Note: this design does not include sensors as of 10/20/22, they are required for the mission
+def create_test_quad_cargo():
+    designer = Designer()
+    designer.create_design("TestQuadCargo")
+    fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
+                                         floor_height=20,
+                                         fuse_width=80,
+                                         fuse_height=68,
+                                         tube_length=80,
+                                         bottom_connector_rotation=45)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=4,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                orient_base=True)
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=0,
+                             mount_width=20,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=0,
+                             mount_width=-20,
+                             controller_inst=battery_control)
+
+    # Add 4 propeller/motors
+    for x in range(4):
+        tube_size = "0394"
+        arm_name = "arm_" + str(x + 1)
+        arm_length = 220
+        hub_conn_name = "Side_Connector_" + str(x + 1)
+        flange_name = "flange_" + str(x + 1)
+        leg_name = "leg_" + str(x + 1)
+        leg_length = 95
+        prefix = "mp_" + str(x + 1)
+        channel = x + 1
+        if (x % 2) == 0:
+            direction = -1
+            spin = -1
+        else:
+            direction = 1
+            spin = 1
+        arm_inst = designer.add_tube(size=tube_size,
+                                     length=arm_length,
+                                     name=arm_name,
+                                     mount_base_inst=hub_main,
+                                     mount_base_conn=hub_conn_name)
+        flange_inst = designer.add_flange(size=tube_size,
+                                          name=flange_name,
+                                          mount_side_inst=arm_inst,
+                                          mount_side_conn="EndConnection")
+        designer.add_tube(size=tube_size,
+                          length=leg_length,
+                          name=leg_name,
+                          mount_base_inst=flange_inst,
+                          mount_base_conn="BottomConnector")
+        designer.add_motor_propeller(motor_model="t_motor_AT2312KV1400",
+                                 prop_model="apc_propellers_6x4E",
+                                 prop_type=spin,
+                                 direction=direction,
+                                 control_channel=channel,
+                                 name_prefix=prefix,
+                                 mount_inst=flange_inst,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+
+    designer.close_design(corpus="uav", orient_z_angle=45)
+
+
 # This is for the UAM corpus
-
-
 def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     designer = Designer()
 
@@ -1074,8 +1151,6 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     architecture.close_jenkins_client()
 
 # This is for the UAM corpus
-
-
 def create_vudoo():
     designer = Designer()
     designer.create_design("VUdoo5")
@@ -1379,8 +1454,6 @@ def create_vudoo():
     designer.close_design()
 
 # This is for the UAM corpus
-
-
 def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
     Create a Vudoo based design, but the parameters are randomize to create
@@ -2069,7 +2142,8 @@ def run(args=None):
         "vudoo",
         "vari-vudoo",
         "random-existing",
-        "newaxe-cargo"
+        "newaxe-cargo",
+        "testquad-cargo"
     ])
     parser.add_argument('--corpus', choices=["uam", "uav"],
                         help="indicate corpus name")
@@ -2141,6 +2215,8 @@ def run(args=None):
                 "Please provide the name of a configuration file for the randomized run (yaml)")
     elif args.design == "newaxe-cargo":
         create_new_axe_cargo()
+    elif args.design == "testquad-cargo":
+        create_test_quad_cargo()
     else:
         raise ValueError("unknown design")
 

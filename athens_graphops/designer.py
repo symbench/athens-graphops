@@ -374,6 +374,8 @@ class Designer():
     #    connects: which hub connections to use
     #    mount_inst: the component instance mounting to the connects  (same size as connects list)
     #    mount_conn: the mount_inst connection  (same size as connects list)
+    # orient_base is a bool to identify which hub is the main_hub that connects 
+    #    to Orient in the close_design function, true make it as the main_hub
     def add_hub(self,
                 num_connects: int,
                 diameter: float = 10.0076,
@@ -382,7 +384,8 @@ class Designer():
                 name: Optional[str] = None,
                 connects: Optional[List[str]] = None,
                 mount_inst: Optional[List[Instance]] = None,
-                mount_conn: Optional[List[str]] = None) -> str:
+                mount_conn: Optional[List[str]] = None,
+                orient_base: Optional[bool] = False) -> str:
 
         hub_model = "0394od_para_hub_" + str(num_connects)
         instance = self.add_instance(hub_model, name)
@@ -390,16 +393,13 @@ class Designer():
         self.set_parameter(instance, "ANGHORZCONN", connector_horizonal_angle)
         self.set_parameter(instance, "ANGVERTCONN", connector_vertical_angle)
 
-        # MM TODO:  need to figure out how to make connection
-        #           consider having a connect hub side function
-        # ,main_hub,__SOURCECONN__,Orient_Connector,__DESTCOMP__,Orient,__DESTCONN__,ORIENTCONN
         if connects:
             for i in range(len(connects)):
                 self.connect(instance, connects[i],
                              mount_inst[i], mount_conn[i])
 
         # main_hub will be where the connection to Orient occurs
-        if name == "main_hub":
+        if orient_base == True:
             self.main_hub = instance
 
         return instance
