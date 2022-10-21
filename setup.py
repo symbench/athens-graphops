@@ -29,7 +29,8 @@ setup(
         "gremlinpython<=3.5",
         "api4jenkins",
         "creopyson",
-        "pyyaml"
+        "pyyaml",
+        "pydantic"
     ],
     entry_points={
         'console_scripts': [

@@ -1,0 +1,601 @@
+[
+  {
+    "connections": [
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "Case2HubConnector",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "MainCargoCase"
+      },
+      {
+        "connector1": "Orient_Connector",
+        "connector2": "ORIENTCONN",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "Orient"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "arm_1"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "arm_2"
+      },
+      {
+        "connector1": "Side_Connector_4",
+        "connector2": "BaseConnection",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "arm_3"
+      },
+      {
+        "connector1": "Side_Connector_3",
+        "connector2": "BaseConnection",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "arm_4"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "BottomConnector",
+        "instance1": "0394od_para_hub_4",
+        "instance2": "capsule_fuselage"
+      },
+      {
+        "connector1": "BatteryPower",
+        "connector2": "PowerBus",
+        "instance1": "BatteryController",
+        "instance2": "Battery_1"
+      },
+      {
+        "connector1": "BatteryPower",
+        "connector2": "PowerBus",
+        "instance1": "BatteryController",
+        "instance2": "Battery_2"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "motor_1"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "motor_2"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "motor_3"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "motor_4"
+      },
+      {
+        "connector1": "PowerBus",
+        "connector2": "BatteryPower",
+        "instance1": "Battery_1",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "FloorConnector1",
+        "instance1": "Battery_1",
+        "instance2": "capsule_fuselage"
+      },
+      {
+        "connector1": "PowerBus",
+        "connector2": "BatteryPower",
+        "instance1": "Battery_2",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "FloorConnector2",
+        "instance1": "Battery_2",
+        "instance2": "capsule_fuselage"
+      },
+      {
+        "connector1": "CargoConnector",
+        "connector2": "CargoConnector",
+        "instance1": "Cargo",
+        "instance2": "MainCargoCase"
+      },
+      {
+        "connector1": "Case2HubConnector",
+        "connector2": "Bottom_Connector",
+        "instance1": "MainCargoCase",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "CargoConnector",
+        "connector2": "CargoConnector",
+        "instance1": "MainCargoCase",
+        "instance2": "Cargo"
+      },
+      {
+        "connector1": "ORIENTCONN",
+        "connector2": "Orient_Connector",
+        "instance1": "Orient",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "arm_1",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "arm_1",
+        "instance2": "flange_1"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "arm_2",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "arm_2",
+        "instance2": "flange_2"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_4",
+        "instance1": "arm_3",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "arm_3",
+        "instance2": "flange_3"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_3",
+        "instance1": "arm_4",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "arm_4",
+        "instance2": "flange_4"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "Top_Connector",
+        "instance1": "capsule_fuselage",
+        "instance2": "0394od_para_hub_4"
+      },
+      {
+        "connector1": "FloorConnector1",
+        "connector2": "Bottom_Connector",
+        "instance1": "capsule_fuselage",
+        "instance2": "Battery_1"
+      },
+      {
+        "connector1": "FloorConnector2",
+        "connector2": "Bottom_Connector",
+        "instance1": "capsule_fuselage",
+        "instance2": "Battery_2"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "flange_1",
+        "instance2": "arm_1"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "BaseConnection",
+        "instance1": "flange_1",
+        "instance2": "leg_1"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "flange_1",
+        "instance2": "motor_1"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "flange_2",
+        "instance2": "arm_2"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "BaseConnection",
+        "instance1": "flange_2",
+        "instance2": "leg_2"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "flange_2",
+        "instance2": "motor_2"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "flange_3",
+        "instance2": "arm_3"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "BaseConnection",
+        "instance1": "flange_3",
+        "instance2": "leg_3"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "flange_3",
+        "instance2": "motor_3"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "flange_4",
+        "instance2": "arm_4"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "BaseConnection",
+        "instance1": "flange_4",
+        "instance2": "leg_4"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "flange_4",
+        "instance2": "motor_4"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "leg_1",
+        "instance2": "flange_1"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "leg_2",
+        "instance2": "flange_2"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "leg_3",
+        "instance2": "flange_3"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "leg_4",
+        "instance2": "flange_4"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "motor_1",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "motor_1",
+        "instance2": "flange_1"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "motor_1",
+        "instance2": "prop_1"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "motor_2",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "motor_2",
+        "instance2": "flange_2"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "motor_2",
+        "instance2": "prop_2"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "motor_3",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "motor_3",
+        "instance2": "flange_3"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "motor_3",
+        "instance2": "prop_3"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "motor_4",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "motor_4",
+        "instance2": "flange_4"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "motor_4",
+        "instance2": "prop_4"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "prop_1",
+        "instance2": "motor_1"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "prop_2",
+        "instance2": "motor_2"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "prop_3",
+        "instance2": "motor_3"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "prop_4",
+        "instance2": "motor_4"
+      }
+    ],
+    "design": "TestQuad_Cargo",
+    "instances": [
+      {
+        "assignment": {},
+        "model": "0394od_para_hub_4",
+        "name": "0394od_para_hub_4"
+      },
+      {
+        "assignment": {},
+        "model": "BatteryController",
+        "name": "BatteryController"
+      },
+      {
+        "assignment": {},
+        "model": "TurnigyGraphene1000mAh2S75C",
+        "name": "Battery_1"
+      },
+      {
+        "assignment": {},
+        "model": "TurnigyGraphene1000mAh2S75C",
+        "name": "Battery_2"
+      },
+      {
+        "assignment": {},
+        "model": "Cargo",
+        "name": "Cargo"
+      },
+      {
+        "assignment": {},
+        "model": "ControlBox",
+        "name": "ControlBox"
+      },
+      {
+        "assignment": {},
+        "model": "CargoCase",
+        "name": "MainCargoCase"
+      },
+      {
+        "assignment": {
+          "Z_ANGLE": "angle_1"
+        },
+        "model": "Orient",
+        "name": "Orient"
+      },
+      {
+        "assignment": {
+          "Length": "Arm_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "arm_1"
+      },
+      {
+        "assignment": {
+          "Length": "Arm_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "arm_2"
+      },
+      {
+        "assignment": {
+          "Length": "Arm_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "arm_3"
+      },
+      {
+        "assignment": {
+          "Length": "Arm_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "arm_4"
+      },
+      {
+        "assignment": {
+          "BOTTOM_CONNECTOR_ROTATION": "angle_1",
+          "FLOOR_CONNECTOR_1_DISP_WIDTH": "Front_Wing_Tube_Length",
+          "FLOOR_CONNECTOR_2_DISP_WIDTH": "Rear_Rail_Length",
+          "FLOOR_HEIGHT": "fuse_floor",
+          "HORZ_DIAMETER": "fuse_width",
+          "TUBE_LENGTH": "fuse_length",
+          "VERT_DIAMETER": "fuse_height"
+        },
+        "model": "capsule_fuselage",
+        "name": "capsule_fuselage"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "flange_1"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "flange_2"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "flange_3"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "flange_4"
+      },
+      {
+        "assignment": {
+          "Length": "Leg_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "leg_1"
+      },
+      {
+        "assignment": {
+          "Length": "Leg_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "leg_2"
+      },
+      {
+        "assignment": {
+          "Length": "Leg_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "leg_3"
+      },
+      {
+        "assignment": {
+          "Length": "Leg_Length"
+        },
+        "model": "0394OD_para_tube",
+        "name": "leg_4"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "CC_1"
+        },
+        "model": "t_motor_AT2312KV1400",
+        "name": "motor_1"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "CC_2"
+        },
+        "model": "t_motor_AT2312KV1400",
+        "name": "motor_2"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "CC_3"
+        },
+        "model": "t_motor_AT2312KV1400",
+        "name": "motor_3"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "CC_4"
+        },
+        "model": "t_motor_AT2312KV1400",
+        "name": "motor_4"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "apc_propellers_6x4E",
+        "name": "prop_1"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "apc_propellers_6x4E",
+        "name": "prop_2"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "apc_propellers_6x4E",
+        "name": "prop_3"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCW_Spin",
+          "Prop_type": "UpFacingCW_PropType"
+        },
+        "model": "apc_propellers_6x4E",
+        "name": "prop_4"
+      }
+    ],
+    "parameters": {
+      "Arm_Length": "220",
+      "Front_Wing_Tube_Length": "20",
+      "Leg_Length": "95",
+      "Rear_Rail_Length": "-20",
+      "Rudder_Tube_Length": "41",
+      "Top_Leg_Tube_Length": "150.1524",
+      "UpFacingCCW_PropType": "-1",
+      "UpFacingCCW_Spin": "-1",
+      "UpFacingCW_PropType": "1",
+      "UpFacingCW_Spin": "1",
+      "angle_1": "45",
+      "fuse_floor": "20",
+      "fuse_height": "68",
+      "fuse_length": "80",
+      "fuse_width": "80"
+    }
+  }
+]
