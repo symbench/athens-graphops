@@ -167,6 +167,7 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
 
     At this point, it is expected that the config yaml files are located in the athens_graphops configs folder.
     There is an example of the format - default_study_params.yaml
+    This run uses the uam_direct2cad workflow.
     """
     # Setup Gremlin query and Jenkins interfaces
     architecture = Architect()
@@ -232,7 +233,7 @@ def create_minimal_uam():
                               seat_2_lr=210)
     designer.close_design()
 
-
+# Create a minimal design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
 def create_minimal_uav():
     designer = Designer()
     designer.create_design("Minimal")
@@ -242,7 +243,7 @@ def create_minimal_uav():
                                          fuse_height=105,
                                          tube_length=150,
                                          bottom_connector_rotation=90)
-    cargo, cargo_case = designer.add_cargo(weight=0.5,
+    cargo, cargo_case = designer.add_cargo(weight=0.001,
                                            name="cargo")
 
     # Require main_hub for connection to Orient
@@ -304,7 +305,7 @@ def create_minimal_uav():
                         mount_width=-11)
     designer.close_design(corpus="uav", orient_z_angle=90)
 
-# Recreating NewAxe_Cargo design
+# Recreating NewAxe_Cargo design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
 def create_new_axe_cargo():
     designer = Designer()
     designer.create_design("NewAxeCargo")
@@ -643,15 +644,18 @@ def create_new_axe_cargo():
 
 
 # Recreating TestQuad_Cargo design
-# Note: this design does not include sensors as of 10/20/22, they are required for the mission
+# This does include a cargo with weight of 0.5
+# The fuselage was changed to match the NewAxe size so that the sensors can fit.
+# MM TODO: need to tweek the sensor/battery locations
+#          add workflow runs
 def create_test_quad_cargo():
     designer = Designer()
     designer.create_design("TestQuadCargo")
     fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
                                          floor_height=20,
-                                         fuse_width=80,
-                                         fuse_height=68,
-                                         tube_length=80,
+                                         fuse_width=140,
+                                         fuse_height=70,
+                                         tube_length=135,
                                          bottom_connector_rotation=45)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
@@ -672,15 +676,47 @@ def create_test_quad_cargo():
                              name="Battery_1",
                              fuse_conn_num=1,
                              mount_length=0,
-                             mount_width=20,
+                             mount_width=46,
                              controller_inst=battery_control)
 
     designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
                              name="Battery_2",
                              fuse_conn_num=2,
                              mount_length=0,
-                             mount_width=-20,
+                             mount_width=-46,
                              controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        mount_length=-10,
+                        mount_width=25)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        mount_length=-10,
+                        mount_width=-25)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        mount_length=52,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        mount_length=-10,
+                        mount_width=11)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-60,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        mount_length=-10,
+                        mount_width=-11)
 
     # Add 4 propeller/motors
     for x in range(4):
