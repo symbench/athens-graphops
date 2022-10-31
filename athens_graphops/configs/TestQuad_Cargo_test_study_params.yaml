@@ -18,33 +18,39 @@ fdm:
 params:
   # for leg_1 - leg_4
   legs: 
-    max_value: 300
-    min_value: 20
-    name: 
-      - Leg
+    max: 300
+    min: 20
+    components: 
+      - leg_1
+      - leg_2
+      - leg_3
+      - leg_4
     parameter: Length
   # for arm_1 - arm 4
   arms:
-    max_value: 800
-    min_value: 75
-    name: 
-      - Arm
+    max: 800
+    min: 75
+    components: 
+      - arm_1
+      - arm_2
+      - arm_3
+      - arm_4
     parameter: Length
   cap_fuse_length:
-    max_value: 500
-    min_value: 10
-    name: 
+    max: 500
+    min: 10
+    components: 
       - fuse
     parameter: length
   cap_fuse_height:
-    max_value: 400
-    min_value: 25
-    name: 
+    max: 400
+    min: 25
+    components: 
       - fuse
     parameter: height
   cap_fuse_width:
-    max_value: 400
-    min_value: 25
-    name: 
+    max: 400
+    min: 25
+    components: 
       - fuse
     parameter: width

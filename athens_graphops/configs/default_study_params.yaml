@@ -20,15 +20,15 @@ params:
 # Example parameter for vari-vudoo (component set names and settings) 
 # User should select min/max based on the corpus_data.json
   bar_insts: 
-    max_value: 10
-    min_value: 1
-    name: 
+    max: 10
+    min: 1
+    components: 
       - top_right_bar
       - top_left_bar
     parameter: length
   cyl_insts: 
-    max_value: 10
-    min_value: 1
-    name: 
+    max: 10
+    min: 1
+    components: 
       - left_of_nowhere
     parameter: length

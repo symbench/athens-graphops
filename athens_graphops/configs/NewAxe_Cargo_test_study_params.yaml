@@ -18,64 +18,64 @@ fdm:
 params:
   # rear_rail_r, rear_rail_l
   rear_rail_insts: 
-    max_value: 440
-    min_value: 75
-    name: 
+    max: 440
+    min: 75
+    components: 
       - Rear_Rail
     parameter: Length
   # capsule_fuselage, vertical_l, bottom_leg_l, vertical_r, bottom_leg_r
   tube_vert:
-    max_value: 500
-    min_value: 75
-    name: 
+    max: 500
+    min: 75
+    components: 
       - Vertical_Tube
     parameter: Length
   # front_rail_r, front_rail_l
   front_rail_insts:
-    max_value: 440
-    min_value: 75
-    name: 
+    max: 440
+    min: 75
+    components: 
       - Front_Rail
     parameter: Length
   # front_wing_tube_l, front_wing_tube_r
   front_wing_tubes:
-    max_value: 100
-    min_value: 25
-    name: 
+    max: 100
+    min: 25
+    components: 
       - Front_Wing_Tube
     parameter: Length
   # top_leg_r, top_leg_l
   top_leg_tubes:
-    max_value: 450
-    min_value: 50
-    name: 
+    max: 450
+    min: 50
+    components: 
       - Top_Leg_Tube
     parameter: Length
   # right_rudder, left_rudder
   #rudder_chord:
-  #  max_value: 300
-  #  min_value: 50
-  #  name: 
+  #  max: 300
+  #  min: 50
+  #  components: 
   #    - rudder
   #  parameter: chord
   # rudder_tube_r,rudder_tube_l
   rudder_tube:
-    max_value: 120
-    min_value: 20
-    name: 
+    max: 120
+    min: 20
+    components: 
       - Rudder_Tube
     parameter: Length
   # front_right_wing, front_left_wing
   #front_wing_chord:
-  #  max_value: 300
-  #  min_value: 50
-  #  name: 
+  #  max: 300
+  #  min: 50
+  #  components: 
   #    - front_wing
   #  parameter: chord
   # rear_right_wing, rear_left_wing
   #rear_wing_chord:
-  #  max_value: 300
-  #  min_value: 50
-  #  name: rear_wing
+  #  max: 300
+  #  min: 50
+  #  components: rear_wing
   #    - 
   #  parameter: chord

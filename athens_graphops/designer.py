@@ -142,7 +142,7 @@ class Designer():
                          floor_height: float,
                          fuse_width: float,
                          fuse_height: float,
-                         tube_length: float,
+                         fuse_cyl_length: float,
                          bottom_connector_offset_length: float = 0,
                          bottom_connector_offset_width: float = 0,
                          bottom_connector_rotation: float = 0,
@@ -155,7 +155,7 @@ class Designer():
         self.set_parameter(instance, "FLOOR_HEIGHT", floor_height)
         self.set_parameter(instance, "HORZ_DIAMETER", fuse_width)
         self.set_parameter(instance, "VERT_DIAMETER", fuse_height)
-        self.set_parameter(instance, "TUBE_LENGTH", tube_length)
+        self.set_parameter(instance, "FUSE_CYL_LENGTH", fuse_cyl_length)
         self.set_parameter(
             instance, "BOTTOM_CONNECTOR_OFFSET_LENGTH", bottom_connector_offset_length)
         self.set_parameter(
