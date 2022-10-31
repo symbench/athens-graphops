@@ -1,419 +1,5 @@
 [
   {
-    "class": "0281OD_para_tube",
-    "connectors": [
-      "End Connection 1",
-      "End Connection 2"
-    ],
-    "id": "cb43b4f6-bf10-4700-8d60-a7956bc6b6e6",
-    "model": "0281OD_para_tube",
-    "parameters": {
-      "Length": {
-        "maximum": "1219.2",
-        "minimum": "12.7"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "ID": "4.699",
-      "OD": "7.1374"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0281_para_flange",
-    "connectors": [
-      "BottomConnector",
-      "SideConnector",
-      "TopConnector"
-    ],
-    "id": "de6956a3-16cc-48c0-ab22-4fd8d41a0a5e",
-    "model": "0281_para_flange",
-    "parameters": {
-      "BOTTOM_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      },
-      "SIDE_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "BOX": "30.48",
-      "CORPUS": "UAV",
-      "OD": "7.3152"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394OD_para_tube",
-    "connectors": [
-      "BaseConnection",
-      "EndConnection",
-      "OffsetConnection1",
-      "OffsetConnection2"
-    ],
-    "id": "ecc7c07c-9bcd-4686-9e42-4c5c7b8df894",
-    "model": "0394OD_para_tube",
-    "parameters": {
-      "BASE_ROT": {
-        "assigned": "0"
-      },
-      "END_ROT": {
-        "assigned": "0"
-      },
-      "Length": {
-        "assigned": "100",
-        "minimum": "0"
-      },
-      "Offset1": {
-        "assigned": "0",
-        "minimum": "0"
-      },
-      "Offset2": {
-        "assigned": "0",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "ID": "7.3152",
-      "OD": "10.0076"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394_para_flange",
-    "connectors": [
-      "BottomConnector",
-      "SideConnector",
-      "TopConnector"
-    ],
-    "id": "0de42911-9dca-4f60-96d3-ec2d185576c0",
-    "model": "0394_para_flange",
-    "parameters": {
-      "BOTTOM_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      },
-      "SIDE_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "BOX": "40.64",
-      "CORPUS": "UAV",
-      "OD": "10.16"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394od_para_hub_2",
-    "connectors": [
-      "Bottom_Connector",
-      "Center_Connector",
-      "Orient_Connector",
-      "Side_Connector_1",
-      "Side_Connector_2",
-      "Top_Connector"
-    ],
-    "id": "238c500e-a7cd-4483-9758-e4cd9065d61s",
-    "model": "0394od_para_hub_2",
-    "parameters": {
-      "ANGHORZCONN": {
-        "assigned": "180",
-        "maximum": "180",
-        "minimum": "55"
-      },
-      "ANGVERTCONN": {
-        "assigned": "0",
-        "maximum": "45",
-        "minimum": "0"
-      },
-      "DIAMETER": {
-        "assigned": "10.0076",
-        "maximum": "12.7",
-        "minimum": "7.1374"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "NUMHORZCONN": "2"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394od_para_hub_3",
-    "connectors": [
-      "Bottom_Connector",
-      "Center_Connector",
-      "Orient_Connector",
-      "Side_Connector_1",
-      "Side_Connector_2",
-      "Side_Connector_3",
-      "Top_Connector"
-    ],
-    "id": "238c500e-a7cd-4483-9758-e4cd9065d619",
-    "model": "0394od_para_hub_3",
-    "parameters": {
-      "ANGHORZCONN": {
-        "assigned": "120",
-        "maximum": "120",
-        "minimum": "55"
-      },
-      "ANGVERTCONN": {
-        "assigned": "0",
-        "maximum": "45",
-        "minimum": "0"
-      },
-      "DIAMETER": {
-        "assigned": "10.0076",
-        "maximum": "12.7",
-        "minimum": "7.1374"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "NUMHORZCONN": "3"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394od_para_hub_4",
-    "connectors": [
-      "Bottom_Connector",
-      "Center_Connector",
-      "Orient_Connector",
-      "Side_Connector_1",
-      "Side_Connector_2",
-      "Side_Connector_3",
-      "Side_Connector_4",
-      "Top_Connector"
-    ],
-    "id": "e6e98e15-af5c-439b-b4de-5a4a6070be98",
-    "model": "0394od_para_hub_4",
-    "parameters": {
-      "ANGHORZCONN": {
-        "assigned": "90",
-        "maximum": "90",
-        "minimum": "55"
-      },
-      "ANGVERTCONN": {
-        "assigned": "0",
-        "maximum": "45",
-        "minimum": "0"
-      },
-      "DIAMETER": {
-        "assigned": "10.0076",
-        "maximum": "12.7",
-        "minimum": "7.1374"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "NUMHORZCONN": "4"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394od_para_hub_5",
-    "connectors": [
-      "Bottom_Connector",
-      "Center_Connector",
-      "Orient_Connector",
-      "Side_Connector_1",
-      "Side_Connector_2",
-      "Side_Connector_3",
-      "Side_Connector_4",
-      "Side_Connector_5",
-      "Top_Connector"
-    ],
-    "id": "238c500e-a7cd-4483-9758-e4cd9765d617",
-    "model": "0394od_para_hub_5",
-    "parameters": {
-      "ANGHORZCONN": {
-        "assigned": "72",
-        "maximum": "72",
-        "minimum": "55"
-      },
-      "ANGVERTCONN": {
-        "assigned": "0",
-        "maximum": "45",
-        "minimum": "0"
-      },
-      "DIAMETER": {
-        "assigned": "10.0076",
-        "maximum": "12.7",
-        "minimum": "7.1374"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "NUMHORZCONN": "5"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "0394od_para_hub_6",
-    "connectors": [
-      "Bottom_Connector",
-      "Center_Connector",
-      "Orient_Connector",
-      "Side_Connector_1",
-      "Side_Connector_2",
-      "Side_Connector_3",
-      "Side_Connector_4",
-      "Side_Connector_5",
-      "Side_Connector_6",
-      "Top_Connector"
-    ],
-    "id": "238c500e-a7cd-4483-9758-e4cd9065d617",
-    "model": "0394od_para_hub_6",
-    "parameters": {
-      "ANGHORZCONN": {
-        "assigned": "60",
-        "maximum": "60",
-        "minimum": "55"
-      },
-      "ANGVERTCONN": {
-        "assigned": "0",
-        "maximum": "45",
-        "minimum": "0"
-      },
-      "DIAMETER": {
-        "assigned": "10.0076",
-        "maximum": "12.7",
-        "minimum": "7.1374"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "NUMHORZCONN": "6"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "05OD_para_flange",
-    "connectors": [
-      "BottomConnector",
-      "SideConnector",
-      "TopConnector"
-    ],
-    "id": "d62f29eb-3445-41e1-8546-58a984bab94f",
-    "model": "05OD_para_flange",
-    "parameters": {
-      "BOTTOM_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      },
-      "SIDE_ANGLE": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "BOX": "50.8",
-      "CORPUS": "UAV",
-      "OD": "12.7"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "05OD_para_tube",
-    "connectors": [
-      "BaseConnection",
-      "EndConnection",
-      "OffsetConnection1",
-      "OffsetConnection2"
-    ],
-    "id": "d2e2a809-a075-46b7-ab6a-84ff0b4b2371",
-    "model": "05OD_para_tube",
-    "parameters": {
-      "BASE_ROT": {
-        "assigned": "0"
-      },
-      "END_ROT": {
-        "assigned": "0"
-      },
-      "Length": {
-        "assigned": "100",
-        "minimum": "0"
-      },
-      "Offset1": {
-        "assigned": "0",
-        "minimum": "0"
-      },
-      "Offset2": {
-        "assigned": "0",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "ID": "10.16",
-      "OD": "12.7"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Autopilot",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
-    "model": "Autopilot",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "12.0",
-      "LENGTH": "84.0",
-      "Manufacturer": "Pixhawk",
-      "Model": "Pixhawk_4",
-      "WEIGHT": "0.049",
-      "WIDTH": "44.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Autopilot",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
-    "model": "Autopilot",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "12.0",
-      "LENGTH": "84.0",
-      "Manufacturer": "Pixhawk",
-      "Model": "Pixhawk_4",
-      "WEIGHT": "0.049",
-      "WIDTH": "44.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
     "class": "Battery",
     "connectors": [
       "Battery_Connector_1_out",
@@ -7144,7 +6730,7 @@
       }
     },
     "properties": {
-      "CORPUS": "UAM"
+      "CORPUS": "BOTH"
     },
     "schema_version": "2.5"
   },
@@ -7165,7 +6751,7 @@
       }
     },
     "properties": {
-      "CORPUS": "UAM"
+      "CORPUS": "BOTH"
     },
     "schema_version": "2.5"
   },
@@ -7358,56 +6944,6 @@
     "schema_version": "2.5"
   },
   {
-    "class": "Current",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392c9ac7-3478-11ed-9858-047bcb1660cf",
-    "model": "Current",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "6.0",
-      "LENGTH": "31.1",
-      "Manufacturer": "FrSKY",
-      "Model": "FCS_150A",
-      "WEIGHT": "0.0201",
-      "WIDTH": "18.3"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Current",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392c9ac7-3478-11ed-9858-047bcb1660cf",
-    "model": "Current",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "6.0",
-      "LENGTH": "31.1",
-      "Manufacturer": "FrSKY",
-      "Model": "FCS_150A",
-      "WEIGHT": "0.0201",
-      "WIDTH": "18.3"
-    },
-    "schema_version": "2.5"
-  },
-  {
     "class": "Cylinder",
     "connectors": [
       "BATTERY_CONNECTOR",
@@ -7503,83 +7039,86 @@
     "schema_version": "2.5"
   },
   {
-    "class": "FuselageNACA",
+    "class": "Flange",
     "connectors": [
-      "BOTTOM_CONNECTOR",
-      "LEFT_CONNECTOR",
-      "ORIENT",
-      "REAR_CONNECTOR",
-      "RIGHT_CONNECTOR",
-      "SEAT_1_CONNECTOR",
-      "SEAT_2_CONNECTOR",
-      "TOP_CONNECTOR"
+      "BottomConnector",
+      "SideConnector",
+      "TopConnector"
     ],
-    "id": "85777fae-f89f-4b94-8da7-ef16ca45e5ee",
-    "model": "NACA_Fuse",
+    "id": "de6956a3-16cc-48c0-ab22-4fd8d41a0a5e",
+    "model": "0281_para_flange",
     "parameters": {
-      "BOTTOM_PORT_DISP": {
+      "BOTTOM_ANGLE": {
         "assigned": "0",
-        "minimum": "1"
+        "maximum": "360",
+        "minimum": "0"
       },
-      "CHORD": {
-        "assigned": "6000",
-        "minimum": "1"
-      },
-      "FLOOR_HEIGHT": {
-        "assigned": "150",
-        "minimum": "1"
-      },
-      "LEFT_PORT_DISP": {
+      "SIDE_ANGLE": {
         "assigned": "0",
-        "minimum": "1"
-      },
-      "LENGTH": {
-        "assigned": "2000",
-        "minimum": "1"
-      },
-      "PORT_CHORD": {
-        "assigned": "1000",
-        "minimum": "1"
-      },
-      "PORT_OFFSET": {
-        "assigned": "4000",
-        "minimum": "1"
-      },
-      "PORT_THICKNESS": {
-        "assigned": "100",
-        "minimum": "1"
-      },
-      "RIGHT_PORT_DISP": {
-        "assigned": "0",
-        "minimum": "1"
-      },
-      "SEAT_1_FB": {
-        "assigned": "1000",
-        "minimum": "1"
-      },
-      "SEAT_1_LR": {
-        "assigned": "-200",
-        "minimum": "1"
-      },
-      "SEAT_2_FB": {
-        "assigned": "1000",
-        "minimum": "1"
-      },
-      "SEAT_2_LR": {
-        "assigned": "200",
-        "minimum": "1"
-      },
-      "THICKNESS": {
-        "assigned": "24",
-        "minimum": "1"
-      },
-      "TOP_PORT_DISP": {
-        "assigned": "0",
-        "minimum": "1"
+        "maximum": "360",
+        "minimum": "0"
       }
     },
     "properties": {
-      "CORPUS": "UAM"
+      "BOX": "30.48",
+      "CORPUS": "UAV",
+      "OD": "7.3152"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Flange",
+    "connectors": [
+      "BottomConnector",
+      "SideConnector",
+      "TopConnector"
+    ],
+    "id": "0de42911-9dca-4f60-96d3-ec2d185576c0",
+    "model": "0394_para_flange",
+    "parameters": {
+      "BOTTOM_ANGLE": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      },
+      "SIDE_ANGLE": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "BOX": "40.64",
+      "CORPUS": "UAV",
+      "OD": "10.16"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Flange",
+    "connectors": [
+      "BottomConnector",
+      "SideConnector",
+      "TopConnector"
+    ],
+    "id": "d62f29eb-3445-41e1-8546-58a984bab94f",
+    "model": "05OD_para_flange",
+    "parameters": {
+      "BOTTOM_ANGLE": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      },
+      "SIDE_ANGLE": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "BOX": "50.8",
+      "CORPUS": "UAV",
+      "OD": "12.7"
     },
     "schema_version": "2.5"
   },
@@ -15375,7 +14914,192 @@
       }
     },
     "properties": {
-      "CORPUS": "BOTH"
+      "CORPUS": "Both"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Para_Hub_2",
+    "connectors": [
+      "Bottom_Connector",
+      "Center_Connector",
+      "Orient_Connector",
+      "Side_Connector_1",
+      "Side_Connector_2",
+      "Top_Connector"
+    ],
+    "id": "238c500e-a7cd-4483-9758-e4cd9065d61s",
+    "model": "0394od_para_hub_2",
+    "parameters": {
+      "ANGHORZCONN": {
+        "assigned": "180",
+        "maximum": "300",
+        "minimum": "55"
+      },
+      "ANGVERTCONN": {
+        "assigned": "0",
+        "maximum": "45",
+        "minimum": "0"
+      },
+      "DIAMETER": {
+        "assigned": "10.0076",
+        "maximum": "12.7",
+        "minimum": "7.1374"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "NUMHORZCONN": "2"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Para_Hub_3",
+    "connectors": [
+      "Bottom_Connector",
+      "Center_Connector",
+      "Orient_Connector",
+      "Side_Connector_1",
+      "Side_Connector_2",
+      "Side_Connector_3",
+      "Top_Connector"
+    ],
+    "id": "238c500e-a7cd-4483-9758-e4cd9065d619",
+    "model": "0394od_para_hub_3",
+    "parameters": {
+      "ANGHORZCONN": {
+        "assigned": "120",
+        "maximum": "120",
+        "minimum": "55"
+      },
+      "ANGVERTCONN": {
+        "assigned": "0",
+        "maximum": "45",
+        "minimum": "0"
+      },
+      "DIAMETER": {
+        "assigned": "10.0076",
+        "maximum": "12.7",
+        "minimum": "7.1374"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "NUMHORZCONN": "3"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Para_Hub_4",
+    "connectors": [
+      "Bottom_Connector",
+      "Center_Connector",
+      "Orient_Connector",
+      "Side_Connector_1",
+      "Side_Connector_2",
+      "Side_Connector_3",
+      "Side_Connector_4",
+      "Top_Connector"
+    ],
+    "id": "e6e98e15-af5c-439b-b4de-5a4a6070be98",
+    "model": "0394od_para_hub_4",
+    "parameters": {
+      "ANGHORZCONN": {
+        "assigned": "90",
+        "maximum": "90",
+        "minimum": "55"
+      },
+      "ANGVERTCONN": {
+        "assigned": "0",
+        "maximum": "45",
+        "minimum": "0"
+      },
+      "DIAMETER": {
+        "assigned": "10.0076",
+        "maximum": "12.7",
+        "minimum": "7.1374"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "NUMHORZCONN": "4"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Para_Hub_5",
+    "connectors": [
+      "Bottom_Connector",
+      "Center_Connector",
+      "Orient_Connector",
+      "Side_Connector_1",
+      "Side_Connector_2",
+      "Side_Connector_3",
+      "Side_Connector_4",
+      "Side_Connector_5",
+      "Top_Connector"
+    ],
+    "id": "238c500e-a7cd-4483-9758-e4cd9765d617",
+    "model": "0394od_para_hub_5",
+    "parameters": {
+      "ANGHORZCONN": {
+        "assigned": "72",
+        "maximum": "72",
+        "minimum": "55"
+      },
+      "ANGVERTCONN": {
+        "assigned": "0",
+        "maximum": "45",
+        "minimum": "0"
+      },
+      "DIAMETER": {
+        "assigned": "10.0076",
+        "maximum": "12.7",
+        "minimum": "7.1374"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "NUMHORZCONN": "5"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Para_Hub_6",
+    "connectors": [
+      "Bottom_Connector",
+      "Center_Connector",
+      "Orient_Connector",
+      "Side_Connector_1",
+      "Side_Connector_2",
+      "Side_Connector_3",
+      "Side_Connector_4",
+      "Side_Connector_5",
+      "Side_Connector_6",
+      "Top_Connector"
+    ],
+    "id": "238c500e-a7cd-4483-9758-e4cd9065d617",
+    "model": "0394od_para_hub_6",
+    "parameters": {
+      "ANGHORZCONN": {
+        "assigned": "60",
+        "maximum": "60",
+        "minimum": "55"
+      },
+      "ANGVERTCONN": {
+        "assigned": "0",
+        "maximum": "45",
+        "minimum": "0"
+      },
+      "DIAMETER": {
+        "assigned": "10.0076",
+        "maximum": "12.7",
+        "minimum": "7.1374"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "NUMHORZCONN": "6"
     },
     "schema_version": "2.5"
   },
@@ -55322,7 +55046,32 @@
     "schema_version": "2.5"
   },
   {
-    "class": "Sensor",
+    "class": "RpmTemp",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
+    "model": "RpmTemp",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "2.0",
+      "LENGTH": "29.0",
+      "Manufacturer": "FrSKY",
+      "Model": "SP_RPM",
+      "WEIGHT": "0.0067",
+      "WIDTH": "20.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "RpmTemp",
     "connectors": [
       "SensorConnector"
     ],
@@ -55351,8 +55100,8 @@
     "connectors": [
       "SensorConnector"
     ],
-    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
-    "model": "RpmTemp",
+    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
+    "model": "Autopilot",
     "parameters": {
       "ROTATION": {
         "assigned": "0",
@@ -55362,12 +55111,87 @@
     },
     "properties": {
       "CORPUS": "UAV",
-      "HEIGHT": "2.0",
-      "LENGTH": "29.0",
+      "HEIGHT": "12.0",
+      "LENGTH": "84.0",
+      "Manufacturer": "Pixhawk",
+      "Model": "Pixhawk_4",
+      "WEIGHT": "0.049",
+      "WIDTH": "44.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
+    "model": "Autopilot",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "12.0",
+      "LENGTH": "84.0",
+      "Manufacturer": "Pixhawk",
+      "Model": "Pixhawk_4",
+      "WEIGHT": "0.049",
+      "WIDTH": "44.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392c9ac7-3478-11ed-9858-047bcb1660cf",
+    "model": "Current",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "31.1",
       "Manufacturer": "FrSKY",
-      "Model": "SP_RPM",
-      "WEIGHT": "0.0067",
-      "WIDTH": "20.0"
+      "Model": "FCS_150A",
+      "WEIGHT": "0.0201",
+      "WIDTH": "18.3"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392c9ac7-3478-11ed-9858-047bcb1660cf",
+    "model": "Current",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "31.1",
+      "Manufacturer": "FrSKY",
+      "Model": "FCS_150A",
+      "WEIGHT": "0.0201",
+      "WIDTH": "18.3"
     },
     "schema_version": "2.5"
   },
@@ -56394,6 +56218,411 @@
     "schema_version": "2.5"
   },
   {
+    "class": "Tube",
+    "connectors": [
+      "End Connection 1",
+      "End Connection 2"
+    ],
+    "id": "cb43b4f6-bf10-4700-8d60-a7956bc6b6e6",
+    "model": "0281OD_para_tube",
+    "parameters": {
+      "Length": {
+        "maximum": "1219.2",
+        "minimum": "12.7"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "ID": "4.699",
+      "OD": "7.1374"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Tube",
+    "connectors": [
+      "BaseConnection",
+      "EndConnection",
+      "OffsetConnection1",
+      "OffsetConnection2"
+    ],
+    "id": "ecc7c07c-9bcd-4686-9e42-4c5c7b8df894",
+    "model": "0394OD_para_tube",
+    "parameters": {
+      "BASE_ROT": {
+        "assigned": "0"
+      },
+      "END_ROT": {
+        "assigned": "0"
+      },
+      "Length": {
+        "assigned": "100",
+        "minimum": "0"
+      },
+      "Offset1": {
+        "assigned": "0",
+        "minimum": "0"
+      },
+      "Offset2": {
+        "assigned": "0",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "ID": "7.3152",
+      "OD": "10.0076"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Tube",
+    "connectors": [
+      "BaseConnection",
+      "EndConnection",
+      "OffsetConnection1",
+      "OffsetConnection2"
+    ],
+    "id": "d2e2a809-a075-46b7-ab6a-84ff0b4b2371",
+    "model": "05OD_para_tube",
+    "parameters": {
+      "BASE_ROT": {
+        "assigned": "0"
+      },
+      "END_ROT": {
+        "assigned": "0"
+      },
+      "Length": {
+        "assigned": "100",
+        "minimum": "0"
+      },
+      "Offset1": {
+        "assigned": "0",
+        "minimum": "0"
+      },
+      "Offset2": {
+        "assigned": "0",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "ID": "10.16",
+      "OD": "12.7"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "UAM_Fuselage",
+    "connectors": [
+      "BOTTOM_CONNECTOR",
+      "LEFT_CONNECTOR",
+      "ORIENT",
+      "REAR_CONNECTOR",
+      "RIGHT_CONNECTOR",
+      "SEAT_1_CONNECTOR",
+      "SEAT_2_CONNECTOR",
+      "TOP_CONNECTOR"
+    ],
+    "id": "db2660a0-7d6d-4ac5-9dca-f64c1ba5640b",
+    "model": "FUSE_SPHERE_CYL_CONE",
+    "parameters": {
+      "BOTTOM_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "FLOOR_HEIGHT": {
+        "assigned": "150",
+        "minimum": "1"
+      },
+      "LEFT_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "LENGTH": {
+        "assigned": "2000",
+        "minimum": "1"
+      },
+      "MIDDLE_LENGTH": {
+        "assigned": "750",
+        "minimum": "1"
+      },
+      "PORT_THICKNESS": {
+        "assigned": "100",
+        "minimum": "1"
+      },
+      "RIGHT_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "SEAT_1_FB": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "SEAT_1_LR": {
+        "assigned": "-200",
+        "minimum": "1"
+      },
+      "SEAT_2_FB": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "SEAT_2_LR": {
+        "assigned": "200",
+        "minimum": "1"
+      },
+      "SPHERE_DIAMETER": {
+        "assigned": "1520",
+        "minimum": "1"
+      },
+      "TAIL_DIAMETER": {
+        "assigned": "200",
+        "minimum": "1"
+      },
+      "TOP_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAM",
+      "WALL_THICKNESS": "3"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "UAM_Fuselage",
+    "connectors": [
+      "BOTTOM_CONNECTOR",
+      "LEFT_CONNECTOR",
+      "ORIENT",
+      "REAR_CONNECTOR",
+      "RIGHT_CONNECTOR",
+      "SEAT_1_CONNECTOR",
+      "SEAT_2_CONNECTOR",
+      "TOP_CONNECTOR"
+    ],
+    "id": "85777fae-f89f-4b94-8da7-ef16ca45e5ee",
+    "model": "NACA_Fuse",
+    "parameters": {
+      "BOTTOM_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "CHORD": {
+        "assigned": "6000",
+        "minimum": "1"
+      },
+      "FLOOR_HEIGHT": {
+        "assigned": "150",
+        "minimum": "1"
+      },
+      "LEFT_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "LENGTH": {
+        "assigned": "2000",
+        "minimum": "1"
+      },
+      "PORT_CHORD": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "PORT_OFFSET": {
+        "assigned": "4000",
+        "minimum": "1"
+      },
+      "PORT_THICKNESS": {
+        "assigned": "100",
+        "minimum": "1"
+      },
+      "RIGHT_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      },
+      "SEAT_1_FB": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "SEAT_1_LR": {
+        "assigned": "-200",
+        "minimum": "1"
+      },
+      "SEAT_2_FB": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "SEAT_2_LR": {
+        "assigned": "200",
+        "minimum": "1"
+      },
+      "THICKNESS": {
+        "assigned": "24",
+        "minimum": "1"
+      },
+      "TOP_PORT_DISP": {
+        "assigned": "0",
+        "minimum": "1"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAM"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "UAM_Wing",
+    "connectors": [
+      "Battery_Connector_1",
+      "Battery_Connector_2",
+      "Connector_1",
+      "Connector_2"
+    ],
+    "id": "1ab4eb33-2caa-4b3a-961c-0016678fd485",
+    "model": "naca_wing",
+    "parameters": {
+      "AILERON_BIAS": {
+        "assigned": "0.5",
+        "maximum": "1",
+        "minimum": "-1"
+      },
+      "CHORD_1": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "CHORD_2": {
+        "assigned": "1000",
+        "minimum": "1"
+      },
+      "FLAP_BIAS": {
+        "assigned": "0.5",
+        "maximum": "1",
+        "minimum": "0"
+      },
+      "LOAD": {
+        "assigned": "1.28106e+011",
+        "minimum": "1"
+      },
+      "NACA_Profile": {
+        "assigned": "0012"
+      },
+      "SPAN": {
+        "assigned": "10000",
+        "minimum": "1"
+      },
+      "TAPER_OFFSET": {
+        "assigned": "0",
+        "maximum": "1",
+        "minimum": "0"
+      },
+      "THICKNESS": {
+        "assigned": "12",
+        "maximum": "25",
+        "minimum": "6"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAM"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "UAV_Fuselage",
+    "connectors": [
+      "BottomConnector",
+      "FloorConnector1",
+      "FloorConnector2",
+      "FloorConnector3",
+      "FloorConnector4",
+      "FloorConnector5",
+      "FloorConnector6",
+      "FloorConnector7",
+      "FloorConnector8"
+    ],
+    "id": "9862462f-d67a-4fbd-b6d8-a9f0c0d8f3e8",
+    "model": "capsule_fuselage",
+    "parameters": {
+      "BOTTOM_CONNECTOR_OFFSET_LENGTH": {
+        "assigned": "0"
+      },
+      "BOTTOM_CONNECTOR_OFFSET_WIDTH": {
+        "assigned": "0"
+      },
+      "BOTTOM_CONNECTOR_ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      },
+      "FLOOR_CONNECTOR_1_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_1_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_2_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_2_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_3_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_3_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_4_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_4_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_5_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_5_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_6_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_6_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_7_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_7_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_8_DISP_LENGTH": {
+        "assigned": "0"
+      },
+      "FLOOR_CONNECTOR_8_DISP_WIDTH": {
+        "assigned": "0"
+      },
+      "FLOOR_HEIGHT": {
+        "assigned": "50",
+        "minimum": "3"
+      },
+      "FUSE_CYL_LENGTH": {
+        "assigned": "500"
+      },
+      "HORZ_DIAMETER": {
+        "assigned": "500"
+      },
+      "VERT_DIAMETER": {
+        "assigned": "100"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "WALL_THICKNESS": "3"
+    },
+    "schema_version": "2.5"
+  },
+  {
     "class": "Voltage",
     "connectors": [
       "SensorConnector"
@@ -56610,101 +56839,6 @@
     },
     "properties": {
       "CORPUS": "UAV"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "capsule_fuselage",
-    "connectors": [
-      "BottomConnector",
-      "FloorConnector1",
-      "FloorConnector2",
-      "FloorConnector3",
-      "FloorConnector4",
-      "FloorConnector5",
-      "FloorConnector6",
-      "FloorConnector7",
-      "FloorConnector8"
-    ],
-    "id": "9862462f-d67a-4fbd-b6d8-a9f0c0d8f3e8",
-    "model": "capsule_fuselage",
-    "parameters": {
-      "BOTTOM_CONNECTOR_OFFSET_LENGTH": {
-        "assigned": "0"
-      },
-      "BOTTOM_CONNECTOR_OFFSET_WIDTH": {
-        "assigned": "0"
-      },
-      "BOTTOM_CONNECTOR_ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      },
-      "FLOOR_CONNECTOR_1_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_1_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_2_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_2_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_3_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_3_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_4_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_4_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_5_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_5_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_6_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_6_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_7_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_7_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_8_DISP_LENGTH": {
-        "assigned": "0"
-      },
-      "FLOOR_CONNECTOR_8_DISP_WIDTH": {
-        "assigned": "0"
-      },
-      "FLOOR_HEIGHT": {
-        "assigned": "50",
-        "minimum": "3"
-      },
-      "HORZ_DIAMETER": {
-        "assigned": "500"
-      },
-      "TUBE_LENGTH": {
-        "assigned": "500"
-      },
-      "VERT_DIAMETER": {
-        "assigned": "100"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "WALL_THICKNESS": "3"
     },
     "schema_version": "2.5"
   }
