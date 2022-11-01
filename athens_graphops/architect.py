@@ -239,10 +239,10 @@ def create_minimal_uav():
     designer.create_design("Minimal")
     fuselage = designer.add_fuselage_uav(name="fuselage",
                                          floor_height=20,
-                                         fuse_width=300,
-                                         fuse_height=105,
-                                         fuse_cyl_length=150,
-                                         bottom_connector_rotation=90)
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
+                                         bottom_connector_rotation=45)
     cargo, cargo_case = designer.add_cargo(weight=0.001,
                                            name="cargo")
 
@@ -260,50 +260,55 @@ def create_minimal_uav():
     battery_control = designer.add_battery_controller(name="BatteryController")
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_1",
-                             fuse_conn_num=2,
+                             fuse_conn_num=1,
                              mount_length=0,
-                             mount_width=-70,
+                             mount_width=30,
                              controller_inst=battery_control)
 
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_2",
-                             fuse_conn_num=1,
+                             fuse_conn_num=2,
                              mount_length=0,
-                             mount_width=70,
+                             mount_width=-30,
                              controller_inst=battery_control)
 
     # Add sensors
     designer.add_sensor(sensor_model="RpmTemp",
                         name="RpmTemp",
                         mount_conn_num=3,
-                        mount_length=-20,
-                        mount_width=33)
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
     designer.add_sensor(sensor_model="Current",
                         name="Current",
                         mount_conn_num=4,
-                        mount_length=-20,
-                        mount_width=-30)
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
     designer.add_sensor(sensor_model="Autopilot",
                         name="Autopilot",
                         mount_conn_num=5,
-                        mount_length=50,
+                        rotation=90,
+                        mount_length=115,
                         mount_width=0)
     designer.add_sensor(sensor_model="Voltage",
                         name="Voltage",
                         mount_conn_num=6,
-                        mount_length=-20,
-                        mount_width=11)
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
     designer.add_sensor(sensor_model="GPS",
                         name="GPS",
                         mount_conn_num=7,
-                        mount_length=-80,
+                        mount_length=-120,
                         mount_width=0)
     designer.add_sensor(sensor_model="Variometer",
                         name="Variometer",
                         mount_conn_num=8,
-                        mount_length=-20,
-                        mount_width=-11)
-    designer.close_design(corpus="uav", orient_z_angle=90)
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
+    designer.close_design(corpus="uav", orient_z_angle=45)
 
 # Recreating NewAxe_Cargo design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
 def create_new_axe_cargo():
@@ -645,16 +650,14 @@ def create_new_axe_cargo():
 
 # Recreating TestQuad_Cargo design
 # This does include a cargo with weight of 0.5
-# The fuselage was changed to match the NewAxe size so that the sensors can fit.
-# Note that Voltage and Variometer sensors are co-located in the original seed designs, so left it that way for now
 def create_test_quad_cargo():
     designer = Designer()
     designer.create_design("TestQuadCargoSensors")
     fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
                                          floor_height=20,
-                                         fuse_width=140,
-                                         fuse_height=70,
-                                         fuse_cyl_length=135,
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
                                          bottom_connector_rotation=45)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
@@ -671,69 +674,75 @@ def create_test_quad_cargo():
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_1",
                              fuse_conn_num=1,
                              mount_length=0,
-                             mount_width=46,
+                             mount_width=30,
                              controller_inst=battery_control)
 
-    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
                              name="Battery_2",
                              fuse_conn_num=2,
                              mount_length=0,
-                             mount_width=-46,
+                             mount_width=-30,
                              controller_inst=battery_control)
 
     # Add sensors
     designer.add_sensor(sensor_model="RpmTemp",
                         name="RpmTemp",
                         mount_conn_num=3,
-                        mount_length=-10,
-                        mount_width=25)
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
     designer.add_sensor(sensor_model="Current",
                         name="Current",
                         mount_conn_num=4,
-                        mount_length=-10,
-                        mount_width=-25)
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
     designer.add_sensor(sensor_model="Autopilot",
                         name="Autopilot",
                         mount_conn_num=5,
-                        mount_length=52,
+                        rotation=90,
+                        mount_length=115,
                         mount_width=0)
     designer.add_sensor(sensor_model="Voltage",
                         name="Voltage",
                         mount_conn_num=6,
-                        mount_length=-10,
-                        mount_width=11)
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
     designer.add_sensor(sensor_model="GPS",
                         name="GPS",
                         mount_conn_num=7,
-                        mount_length=-60,
+                        mount_length=-120,
                         mount_width=0)
     designer.add_sensor(sensor_model="Variometer",
                         name="Variometer",
                         mount_conn_num=8,
-                        mount_length=-10,
-                        mount_width=-11)
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
 
     # Add 4 propeller/motors
     for x in range(4):
+        print("X={}".format(str(x)))
         tube_size = "0394"
         arm_name = "arm_" + str(x + 1)
-        arm_length = 220
+        arm_length = 400
         hub_conn_name = "Side_Connector_" + str(x + 1)
         flange_name = "flange_" + str(x + 1)
         leg_name = "leg_" + str(x + 1)
-        leg_length = 95
+        leg_length = 170
         prefix = "mp_" + str(x + 1)
         channel = x + 1
         if (x % 2) == 0:
-            direction = -1
-            spin = -1
-        else:
             direction = 1
             spin = 1
+        else:
+            direction = -1
+            spin = -1
         arm_inst = designer.add_tube(size=tube_size,
                                      length=arm_length,
                                      name=arm_name,
@@ -757,7 +766,7 @@ def create_test_quad_cargo():
                                  mount_inst=flange_inst,
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
-
+    
     designer.close_design(corpus="uav", orient_z_angle=45)
 
 
