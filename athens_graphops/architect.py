@@ -757,8 +757,8 @@ def create_test_quad_cargo():
                           name=leg_name,
                           mount_base_inst=flange_inst,
                           mount_base_conn="BottomConnector")
-        designer.add_motor_propeller(motor_model="t_motor_AT2312KV1400",
-                                 prop_model="apc_propellers_6x4E",
+        designer.add_motor_propeller(motor_model="t_motor_AT4130KV300",
+                                 prop_model="apc_propellers_17x6",
                                  prop_type=spin,
                                  direction=direction,
                                  control_channel=channel,
