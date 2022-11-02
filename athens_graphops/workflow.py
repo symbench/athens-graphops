@@ -400,7 +400,7 @@ class JenkinsClient:
         print("design_param_map: {}".format(design_param_map))
 
         for comp_set_name in self.study_params_list['params']:
-
+            print("comp_set_name={}".format(comp_set_name))
             comp_set_min = self.study_params_list['params'][comp_set_name]['min']
             comp_set_max = self.study_params_list['params'][comp_set_name]['max']
             #print("Min/Max: {}/{}".format(comp_set_min, comp_set_max))
@@ -416,23 +416,29 @@ class JenkinsClient:
             inst_names = self.study_params_list['params'][comp_set_name]['components']
             #print("Names: {}".format(inst_names))
             for inst_name in inst_names:
-                param_name = inst_name + "_" + \
-                    self.study_params_list['params'][comp_set_name]['parameter']
-                # Check that component name/parameter is in the design
-                found = False
-                if len(design_param_map) == 0:
-                    print(
-                        "Query failed to provide the design parameter map to lookup the available parameters")
+                print(inst_name)
+                param_names = self.study_params_list['params'][comp_set_name]['parameter']
+                if not isinstance(param_names,list):
+                    param_list = [param_names]
                 else:
-                    for dict_entry in design_param_map:
-                        if param_name in dict_entry.values():
-                            #print("Found parameter: {}".format(param_name))
-                            found = True
-                            break
-                assert found, "{} not found in design parameter map".format(
-                    param_name)
+                    param_list = param_names
+                for param in param_list:
+                    param_name = inst_name + "_" + param
+                    # Check that component name/parameter is in the design
+                    found = False
+                    if len(design_param_map) == 0:
+                        print(
+                            "Query failed to provide the design parameter map to lookup the available parameters")
+                    else:
+                        for dict_entry in design_param_map:
+                            if param_name in dict_entry.values():
+                                #print("Found parameter: {}".format(param_name))
+                                found = True
+                                break
+                    assert found, "{} not found in design parameter map".format(
+                        param_name)
 
-                parameter_csv_entry[param_name] = rand_values
+                    parameter_csv_entry[param_name] = rand_values
 
         self.close_query_client()
         return parameter_csv_entry
