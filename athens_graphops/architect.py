@@ -764,6 +764,127 @@ def create_test_quad_cargo():
     
     designer.close_design(corpus="uav", orient_z_angle=45)
 
+# Recreating SuperQuad design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
+# This does include a cargo with weight of 0.5
+def create_super_quad():
+    designer = Designer()
+    designer.create_design("SuperQuadVU")
+    fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
+                                         floor_height=20,
+                                         fuse_width=250,
+                                         fuse_height=220,
+                                         fuse_cyl_length=505,
+                                         bottom_connector_rotation=45)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=4,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                orient_base=True)
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TattuPlus25C22000mAh12S1PAGRI",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=120,
+                             mount_width=0,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TattuPlus25C22000mAh12S1PAGRI",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=-120,
+                             mount_width=0,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=292,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-265,
+                        mount_width=-45)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=260,
+                        mount_width=5)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=-264,
+                        mount_width=44)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-274,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=260,
+                        mount_width=-50)
+
+    # Add 4 propeller/motors
+    for x in range(4):
+        print("X={}".format(str(x)))
+        tube_size = "0394"
+        arm_name = "arm_" + str(x + 1)
+        arm_length = 520
+        hub_conn_name = "Side_Connector_" + str(x + 1)
+        flange_name = "flange_" + str(x + 1)
+        leg_name = "leg_" + str(x + 1)
+        leg_length = 170
+        prefix = "mp_" + str(x + 1)
+        channel = x + 1
+        if (x == 1) or (x == 4):
+            direction = -1
+            spin = -1
+        else:
+            direction = 1
+            spin = 1
+        arm_inst = designer.add_tube(size=tube_size,
+                                     length=arm_length,
+                                     name=arm_name,
+                                     mount_base_inst=hub_main,
+                                     mount_base_conn=hub_conn_name)
+        flange_inst = designer.add_flange(size=tube_size,
+                                          name=flange_name,
+                                          mount_side_inst=arm_inst,
+                                          mount_side_conn="EndConnection")
+        designer.add_tube(size=tube_size,
+                          length=leg_length,
+                          name=leg_name,
+                          mount_base_inst=flange_inst,
+                          mount_base_conn="BottomConnector")
+        designer.add_motor_propeller(motor_model="kde_direct_KDE700XF_455_G3",
+                                 prop_model="apc_propellers_20x10",
+                                 prop_type=spin,
+                                 direction=direction,
+                                 control_channel=channel,
+                                 name_prefix=prefix,
+                                 mount_inst=flange_inst,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    
+    designer.close_design(corpus="uav", orient_z_angle=45)
+
 # Recreating PickAxe design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
 def create_pick_axe():
     designer = Designer()
@@ -2567,7 +2688,8 @@ def run(args=None):
         "random-existing",
         "newaxe-cargo",
         "testquad-cargo",
-        "pickaxe"
+        "pickaxe",
+        "superquad"
     ])
     parser.add_argument('--corpus', choices=["uam", "uav"],
                         help="indicate corpus name")
@@ -2643,6 +2765,8 @@ def run(args=None):
         create_test_quad_cargo()
     elif args.design == "pickaxe":
         create_pick_axe()
+    elif args.design == "superquad":
+        create_super_quad()
     else:
         raise ValueError("unknown design")
 
