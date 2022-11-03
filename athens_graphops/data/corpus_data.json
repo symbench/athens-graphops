@@ -1,5 +1,55 @@
 [
   {
+    "class": "Autopilot",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
+    "model": "Autopilot",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "12.0",
+      "LENGTH": "84.0",
+      "Manufacturer": "Pixhawk",
+      "Model": "Pixhawk_4",
+      "WEIGHT": "0.049",
+      "WIDTH": "44.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Autopilot",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
+    "model": "Autopilot",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "12.0",
+      "LENGTH": "84.0",
+      "Manufacturer": "Pixhawk",
+      "Model": "Pixhawk_4",
+      "WEIGHT": "0.049",
+      "WIDTH": "44.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
     "class": "Battery",
     "connectors": [
       "Battery_Connector_1_out",
@@ -55046,106 +55096,6 @@
     "schema_version": "2.5"
   },
   {
-    "class": "RpmTemp",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
-    "model": "RpmTemp",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "2.0",
-      "LENGTH": "29.0",
-      "Manufacturer": "FrSKY",
-      "Model": "SP_RPM",
-      "WEIGHT": "0.0067",
-      "WIDTH": "20.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "RpmTemp",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
-    "model": "RpmTemp",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "2.0",
-      "LENGTH": "29.0",
-      "Manufacturer": "FrSKY",
-      "Model": "SP_RPM",
-      "WEIGHT": "0.0067",
-      "WIDTH": "20.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Sensor",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
-    "model": "Autopilot",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "12.0",
-      "LENGTH": "84.0",
-      "Manufacturer": "Pixhawk",
-      "Model": "Pixhawk_4",
-      "WEIGHT": "0.049",
-      "WIDTH": "44.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
-    "class": "Sensor",
-    "connectors": [
-      "SensorConnector"
-    ],
-    "id": "392e5c47-3478-11ed-8edf-047bcb1660cf",
-    "model": "Autopilot",
-    "parameters": {
-      "ROTATION": {
-        "assigned": "0",
-        "maximum": "360",
-        "minimum": "0"
-      }
-    },
-    "properties": {
-      "CORPUS": "UAV",
-      "HEIGHT": "12.0",
-      "LENGTH": "84.0",
-      "Manufacturer": "Pixhawk",
-      "Model": "Pixhawk_4",
-      "WEIGHT": "0.049",
-      "WIDTH": "44.0"
-    },
-    "schema_version": "2.5"
-  },
-  {
     "class": "Sensor",
     "connectors": [
       "SensorConnector"
@@ -55200,8 +55150,8 @@
     "connectors": [
       "SensorConnector"
     ],
-    "id": "392d7118-3478-11ed-a849-047bcb1660cf",
-    "model": "Variometer",
+    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
+    "model": "RpmTemp",
     "parameters": {
       "ROTATION": {
         "assigned": "0",
@@ -55211,12 +55161,12 @@
     },
     "properties": {
       "CORPUS": "UAV",
-      "HEIGHT": "6.0",
-      "LENGTH": "31.1",
+      "HEIGHT": "2.0",
+      "LENGTH": "29.0",
       "Manufacturer": "FrSKY",
-      "Model": "Vari_H",
-      "WEIGHT": "0.0031",
-      "WIDTH": "18.3"
+      "Model": "SP_RPM",
+      "WEIGHT": "0.0067",
+      "WIDTH": "20.0"
     },
     "schema_version": "2.5"
   },
@@ -55225,8 +55175,33 @@
     "connectors": [
       "SensorConnector"
     ],
-    "id": "392d7118-3478-11ed-a849-047bcb1660cf",
-    "model": "Variometer",
+    "id": "392dc033-3478-11ed-9d3a-047bcb1660cf",
+    "model": "RpmTemp",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "2.0",
+      "LENGTH": "29.0",
+      "Manufacturer": "FrSKY",
+      "Model": "SP_RPM",
+      "WEIGHT": "0.0067",
+      "WIDTH": "20.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392d1b79-3478-11ed-bdbb-047bcb1660cf",
+    "model": "Voltage",
     "parameters": {
       "ROTATION": {
         "assigned": "0",
@@ -55237,11 +55212,36 @@
     "properties": {
       "CORPUS": "UAV",
       "HEIGHT": "6.0",
-      "LENGTH": "31.1",
+      "LENGTH": "35.0",
       "Manufacturer": "FrSKY",
-      "Model": "Vari_H",
-      "WEIGHT": "0.0031",
-      "WIDTH": "18.3"
+      "Model": "FLVSS",
+      "WEIGHT": "0.006",
+      "WIDTH": "23.0"
+    },
+    "schema_version": "2.5"
+  },
+  {
+    "class": "Sensor",
+    "connectors": [
+      "SensorConnector"
+    ],
+    "id": "392d1b79-3478-11ed-bdbb-047bcb1660cf",
+    "model": "Voltage",
+    "parameters": {
+      "ROTATION": {
+        "assigned": "0",
+        "maximum": "360",
+        "minimum": "0"
+      }
+    },
+    "properties": {
+      "CORPUS": "UAV",
+      "HEIGHT": "6.0",
+      "LENGTH": "35.0",
+      "Manufacturer": "FrSKY",
+      "Model": "FLVSS",
+      "WEIGHT": "0.006",
+      "WIDTH": "23.0"
     },
     "schema_version": "2.5"
   },
@@ -56623,12 +56623,12 @@
     "schema_version": "2.5"
   },
   {
-    "class": "Voltage",
+    "class": "Variometer",
     "connectors": [
       "SensorConnector"
     ],
-    "id": "392d1b79-3478-11ed-bdbb-047bcb1660cf",
-    "model": "Voltage",
+    "id": "392d7118-3478-11ed-a849-047bcb1660cf",
+    "model": "Variometer",
     "parameters": {
       "ROTATION": {
         "assigned": "0",
@@ -56639,21 +56639,21 @@
     "properties": {
       "CORPUS": "UAV",
       "HEIGHT": "6.0",
-      "LENGTH": "35.0",
+      "LENGTH": "31.1",
       "Manufacturer": "FrSKY",
-      "Model": "FLVSS",
-      "WEIGHT": "0.006",
-      "WIDTH": "23.0"
+      "Model": "Vari_H",
+      "WEIGHT": "0.0031",
+      "WIDTH": "18.3"
     },
     "schema_version": "2.5"
   },
   {
-    "class": "Voltage",
+    "class": "Variometer",
     "connectors": [
       "SensorConnector"
     ],
-    "id": "392d1b79-3478-11ed-bdbb-047bcb1660cf",
-    "model": "Voltage",
+    "id": "392d7118-3478-11ed-a849-047bcb1660cf",
+    "model": "Variometer",
     "parameters": {
       "ROTATION": {
         "assigned": "0",
@@ -56664,11 +56664,11 @@
     "properties": {
       "CORPUS": "UAV",
       "HEIGHT": "6.0",
-      "LENGTH": "35.0",
+      "LENGTH": "31.1",
       "Manufacturer": "FrSKY",
-      "Model": "FLVSS",
-      "WEIGHT": "0.006",
-      "WIDTH": "23.0"
+      "Model": "Vari_H",
+      "WEIGHT": "0.0031",
+      "WIDTH": "18.3"
     },
     "schema_version": "2.5"
   },

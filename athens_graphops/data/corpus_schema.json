@@ -520,7 +520,58 @@
       "SensorConnector": "in"
     }
   },
+  "Autopilot": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
+  "Current": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
   "GPS": {
+    "properties": {
+      "CORPUS": "str",
+      "HEIGHT": "float",
+      "LENGTH": "float",
+      "Manufacturer": "str",
+      "Model": "str",
+      "WEIGHT": "float",
+      "WIDTH": "float"
+    },
+    "parameters": {
+      "ROTATION": "int"
+    },
+    "connectors": {
+      "SensorConnector": "in"
+    }
+  },
+  "RpmTemp": {
     "properties": {
       "CORPUS": "str",
       "HEIGHT": "float",
@@ -554,7 +605,7 @@
       "SensorConnector": "in"
     }
   },
-  "RpmTemp": {
+  "Variometer": {
     "properties": {
       "CORPUS": "str",
       "HEIGHT": "float",
