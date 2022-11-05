@@ -418,7 +418,7 @@ class JenkinsClient:
             for inst_name in inst_names:
                 print(inst_name)
                 param_names = self.study_params_list['params'][comp_set_name]['parameter']
-                if not isinstance(param_names,list):
+                if not isinstance(param_names, list):
                     param_list = [param_names]
                 else:
                     param_list = param_names

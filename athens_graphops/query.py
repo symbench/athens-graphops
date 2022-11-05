@@ -154,9 +154,9 @@ class Client():
 
     def create_instance(self, design: str, model: str, instance: str):
         self.submit_script("instantiateComponent.groovy",
-                        __DESIGN__=design,
-                        __COMPONENT_INSTANCE__=instance,
-                        __COMPONENT__=model)
+                           __DESIGN__=design,
+                           __COMPONENT_INSTANCE__=instance,
+                           __COMPONENT__=model)
 
     def create_connection(self, design: str,
                           instance1: str, connector1: str,

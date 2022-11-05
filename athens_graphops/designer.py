@@ -305,7 +305,7 @@ class Designer():
         assert size == "0281" or size == "0394" or size == "05"
 
         flange_model_dict = {"0281": "0281_para_flange",
-                             "0394": "0394_para_flange", 
+                             "0394": "0394_para_flange",
                              "05": "05OD_para_flange"}
         instance = self.add_instance(flange_model_dict[size], name)
         self.set_parameter(instance, "BOTTOM_ANGLE", bottom_angle)
@@ -340,7 +340,7 @@ class Designer():
         assert size == "0281" or size == "0394" or size == "05"
 
         tube_model_dict = {"0281": "0281OD_para_tube",
-                           "0394": "0394OD_para_tube", 
+                           "0394": "0394OD_para_tube",
                            "05": "05OD_para_tube"}
         instance = self.add_instance(tube_model_dict[size], name)
         self.set_parameter(instance, "Length", length)
@@ -374,7 +374,7 @@ class Designer():
     #    connects: which hub connections to use
     #    mount_inst: the component instance mounting to the connects  (same size as connects list)
     #    mount_conn: the mount_inst connection  (same size as connects list)
-    # orient_base is a bool to identify which hub is the main_hub that connects 
+    # orient_base is a bool to identify which hub is the main_hub that connects
     #    to Orient in the close_design function, true make it as the main_hub
     def add_hub(self,
                 num_connects: int,

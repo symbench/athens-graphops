@@ -217,8 +217,11 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     architecture.close_jenkins_client()
     # architecture.disconnect_creoson_server()
 
-# This is for the UAM corpus
+
 def create_minimal_uam():
+    """
+    This is for the UAM corpus.
+    """
     designer = Designer()
     designer.create_design("Minimal")
     designer.add_fuselage_uam(name="fuselage",
@@ -233,8 +236,12 @@ def create_minimal_uam():
                               seat_2_lr=210)
     designer.close_design()
 
-# Create a minimal design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
+
 def create_minimal_uav():
+    """
+    Create a minimal design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).    
+    """
     designer = Designer()
     designer.create_design("Minimal")
     fuselage = designer.add_fuselage_uav(name="fuselage",
@@ -310,8 +317,12 @@ def create_minimal_uav():
                         mount_width=-18)
     designer.close_design(corpus="uav", orient_z_angle=45)
 
-# Recreating NewAxe_Cargo design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
+
 def create_new_axe_cargo():
+    """
+    Recreating NewAxe_Cargo design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).
+    """
     designer = Designer()
     designer.create_design("NewAxeCargo")
     fuselage = designer.add_fuselage_uav(name="fuselage",
@@ -331,7 +342,8 @@ def create_new_axe_cargo():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
@@ -643,9 +655,12 @@ def create_new_axe_cargo():
 
     designer.close_design(corpus="uav", orient_z_angle=90)
 
-# Recreating TestQuad_Cargo design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
-# This does include a cargo with weight of 0.5
+
 def create_test_quad_cargo():
+    """
+    Recreating TestQuad_Cargo design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design). This does include a cargo with weight of 0.5.
+    """
     designer = Designer()
     designer.create_design("TestQuadCargoSensors")
     fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
@@ -665,7 +680,8 @@ def create_test_quad_cargo():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
@@ -753,20 +769,23 @@ def create_test_quad_cargo():
                           mount_base_inst=flange_inst,
                           mount_base_conn="BottomConnector")
         designer.add_motor_propeller(motor_model="t_motor_AT4130KV300",
-                                 prop_model="apc_propellers_17x6",
-                                 prop_type=spin,
-                                 direction=direction,
-                                 control_channel=channel,
-                                 name_prefix=prefix,
-                                 mount_inst=flange_inst,
-                                 mount_conn="TopConnector",
-                                 controller_inst=battery_control)
-    
+                                     prop_model="apc_propellers_17x6",
+                                     prop_type=spin,
+                                     direction=direction,
+                                     control_channel=channel,
+                                     name_prefix=prefix,
+                                     mount_inst=flange_inst,
+                                     mount_conn="TopConnector",
+                                     controller_inst=battery_control)
+
     designer.close_design(corpus="uav", orient_z_angle=45)
 
-# Recreating SuperQuad design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
-# This does include a cargo with weight of 0.5
+
 def create_super_quad():
+    """
+    Recreating SuperQuad design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design). This does include a cargo with weight of 0.5.
+    """
     designer = Designer()
     designer.create_design("SuperQuadVU")
     fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
@@ -786,7 +805,8 @@ def create_super_quad():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
@@ -874,19 +894,23 @@ def create_super_quad():
                           mount_base_inst=flange_inst,
                           mount_base_conn="BottomConnector")
         designer.add_motor_propeller(motor_model="kde_direct_KDE700XF_455_G3",
-                                 prop_model="apc_propellers_20x10",
-                                 prop_type=spin,
-                                 direction=direction,
-                                 control_channel=channel,
-                                 name_prefix=prefix,
-                                 mount_inst=flange_inst,
-                                 mount_conn="TopConnector",
-                                 controller_inst=battery_control)
-    
+                                     prop_model="apc_propellers_20x10",
+                                     prop_type=spin,
+                                     direction=direction,
+                                     control_channel=channel,
+                                     name_prefix=prefix,
+                                     mount_inst=flange_inst,
+                                     mount_conn="TopConnector",
+                                     controller_inst=battery_control)
+
     designer.close_design(corpus="uav", orient_z_angle=45)
 
-# Recreating PickAxe design (does not include uam_direct2cad workflow at this time, it only creates the graph design)
+
 def create_pick_axe():
+    """
+    Recreating PickAxe design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).
+    """
     designer = Designer()
     designer.create_design("PickAxeVU")
     fuselage = designer.add_fuselage_uav(name="fuselage",
@@ -906,7 +930,8 @@ def create_pick_axe():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
@@ -995,49 +1020,49 @@ def create_pick_axe():
                                      mount_base_inst=side_hub_r,
                                      mount_base_conn="Side_Connector_3")
     front_hub_l = designer.add_hub(name="front_hub_l",
-                                  num_connects=4,
-                                  connector_horizonal_angle=90,
-                                  connects=["Side_Connector_1"],
-                                  mount_inst=[front_rail_l],
-                                  mount_conn=["EndConnection"])
+                                   num_connects=4,
+                                   connector_horizonal_angle=90,
+                                   connects=["Side_Connector_1"],
+                                   mount_inst=[front_rail_l],
+                                   mount_conn=["EndConnection"])
     front_hub_r = designer.add_hub(name="front_hub_r",
-                                  num_connects=4,
-                                  connector_horizonal_angle=90,
-                                  connects=["Side_Connector_1"],
-                                  mount_inst=[front_rail_r],
-                                  mount_conn=["EndConnection"])
+                                   num_connects=4,
+                                   connector_horizonal_angle=90,
+                                   connects=["Side_Connector_1"],
+                                   mount_inst=[front_rail_r],
+                                   mount_conn=["EndConnection"])
     front_railDwn_l = designer.add_tube(size="0394",
-                                     length=90,
-                                     name="front_railDwn_l",
-                                     mount_base_inst=front_hub_l,
-                                     mount_base_conn="Side_Connector_2")
+                                        length=90,
+                                        name="front_railDwn_l",
+                                        mount_base_inst=front_hub_l,
+                                        mount_base_conn="Side_Connector_2")
     front_railDwn_r = designer.add_tube(size="0394",
-                                     length=90,
-                                     name="front_railDwn_r",
-                                     mount_base_inst=front_hub_r,
-                                     mount_base_conn="Side_Connector_2")
+                                        length=90,
+                                        name="front_railDwn_r",
+                                        mount_base_inst=front_hub_r,
+                                        mount_base_conn="Side_Connector_2")
     front_hubLower_l = designer.add_hub(name="front_hubLower_l",
-                                  num_connects=2,
-                                  connector_horizonal_angle=270,
-                                  connects=["Side_Connector_1"],
-                                  mount_inst=[front_railDwn_l],
-                                  mount_conn=["EndConnection"])
+                                        num_connects=2,
+                                        connector_horizonal_angle=270,
+                                        connects=["Side_Connector_1"],
+                                        mount_inst=[front_railDwn_l],
+                                        mount_conn=["EndConnection"])
     front_hubLower_r = designer.add_hub(name="front_hubLower_r",
-                                  num_connects=2,
-                                  connector_horizonal_angle=270,
-                                  connects=["Side_Connector_1"],
-                                  mount_inst=[front_railDwn_r],
-                                  mount_conn=["EndConnection"])
+                                        num_connects=2,
+                                        connector_horizonal_angle=270,
+                                        connects=["Side_Connector_1"],
+                                        mount_inst=[front_railDwn_r],
+                                        mount_conn=["EndConnection"])
     front_railLower_l = designer.add_tube(size="0394",
-                                     length=90,
-                                     name="front_railLower_l",
-                                     mount_base_inst=front_hubLower_l,
-                                     mount_base_conn="Side_Connector_2")
+                                          length=90,
+                                          name="front_railLower_l",
+                                          mount_base_inst=front_hubLower_l,
+                                          mount_base_conn="Side_Connector_2")
     front_railLower_r = designer.add_tube(size="0394",
-                                     length=90,
-                                     name="front_railLower_r",
-                                     mount_base_inst=front_hubLower_r,
-                                     mount_base_conn="Side_Connector_2")
+                                          length=90,
+                                          name="front_railLower_r",
+                                          mount_base_inst=front_hubLower_r,
+                                          mount_base_conn="Side_Connector_2")
     front_flange_l = designer.add_flange(size="0394",
                                          name="front_flange_l",
                                          mount_bottom_inst=front_railLower_l,
@@ -1694,8 +1719,11 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     architecture.close_client()
     architecture.close_jenkins_client()
 
-# This is for the UAM corpus
+
 def create_vudoo():
+    """
+    This is for the UAM corpus.
+    """
     designer = Designer()
     designer.create_design("VUdoo5")
 
@@ -1997,9 +2025,10 @@ def create_vudoo():
 
     designer.close_design()
 
-# This is for the UAM corpus
+
 def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
+    This is for the UAM corpus.
     Create a Vudoo based design, but the parameters are randomize to create
     a unique design each time. User should supply the number of designs
     desired and the base design name.  All designs will be added to the graph.

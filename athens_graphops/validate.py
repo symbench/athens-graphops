@@ -47,7 +47,8 @@ def get_design_data(design_folder: str):
 # Used to check corpus_data against the corpus schema (check_type=corpus) or look for possible
 #   missing information in the corpus schema that is available in the corpus data (check_type=schema)
 def validate_corpus_data(check_type='corpus'):
-    counts = {cls: {'UAV': 0, 'UAM': 0, 'Both': 0} for cls in CORPUS_SCHEMA.keys()}
+    counts = {cls: {'UAV': 0, 'UAM': 0, 'Both': 0}
+              for cls in CORPUS_SCHEMA.keys()}
     for model in CORPUS_DATA:
         if model["class"] not in CORPUS_SCHEMA:
             print("WARNING: Unknown component class {}".format(model["class"]))
@@ -71,8 +72,7 @@ def validate_corpus_data(check_type='corpus'):
                     model_corpus_prop = "Both"
             else:
                 model_corpus_type = model_corpus_prop
-        
-        
+
         counts[model["class"]][model_corpus_prop] += 1
         model_class = CORPUS_SCHEMA[model["class"]]
         if model["class"] == "Battery":
@@ -165,9 +165,10 @@ def validate_corpus_data(check_type='corpus'):
                         conn_name_corpus, model["model"], model["class"]))
 
     print("Number of component types:")
-    print ("  {:30} UAV{:5} UAM{:5} Both{:5}".format('', '', '', ''))
+    print("  {:30} UAV{:5} UAM{:5} Both{:5}".format('', '', '', ''))
     for prop_name, val in counts.items():
-        print("  {:30} {:5}  {:5}  {:5}".format(prop_name, val['UAV'], val['UAM'], val['Both']))
+        print("  {:30} {:5}  {:5}  {:5}".format(
+            prop_name, val['UAV'], val['UAM'], val['Both']))
 
 
 def validate_create_instances():
@@ -228,15 +229,15 @@ def create_many_cylinders():
     designer.create_design("ManyCylinders")
 
     designer.add_fuselage_uam(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
+                              length=2000,
+                              sphere_diameter=1520,
+                              middle_length=300,
+                              tail_diameter=200,
+                              floor_height=150,
+                              seat_1_fb=1000,
+                              seat_1_lr=-210,
+                              seat_2_fb=1000,
+                              seat_2_lr=210)
 
     previous = designer.fuselage
     for diameter in [10, 20, 30, 50, 100, 150, 200]:
@@ -269,15 +270,15 @@ def create_all_motors():
     designer.create_design("AllMotors")
 
     designer.add_fuselage_uam(name="fuselage",
-                          length=2000,
-                          sphere_diameter=1520,
-                          middle_length=300,
-                          tail_diameter=200,
-                          floor_height=150,
-                          seat_1_fb=1000,
-                          seat_1_lr=-210,
-                          seat_2_fb=1000,
-                          seat_2_lr=210)
+                              length=2000,
+                              sphere_diameter=1520,
+                              middle_length=300,
+                              tail_diameter=200,
+                              floor_height=150,
+                              seat_1_fb=1000,
+                              seat_1_lr=-210,
+                              seat_2_fb=1000,
+                              seat_2_lr=210)
 
     # Determine the cylinder length by adding the CAN diameter widths of each motor
     num_motors = 0
@@ -385,15 +386,15 @@ def create_all_propellers():
         designer_names[x].create_design(propdesign_name)
 
         designer_names[x].add_fuselage_uam(name="fuselage",
-                                       length=2000,
-                                       sphere_diameter=1520,
-                                       middle_length=300,
-                                       tail_diameter=200,
-                                       floor_height=150,
-                                       seat_1_fb=1000,
-                                       seat_1_lr=-210,
-                                       seat_2_fb=1000,
-                                       seat_2_lr=210)
+                                           length=2000,
+                                           sphere_diameter=1520,
+                                           middle_length=300,
+                                           tail_diameter=200,
+                                           floor_height=150,
+                                           seat_1_fb=1000,
+                                           seat_1_lr=-210,
+                                           seat_2_fb=1000,
+                                           seat_2_lr=210)
         previous.append(designer_names[x].fuselage)
 
     # Determine the cylinder length by adding the CAN diameter widths of each motor
