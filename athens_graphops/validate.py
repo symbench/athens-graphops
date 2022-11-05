@@ -47,9 +47,18 @@ def get_design_data(design_folder: str):
 # Used to check corpus_data against the corpus schema (check_type=corpus) or look for possible
 #   missing information in the corpus schema that is available in the corpus data (check_type=schema)
 def validate_corpus_data(check_type='corpus'):
+    assert check_type in ["corpus", "schema"]
     counts = {cls: {'UAV': 0, 'UAM': 0, 'Both': 0}
               for cls in CORPUS_SCHEMA.keys()}
+    ids = set()
+
     for model in CORPUS_DATA:
+        if check_type == "corpus":
+            if model["id"] in ids:
+                print("ERROR: Multiple models with the same id {}".format(model["id"]))
+            else:
+                ids.add(model["id"])
+
         if model["class"] not in CORPUS_SCHEMA:
             print("WARNING: Unknown component class {}".format(model["class"]))
             continue
