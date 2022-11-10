@@ -33,31 +33,31 @@ fdm:
 num_samples: 2
 params:
   bar1_length:
-    max_value: 5000
-    min_value: 100
-    name:
+    max: 5000
+    min: 100
+    components:
     - bottom_bar
     parameter: LENGTH
   bar2_length:
-    max_value: 5000
-    min_value: 100
-    name:
+    max: 5000
+    min: 100
+    components:
     - top_right_bar
     - top_left_bar
     - bottom_right_bar
     - bottom_left_bar
     parameter: LENGTH
   wing_chord_1:
-    max_value: 1000.0
-    min_value: 1.0
-    name:
+    max: 1000.0
+    min: 1.0
+    components:
     - right_wing
     - left_wing
     parameter: CHORD_1
   wing_chord_2:
-    max_value: 1000.0
-    min_value: 1.0
-    name:
+    max: 1000.0
+    min: 1.0
+    components:
     - right_wing
     - left_wing
     parameter: CHORD_2

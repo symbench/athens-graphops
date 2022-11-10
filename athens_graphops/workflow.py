@@ -362,9 +362,9 @@ class JenkinsClient:
             min_value, max_value = get_component_min_max(
                 comp_class, comp_modelname, param_name)
 
-        comp_set_def = {comp_set_name: {"max_value": max_value,
-                                        "min_value": min_value,
-                                        "name": comp_names,
+        comp_set_def = {comp_set_name: {"max": max_value,
+                                        "min": min_value,
+                                        "components": comp_names,
                                         "parameter": param_name}}
         if self.study_params_list['params'] == None:
             self.study_params_list['params'] = comp_set_def
@@ -400,9 +400,9 @@ class JenkinsClient:
         print("design_param_map: {}".format(design_param_map))
 
         for comp_set_name in self.study_params_list['params']:
-
-            comp_set_min = self.study_params_list['params'][comp_set_name]['min_value']
-            comp_set_max = self.study_params_list['params'][comp_set_name]['max_value']
+            print("comp_set_name={}".format(comp_set_name))
+            comp_set_min = self.study_params_list['params'][comp_set_name]['min']
+            comp_set_max = self.study_params_list['params'][comp_set_name]['max']
             #print("Min/Max: {}/{}".format(comp_set_min, comp_set_max))
 
             # Create random values for the parameter
@@ -413,26 +413,32 @@ class JenkinsClient:
                 rand_values.append(rand_param)
 
             # Determine parameter names that will go into the header
-            inst_names = self.study_params_list['params'][comp_set_name]['name']
+            inst_names = self.study_params_list['params'][comp_set_name]['components']
             #print("Names: {}".format(inst_names))
             for inst_name in inst_names:
-                param_name = inst_name + "_" + \
-                    self.study_params_list['params'][comp_set_name]['parameter']
-                # Check that component name/parameter is in the design
-                found = False
-                if len(design_param_map) == 0:
-                    print(
-                        "Query failed to provide the design parameter map to lookup the available parameters")
+                print(inst_name)
+                param_names = self.study_params_list['params'][comp_set_name]['parameter']
+                if not isinstance(param_names, list):
+                    param_list = [param_names]
                 else:
-                    for dict_entry in design_param_map:
-                        if param_name in dict_entry.values():
-                            #print("Found parameter: {}".format(param_name))
-                            found = True
-                            break
-                assert found, "{} not found in design parameter map".format(
-                    param_name)
+                    param_list = param_names
+                for param in param_list:
+                    param_name = inst_name + "_" + param
+                    # Check that component name/parameter is in the design
+                    found = False
+                    if len(design_param_map) == 0:
+                        print(
+                            "Query failed to provide the design parameter map to lookup the available parameters")
+                    else:
+                        for dict_entry in design_param_map:
+                            if param_name in dict_entry.values():
+                                #print("Found parameter: {}".format(param_name))
+                                found = True
+                                break
+                    assert found, "{} not found in design parameter map".format(
+                        param_name)
 
-                parameter_csv_entry[param_name] = rand_values
+                    parameter_csv_entry[param_name] = rand_values
 
         self.close_query_client()
         return parameter_csv_entry

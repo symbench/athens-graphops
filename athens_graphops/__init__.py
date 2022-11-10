@@ -33,6 +33,6 @@ CONFIG = {
         os.path.abspath(os.path.join(os.path.dirname(
             __file__), '..', 'autograph')),
     ],
-    "jenkinsuser": "symcps",
-    "jenkinspwd": "symcps2021"
+    "jenkinsuser": "symbench",
+    "jenkinspwd": "symbench"
 }

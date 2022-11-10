@@ -20,16 +20,16 @@ params:
 # Example parameter for vari-vudoo (component set names and settings) 
 # User should select min/max based on the corpus_data.json
   rail_insts: 
-    max_value: 250
-    min_value: 75
-    name: 
+    max: 250
+    min: 75
+    components: 
       - Front_Rail
       - Rear_Rail
     parameter: Length
   tube_insts: 
-    max_value: 160
-    min_value: 40
-    name: 
+    max: 160
+    min: 40
+    components: 
       - Mid_Tube
       - Top_Leg_Tube
       - Vertical_Tube

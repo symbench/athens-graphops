@@ -54,7 +54,7 @@ def run():
     parser.add_argument('--jenkinsuser', type=str, metavar='user',
                         help="sets the Jenkins username for workflow runs")
     parser.add_argument('--jenkinspwd', type=str, metavar='pwd',
-                        help="sets the Jenkins password for workflow runs")    
+                        help="sets the Jenkins password for workflow runs")
     parser.add_argument(
         'command', help="subcommand to execute",
         choices=sorted(commands))
@@ -73,7 +73,7 @@ def run():
         CONFIG["jenkinsuser"] = args.jenkinsuser
     if args.jenkinspwd:
         CONFIG["jenkinspwd"] = args.jenkinspwd
-    
+
     if args.command == "query":
         query.run(args=sys.argv[pos:])
     elif args.command == "validate":

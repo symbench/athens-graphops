@@ -222,5 +222,5 @@ class JSONUAVDesign(BaseModel):
 
 
 if __name__ == "__main__":
-    design = JSONUAVDesign.from_json_file("designs/NewAxe_Cargo.json")
-    design.instantiate('NewAxe_Cargo2', overwrite=True)
+    design = JSONUAVDesign.from_json_file("stringr-designs/hhhppfpphhh.json")
+    design.instantiate('Design1', overwrite=True)

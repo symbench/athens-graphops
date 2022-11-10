@@ -16,6 +16,7 @@
 
 from typing import Any, Dict, List, Optional
 
+import csv
 import json
 import os
 import sys
@@ -154,9 +155,9 @@ class Client():
 
     def create_instance(self, design: str, model: str, instance: str):
         self.submit_script("instantiateComponent.groovy",
-                        __DESIGN__=design,
-                        __COMPONENT_INSTANCE__=instance,
-                        __COMPONENT__=model)
+                           __DESIGN__=design,
+                           __COMPONENT_INSTANCE__=instance,
+                           __COMPONENT__=model)
 
     def create_connection(self, design: str,
                           instance1: str, connector1: str,
@@ -210,7 +211,9 @@ def run(args=None):
     parser.add_argument('--corpus-model', metavar='MOD',
                         help="prints a single component model")
     parser.add_argument('--property-table', metavar='CLS',
-                        help="prints the property table for a component class")
+                        help="prints the property table for a component class as json")
+    parser.add_argument('--property-table-csv', metavar='CLS',
+                        help="prints the property table for a component class as csv")
     parser.add_argument('--raw', metavar='QUERY',
                         help="executes the given raw query string")
     parser.add_argument('--script', metavar='FILE',
@@ -249,6 +252,15 @@ def run(args=None):
     if args.property_table:
         data = client.get_property_table(args.property_table)
         print(json.dumps(data, indent=2, sort_keys=True))
+
+    if args.property_table_csv:
+        data = client.get_property_table(args.property_table_csv)
+        keys = set()
+        for d in data:
+            keys.update(d.keys())
+        writer = csv.DictWriter(sys.stdout, sorted(keys))
+        writer.writeheader()
+        writer.writerows(data)
 
     if args.raw:
         print(client.submit_query(args.raw))

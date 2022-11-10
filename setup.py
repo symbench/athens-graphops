@@ -23,7 +23,7 @@ setup(
     license='GPL 3',
     description="Sciprts to access the Athens graph database",
     long_description=open('README.md').read(),
-    python_requires='>3.6,<3.10',
+    python_requires='>3.6',
     # do not list standard packages
     install_requires=[
         "gremlinpython<=3.5",

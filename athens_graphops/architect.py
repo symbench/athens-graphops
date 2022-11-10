@@ -167,6 +167,7 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
 
     At this point, it is expected that the config yaml files are located in the athens_graphops configs folder.
     There is an example of the format - default_study_params.yaml
+    This run uses the uam_direct2cad workflow.
     """
     # Setup Gremlin query and Jenkins interfaces
     architecture = Architect()
@@ -216,8 +217,11 @@ def randomize_existing_design(config_file: str, workflow: str, minio_bucket=''):
     architecture.close_jenkins_client()
     # architecture.disconnect_creoson_server()
 
-# This is for the UAM corpus
+
 def create_minimal_uam():
+    """
+    This is for the UAM corpus.
+    """
     designer = Designer()
     designer.create_design("Minimal")
     designer.add_fuselage_uam(name="fuselage",
@@ -234,15 +238,19 @@ def create_minimal_uam():
 
 
 def create_minimal_uav():
+    """
+    Create a minimal design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).    
+    """
     designer = Designer()
     designer.create_design("Minimal")
     fuselage = designer.add_fuselage_uav(name="fuselage",
                                          floor_height=20,
-                                         fuse_width=300,
-                                         fuse_height=105,
-                                         tube_length=150,
-                                         bottom_connector_rotation=90)
-    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
+                                         bottom_connector_rotation=45)
+    cargo, cargo_case = designer.add_cargo(weight=0.001,
                                            name="cargo")
 
     # Require main_hub for connection to Orient
@@ -255,6 +263,88 @@ def create_minimal_uav():
                      mount_inst=[fuselage, cargo_case],
                      mount_conn=["BottomConnector", "Case2HubConnector"],
                      orient_base=True)
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=0,
+                             mount_width=30,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=0,
+                             mount_width=-30,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=115,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-120,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
+    designer.close_design(corpus="uav", orient_z_angle=45)
+
+
+def create_new_axe_cargo():
+    """
+    Recreating NewAxe_Cargo design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).
+    """
+    designer = Designer()
+    designer.create_design("NewAxeCargo")
+    fuselage = designer.add_fuselage_uav(name="fuselage",
+                                         floor_height=20,
+                                         fuse_width=300,
+                                         fuse_height=105,
+                                         fuse_cyl_length=150,
+                                         bottom_connector_rotation=90)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=3,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
+                                orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
     designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
@@ -302,17 +392,532 @@ def create_minimal_uav():
                         mount_conn_num=8,
                         mount_length=-20,
                         mount_width=-11)
+
+    # Create front propellers section
+    # Start at main hub, connect tubes on sides to side hubs,
+    # then front flange and rail attach to propellers/motors
+    mid_tube_l = designer.add_tube(size="0394",
+                                   length=140,
+                                   end_rotation=180,
+                                   name="mid_tube_l",
+                                   mount_base_inst=hub_main,
+                                   mount_base_conn="Side_Connector_3")
+    mid_tube_r = designer.add_tube(size="0394",
+                                   length=140,
+                                   name="mid_tube_r",
+                                   mount_base_inst=hub_main,
+                                   mount_base_conn="Side_Connector_1")
+    side_hub_l = designer.add_hub(name="side_hub_l",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_2"],
+                                  mount_inst=[mid_tube_l],
+                                  mount_conn=["EndConnection"])
+    side_hub_r = designer.add_hub(name="side_hub_r",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_2"],
+                                  mount_inst=[mid_tube_r],
+                                  mount_conn=["EndConnection"])
+    front_rail_l = designer.add_tube(size="0394",
+                                     length=335,
+                                     end_rotation=270,
+                                     name="front_rail_l",
+                                     mount_base_inst=side_hub_l,
+                                     mount_base_conn="Side_Connector_3")
+    front_rail_r = designer.add_tube(size="0394",
+                                     length=335,
+                                     end_rotation=90,
+                                     name="front_rail_r",
+                                     mount_base_inst=side_hub_r,
+                                     mount_base_conn="Side_Connector_3")
+    front_flange_l = designer.add_flange(size="0394",
+                                         name="front_flange_l",
+                                         mount_bottom_inst=front_rail_l,
+                                         mount_bottom_conn="EndConnection"
+                                         )
+    front_flange_r = designer.add_flange(size="0394",
+                                         bottom_angle=90,
+                                         name="front_flange_r",
+                                         mount_bottom_inst=front_rail_r,
+                                         mount_bottom_conn="EndConnection"
+                                         )
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=1,
+                                 name_prefix="front_l",
+                                 mount_inst=front_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=2,
+                                 name_prefix="front_r",
+                                 mount_inst=front_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    # Add front wings
+    Front_Wing_Tube_Length = 52
+    front_wing_tube_l = designer.add_tube(size="0394",
+                                          length=Front_Wing_Tube_Length,
+                                          name="front_wing_tube_l",
+                                          mount_base_inst=front_flange_l,
+                                          mount_base_conn="SideConnector")
+    front_wing_tube_r = designer.add_tube(size="0394",
+                                          length=Front_Wing_Tube_Length,
+                                          name="front_wing_tube_r",
+                                          mount_base_inst=front_flange_r,
+                                          mount_base_conn="SideConnector")
+    NACA_profile = "0012"
+    front_wing_span = 450
+    front_wing_chord = 150
+    wing_thickness = 12
+    front_tube_rotation = 180
+    # Note: the autograph for the seed design indicates a tube_rotation of 180 for left wing, 90 looks more correct (MM)
+    designer.add_wing_uav(direction="Vertical",
+                          chord=front_wing_chord,
+                          span=front_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=289.68,
+                          tube_rotation=front_tube_rotation,
+                          channel=5,
+                          name="front_left_wing",
+                          tube_inst=front_wing_tube_l,
+                          tube_conn="EndConnection")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=front_wing_chord,
+                          span=front_wing_span,
+                          thickness=wing_thickness,
+                          load=15,
+                          naca=NACA_profile,
+                          tube_offset=160.32,
+                          tube_rotation=front_tube_rotation,
+                          channel=6,
+                          name="front_right_wing",
+                          tube_inst=front_wing_tube_r,
+                          tube_conn="EndConnection")
+
+    # Add rear wings
+    Rear_Rail_Length = 220
+    rear_rail_l = designer.add_tube(size="0394",
+                                    length=Rear_Rail_Length,
+                                    end_rotation=90,
+                                    name="rear_rail_l",
+                                    mount_base_inst=side_hub_l,
+                                    mount_base_conn="Side_Connector_1")
+    rear_rail_r = designer.add_tube(size="0394",
+                                    length=Rear_Rail_Length,
+                                    end_rotation=90,
+                                    name="rear_rail_r",
+                                    mount_base_inst=side_hub_r,
+                                    mount_base_conn="Side_Connector_1")
+    rear_hub_l = designer.add_hub(name="rear_hub_l",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_1"],
+                                  mount_inst=[rear_rail_l],
+                                  mount_conn=["EndConnection"])
+    rear_hub_r = designer.add_hub(name="rear_hub_r",
+                                  num_connects=3,
+                                  connector_horizonal_angle=90,
+                                  connects=["Side_Connector_3"],
+                                  mount_inst=[rear_rail_r],
+                                  mount_conn=["EndConnection"])
+    bottom_leg_l = designer.add_tube(size="0394",
+                                     length=150,
+                                     name="bottom_leg_l",
+                                     mount_base_inst=rear_hub_l,
+                                     mount_base_conn="Side_Connector_3")
+    bottom_leg_r = designer.add_tube(size="0394",
+                                     length=150,
+                                     name="bottom_leg_r",
+                                     mount_base_inst=rear_hub_r,
+                                     mount_base_conn="Side_Connector_1")
+    vertical_l = designer.add_tube(size="0394",
+                                   length=150,
+                                   end_rotation=90,
+                                   offset_1=90,
+                                   name="vertical_l",
+                                   mount_base_inst=rear_hub_l,
+                                   mount_base_conn="Side_Connector_2")
+    vertical_r = designer.add_tube(size="0394",
+                                   length=150,
+                                   end_rotation=270,
+                                   offset_1=90,
+                                   name="vertical_r",
+                                   mount_base_inst=rear_hub_r,
+                                   mount_base_conn="Side_Connector_2")
+    rear_wing_span = 609
+    rear_wing_chord = 180
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rear_wing_chord,
+                          span=rear_wing_span,
+                          thickness=wing_thickness,
+                          naca=NACA_profile,
+                          tube_offset=448.68,
+                          tube_rotation=270,
+                          channel=8,
+                          name="rear_left_wing",
+                          tube_inst=vertical_l,
+                          tube_conn="OffsetConnection1")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rear_wing_chord,
+                          span=rear_wing_span,
+                          thickness=wing_thickness,
+                          naca=NACA_profile,
+                          tube_offset=160.32,
+                          tube_rotation=90,
+                          channel=7,
+                          name="rear_right_wing",
+                          tube_inst=vertical_r,
+                          tube_conn="OffsetConnection1")
+    rear_flange_l = designer.add_flange(size="0394",
+                                        name="rear_flange_l",
+                                        mount_side_inst=vertical_l,
+                                        mount_side_conn="EndConnection"
+                                        )
+    rear_flange_r = designer.add_flange(size="0394",
+                                        name="rear_flange_r",
+                                        mount_side_inst=vertical_r,
+                                        mount_side_conn="EndConnection"
+                                        )
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=3,
+                                 name_prefix="rear_l",
+                                 mount_inst=rear_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
+                                 prop_model="apc_propellers_7x5E",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=4,
+                                 name_prefix="rear_r",
+                                 mount_inst=rear_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    Top_Leg_Tube_Length = 150.1524
+    top_leg_l = designer.add_tube(size="0394",
+                                  length=Top_Leg_Tube_Length,
+                                  name="top_leg_l",
+                                  mount_base_inst=rear_flange_l,
+                                  mount_base_conn="BottomConnector")
+    top_leg_r = designer.add_tube(size="0394",
+                                  length=Top_Leg_Tube_Length,
+                                  name="top_leg_r",
+                                  mount_base_inst=rear_flange_r,
+                                  mount_base_conn="BottomConnector")
+
+    # Add rudders
+    Rudder_Tube_Length = 41
+    rudder_tube_l = designer.add_tube(size="0394",
+                                      length=Rudder_Tube_Length,
+                                      name="rudder_tube_l",
+                                      mount_base_inst=rear_hub_l,
+                                      mount_base_conn="Center_Connector")
+    rudder_tube_r = designer.add_tube(size="0394",
+                                      length=Rudder_Tube_Length,
+                                      name="rudder_tube_r",
+                                      mount_base_inst=rear_hub_r,
+                                      mount_base_conn="Center_Connector")
+    rudder_span = 140
+    rudder_chord = 100
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rudder_chord,
+                          span=rudder_span,
+                          thickness=wing_thickness,
+                          naca=NACA_profile,
+                          tube_offset=90,
+                          tube_rotation=180,
+                          channel=10,
+                          name="left_rudder",
+                          tube_inst=rudder_tube_l,
+                          tube_conn="EndConnection")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=rudder_chord,
+                          span=rudder_span,
+                          thickness=wing_thickness,
+                          naca=NACA_profile,
+                          tube_offset=50,
+                          channel=9,
+                          name="right_rudder",
+                          tube_inst=rudder_tube_r,
+                          tube_conn="EndConnection")
+
     designer.close_design(corpus="uav", orient_z_angle=90)
 
-# Recreating NewAxe_Cargo design
-def create_new_axe_cargo():
+
+def create_test_quad_cargo():
+    """
+    Recreating TestQuad_Cargo design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design). This does include a cargo with weight of 0.5.
+    """
     designer = Designer()
-    designer.create_design("NewAxeCargo")
+    designer.create_design("TestQuadCargoSensors")
+    fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
+                                         floor_height=20,
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
+                                         bottom_connector_rotation=45)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=4,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
+                                orient_base=True)
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=0,
+                             mount_width=30,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=0,
+                             mount_width=-30,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=115,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-120,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
+
+    # Add 4 propeller/motors
+    for x in range(4):
+        print("X={}".format(str(x)))
+        tube_size = "0394"
+        arm_name = "arm_" + str(x + 1)
+        arm_length = 400
+        hub_conn_name = "Side_Connector_" + str(x + 1)
+        flange_name = "flange_" + str(x + 1)
+        leg_name = "leg_" + str(x + 1)
+        leg_length = 170
+        prefix = "mp_" + str(x + 1)
+        channel = x + 1
+        if (x % 2) == 0:
+            direction = 1
+            spin = 1
+        else:
+            direction = -1
+            spin = -1
+        arm_inst = designer.add_tube(size=tube_size,
+                                     length=arm_length,
+                                     name=arm_name,
+                                     mount_base_inst=hub_main,
+                                     mount_base_conn=hub_conn_name)
+        flange_inst = designer.add_flange(size=tube_size,
+                                          name=flange_name,
+                                          mount_side_inst=arm_inst,
+                                          mount_side_conn="EndConnection")
+        designer.add_tube(size=tube_size,
+                          length=leg_length,
+                          name=leg_name,
+                          mount_base_inst=flange_inst,
+                          mount_base_conn="BottomConnector")
+        designer.add_motor_propeller(motor_model="t_motor_AT4130KV300",
+                                     prop_model="apc_propellers_17x6",
+                                     prop_type=spin,
+                                     direction=direction,
+                                     control_channel=channel,
+                                     name_prefix=prefix,
+                                     mount_inst=flange_inst,
+                                     mount_conn="TopConnector",
+                                     controller_inst=battery_control)
+
+    designer.close_design(corpus="uav", orient_z_angle=45)
+
+
+def create_super_quad():
+    """
+    Recreating SuperQuad design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design). This does include a cargo with weight of 0.5.
+    """
+    designer = Designer()
+    designer.create_design("SuperQuadVU")
+    fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
+                                         floor_height=20,
+                                         fuse_width=250,
+                                         fuse_height=220,
+                                         fuse_cyl_length=505,
+                                         bottom_connector_rotation=45)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=4,
+                                connector_horizonal_angle=90,
+                                connects=["Top_Connector", "Bottom_Connector"],
+                                mount_inst=[fuselage, cargo_case],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
+                                orient_base=True)
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TattuPlus25C22000mAh12S1PAGRI",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=120,
+                             mount_width=0,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TattuPlus25C22000mAh12S1PAGRI",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=-120,
+                             mount_width=0,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=292,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-265,
+                        mount_width=-45)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=260,
+                        mount_width=5)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=-264,
+                        mount_width=44)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-274,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=260,
+                        mount_width=-50)
+
+    # Add 4 propeller/motors
+    for x in range(4):
+        print("X={}".format(str(x)))
+        tube_size = "0394"
+        arm_name = "arm_" + str(x + 1)
+        arm_length = 520
+        hub_conn_name = "Side_Connector_" + str(x + 1)
+        flange_name = "flange_" + str(x + 1)
+        leg_name = "leg_" + str(x + 1)
+        leg_length = 170
+        prefix = "mp_" + str(x + 1)
+        channel = x + 1
+        if (x == 1) or (x == 4):
+            direction = -1
+            spin = -1
+        else:
+            direction = 1
+            spin = 1
+        arm_inst = designer.add_tube(size=tube_size,
+                                     length=arm_length,
+                                     name=arm_name,
+                                     mount_base_inst=hub_main,
+                                     mount_base_conn=hub_conn_name)
+        flange_inst = designer.add_flange(size=tube_size,
+                                          name=flange_name,
+                                          mount_side_inst=arm_inst,
+                                          mount_side_conn="EndConnection")
+        designer.add_tube(size=tube_size,
+                          length=leg_length,
+                          name=leg_name,
+                          mount_base_inst=flange_inst,
+                          mount_base_conn="BottomConnector")
+        designer.add_motor_propeller(motor_model="kde_direct_KDE700XF_455_G3",
+                                     prop_model="apc_propellers_20x10",
+                                     prop_type=spin,
+                                     direction=direction,
+                                     control_channel=channel,
+                                     name_prefix=prefix,
+                                     mount_inst=flange_inst,
+                                     mount_conn="TopConnector",
+                                     controller_inst=battery_control)
+
+    designer.close_design(corpus="uav", orient_z_angle=45)
+
+
+def create_pick_axe():
+    """
+    Recreating PickAxe design (does not include uam_direct2cad workflow at this time, 
+    it only creates the graph design).
+    """
+    designer = Designer()
+    designer.create_design("PickAxeVU")
     fuselage = designer.add_fuselage_uav(name="fuselage",
                                          floor_height=20,
                                          fuse_width=300,
                                          fuse_height=105,
-                                         tube_length=150,
+                                         fuse_cyl_length=140,
                                          bottom_connector_rotation=90)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
@@ -325,7 +930,8 @@ def create_new_axe_cargo():
                                 connector_horizonal_angle=90,
                                 connects=["Top_Connector", "Bottom_Connector"],
                                 mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
+                                mount_conn=["BottomConnector",
+                                            "Case2HubConnector"],
                                 orient_base=True)
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
@@ -413,19 +1019,63 @@ def create_new_axe_cargo():
                                      name="front_rail_r",
                                      mount_base_inst=side_hub_r,
                                      mount_base_conn="Side_Connector_3")
+    front_hub_l = designer.add_hub(name="front_hub_l",
+                                   num_connects=4,
+                                   connector_horizonal_angle=90,
+                                   connects=["Side_Connector_1"],
+                                   mount_inst=[front_rail_l],
+                                   mount_conn=["EndConnection"])
+    front_hub_r = designer.add_hub(name="front_hub_r",
+                                   num_connects=4,
+                                   connector_horizonal_angle=90,
+                                   connects=["Side_Connector_1"],
+                                   mount_inst=[front_rail_r],
+                                   mount_conn=["EndConnection"])
+    front_railDwn_l = designer.add_tube(size="0394",
+                                        length=90,
+                                        name="front_railDwn_l",
+                                        mount_base_inst=front_hub_l,
+                                        mount_base_conn="Side_Connector_2")
+    front_railDwn_r = designer.add_tube(size="0394",
+                                        length=90,
+                                        name="front_railDwn_r",
+                                        mount_base_inst=front_hub_r,
+                                        mount_base_conn="Side_Connector_2")
+    front_hubLower_l = designer.add_hub(name="front_hubLower_l",
+                                        num_connects=2,
+                                        connector_horizonal_angle=270,
+                                        connects=["Side_Connector_1"],
+                                        mount_inst=[front_railDwn_l],
+                                        mount_conn=["EndConnection"])
+    front_hubLower_r = designer.add_hub(name="front_hubLower_r",
+                                        num_connects=2,
+                                        connector_horizonal_angle=270,
+                                        connects=["Side_Connector_1"],
+                                        mount_inst=[front_railDwn_r],
+                                        mount_conn=["EndConnection"])
+    front_railLower_l = designer.add_tube(size="0394",
+                                          length=90,
+                                          name="front_railLower_l",
+                                          mount_base_inst=front_hubLower_l,
+                                          mount_base_conn="Side_Connector_2")
+    front_railLower_r = designer.add_tube(size="0394",
+                                          length=90,
+                                          name="front_railLower_r",
+                                          mount_base_inst=front_hubLower_r,
+                                          mount_base_conn="Side_Connector_2")
     front_flange_l = designer.add_flange(size="0394",
                                          name="front_flange_l",
-                                         mount_bottom_inst=front_rail_l,
+                                         mount_bottom_inst=front_railLower_l,
                                          mount_bottom_conn="EndConnection"
                                          )
     front_flange_r = designer.add_flange(size="0394",
                                          bottom_angle=90,
                                          name="front_flange_r",
-                                         mount_bottom_inst=front_rail_r,
+                                         mount_bottom_inst=front_railLower_r,
                                          mount_bottom_conn="EndConnection"
                                          )
-    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-                                 prop_model="apc_propellers_7x5E",
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
                                  prop_type=-1,
                                  direction=-1,
                                  control_channel=1,
@@ -433,8 +1083,8 @@ def create_new_axe_cargo():
                                  mount_inst=front_flange_l,
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
-    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-                                 prop_model="apc_propellers_7x5E",
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
                                  prop_type=1,
                                  direction=1,
                                  control_channel=2,
@@ -446,7 +1096,6 @@ def create_new_axe_cargo():
     Front_Wing_Tube_Length = 52
     front_wing_tube_l = designer.add_tube(size="0394",
                                           length=Front_Wing_Tube_Length,
-                                          end_rotation=270,
                                           name="front_wing_tube_l",
                                           mount_base_inst=front_flange_l,
                                           mount_base_conn="SideConnector")
@@ -459,15 +1108,17 @@ def create_new_axe_cargo():
     front_wing_span = 450
     front_wing_chord = 150
     wing_thickness = 12
+    front_tube_rotation = 180
+    front_wing_load = 30
     # Note: the autograph for the seed design indicates a tube_rotation of 180 for left wing, 90 looks more correct (MM)
     designer.add_wing_uav(direction="Vertical",
                           chord=front_wing_chord,
                           span=front_wing_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=front_wing_load,
                           naca=NACA_profile,
                           tube_offset=289.68,
-                          tube_rotation=90,
+                          tube_rotation=front_tube_rotation,
                           channel=5,
                           name="front_left_wing",
                           tube_inst=front_wing_tube_l,
@@ -476,10 +1127,10 @@ def create_new_axe_cargo():
                           chord=front_wing_chord,
                           span=front_wing_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=front_wing_load,
                           naca=NACA_profile,
                           tube_offset=160.32,
-                          tube_rotation=180,
+                          tube_rotation=front_tube_rotation,
                           channel=6,
                           name="front_right_wing",
                           tube_inst=front_wing_tube_r,
@@ -537,11 +1188,12 @@ def create_new_axe_cargo():
                                    mount_base_conn="Side_Connector_2")
     rear_wing_span = 609
     rear_wing_chord = 180
+    rear_wing_load = 30
     designer.add_wing_uav(direction="Vertical",
                           chord=rear_wing_chord,
                           span=rear_wing_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=rear_wing_load,
                           naca=NACA_profile,
                           tube_offset=448.68,
                           tube_rotation=270,
@@ -553,7 +1205,7 @@ def create_new_axe_cargo():
                           chord=rear_wing_chord,
                           span=rear_wing_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=rear_wing_load,
                           naca=NACA_profile,
                           tube_offset=160.32,
                           tube_rotation=90,
@@ -571,8 +1223,8 @@ def create_new_axe_cargo():
                                         mount_side_inst=vertical_r,
                                         mount_side_conn="EndConnection"
                                         )
-    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-                                 prop_model="apc_propellers_7x5E",
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
                                  prop_type=-1,
                                  direction=-1,
                                  control_channel=3,
@@ -580,8 +1232,8 @@ def create_new_axe_cargo():
                                  mount_inst=rear_flange_l,
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
-    designer.add_motor_propeller(motor_model="kde_direct_KDE2315XF_885",
-                                 prop_model="apc_propellers_7x5E",
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
                                  prop_type=1,
                                  direction=1,
                                  control_channel=4,
@@ -615,11 +1267,12 @@ def create_new_axe_cargo():
                                       mount_base_conn="Center_Connector")
     rudder_span = 140
     rudder_chord = 100
+    rudder_load = 20
     designer.add_wing_uav(direction="Vertical",
                           chord=rudder_chord,
                           span=rudder_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=rudder_load,
                           naca=NACA_profile,
                           tube_offset=90,
                           tube_rotation=180,
@@ -631,7 +1284,7 @@ def create_new_axe_cargo():
                           chord=rudder_chord,
                           span=rudder_span,
                           thickness=wing_thickness,
-                          load=15,
+                          load=rudder_load,
                           naca=NACA_profile,
                           tube_offset=50,
                           channel=9,
@@ -640,90 +1293,6 @@ def create_new_axe_cargo():
                           tube_conn="EndConnection")
 
     designer.close_design(corpus="uav", orient_z_angle=90)
-
-
-# Recreating TestQuad_Cargo design
-# Note: this design does not include sensors as of 10/20/22, they are required for the mission
-def create_test_quad_cargo():
-    designer = Designer()
-    designer.create_design("TestQuadCargo")
-    fuselage = designer.add_fuselage_uav(name="capsule_fuselage",
-                                         floor_height=20,
-                                         fuse_width=80,
-                                         fuse_height=68,
-                                         tube_length=80,
-                                         bottom_connector_rotation=45)
-    cargo, cargo_case = designer.add_cargo(weight=0.5,
-                                           name="cargo")
-
-    # Require main_hub for connection to Orient
-    # Create hub connection lists (size of num_connections max)
-    # Not all connections are needed
-    hub_main = designer.add_hub(name="main_hub",
-                                num_connects=4,
-                                connector_horizonal_angle=90,
-                                connects=["Top_Connector", "Bottom_Connector"],
-                                mount_inst=[fuselage, cargo_case],
-                                mount_conn=["BottomConnector", "Case2HubConnector"],
-                                orient_base=True)
-    # Add batteries
-    battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
-                             name="Battery_1",
-                             fuse_conn_num=1,
-                             mount_length=0,
-                             mount_width=20,
-                             controller_inst=battery_control)
-
-    designer.add_battery_uav(model="TurnigyGraphene1000mAh2S75C",
-                             name="Battery_2",
-                             fuse_conn_num=2,
-                             mount_length=0,
-                             mount_width=-20,
-                             controller_inst=battery_control)
-
-    # Add 4 propeller/motors
-    for x in range(4):
-        tube_size = "0394"
-        arm_name = "arm_" + str(x + 1)
-        arm_length = 220
-        hub_conn_name = "Side_Connector_" + str(x + 1)
-        flange_name = "flange_" + str(x + 1)
-        leg_name = "leg_" + str(x + 1)
-        leg_length = 95
-        prefix = "mp_" + str(x + 1)
-        channel = x + 1
-        if (x % 2) == 0:
-            direction = -1
-            spin = -1
-        else:
-            direction = 1
-            spin = 1
-        arm_inst = designer.add_tube(size=tube_size,
-                                     length=arm_length,
-                                     name=arm_name,
-                                     mount_base_inst=hub_main,
-                                     mount_base_conn=hub_conn_name)
-        flange_inst = designer.add_flange(size=tube_size,
-                                          name=flange_name,
-                                          mount_side_inst=arm_inst,
-                                          mount_side_conn="EndConnection")
-        designer.add_tube(size=tube_size,
-                          length=leg_length,
-                          name=leg_name,
-                          mount_base_inst=flange_inst,
-                          mount_base_conn="BottomConnector")
-        designer.add_motor_propeller(motor_model="t_motor_AT2312KV1400",
-                                 prop_model="apc_propellers_6x4E",
-                                 prop_type=spin,
-                                 direction=direction,
-                                 control_channel=channel,
-                                 name_prefix=prefix,
-                                 mount_inst=flange_inst,
-                                 mount_conn="TopConnector",
-                                 controller_inst=battery_control)
-
-    designer.close_design(corpus="uav", orient_z_angle=45)
 
 
 # This is for the UAM corpus
@@ -1150,8 +1719,11 @@ def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
     architecture.close_client()
     architecture.close_jenkins_client()
 
-# This is for the UAM corpus
+
 def create_vudoo():
+    """
+    This is for the UAM corpus.
+    """
     designer = Designer()
     designer.create_design("VUdoo5")
 
@@ -1453,9 +2025,10 @@ def create_vudoo():
 
     designer.close_design()
 
-# This is for the UAM corpus
+
 def create_vari_vudoo(num_designs: int, design_name: str, workflow: str, minio_name: str, num_samples: int):
     """
+    This is for the UAM corpus.
     Create a Vudoo based design, but the parameters are randomize to create
     a unique design each time. User should supply the number of designs
     desired and the base design name.  All designs will be added to the graph.
@@ -2143,7 +2716,9 @@ def run(args=None):
         "vari-vudoo",
         "random-existing",
         "newaxe-cargo",
-        "testquad-cargo"
+        "testquad-cargo",
+        "pickaxe",
+        "superquad"
     ])
     parser.add_argument('--corpus', choices=["uam", "uav"],
                         help="indicate corpus name")
@@ -2217,6 +2792,10 @@ def run(args=None):
         create_new_axe_cargo()
     elif args.design == "testquad-cargo":
         create_test_quad_cargo()
+    elif args.design == "pickaxe":
+        create_pick_axe()
+    elif args.design == "superquad":
+        create_super_quad()
     else:
         raise ValueError("unknown design")
 

@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def get_design_dict(name):
-    root_path = Path(__file__).resolve().parent.parent.parent / "designs"
+    root_path = Path(__file__).resolve().parent.parent.parent / "designs-hackathon2"
     design_json_file = root_path / f"{name}.json"
 
     if not design_json_file.exists():
