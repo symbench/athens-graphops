@@ -1,19 +1,9 @@
 g.V().
   has('VertexLabel', '[]Classifications').as('class').
-  coalesce(
-    __.in('inside').as('class_name').
-    select('class_name').by('value').as('Classification').
-    select('Classification'),
-    __.out('inside').as('mycomp').
-    select('mycomp').by('[]Name').as('Classification').
-    select('Classification')).
-    as('Classification').
+  in('inside').as('class_name').
   select('class').
   out('inside').
   has('VertexLabel', '[avm]Component').as('comp').
-  select('comp').
-  property('[]Version', select('Classification')).
-  select('comp').
   project(
     'class',
     'model',
@@ -22,7 +12,7 @@ g.V().
     'properties',
     'parameters',
     'connectors').
-    by('[]Version').
+    by(select('class_name').values('value')).
     by('[]Name').
     by('[]ID').
     by('[]SchemaVersion').
