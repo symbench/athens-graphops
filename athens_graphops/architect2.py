@@ -46,12 +46,12 @@ def write_study_params(design_name, params):
     print(f"Study parameters written to {study_filename}.")
 
 
-def create_falcon():
+def create_falcon_light():
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
     it only creates the graph design).
     """
-    design_name = "Falcon"
+    design_name = "FalconLight"
 
     # tuneable parameters
     tube_od = 7.1474
@@ -390,7 +390,7 @@ def create_falcon():
         controller_inst=battery_control,
     )
 
-    designer.close_design(corpus="uav", orient_z_angle=45)
+    designer.close_design(corpus="uav", orient_z_angle=90)
 
     study_params = {
         "Flight_Path": 9,
