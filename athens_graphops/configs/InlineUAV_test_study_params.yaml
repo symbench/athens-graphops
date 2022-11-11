@@ -1,0 +1,99 @@
+design_name: "InlineUAV"
+description: "Test Study Parameters for direct2cad Run"
+# The 'flight_paths' entry must be a list.  The 'analysis_type' is a
+# single integer number.  All other FDM parameters can 
+# be a single value or a list. If a list exists, it should be the same 
+# size as the 'flight_path' list
+num_samples: 50
+fdm:
+  Analysis_Type: 3
+  Flight_Path: [9]
+  Requested_Lateral_Speed: 19
+  Requested_Vertical_Speed: -2
+  Requested_Vertical_Down_Speed: 2
+  Requested_Lateral_Acceleration: 0.125
+  Requested_Lateral_Deceleration: -0.125
+  Requested_Vertical_Acceleration: -0.2
+  Requested_Vertical_Deceleration: 0.2
+  Landing_Approach_Height: 3
+  Vertical_Landing_Speed_at_Ground: 0.1
+  Q_Position: 1
+  Q_Velocity: 1
+  Q_Angular_Velocity: 1
+  Q_Angles: 1
+  Ctrl_R: 0.1
+params:
+  fuse_vert_length:
+    min: 20
+    max: 50
+    components:
+      - fuse_hub_tube
+    parameter: Length
+  cargo_tube_length:
+    min: 305
+    max: 500
+    components: 
+      - center_cargo_tube
+    parameter: Length
+  prop_forward_length:
+    min: 140
+    max: 440
+    components: 
+      - center_tube_prop
+    parameter: Length
+  prop_hort_spread_length:
+    min: 140
+    max: 440
+    components: 
+      - prop_hort_tube_l
+      - prop_hort_tube_r
+    parameter: Length
+  prop_vert_spread_length:
+    min: 160
+    max: 440
+    components: 
+      - top_prop_tube_l
+      - top_prop_tube_r
+      - bottom_prop_tube_l
+      - bottom_prop_tube_r
+    parameter: Length
+  wing_vert_tube_length: 
+    min: 75
+    max: 440
+    components: 
+      - wing_vert_tube_l
+      - wing_vert_tube_r
+    parameter: Length
+  # Relates to wing span
+  wing_hort_tube_length: 
+    #min: 75
+    #max: 440
+    min: 205
+    max: 205
+    components: 
+      - wing_hort_tube_l
+      - wing_hort_tube_r
+    parameter: Length
+  wing_span:
+    #min: 100
+    #max: 1500
+    min: 450
+    max: 450
+    components: 
+      - left_wing
+      - right_wing
+    parameter: SPAN
+  wing_chord:
+    min: 100
+    max: 300
+    components: 
+      - left_wing
+      - right_wing
+    parameter: [CHORD_1, CHORD_2]
+  wing_load:
+    min: 15
+    max: 50
+    components: 
+      - left_wing
+      - right_wing
+    parameter: LOAD
