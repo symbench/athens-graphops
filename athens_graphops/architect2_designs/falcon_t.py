@@ -16,16 +16,20 @@
 from ..designer2 import Designer, StudyParam
 
 
-def create_falcon_light_with_tail(with_tail=False):
-    return create_falcon_light(True)
+def create_falcon_t():
+    return falcon_t_platform("")
 
 
-def create_falcon_light(with_tail=False):
+def create_falcon_t_with_tail():
+    return falcon_t_platform("WithTail", with_tail=True)
+
+
+def falcon_t_platform(variant, with_tail=False):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
     it only creates the graph design).
     """
-    design_name = "FalconLight" + ("WithTail" if with_tail else "")
+    design_name = "FalconT" + variant
 
     designer = Designer()
     designer.create_design(design_name)
@@ -45,12 +49,12 @@ def create_falcon_light(with_tail=False):
     # the two wings need to carry about 5kg (50 N) weight
     wing_load = designer.set_study_param("wing_load", 25)
 
-    # distance of the motors
-    forward_tube_length = designer.set_study_param("forward_tube_length", 50)
+    # distance of the motor plane from the wing root
+    forward_tube_length = designer.set_study_param("forward_tube_length", 200)
 
     # width of the motors
     front_horiz_tube_length = designer.set_study_param(
-        "front_horiz_tube_length", 230
+        "front_horiz_tube_length", 200
     )
 
     # height of the top motors
@@ -60,7 +64,7 @@ def create_falcon_light(with_tail=False):
 
     # depth of the bottom motors
     front_vert_lower_tube_length = designer.set_study_param(
-        "front_vert_lower_tube_length", 230
+        "front_vert_lower_tube_length", 200
     )
 
     cargo_mass = designer.set_study_param("cargo_mass", 0.5)
@@ -461,10 +465,10 @@ def create_falcon_light(with_tail=False):
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
         # "Vertical_Landing_Speed_at_Ground": 0.1,
-        "Q_Position": [1],
-        "Q_Velocity": [0.5],
-        "Q_Angular_Velocity": [1],
-        "Q_Angles": [0.5],
+        "Q_Position": 1,
+        "Q_Velocity": 0.5,
+        "Q_Angular_Velocity": 1,
+        "Q_Angles": 0.5,
         "Ctrl_R": 0.25,
     }
 
@@ -472,12 +476,5 @@ def create_falcon_light(with_tail=False):
     for val in locals().values():
         if isinstance(val, StudyParam):
             study_params[val.name] = val.value
-
-    # Search for best trim state
-    # for Q_Position, Q_Velocity, Q_Angular_Velocity, Q_Angles in product((0.01, 0.1, 1.0, 10.0, 100.0, 1000.0), repeat=4):
-    #     study_params["Q_Position"].append(Q_Position)
-    #     study_params["Q_Velocity"].append(Q_Velocity)
-    #     study_params["Q_Angular_Velocity"].append(Q_Angular_Velocity)
-    #     study_params["Q_Angles"].append(Q_Angles)
 
     return design_name, study_params

@@ -16,19 +16,23 @@
 from ..designer2 import Designer, StudyParam
 
 
-def create_falcon_x_with_tail(with_tail=False):
-    return create_falcon_x(True)
+def create_falcon_x():
+    return falcon_x_platform("")
 
 
-def create_falcon_x(with_tail=False):
-    design_name = "FalconX" + ("WithTail" if with_tail else "")
+def create_falcon_x_with_tail():
+    return falcon_x_platform("WithTail", with_tail=True)
+
+
+def falcon_x_platform(variant, with_tail=False):
+    design_name = "FalconX" + variant
 
     designer = Designer()
     designer.create_design(design_name)
 
     # tuneable parameters
     tube_od = 7.1374  # cannot be a study param (fixed CAD models)
-    n_motors = 3  # 2 - 6, cannot be a study param (fixed CAD models)
+    n_motors = 4  # 2 - 6, cannot be a study param (fixed CAD models)
 
     wing_span = designer.set_study_param("wing_span", 600)
 
@@ -46,11 +50,11 @@ def create_falcon_x(with_tail=False):
     forward_tube_length = designer.set_study_param("forward_tube_length", 200)
 
     # front motor spoke lengths
-    motor_spoke_length = designer.set_study_param("front_tube_length", 300)
+    motor_spoke_length = designer.set_study_param("motor_spoke_length", 470)
 
     # front motor spoke lengths
     motor_rotation = designer.set_study_param(
-        "motor_rotation", {2: 90, 3: 60, 4: 45, 6: 120}[n_motors]
+        "motor_rotation", 180 // n_motors
     )
 
     cargo_mass = designer.set_study_param("cargo_mass", 0.5)
@@ -247,8 +251,8 @@ def create_falcon_x(with_tail=False):
             name_prefix=f"motor{i_motor}",
             motor_model="t_motor_AntigravityMN4006KV380",
             prop_model="apc_propellers_12x3_8SF",
-            prop_type=-(1**i_motor),
-            direction=-(1**i_motor),
+            prop_type=(-1) ** i_motor,
+            direction=(-1) ** i_motor,
             control_channel=i_motor,
             mount_inst=motor_flange,
             mount_conn="TopConnector",
@@ -319,7 +323,7 @@ def create_falcon_x(with_tail=False):
     study_params = {
         "Flight_Path": 9,
         "Requested_Vertical_Speed": -1,
-        "Requested_Lateral_Speed": 16,
+        "Requested_Lateral_Speed": 19,
         "Requested_Vertical_Down_Speed": 1,
         "Requested_Lateral_Acceleration": 2,
         "Requested_Lateral_Deceleration": -5,
@@ -329,10 +333,10 @@ def create_falcon_x(with_tail=False):
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
         # "Vertical_Landing_Speed_at_Ground": 0.1,
-        "Q_Position": [1],
-        "Q_Velocity": [0.5],
-        "Q_Angular_Velocity": [1],
-        "Q_Angles": [0.5],
+        "Q_Position": 1,
+        "Q_Velocity": 0.5,
+        "Q_Angular_Velocity": 1,
+        "Q_Angles": 0.5,
         "Ctrl_R": 0.25,
     }
 
@@ -340,12 +344,5 @@ def create_falcon_x(with_tail=False):
     for val in locals().values():
         if isinstance(val, StudyParam):
             study_params[val.name] = val.value
-
-    # Search for best trim state
-    # for Q_Position, Q_Velocity, Q_Angular_Velocity, Q_Angles in product((0.01, 0.1, 1.0, 10.0, 100.0, 1000.0), repeat=4):
-    #     study_params["Q_Position"].append(Q_Position)
-    #     study_params["Q_Velocity"].append(Q_Velocity)
-    #     study_params["Q_Angular_Velocity"].append(Q_Angular_Velocity)
-    #     study_params["Q_Angles"].append(Q_Angles)
 
     return design_name, study_params
