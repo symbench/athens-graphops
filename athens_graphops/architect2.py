@@ -13,12 +13,15 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This is Peter's sandbox for Hackathon 2
+
 import sys
 import inspect
 from csv import DictWriter
 from collections.abc import Sequence
 
-from .designer import Designer
+from .designer2 import Designer, StudyParam
 
 
 def write_study_params(design_name, params):
@@ -53,24 +56,44 @@ def create_falcon_light():
     """
     design_name = "FalconLight"
 
-    # tuneable parameters
-    tube_od = 7.1474
-    tube_size = "0281"
-    wing_span = 800
-    wing_chord = 200
-    wing_offset = 50  # avoid interference with the fuselage
-    forward_tube_length = 200  # distance of the flanges
-    front_horiz_tube_length = 200  # width of the flanges
-    front_vert_upper_tube_length = 200  # height of the top flanges
-    front_vert_lower_tube_length = 200  # depth of the bottom flanges
-    _flange_tube_length = 50  # length of small rod into flange
-
     designer = Designer()
     designer.create_design(design_name)
 
+    # tuneable parameters
+    tube_od = 7.1374  # cannot be a study param (fixed CAD models)
+
+    wing_span = designer.set_study_param("wing_span", 800)
+
+    # extra space (50mm) around the fuselage
+    wing_tube_length = designer.set_study_param(
+        "wing_tube_length", 850
+    )
+
+    wing_chord = designer.set_study_param("wing_chord", 200)
+
+    # distance of the flanges
+    forward_tube_length = designer.set_study_param(
+        "forward_tube_length", 200
+    )
+
+    # width of the flanges
+    front_horiz_tube_length = designer.set_study_param(
+        "front_horiz_tube_length", 200
+    )
+
+    # height of the top flanges
+    front_vert_upper_tube_length = designer.set_study_param(
+        "front_vert_upper_tube_length", 200
+    )
+
+    # depth of the bottom flanges
+    front_vert_lower_tube_length = designer.set_study_param(
+        "front_vert_lower_tube_length", 200
+    )
+
     ########################################
     # Center (Hun, Fuselage, Cargo)
-    fuselage = designer.add_fuselage_uav(
+    fuselage = designer.add_fuselage(
         name="fuselage",
         floor_height=20,
         fuse_width=190,
@@ -78,7 +101,7 @@ def create_falcon_light():
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
-    cargo, cargo_case = designer.add_cargo(weight=0.001, name="cargo")
+    cargo, cargo_case = designer.add_cargo(weight=0.01, name="cargo")
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
@@ -97,7 +120,7 @@ def create_falcon_light():
     ########################################
     # Batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery_uav(
+    designer.add_battery(
         name="Battery_1",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=1,
@@ -106,7 +129,7 @@ def create_falcon_light():
         controller_inst=battery_control,
     )
 
-    designer.add_battery_uav(
+    designer.add_battery(
         name="Battery_2",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=2,
@@ -169,23 +192,23 @@ def create_falcon_light():
     # Wings
     wing_tube_r = designer.add_tube(
         name="wing_tube_r",
-        size=tube_size,
-        length=wing_span + wing_offset,
-        offset_1=wing_span + wing_offset,
+        od=tube_od,
+        length=wing_tube_length,
+        offset_1=wing_tube_length,
         mount_base_inst=main_hub,
         mount_base_conn="Side_Connector_1",
     )
 
     wing_tube_l = designer.add_tube(
         name="wing_tube_l",
-        size=tube_size,
-        length=wing_span + wing_offset,
-        offset_1=wing_span + wing_offset,
+        od=tube_od,
+        length=wing_tube_length,
+        offset_1=wing_tube_length,
         mount_base_inst=main_hub,
         mount_base_conn="Side_Connector_3",
     )
 
-    wing_r = designer.add_wing_uav(
+    wing_r = designer.add_wing(
         name="wing_r",
         direction="Horizontal",
         chord=wing_chord,
@@ -202,7 +225,7 @@ def create_falcon_light():
         tube_conn="OffsetConnection1",
     )
 
-    wing_l = designer.add_wing_uav(
+    wing_l = designer.add_wing(
         name="wing_l",
         direction="Horizontal",
         chord=wing_chord,
@@ -223,7 +246,7 @@ def create_falcon_light():
     # Forward structure
     forward_tube = designer.add_tube(
         name="forward_tube",
-        size=tube_size,
+        od=tube_od,
         length=forward_tube_length,
         mount_base_inst=main_hub,
         mount_base_conn="Side_Connector_4",
@@ -236,12 +259,12 @@ def create_falcon_light():
         connector_horizonal_angle=90,
         connects=["Side_Connector_2"],
         mount_inst=[forward_tube],
-        mount_conn=["EndConnection"]
+        mount_conn=["EndConnection"],
     )
 
     front_horiz_tube_r = designer.add_tube(
         name="front_horiz_tube_r",
-        size=tube_size,
+        od=tube_od,
         length=front_horiz_tube_length,
         end_rotation=90,
         mount_base_inst=forward_hub,
@@ -250,7 +273,7 @@ def create_falcon_light():
 
     front_horiz_tube_l = designer.add_tube(
         name="front_horiz_tube_l",
-        size=tube_size,
+        od=tube_od,
         length=front_horiz_tube_length,
         end_rotation=90,
         mount_base_inst=forward_hub,
@@ -279,7 +302,7 @@ def create_falcon_light():
 
     front_vert_upper_tube_r = designer.add_tube(
         name="front_vert_upper_tube_r",
-        size=tube_size,
+        od=tube_od,
         length=front_vert_upper_tube_length,
         mount_base_inst=front_hub_r,
         mount_base_conn="Side_Connector_1",
@@ -287,7 +310,7 @@ def create_falcon_light():
 
     front_vert_lower_tube_r = designer.add_tube(
         name="front_vert_lower_tube_r",
-        size=tube_size,
+        od=tube_od,
         length=front_vert_lower_tube_length,
         mount_base_inst=front_hub_r,
         mount_base_conn="Side_Connector_3",
@@ -295,7 +318,7 @@ def create_falcon_light():
 
     front_vert_upper_tube_l = designer.add_tube(
         name="front_vert_upper_tube_l",
-        size=tube_size,
+        od=tube_od,
         length=front_vert_upper_tube_length,
         end_rotation=180,
         mount_base_inst=front_hub_l,
@@ -304,7 +327,7 @@ def create_falcon_light():
 
     front_vert_lower_tube_l = designer.add_tube(
         name="front_vert_lower_tube_l",
-        size=tube_size,
+        od=tube_od,
         length=front_vert_lower_tube_length,
         end_rotation=180,
         mount_base_inst=front_hub_l,
@@ -315,28 +338,28 @@ def create_falcon_light():
     # Motors
     front_flange_upper_r = designer.add_flange(
         name="front_flange_upper_r",
-        size=tube_size,
+        hole_diameter=tube_od,
         mount_side_inst=front_vert_upper_tube_r,
         mount_side_conn="EndConnection",
     )
 
     front_flange_lower_r = designer.add_flange(
         name="front_flange_lower_r",
-        size=tube_size,
+        hole_diameter=tube_od,
         mount_side_inst=front_vert_lower_tube_r,
         mount_side_conn="EndConnection",
     )
 
     front_flange_upper_l = designer.add_flange(
         name="front_flange_upper_l",
-        size=tube_size,
+        hole_diameter=tube_od,
         mount_side_inst=front_vert_upper_tube_l,
         mount_side_conn="EndConnection",
     )
 
     front_flange_lower_l = designer.add_flange(
         name="front_flange_lower_l",
-        size=tube_size,
+        hole_diameter=tube_od,
         mount_side_inst=front_vert_lower_tube_l,
         mount_side_conn="EndConnection",
     )
@@ -390,7 +413,7 @@ def create_falcon_light():
         controller_inst=battery_control,
     )
 
-    designer.close_design(corpus="uav", orient_z_angle=90)
+    designer.close_design(orient_z_angle=90)
 
     study_params = {
         "Flight_Path": 9,
@@ -412,6 +435,12 @@ def create_falcon_light():
         "Q_Angles": 0.5,
         "Ctrl_R": 0.25,
     }
+
+    # Add all study parameters automatically
+    for val in locals().values():
+        if isinstance(val, StudyParam):
+            study_params[val.name] = val.value
+
     write_study_params(design_name, study_params)
 
 
