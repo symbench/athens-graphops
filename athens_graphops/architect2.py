@@ -27,7 +27,12 @@ from .designer2 import Designer, StudyParam
 def write_study_params(design_name, params):
     study_filename = f"{design_name}_study.csv"
 
-    n_studies = max(len(v) for v in params.values() if isinstance(v, Sequence))
+    param_runs = [len(v) for v in params.values() if isinstance(v, Sequence)]
+    if param_runs:
+        n_studies = max(param_runs)
+    else:
+        n_studies = 1
+
     full_params = {}
     for p_name in params:
         if isinstance(params[p_name], Sequence):
@@ -62,19 +67,15 @@ def create_falcon_light():
     # tuneable parameters
     tube_od = 7.1374  # cannot be a study param (fixed CAD models)
 
-    wing_span = designer.set_study_param("wing_span", 800)
+    wing_span = designer.set_study_param("wing_span", 600)
 
     # extra space (50mm) around the fuselage
-    wing_tube_length = designer.set_study_param(
-        "wing_tube_length", 850
-    )
+    wing_tube_length = designer.set_study_param("wing_tube_length", 650)
 
-    wing_chord = designer.set_study_param("wing_chord", 200)
+    wing_chord = designer.set_study_param("wing_chord", 100)
 
     # distance of the flanges
-    forward_tube_length = designer.set_study_param(
-        "forward_tube_length", 200
-    )
+    forward_tube_length = designer.set_study_param("forward_tube_length", 200)
 
     # width of the flanges
     front_horiz_tube_length = designer.set_study_param(
@@ -91,6 +92,10 @@ def create_falcon_light():
         "front_vert_lower_tube_length", 200
     )
 
+    cargo_mass = designer.set_study_param(
+        "cargo_mass", 0.5
+    )
+
     ########################################
     # Center (Hun, Fuselage, Cargo)
     fuselage = designer.add_fuselage(
@@ -101,7 +106,7 @@ def create_falcon_light():
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
-    cargo, cargo_case = designer.add_cargo(weight=0.01, name="cargo")
+    cargo, cargo_case = designer.add_cargo(weight=cargo_mass, name="cargo")
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
@@ -417,9 +422,8 @@ def create_falcon_light():
 
     study_params = {
         "Flight_Path": 9,
-        "CargoMass": [0.5, 0.001],
         "Requested_Vertical_Speed": -1,
-        "Requested_Lateral_Speed": 10,
+        "Requested_Lateral_Speed": 16,
         "Requested_Vertical_Down_Speed": 1,
         "Requested_Lateral_Acceleration": 2,
         "Requested_Lateral_Deceleration": -5,
