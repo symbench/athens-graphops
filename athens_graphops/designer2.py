@@ -323,6 +323,7 @@ class Designer:
         orient_base=False,
     ):
 
+        assert(2 <= self.param_value(num_connects) <= 6)
         hub_model = "0394od_para_hub_" + str(num_connects)
         instance = self.add_instance(hub_model, name)
         self.set_param(instance, "DIAMETER", diameter)

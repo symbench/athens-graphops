@@ -16,22 +16,19 @@
 from ..designer2 import Designer, StudyParam
 
 
-def create_falcon_light_with_tail(with_tail=False):
-    return create_falcon_light(True)
+def create_falcon_x_with_tail(with_tail=False):
+    return create_falcon_x(True)
 
 
-def create_falcon_light(with_tail=False):
-    """
-    Create a minimal design (does not include uam_direct2cad workflow at this time,
-    it only creates the graph design).
-    """
-    design_name = "FalconLight" + ("WithTail" if with_tail else "")
+def create_falcon_x(with_tail=False):
+    design_name = "FalconX" + ("WithTail" if with_tail else "")
 
     designer = Designer()
     designer.create_design(design_name)
 
     # tuneable parameters
     tube_od = 7.1374  # cannot be a study param (fixed CAD models)
+    n_motors = 3  # 2 - 6, cannot be a study param (fixed CAD models)
 
     wing_span = designer.set_study_param("wing_span", 600)
 
@@ -45,22 +42,15 @@ def create_falcon_light(with_tail=False):
     # the two wings need to carry about 5kg (50 N) weight
     wing_load = designer.set_study_param("wing_load", 25)
 
-    # distance of the motors
-    forward_tube_length = designer.set_study_param("forward_tube_length", 50)
+    # distance of the flanges
+    forward_tube_length = designer.set_study_param("forward_tube_length", 200)
 
-    # width of the motors
-    front_horiz_tube_length = designer.set_study_param(
-        "front_horiz_tube_length", 230
-    )
+    # front motor spoke lengths
+    motor_spoke_length = designer.set_study_param("front_tube_length", 300)
 
-    # height of the top motors
-    front_vert_upper_tube_length = designer.set_study_param(
-        "front_vert_upper_tube_length", 200
-    )
-
-    # depth of the bottom motors
-    front_vert_lower_tube_length = designer.set_study_param(
-        "front_vert_lower_tube_length", 230
+    # front motor spoke lengths
+    motor_rotation = designer.set_study_param(
+        "motor_rotation", {2: 90, 3: 60, 4: 45, 6: 120}[n_motors]
     )
 
     cargo_mass = designer.set_study_param("cargo_mass", 0.5)
@@ -192,7 +182,7 @@ def create_falcon_light(with_tail=False):
         load=wing_load,  # type: ignore
         tube_diameter=tube_od,
         tube_rotation=270,
-        channel=5,
+        channel=n_motors + 1,
         flap_bias=0.0,
         aileron_bias=1.0,
         tube_inst=wing_tube_r,
@@ -209,7 +199,7 @@ def create_falcon_light(with_tail=False):
         load=wing_load,  # type: ignore
         tube_diameter=tube_od,
         tube_rotation=90,
-        channel=6,
+        channel=n_motors + 2,
         flap_bias=0.0,
         aileron_bias=-1.0,
         tube_inst=wing_tube_l,
@@ -217,11 +207,12 @@ def create_falcon_light(with_tail=False):
     )
 
     ########################################
-    # Forward structure
+    # Forward structure with motors
     forward_tube = designer.add_tube(
         name="forward_tube",
         od=tube_od,
         length=forward_tube_length,
+        end_rotation=motor_rotation,  # type: ignore
         mount_base_inst=main_hub,
         mount_base_conn="Side_Connector_4",
     )
@@ -229,163 +220,40 @@ def create_falcon_light(with_tail=False):
     forward_hub = designer.add_hub(
         name="forward_hub",
         diameter=tube_od,
-        num_connects=3,
-        connector_horizonal_angle=90,
-        connects=["Side_Connector_2"],
+        num_connects=n_motors,
+        connector_horizonal_angle=360 // n_motors,
+        connects=["Bottom_Connector"],
         mount_inst=[forward_tube],
         mount_conn=["EndConnection"],
     )
 
-    front_horiz_tube_r = designer.add_tube(
-        name="front_horiz_tube_r",
-        od=tube_od,
-        length=front_horiz_tube_length,
-        end_rotation=90,
-        mount_base_inst=forward_hub,
-        mount_base_conn="Side_Connector_1",
-    )
+    for i_motor in range(1, n_motors + 1):
+        motor_spoke = designer.add_tube(
+            name=f"motor_spoke{i_motor}",
+            od=tube_od,
+            length=motor_spoke_length,
+            mount_base_inst=forward_hub,
+            mount_base_conn=f"Side_Connector_{i_motor}",
+        )
 
-    front_horiz_tube_l = designer.add_tube(
-        name="front_horiz_tube_l",
-        od=tube_od,
-        length=front_horiz_tube_length,
-        end_rotation=90,
-        mount_base_inst=forward_hub,
-        mount_base_conn="Side_Connector_3",
-    )
+        motor_flange = designer.add_flange(
+            name=f"motor_flange{i_motor}",
+            hole_diameter=tube_od,
+            mount_side_inst=motor_spoke,
+            mount_side_conn="EndConnection",
+        )
 
-    front_hub_r = designer.add_hub(
-        name="front_hub_r",
-        diameter=tube_od,
-        num_connects=3,
-        connector_horizonal_angle=90,
-        connects=["Side_Connector_2"],
-        mount_inst=[front_horiz_tube_r],
-        mount_conn=["EndConnection"],
-    )
-
-    front_hub_l = designer.add_hub(
-        name="front_hub_l",
-        diameter=tube_od,
-        num_connects=3,
-        connector_horizonal_angle=90,
-        connects=["Side_Connector_2"],
-        mount_inst=[front_horiz_tube_l],
-        mount_conn=["EndConnection"],
-    )
-
-    front_vert_upper_tube_r = designer.add_tube(
-        name="front_vert_upper_tube_r",
-        od=tube_od,
-        length=front_vert_upper_tube_length,
-        mount_base_inst=front_hub_r,
-        mount_base_conn="Side_Connector_1",
-    )
-
-    front_vert_lower_tube_r = designer.add_tube(
-        name="front_vert_lower_tube_r",
-        od=tube_od,
-        length=front_vert_lower_tube_length,
-        mount_base_inst=front_hub_r,
-        mount_base_conn="Side_Connector_3",
-    )
-
-    front_vert_upper_tube_l = designer.add_tube(
-        name="front_vert_upper_tube_l",
-        od=tube_od,
-        length=front_vert_upper_tube_length,
-        end_rotation=180,
-        mount_base_inst=front_hub_l,
-        mount_base_conn="Side_Connector_1",
-    )
-
-    front_vert_lower_tube_l = designer.add_tube(
-        name="front_vert_lower_tube_l",
-        od=tube_od,
-        length=front_vert_lower_tube_length,
-        end_rotation=180,
-        mount_base_inst=front_hub_l,
-        mount_base_conn="Side_Connector_3",
-    )
-
-    ########################################
-    # Motors
-    front_flange_upper_r = designer.add_flange(
-        name="front_flange_upper_r",
-        hole_diameter=tube_od,
-        mount_side_inst=front_vert_upper_tube_r,
-        mount_side_conn="EndConnection",
-    )
-
-    front_flange_lower_r = designer.add_flange(
-        name="front_flange_lower_r",
-        hole_diameter=tube_od,
-        mount_side_inst=front_vert_lower_tube_r,
-        mount_side_conn="EndConnection",
-    )
-
-    front_flange_upper_l = designer.add_flange(
-        name="front_flange_upper_l",
-        hole_diameter=tube_od,
-        mount_side_inst=front_vert_upper_tube_l,
-        mount_side_conn="EndConnection",
-    )
-
-    front_flange_lower_l = designer.add_flange(
-        name="front_flange_lower_l",
-        hole_diameter=tube_od,
-        mount_side_inst=front_vert_lower_tube_l,
-        mount_side_conn="EndConnection",
-    )
-
-    # TODO: triple check prop_type and direction for all motors
-    designer.add_motor_propeller(
-        name_prefix="front_upper_r",
-        motor_model="t_motor_AntigravityMN4006KV380",
-        prop_model="apc_propellers_12x3_8SF",
-        prop_type=-1,
-        direction=-1,
-        control_channel=1,
-        mount_inst=front_flange_upper_r,
-        mount_conn="TopConnector",
-        controller_inst=battery_control,
-    )
-
-    designer.add_motor_propeller(
-        name_prefix="front_lower_r",
-        motor_model="t_motor_AntigravityMN4006KV380",
-        prop_model="apc_propellers_12x3_8SF",
-        prop_type=1,
-        direction=1,
-        control_channel=2,
-        mount_inst=front_flange_lower_r,
-        mount_conn="TopConnector",
-        controller_inst=battery_control,
-    )
-
-    designer.add_motor_propeller(
-        name_prefix="front_upper_l",
-        motor_model="t_motor_AntigravityMN4006KV380",
-        prop_model="apc_propellers_12x3_8SF",
-        prop_type=1,
-        direction=1,
-        control_channel=3,
-        mount_inst=front_flange_upper_l,
-        mount_conn="TopConnector",
-        controller_inst=battery_control,
-    )
-
-    designer.add_motor_propeller(
-        name_prefix="front_lower_l",
-        motor_model="t_motor_AntigravityMN4006KV380",
-        prop_model="apc_propellers_12x3_8SF",
-        prop_type=-1,
-        direction=-1,
-        control_channel=4,
-        mount_inst=front_flange_lower_l,
-        mount_conn="TopConnector",
-        controller_inst=battery_control,
-    )
+        designer.add_motor_propeller(
+            name_prefix=f"motor{i_motor}",
+            motor_model="t_motor_AntigravityMN4006KV380",
+            prop_model="apc_propellers_12x3_8SF",
+            prop_type=-(1**i_motor),
+            direction=-(1**i_motor),
+            control_channel=i_motor,
+            mount_inst=motor_flange,
+            mount_conn="TopConnector",
+            controller_inst=battery_control,
+        )
 
     ########################################
     # Optional Tail

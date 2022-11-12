@@ -15,11 +15,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # This is Peter's sandbox for Hackathon 2
-
-import sys
-import inspect
+import time
 from csv import DictWriter
 from collections.abc import Sequence
+
+
+from minio import Minio
+from api4jenkins import Jenkins
+
 
 def write_study_params(design_name, params):
     study_filename = f"{design_name}_study.csv"
@@ -49,6 +52,41 @@ def write_study_params(design_name, params):
             writer.writerow({k: v[i] for k, v in full_params.items()})
 
     print(f"Study parameters written to {study_filename}.")
+    return study_filename
+
+
+def run_design(design_name, study_filename, config):
+    minio = Minio(
+        config.minio_url,
+        access_key=config.minio_user,
+        secret_key=config.minio_password,
+        secure=False,
+    )
+    found = minio.bucket_exists(config.minio_bucket)
+    if not found:
+        print(f"Creating MinIO bucket {config.minio_bucket}")
+        minio.make_bucket(config.minio_bucket)
+
+    minio.fput_object(config.minio_bucket, study_filename, study_filename)
+    print(f"Uploaded to MinIO {config.minio_bucket}/{study_filename}.")
+
+    jenkins = Jenkins(
+        config.jenkins_url,
+        auth=(config.jenkins_user, config.jenkins_password),
+    )
+    item = jenkins.build_job(
+        "uam_direct2cad",
+        graphGUID=design_name,
+        minioBucket=config.minio_bucket,
+        paramFile=study_filename,
+    )
+    if item:
+        print("Queuing Jenkins job", end="")
+        while not (build := item.get_build()):
+            time.sleep(0.5)
+            print(".", end="", flush=True)
+
+        print(f"\nJenkins job started", build)
 
 
 def run(args=None):
@@ -64,9 +102,39 @@ def run(args=None):
         default=next(iter(designs)),
         nargs="?",
     )
+    parser.add_argument(
+        "-r", "--run", action="store_true", help="Run the design."
+    )
+    parser.add_argument(
+        "--minio-url", default="localhost:9000", help="MinIO URL."
+    )
+    parser.add_argument(
+        "--minio-user", default="symcps", help="MinIO username."
+    )
+    parser.add_argument(
+        "--minio-password", default="symcps2021", help="MinIO password."
+    )
+    parser.add_argument(
+        "--minio-bucket", default="symbench", help="MinIO bucket name."
+    )
+    parser.add_argument(
+        #"--jenkins-url", default="http://localhost:8080/", help="Jenkins URL."
+        "--jenkins-url", default="http://laplace.isis.vanderbilt.edu:8080/", help="Jenkins URL."
+    )
+    parser.add_argument(
+        "--jenkins-user", default="symcps", help="Jenkins username."
+    )
+    parser.add_argument(
+        "--jenkins-password", default="symcps2021", help="Jenkins password."
+    )
 
     args = parser.parse_args(args)
-    designs[args.design]()
+    #design_name, study_params = designs[args.design]()
+    #study_filename = write_study_params(design_name, study_params)
+
+    if args.run:
+        design_name, study_filename = "FalconX", "FalconX_study.csv"
+        run_design(design_name, study_filename, args)
 
 
 if __name__ == "__main__":
