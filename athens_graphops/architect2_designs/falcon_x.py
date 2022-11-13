@@ -16,47 +16,44 @@
 from ..designer2 import Designer, StudyParam
 
 
-def create_falcon_x():
-    return falcon_x_platform("")
+def create_falcon_x4():
+    return falcon_x_platform("4", n_motors=4, with_tail=False)
 
 
-def create_falcon_x_with_tail():
-    return falcon_x_platform("WithTail", with_tail=True)
+def create_falcon_x4_with_tail():
+    return falcon_x_platform("4WithTail", n_motors=4, with_tail=True)
 
 
-def falcon_x_platform(variant, with_tail=False):
+def falcon_x_platform(variant, n_motors=4, with_tail=False):
     design_name = "FalconX" + variant
 
     designer = Designer()
     designer.create_design(design_name)
 
-    # tuneable parameters
+    ########################################
+    # Static params
     tube_od = 7.1374  # cannot be a study param (fixed CAD models)
-    n_motors = 4  # 2 - 6, cannot be a study param (fixed CAD models)
+    motor_type = "t_motor_AntigravityMN4006KV380"
+    prop_type = "apc_propellers_12x3_8SF"
 
+    ########################################
+    # Tunable params
     wing_span = designer.set_study_param("wing_span", 600)
-
     # extra space (50mm) around the fuselage
     wing_tube_length = designer.set_study_param(
         "wing_tube_length", designer.param_value(wing_span) + 50
     )
-
     wing_chord = designer.set_study_param("wing_chord", 100)
-
     # the two wings need to carry about 5kg (50 N) weight
     wing_load = designer.set_study_param("wing_load", 25)
-
     # distance of the flanges
     forward_tube_length = designer.set_study_param("forward_tube_length", 200)
-
     # front motor spoke lengths
     motor_spoke_length = designer.set_study_param("motor_spoke_length", 470)
-
     # front motor spoke lengths
     motor_rotation = designer.set_study_param(
         "motor_rotation", 180 // n_motors
     )
-
     cargo_mass = designer.set_study_param("cargo_mass", 0.5)
 
     ########################################
@@ -249,8 +246,8 @@ def falcon_x_platform(variant, with_tail=False):
 
         designer.add_motor_propeller(
             name_prefix=f"motor{i_motor}",
-            motor_model="t_motor_AntigravityMN4006KV380",
-            prop_model="apc_propellers_12x3_8SF",
+            motor_model=motor_type,
+            prop_model=prop_type,
             prop_type=(-1) ** i_motor,
             direction=(-1) ** i_motor,
             control_channel=i_motor,
