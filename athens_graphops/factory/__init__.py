@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is Peter's sandbox for Hackathon 2
 import time
 from csv import DictWriter
 from collections.abc import Sequence
@@ -115,7 +114,7 @@ def run_design(design_name, study_filename, config):
 
 def run(args=None):
     import argparse
-    from .architect2_designs import designs  # avoid circular import
+    from .platforms import designs  # avoid circular import
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter

@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is Peter's sandbox for Hackathon 2
+# Based on the original Designer
 import math
 
-from .query import Client
-from .dataset import get_model_data
+from ..query import Client
+from ..dataset import get_model_data
 
 
 class Instance:
