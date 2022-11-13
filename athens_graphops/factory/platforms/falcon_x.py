@@ -23,7 +23,7 @@ def create_falcon_x4():
 def create_falcon_x4_with_tail():
     return falcon_x_platform("4WithTail", n_motors=4, with_tail=True)
 
-
+# NOTE: only add platform-specific parameters with structural effects
 def falcon_x_platform(variant, n_motors=4, with_tail=False):
     design_name = "FalconX" + variant
 
