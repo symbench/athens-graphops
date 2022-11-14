@@ -390,7 +390,7 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
             motor_model=motor_type,
             prop_model=prop_type,
             prop_type=prop_spin_b,
-            direction=prop_spin_a,
+            direction=prop_spin_b,
             control_channel=(i_quad - 1) * 4 + 3,
             mount_inst=front_flange_upper_l,
             mount_conn="TopConnector",
