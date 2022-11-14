@@ -286,6 +286,9 @@ class Designer():
             self.connect(instance_case, "Case2HubConnector",
                          mount_inst, mount_conn)
 
+        # Setup variable to allow .csv file to change the cargo mass
+        self.set_config_param("CargoMass", weight)
+
         return instance_cargo, instance_case
 
      # Only 3 flange options (0281, 0394, 05) are valid
