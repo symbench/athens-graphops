@@ -27,7 +27,7 @@ def create_falcon_t8():
 def create_falcon_t4_with_tail():
     return falcon_t_platform("4WithTail", n_quads=1, with_tail=True)
 
-
+# NOTE: only add platform-specific parameters with structural effects
 def falcon_t_platform(variant, n_quads=1, with_tail=False):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
@@ -197,7 +197,7 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
         load=wing_load,  # type: ignore
         tube_diameter=tube_od,
         tube_rotation=270,
-        channel=5,
+        channel=(n_quads * 4) + 1,
         flap_bias=0.0,
         aileron_bias=1.0,
         tube_inst=wing_tube_r,
@@ -214,7 +214,7 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
         load=wing_load,  # type: ignore
         tube_diameter=tube_od,
         tube_rotation=90,
-        channel=6,
+        channel=(n_quads * 4) + 2,
         flap_bias=0.0,
         aileron_bias=-1.0,
         tube_inst=wing_tube_l,
@@ -358,13 +358,16 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
         )
 
         # TODO: triple check prop_type and direction for all motors
+        prop_spin_a = (-1)**(i_quad)
+        prop_spin_b = (-1)**(i_quad+1)
+
         designer.add_motor_propeller(
             name_prefix=f"front_upper_r{i_quad}",
             motor_model=motor_type,
             prop_model=prop_type,
-            prop_type=-1,
-            direction=-1,
-            control_channel=1,
+            prop_type=prop_spin_a,
+            direction=prop_spin_a,
+            control_channel=(i_quad - 1) * 4 + 1,
             mount_inst=front_flange_upper_r,
             mount_conn="TopConnector",
             controller_inst=battery_control,
@@ -374,9 +377,9 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
             name_prefix=f"front_lower_r{i_quad}",
             motor_model=motor_type,
             prop_model=prop_type,
-            prop_type=1,
-            direction=1,
-            control_channel=2,
+            prop_type=prop_spin_b,
+            direction=prop_spin_b,
+            control_channel=(i_quad - 1) * 4 + 2,
             mount_inst=front_flange_lower_r,
             mount_conn="TopConnector",
             controller_inst=battery_control,
@@ -386,9 +389,9 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
             name_prefix=f"front_upper_l{i_quad}",
             motor_model=motor_type,
             prop_model=prop_type,
-            prop_type=1,
-            direction=1,
-            control_channel=3,
+            prop_type=prop_spin_b,
+            direction=prop_spin_b,
+            control_channel=(i_quad - 1) * 4 + 3,
             mount_inst=front_flange_upper_l,
             mount_conn="TopConnector",
             controller_inst=battery_control,
@@ -398,9 +401,9 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
             name_prefix=f"front_lower_l{i_quad}",
             motor_model=motor_type,
             prop_model=prop_type,
-            prop_type=-1,
-            direction=-1,
-            control_channel=4,
+            prop_type=prop_spin_a,
+            direction=prop_spin_a,
+            control_channel=(i_quad - 1) * 4 + 4,
             mount_inst=front_flange_lower_l,
             mount_conn="TopConnector",
             controller_inst=battery_control,
