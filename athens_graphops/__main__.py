@@ -24,7 +24,7 @@ from . import query
 from . import validate
 from . import designer
 from . import architect
-from . import architect2
+from . import factory
 from . import workflow
 
 
@@ -38,7 +38,7 @@ def run():
         "validate",
         "designer",
         "architect",
-        "architect2",
+        "factory",
         "workflow",
         "update"
     ]
@@ -90,8 +90,8 @@ def run():
         designer.run(args=sys.argv[pos:])
     elif args.command == "architect":
         architect.run(args=sys.argv[pos:])
-    elif args.command == "architect2":
-        architect2.run(args=sys.argv[pos:])
+    elif args.command == "factory":
+        factory.run(args=sys.argv[pos:])
     elif args.command == "workflow":
         workflow.run(args=sys.argv[pos:])
     elif args.command == "update":
