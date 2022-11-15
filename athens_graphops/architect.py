@@ -1751,7 +1751,7 @@ def create_uno_inline_uav(tail_wing = False):
     # Wings section - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
     #                 2 vertical tubes to attach to vertical wings
     NACA_profile = "0012"
-    wing_span = 550
+    wing_span = 1200
     wing_chord = 150
     wing_thickness = 12
     wing_load = 30
@@ -1784,7 +1784,7 @@ def create_uno_inline_uav(tail_wing = False):
     prop_forward_length = 250
     center_tube_prop = designer.add_tube(size=tube_size,
                                          length=prop_forward_length,
-                                         end_rotation=180,
+                                         end_rotation=0,
                                          name="center_tube_prop",
                                          mount_base_inst=center_hub,
                                          mount_base_conn="Side_Connector_1")
@@ -1795,7 +1795,8 @@ def create_uno_inline_uav(tail_wing = False):
                                  connects=["Side_Connector_2"],
                                  mount_inst=[center_tube_prop],
                                  mount_conn=["EndConnection"])
-    prop_hort_spread_length = 160
+    #prop_hort_spread_length = 160
+    prop_hort_spread_length = 140
     prop_hort_tube_l = designer.add_tube(size=tube_size,
                                          length=prop_hort_spread_length,
                                          end_rotation=180,
@@ -1825,15 +1826,17 @@ def create_uno_inline_uav(tail_wing = False):
                                   mount_inst=[prop_hort_tube_r],
                                   mount_conn=["EndConnection"])
 
-    prop_vert_spread_length = 210
+    #prop_vert_spread_length = 210
+    prop_vert_spread_length_t = 100
+    prop_vert_spread_length_b = 210
     top_prop_tube_l = designer.add_tube(size=tube_size,
-                                        length=prop_vert_spread_length,
+                                        length=prop_vert_spread_length_t,
                                         end_rotation=90,
                                         name="top_prop_tube_l",
                                         mount_base_inst=prop_hub_l,
                                         mount_base_conn="Side_Connector_1")
     top_prop_tube_r = designer.add_tube(size=tube_size,
-                                        length=prop_vert_spread_length,
+                                        length=prop_vert_spread_length_t,
                                         end_rotation=90,
                                         name="top_prop_tube_r",
                                         mount_base_inst=prop_hub_r,
@@ -1867,13 +1870,13 @@ def create_uno_inline_uav(tail_wing = False):
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
     bottom_prop_tube_l = designer.add_tube(size=tube_size,
-                                           length=prop_vert_spread_length,
+                                           length=prop_vert_spread_length_b,
                                            end_rotation=270,
                                            name="bottom_prop_tube_l",
                                            mount_base_inst=prop_hub_l,
                                            mount_base_conn="Side_Connector_2")
     bottom_prop_tube_r = designer.add_tube(size=tube_size,
-                                           length=prop_vert_spread_length,
+                                           length=prop_vert_spread_length_b,
                                            end_rotation=270,
                                            name="bottom_prop_tube_r",
                                            mount_base_inst=prop_hub_r,
