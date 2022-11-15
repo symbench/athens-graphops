@@ -26,6 +26,7 @@ from . import designer
 from . import architect
 from . import factory
 from . import workflow
+from . import json_designer
 
 
 def run():
@@ -37,6 +38,7 @@ def run():
         "query",
         "validate",
         "designer",
+        "json-designer",
         "architect",
         "factory",
         "workflow",
@@ -88,6 +90,8 @@ def run():
         dataset.run(args=sys.argv[pos:])
     elif args.command == "designer":
         designer.run(args=sys.argv[pos:])
+    elif args.command == "json-designer":
+        json_designer.run(args=sys.argv[pos:])
     elif args.command == "architect":
         architect.run(args=sys.argv[pos:])
     elif args.command == "factory":
