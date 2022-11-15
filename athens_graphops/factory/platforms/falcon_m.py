@@ -41,8 +41,8 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False):
     ########################################
     # Static params
     tube_od = 7.1374  # cannot be a study param (fixed CAD models)
-    motor_type = "t_motor_AntigravityMN5006KV300"
-    prop_type = "apc_propellers_12x12E"
+    motor_type = "t_motor_MN3510KV700"
+    prop_type = "apc_propellers_9_625x3_75N"
 
     ########################################
     # Tunable params
@@ -470,22 +470,22 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False):
 
     study_params = {
         "Flight_Path": 9,
-        "Requested_Vertical_Speed": -1,
-        "Requested_Lateral_Speed": 16,
-        "Requested_Vertical_Down_Speed": 1,
-        "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -5,
-        "Requested_Vertical_Acceleration": -5,
-        "Requested_Vertical_Deceleration": 5,
+        "Requested_Lateral_Speed": 19,
+        "Requested_Vertical_Speed": -2,
+        "Requested_Vertical_Down_Speed": 3,
+        "Requested_Lateral_Acceleration": 1,
+        "Requested_Lateral_Deceleration": -2,
+        "Requested_Vertical_Acceleration": -1,
+        "Requested_Vertical_Deceleration": 1,
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
         # "Vertical_Landing_Speed_at_Ground": 0.1,
-        "Q_Position": 1,
-        "Q_Velocity": 0.5,
-        "Q_Angular_Velocity": 1,
-        "Q_Angles": 0.5,
-        "Ctrl_R": 0.25,
+        "Q_Position": 0.1,
+        "Q_Velocity": 0.1,
+        "Q_Angular_Velocity": 0.1,
+        "Q_Angles": 0.1,
+        "Ctrl_R": 1.0,
     }
 
     # Add all study parameters automatically

@@ -97,12 +97,22 @@ def run_design(design_name, study_filename, config):
         config.jenkins_url,
         auth=(config.jenkins_user, config.jenkins_password),
     )
-    item = jenkins.build_job(
-        "uam_direct2cad",
-        graphGUID=design_name,
-        minioBucket=config.minio_bucket,
-        paramFile=study_filename,
-    )
+    if False:
+        item = jenkins.build_job(
+            "uam_direct2cad",
+            graphGUID=design_name,
+            minioBucket=config.minio_bucket,
+            paramFile=study_filename,
+        )
+    else:
+        job = jenkins.get_job("uam_direct2cad")
+        # job.url is respose location, we need to override it
+        job.url = config.jenkins_url + "job/uam_direct2cad/"
+        item = job.build(
+            graphGUID=design_name,
+            minioBucket=config.minio_bucket,
+            paramFile=study_filename,
+        )
     if item:
         print("Queuing Jenkins job", end="")
         while not (build := item.get_build()):
@@ -141,8 +151,8 @@ def run(args=None):
         "--minio-bucket", default="symbench", help="MinIO bucket name."
     )
     parser.add_argument(
-        # "--jenkins-url", default="http://localhost:8080/", help="Jenkins URL."
         "--jenkins-url",
+        # default="http://localhost:8080/",
         default="http://laplace.isis.vanderbilt.edu:8080/",
         help="Jenkins URL.",
     )
