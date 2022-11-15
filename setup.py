@@ -30,7 +30,7 @@ setup(
         "api4jenkins",
         "creopyson",
         "pyyaml",
-        "pydantic"
+        "pydantic",
         "minio"
     ],
     entry_points={
