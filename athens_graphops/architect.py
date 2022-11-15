@@ -1295,8 +1295,627 @@ def create_pick_axe():
     designer.close_design(corpus="uav", orient_z_angle=90)
 
 
-# This is for the UAM corpus
+def create_inline_uav():
+    """
+    This design will place the cargo inline behind the fuselage, but under the wings
+
+    Elements of design:
+    * Fuselage (bottom connector only)
+    * Tube from fuselage to hub
+    """
+    designer = Designer()
+    designer.create_design("InlineUAV")
+    tube_size = "0281"
+    tube_diameter = 7.1474
+    fuselage = designer.add_fuselage_uav(name="fuselage",
+                                         floor_height=20,
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
+                                         bottom_connector_rotation=0)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=2,
+                                diameter=tube_diameter,
+                                connector_horizonal_angle=0,
+                                connector_vertical_angle=180,
+                                connects=["Bottom_Connector"],
+                                mount_inst=[fuselage],
+                                mount_conn=["BottomConnector"])
+
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=0,
+                             mount_width=30,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=0,
+                             mount_width=-30,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=115,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-120,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
+
+    # Tube between main hub and center structure to move fuselage vertically
+    fuse_vert_length = 20
+    fuse_hub_tube = designer.add_tube(size=tube_size,
+                                      length=fuse_vert_length,
+                                      end_rotation=180,
+                                      name="fuse_hub_tube",
+                                      mount_base_inst=hub_main,
+                                      mount_base_conn="Top_Connector")
+    center_hub = designer.add_hub(name="center_hub",
+                                  num_connects=4,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=90,
+                                  connects=["Bottom_Connector"],
+                                  mount_inst=[fuse_hub_tube],
+                                  mount_conn=["EndConnection"],
+                                  orient_base=True)
+
+    # Cargo section - tube from 4 way hub (1) to 2 way hub
+    cargo_tube_length = 305
+    center_cargo_tube = designer.add_tube(size=tube_size,
+                                          length=cargo_tube_length,
+                                          end_rotation=180,
+                                          name="center_cargo_tube",
+                                          mount_base_inst=center_hub,
+                                          mount_base_conn="Side_Connector_1")
+    cargo_hub = designer.add_hub(name="cargo_hub",
+                                 num_connects=4,
+                                 diameter=tube_diameter,
+                                 connector_horizonal_angle=0,
+                                 connects=["Side_Connector_2",
+                                           "Top_Connector"],
+                                 mount_inst=[center_cargo_tube, cargo_case],
+                                 mount_conn=["EndConnection", "Case2HubConnector"])
+
+    # Wings section - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
+    #                 2 vertical tubes to attach to vertical wings
+    NACA_profile = "0012"
+    wing_span = 550
+    wing_chord = 150
+    wing_thickness = 12
+    wing_load = 30
+    tube_offset = wing_span / 2
+    wing_hort_tube_length = wing_span - tube_offset - 14.93 - (tube_diameter * 1.5) / 2
+    #wing_hort_tube_length = wing_span - tube_offset - 16.51 - (tube_diameter * 1.5) / 2
+    wing_hort_tube_l = designer.add_tube(size=tube_size,
+                                         length=wing_hort_tube_length,
+                                         end_rotation=180,
+                                         name="wing_hort_tube_l",
+                                         mount_base_inst=center_hub,
+                                         mount_base_conn="Side_Connector_2")
+    wing_hort_tube_r = designer.add_tube(size=tube_size,
+                                         length=wing_hort_tube_length,
+                                         end_rotation=180,
+                                         name="wing_hort_tube_r",
+                                         mount_base_inst=center_hub,
+                                         mount_base_conn="Side_Connector_4")
+    wing_hub_l = designer.add_hub(name="wing_hub_l",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=0,
+                                  connector_vertical_angle=180,
+                                  connects=["Side_Connector_2"],
+                                  mount_inst=[wing_hort_tube_l],
+                                  mount_conn=["EndConnection"])
+    wing_hub_r = designer.add_hub(name="wing_hub_r",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=0,
+                                  connector_vertical_angle=180,
+                                  connects=["Side_Connector_1"],
+                                  mount_inst=[wing_hort_tube_r],
+                                  mount_conn=["EndConnection"])
+    wing_vert_tube_length = 50
+    wing_vert_tube_l = designer.add_tube(size=tube_size,
+                                         length=wing_vert_tube_length,
+                                         end_rotation=180,
+                                         name="wing_vert_tube_l",
+                                         mount_base_inst=wing_hub_l,
+                                         mount_base_conn="Top_Connector")
+    wing_vert_tube_r = designer.add_tube(size=tube_size,
+                                         length=wing_vert_tube_length,
+                                         end_rotation=180,
+                                         name="wing_vert_tube_r",
+                                         mount_base_inst=wing_hub_r,
+                                         mount_base_conn="Top_Connector")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=wing_chord,
+                          span=wing_span,
+                          thickness=wing_thickness,
+                          load=wing_load,
+                          naca=NACA_profile,
+                          tube_diameter=tube_diameter,
+                          tube_offset=tube_offset,
+                          tube_rotation=90,
+                          channel=1,
+                          name="left_wing",
+                          tube_inst=wing_vert_tube_l,
+                          tube_conn="EndConnection")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=wing_chord,
+                          span=wing_span,
+                          thickness=wing_thickness,
+                          load=wing_load,
+                          naca=NACA_profile,
+                          tube_diameter=tube_diameter,
+                          tube_offset=tube_offset,
+                          tube_rotation=270,
+                          channel=2,
+                          name="right_wing",
+                          tube_inst=wing_vert_tube_r,
+                          tube_conn="EndConnection")
+
+    # Prop/motor section - tube from 4 way hub (3) to 3 way hub
+    #                      2 tubes horizontally to 3 way hubs
+    #                      2 vertical tubes out from 3 hubs (on each side) to flanges
+    #                      4 prop/motors attached to flanges
+    prop_forward_length = 250
+    center_tube_prop = designer.add_tube(size=tube_size,
+                                         length=prop_forward_length,
+                                         end_rotation=180,
+                                         name="center_tube_prop",
+                                         mount_base_inst=center_hub,
+                                         mount_base_conn="Side_Connector_3")
+    front_hub = designer.add_hub(name="front_hub",
+                                 num_connects=3,
+                                 diameter=tube_diameter,
+                                 connector_horizonal_angle=90,
+                                 connects=["Side_Connector_2"],
+                                 mount_inst=[center_tube_prop],
+                                 mount_conn=["EndConnection"])
+    prop_hort_spread_length = 160
+    prop_hort_tube_l = designer.add_tube(size=tube_size,
+                                         length=prop_hort_spread_length,
+                                         end_rotation=180,
+                                         name="prop_hort_tube_l",
+                                         mount_base_inst=front_hub,
+                                         mount_base_conn="Side_Connector_1")
+    prop_hort_tube_r = designer.add_tube(size=tube_size,
+                                         length=prop_hort_spread_length,
+                                         end_rotation=180,
+                                         name="prop_hort_tube_r",
+                                         mount_base_inst=front_hub,
+                                         mount_base_conn="Side_Connector_3")
+    prop_hub_l = designer.add_hub(name="prop_hub_l",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=180,
+                                  connector_vertical_angle=0,
+                                  connects=["Bottom_Connector"],
+                                  mount_inst=[prop_hort_tube_l],
+                                  mount_conn=["EndConnection"])
+    prop_hub_r = designer.add_hub(name="prop_hub_r",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=180,
+                                  connector_vertical_angle=0,
+                                  connects=["Top_Connector"],
+                                  mount_inst=[prop_hort_tube_r],
+                                  mount_conn=["EndConnection"])
+
+    prop_vert_spread_length = 210
+    top_prop_tube_l = designer.add_tube(size=tube_size,
+                                        length=prop_vert_spread_length,
+                                        end_rotation=90,
+                                        name="top_prop_tube_l",
+                                        mount_base_inst=prop_hub_l,
+                                        mount_base_conn="Side_Connector_1")
+    top_prop_tube_r = designer.add_tube(size=tube_size,
+                                        length=prop_vert_spread_length,
+                                        end_rotation=90,
+                                        name="top_prop_tube_r",
+                                        mount_base_inst=prop_hub_r,
+                                        mount_base_conn="Side_Connector_1")
+    top_prop_flange_l = designer.add_flange(size=tube_size,
+                                            name="top_prop_flange_l",
+                                            mount_side_inst=top_prop_tube_l,
+                                            mount_side_conn="EndConnection"
+                                            )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=3,
+                                 name_prefix="top_l",
+                                 mount_inst=top_prop_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    top_prop_flange_r = designer.add_flange(size=tube_size,
+                                            name="top_prop_flange_r",
+                                            mount_side_inst=top_prop_tube_r,
+                                            mount_side_conn="EndConnection"
+                                            )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=4,
+                                 name_prefix="top_r",
+                                 mount_inst=top_prop_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    bottom_prop_tube_l = designer.add_tube(size=tube_size,
+                                           length=prop_vert_spread_length,
+                                           end_rotation=270,
+                                           name="bottom_prop_tube_l",
+                                           mount_base_inst=prop_hub_l,
+                                           mount_base_conn="Side_Connector_2")
+    bottom_prop_tube_r = designer.add_tube(size=tube_size,
+                                           length=prop_vert_spread_length,
+                                           end_rotation=270,
+                                           name="bottom_prop_tube_r",
+                                           mount_base_inst=prop_hub_r,
+                                           mount_base_conn="Side_Connector_2")
+    bottom_prop_flange_l = designer.add_flange(size=tube_size,
+                                               name="bottom_prop_flange_l",
+                                               mount_side_inst=bottom_prop_tube_l,
+                                               mount_side_conn="EndConnection"
+                                               )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=5,
+                                 name_prefix="bottom_l",
+                                 mount_inst=bottom_prop_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    bottom_prop_flange_r = designer.add_flange(size=tube_size,
+                                               name="bottom_prop_flange_r",
+                                               mount_side_inst=bottom_prop_tube_r,
+                                               mount_side_conn="EndConnection"
+                                               )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=6,
+                                 name_prefix="bottom_r",
+                                 mount_inst=bottom_prop_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+ 
+    designer.close_design(corpus="uav", orient_z_angle=180)
+
+
+def create_uno_inline_uav(tail_wing = False):
+    """
+    This design will place the cargo inline behind the fuselage, but under a single wing.
+    Optionally a tail wing can be added.
+
+    Elements of design:
+    * Fuselage (bottom connector only)
+    * Tube from fuselage to hub
+    """
+    designer = Designer()
+    designer.create_design("UnoInlineUAV")
+    tube_size = "0281"
+    tube_diameter = 7.1474
+    fuselage = designer.add_fuselage_uav(name="fuselage",
+                                         floor_height=20,
+                                         fuse_width=190,
+                                         fuse_height=125,
+                                         fuse_cyl_length=270,
+                                         bottom_connector_rotation=0)
+    cargo, cargo_case = designer.add_cargo(weight=0.5,
+                                           name="cargo")
+
+    # Require main_hub for connection to Orient
+    # Create hub connection lists (size of num_connections max)
+    # Not all connections are needed
+    hub_main = designer.add_hub(name="main_hub",
+                                num_connects=2,
+                                diameter=tube_diameter,
+                                connector_horizonal_angle=0,
+                                connector_vertical_angle=180,
+                                connects=["Bottom_Connector"],
+                                mount_inst=[fuselage],
+                                mount_conn=["BottomConnector"])
+
+    # Add batteries
+    battery_control = designer.add_battery_controller(name="BatteryController")
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_1",
+                             fuse_conn_num=1,
+                             mount_length=0,
+                             mount_width=30,
+                             controller_inst=battery_control)
+
+    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                             name="Battery_2",
+                             fuse_conn_num=2,
+                             mount_length=0,
+                             mount_width=-30,
+                             controller_inst=battery_control)
+
+    # Add sensors
+    designer.add_sensor(sensor_model="RpmTemp",
+                        name="RpmTemp",
+                        mount_conn_num=3,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=13)
+    designer.add_sensor(sensor_model="Current",
+                        name="Current",
+                        mount_conn_num=4,
+                        rotation=90,
+                        mount_length=-160,
+                        mount_width=-18)
+    designer.add_sensor(sensor_model="Autopilot",
+                        name="Autopilot",
+                        mount_conn_num=5,
+                        rotation=90,
+                        mount_length=115,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Voltage",
+                        name="Voltage",
+                        mount_conn_num=6,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=18)
+    designer.add_sensor(sensor_model="GPS",
+                        name="GPS",
+                        mount_conn_num=7,
+                        mount_length=-120,
+                        mount_width=0)
+    designer.add_sensor(sensor_model="Variometer",
+                        name="Variometer",
+                        mount_conn_num=8,
+                        rotation=90,
+                        mount_length=155,
+                        mount_width=-18)
+
+    # Tube between main hub and center structure to move fuselage vertically
+    fuse_vert_length = 20
+    fuse_hub_tube = designer.add_tube(size=tube_size,
+                                      length=fuse_vert_length,
+                                      end_rotation=0,
+                                      name="fuse_hub_tube",
+                                      mount_base_inst=hub_main,
+                                      mount_base_conn="Top_Connector")
+    center_hub = designer.add_hub(name="center_hub",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=180,
+                                  connector_vertical_angle=180,
+                                  connects=["Bottom_Connector"],
+                                  mount_inst=[fuse_hub_tube],
+                                  mount_conn=["EndConnection"],
+                                  orient_base=True)
+
+    # Cargo section - tube from 4 way hub (1) to 2 way hub
+    cargo_tube_length = 305
+    center_cargo_tube = designer.add_tube(size=tube_size,
+                                          length=cargo_tube_length,
+                                          end_rotation=180,
+                                          name="center_cargo_tube",
+                                          mount_base_inst=center_hub,
+                                          mount_base_conn="Side_Connector_2")
+    cargo_hub = designer.add_hub(name="cargo_hub",
+                                 num_connects=4,
+                                 diameter=tube_diameter,
+                                 connector_horizonal_angle=0,
+                                 connects=["Side_Connector_2",
+                                           "Bottom_Connector"],
+                                 mount_inst=[center_cargo_tube, cargo_case],
+                                 mount_conn=["EndConnection", "Case2HubConnector"])
+
+    # Wings section - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
+    #                 2 vertical tubes to attach to vertical wings
+    NACA_profile = "0012"
+    wing_span = 1200
+    wing_chord = 150
+    wing_thickness = 12
+    wing_load = 30
+    tube_offset = wing_span / 2
+    front_wing_tube_length = 50
+    front_wing_tube = designer.add_tube(size=tube_size,
+                                         length=front_wing_tube_length,
+                                         end_rotation=180,
+                                         name="front_wing_tube",
+                                         mount_base_inst=center_hub,
+                                         mount_base_conn="Top_Connector")
+    designer.add_wing_uav(direction="Vertical",
+                          chord=wing_chord,
+                          span=wing_span,
+                          thickness=wing_thickness,
+                          load=wing_load,
+                          naca=NACA_profile,
+                          tube_diameter=tube_diameter,
+                          tube_offset=tube_offset,
+                          tube_rotation=180,
+                          channel=1,
+                          name="front_wing",
+                          tube_inst=front_wing_tube,
+                          tube_conn="EndConnection")
+
+    # Prop/motor section - tube from 4 way hub (3) to 3 way hub
+    #                      2 tubes horizontally to 3 way hubs
+    #                      2 vertical tubes out from 3 hubs (on each side) to flanges
+    #                      4 prop/motors attached to flanges
+    prop_forward_length = 250
+    center_tube_prop = designer.add_tube(size=tube_size,
+                                         length=prop_forward_length,
+                                         end_rotation=0,
+                                         name="center_tube_prop",
+                                         mount_base_inst=center_hub,
+                                         mount_base_conn="Side_Connector_1")
+    front_hub = designer.add_hub(name="front_hub",
+                                 num_connects=3,
+                                 diameter=tube_diameter,
+                                 connector_horizonal_angle=90,
+                                 connects=["Side_Connector_2"],
+                                 mount_inst=[center_tube_prop],
+                                 mount_conn=["EndConnection"])
+    #prop_hort_spread_length = 160
+    prop_hort_spread_length = 140
+    prop_hort_tube_l = designer.add_tube(size=tube_size,
+                                         length=prop_hort_spread_length,
+                                         end_rotation=180,
+                                         name="prop_hort_tube_l",
+                                         mount_base_inst=front_hub,
+                                         mount_base_conn="Side_Connector_1")
+    prop_hort_tube_r = designer.add_tube(size=tube_size,
+                                         length=prop_hort_spread_length,
+                                         end_rotation=180,
+                                         name="prop_hort_tube_r",
+                                         mount_base_inst=front_hub,
+                                         mount_base_conn="Side_Connector_3")
+    prop_hub_l = designer.add_hub(name="prop_hub_l",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=180,
+                                  connector_vertical_angle=0,
+                                  connects=["Bottom_Connector"],
+                                  mount_inst=[prop_hort_tube_l],
+                                  mount_conn=["EndConnection"])
+    prop_hub_r = designer.add_hub(name="prop_hub_r",
+                                  num_connects=2,
+                                  diameter=tube_diameter,
+                                  connector_horizonal_angle=180,
+                                  connector_vertical_angle=0,
+                                  connects=["Top_Connector"],
+                                  mount_inst=[prop_hort_tube_r],
+                                  mount_conn=["EndConnection"])
+
+    #prop_vert_spread_length = 210
+    prop_vert_spread_length_t = 100
+    prop_vert_spread_length_b = 210
+    top_prop_tube_l = designer.add_tube(size=tube_size,
+                                        length=prop_vert_spread_length_t,
+                                        end_rotation=90,
+                                        name="top_prop_tube_l",
+                                        mount_base_inst=prop_hub_l,
+                                        mount_base_conn="Side_Connector_1")
+    top_prop_tube_r = designer.add_tube(size=tube_size,
+                                        length=prop_vert_spread_length_t,
+                                        end_rotation=90,
+                                        name="top_prop_tube_r",
+                                        mount_base_inst=prop_hub_r,
+                                        mount_base_conn="Side_Connector_1")
+    top_prop_flange_l = designer.add_flange(size=tube_size,
+                                            name="top_prop_flange_l",
+                                            mount_side_inst=top_prop_tube_l,
+                                            mount_side_conn="EndConnection"
+                                            )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=3,
+                                 name_prefix="top_l",
+                                 mount_inst=top_prop_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    top_prop_flange_r = designer.add_flange(size=tube_size,
+                                            name="top_prop_flange_r",
+                                            mount_side_inst=top_prop_tube_r,
+                                            mount_side_conn="EndConnection"
+                                            )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=4,
+                                 name_prefix="top_r",
+                                 mount_inst=top_prop_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    bottom_prop_tube_l = designer.add_tube(size=tube_size,
+                                           length=prop_vert_spread_length_b,
+                                           end_rotation=270,
+                                           name="bottom_prop_tube_l",
+                                           mount_base_inst=prop_hub_l,
+                                           mount_base_conn="Side_Connector_2")
+    bottom_prop_tube_r = designer.add_tube(size=tube_size,
+                                           length=prop_vert_spread_length_b,
+                                           end_rotation=270,
+                                           name="bottom_prop_tube_r",
+                                           mount_base_inst=prop_hub_r,
+                                           mount_base_conn="Side_Connector_2")
+    bottom_prop_flange_l = designer.add_flange(size=tube_size,
+                                               name="bottom_prop_flange_l",
+                                               mount_side_inst=bottom_prop_tube_l,
+                                               mount_side_conn="EndConnection"
+                                               )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=-1,
+                                 direction=-1,
+                                 control_channel=5,
+                                 name_prefix="bottom_l",
+                                 mount_inst=bottom_prop_flange_l,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+    bottom_prop_flange_r = designer.add_flange(size=tube_size,
+                                               name="bottom_prop_flange_r",
+                                               mount_side_inst=bottom_prop_tube_r,
+                                               mount_side_conn="EndConnection"
+                                               )
+    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
+                                 prop_model="apc_propellers_12x3_8SF",
+                                 prop_type=1,
+                                 direction=1,
+                                 control_channel=6,
+                                 name_prefix="bottom_r",
+                                 mount_inst=bottom_prop_flange_r,
+                                 mount_conn="TopConnector",
+                                 controller_inst=battery_control)
+
+    designer.close_design(corpus="uav", orient_z_angle=180)
+
 def create_tail_sitter(workflow: str, minio_name: str, num_samples: int):
+    """
+    This is for the UAM corpus
+    """
     designer = Designer()
 
     # Setup Gremlin query and Jenkins interfaces
@@ -2718,7 +3337,9 @@ def run(args=None):
         "newaxe-cargo",
         "testquad-cargo",
         "pickaxe",
-        "superquad"
+        "superquad",
+        "inline-uav",
+        "uno-inline-uav"
     ])
     parser.add_argument('--corpus', choices=["uam", "uav"],
                         help="indicate corpus name")
@@ -2796,6 +3417,10 @@ def run(args=None):
         create_pick_axe()
     elif args.design == "superquad":
         create_super_quad()
+    elif args.design == "inline-uav":
+        create_inline_uav()
+    elif args.design == "uno-inline-uav":
+        create_uno_inline_uav()
     else:
         raise ValueError("unknown design")
 

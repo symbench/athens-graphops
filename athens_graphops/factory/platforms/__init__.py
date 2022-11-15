@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2022, Miklos Maroti
+# Copyright (C) 2022, Peter Volgyesi
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,29 +13,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import importlib
+import pkgutil
+import inspect
 
-from setuptools import setup
 
-setup(
-    name='athens-graphops',
-    version='0.1',
-    packages=['athens_graphops'],
-    license='GPL 3',
-    description="Sciprts to access the Athens graph database",
-    long_description=open('README.md').read(),
-    python_requires='>3.6',
-    # do not list standard packages
-    install_requires=[
-        "gremlinpython<=3.5",
-        "api4jenkins",
-        "creopyson",
-        "pyyaml",
-        "pydantic"
-        "minio"
-    ],
-    entry_points={
-        'console_scripts': [
-            'athens-graphops = athens_graphops.__main__:run'
-        ]
-    }
-)
+def __discover_designs():
+    """Automatically discover and import all design creation functions."""
+    designs = {}
+    for mod_info in pkgutil.walk_packages(__path__, __name__ + "."):
+        mod = importlib.import_module(mod_info.name)
+        for name, func in inspect.getmembers(mod, inspect.isfunction):
+            prefix = "create_"
+            if name.startswith(prefix):
+                designs[name[len(prefix) :]] = func
+
+    return designs
+
+
+designs = __discover_designs()

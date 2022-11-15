@@ -286,6 +286,9 @@ class Designer():
             self.connect(instance_case, "Case2HubConnector",
                          mount_inst, mount_conn)
 
+        # Setup variable to allow .csv file to change the cargo mass
+        self.set_config_param("CargoMass", weight)
+
         return instance_cargo, instance_case
 
      # Only 3 flange options (0281, 0394, 05) are valid
@@ -346,26 +349,17 @@ class Designer():
         self.set_parameter(instance, "Length", length)
 
         # larger sizes do not have these parameters
-        if size != "0281":
-            self.set_parameter(instance, "BASE_ROT", base_rotation)
-            self.set_parameter(instance, "END_ROT", end_rotation)
-            self.set_parameter(instance, "Offset1", offset_1)
-            self.set_parameter(instance, "Offset2", offset_2)
+        self.set_parameter(instance, "BASE_ROT", base_rotation)
+        self.set_parameter(instance, "END_ROT", end_rotation)
+        self.set_parameter(instance, "Offset1", offset_1)
+        self.set_parameter(instance, "Offset2", offset_2)
 
         if mount_base_inst:
-            if size == "0281":
-                self.connect(instance, "End Connection 1",
-                             mount_base_inst, mount_base_conn)
-            else:
-                self.connect(instance, "BaseConnection",
-                             mount_base_inst, mount_base_conn)
+            self.connect(instance, "BaseConnection",
+                         mount_base_inst, mount_base_conn)
         if mount_end_inst:
-            if size == "0281":
-                self.connect(instance, "End Connection 2",
-                             mount_end_inst, mount_end_conn)
-            else:
-                self.connect(instance, "EndConnection",
-                             mount_end_inst, mount_end_conn)
+            self.connect(instance, "EndConnection",
+                         mount_end_inst, mount_end_conn)
 
         return instance
 
