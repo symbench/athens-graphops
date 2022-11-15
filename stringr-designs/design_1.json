@@ -1,0 +1,892 @@
+[
+  {
+    "connections": [
+      {
+        "connector1": "front",
+        "connector2": "BaseConnection",
+        "instance1": "c1",
+        "instance2": "t12"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "BaseConnection",
+        "instance1": "c1",
+        "instance2": "t9"
+      },
+      {
+        "connector1": "left",
+        "connector2": "BaseConnection",
+        "instance1": "c1",
+        "instance2": "t4"
+      },
+      {
+        "connector1": "left",
+        "connector2": "EndConnection",
+        "instance1": "c1",
+        "instance2": "t4"
+      },
+      {
+        "connector1": "right",
+        "connector2": "EndConnection",
+        "instance1": "c1",
+        "instance2": "t5"
+      },
+      {
+        "connector1": "bottom",
+        "connector2": "EndConnection",
+        "instance1": "f0",
+        "instance2": "t0"
+      },
+      {
+        "connector1": "top",
+        "connector2": "EndConnection",
+        "instance1": "cg1",
+        "instance2": "t1"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "bottom",
+        "instance1": "t0",
+        "instance2": "f0"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "top",
+        "instance1": "t1",
+        "instance2": "cg1"
+      },
+      {
+        "connector1": "tube_connector",
+        "connector2": "BaseConnection",
+        "instance1": "w1",
+        "instance2": "t2"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "tube_connector",
+        "instance1": "t2",
+        "instance2": "w1"
+      },
+      {
+        "connector1": "tube_connector",
+        "connector2": "BaseConnection",
+        "instance1": "w2",
+        "instance2": "t3"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "tube_connector",
+        "instance1": "t3",
+        "instance2": "w2"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "left",
+        "instance1": "t4",
+        "instance2": "c1"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "left",
+        "instance1": "t4",
+        "instance2": "c1"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t5",
+        "instance2": "fl5"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl5",
+        "instance2": "pt5"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt5",
+        "instance2": "m5"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m5",
+        "instance2": "t5"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "right",
+        "instance1": "t5",
+        "instance2": "c1"
+      },
+      {
+        "connector1": "front",
+        "connector2": "EndConnection",
+        "instance1": "bc2",
+        "instance2": "t7"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "EndConnection",
+        "instance1": "bc2",
+        "instance2": "t6"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "rear",
+        "instance1": "t6",
+        "instance2": "bc2"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "BaseConnection",
+        "instance1": "c3",
+        "instance2": "t7"
+      },
+      {
+        "connector1": "top",
+        "connector2": "EndConnection",
+        "instance1": "c3",
+        "instance2": "t8"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "rear",
+        "instance1": "t7",
+        "instance2": "c3"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "front",
+        "instance1": "t7",
+        "instance2": "bc2"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t8",
+        "instance2": "fl8"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl8",
+        "instance2": "pt8"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt8",
+        "instance2": "m8"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m8",
+        "instance2": "t8"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "top",
+        "instance1": "t8",
+        "instance2": "c3"
+      },
+      {
+        "connector1": "front",
+        "connector2": "EndConnection",
+        "instance1": "bc4",
+        "instance2": "t9"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "EndConnection",
+        "instance1": "bc4",
+        "instance2": "t10"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "rear",
+        "instance1": "t9",
+        "instance2": "c1"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "front",
+        "instance1": "t9",
+        "instance2": "bc4"
+      },
+      {
+        "connector1": "front",
+        "connector2": "BaseConnection",
+        "instance1": "c5",
+        "instance2": "t10"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "EndConnection",
+        "instance1": "c5",
+        "instance2": "t11"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "front",
+        "instance1": "t10",
+        "instance2": "c5"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "rear",
+        "instance1": "t10",
+        "instance2": "bc4"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t11",
+        "instance2": "fl11"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl11",
+        "instance2": "pt11"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt11",
+        "instance2": "m11"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m11",
+        "instance2": "t11"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "rear",
+        "instance1": "t11",
+        "instance2": "c5"
+      },
+      {
+        "connector1": "front",
+        "connector2": "BaseConnection",
+        "instance1": "c6",
+        "instance2": "t14"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "BaseConnection",
+        "instance1": "c6",
+        "instance2": "t17"
+      },
+      {
+        "connector1": "right",
+        "connector2": "EndConnection",
+        "instance1": "c6",
+        "instance2": "t13"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "front",
+        "instance1": "t12",
+        "instance2": "c1"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t13",
+        "instance2": "fl13"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl13",
+        "instance2": "pt13"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt13",
+        "instance2": "m13"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m13",
+        "instance2": "t13"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "right",
+        "instance1": "t13",
+        "instance2": "c6"
+      },
+      {
+        "connector1": "front",
+        "connector2": "EndConnection",
+        "instance1": "bc7",
+        "instance2": "t15"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "EndConnection",
+        "instance1": "bc7",
+        "instance2": "t14"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "front",
+        "instance1": "t14",
+        "instance2": "c6"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "rear",
+        "instance1": "t14",
+        "instance2": "bc7"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "BaseConnection",
+        "instance1": "c8",
+        "instance2": "t15"
+      },
+      {
+        "connector1": "top",
+        "connector2": "EndConnection",
+        "instance1": "c8",
+        "instance2": "t16"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "rear",
+        "instance1": "t15",
+        "instance2": "c8"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "front",
+        "instance1": "t15",
+        "instance2": "bc7"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t16",
+        "instance2": "fl16"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl16",
+        "instance2": "pt16"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt16",
+        "instance2": "m16"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m16",
+        "instance2": "t16"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "top",
+        "instance1": "t16",
+        "instance2": "c8"
+      },
+      {
+        "connector1": "front",
+        "connector2": "EndConnection",
+        "instance1": "bc9",
+        "instance2": "t17"
+      },
+      {
+        "connector1": "rear",
+        "connector2": "EndConnection",
+        "instance1": "bc9",
+        "instance2": "t18"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "rear",
+        "instance1": "t17",
+        "instance2": "c6"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "front",
+        "instance1": "t17",
+        "instance2": "bc9"
+      },
+      {
+        "connector1": "front",
+        "connector2": "EndConnection",
+        "instance1": "c10",
+        "instance2": "t19"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "rear",
+        "instance1": "t18",
+        "instance2": "bc9"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "BottomConnector",
+        "instance1": "t19",
+        "instance2": "fl19"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "BaseConnection",
+        "instance1": "fl19",
+        "instance2": "pt19"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Base_Connector",
+        "instance1": "pt19",
+        "instance2": "m19"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "m19",
+        "instance2": "t19"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "front",
+        "instance1": "t19",
+        "instance2": "c10"
+      }
+    ],
+    "design": "Generated",
+    "instances": [
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c0"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c1"
+      },
+      {
+        "assignment": {
+          "FLOOR_HEIGHT": "FuselageFloorHeight",
+          "LENGTH": "FuselageLength",
+          "MIDDLE_LENGTH": "FuselageMiddleLength",
+          "PORT_THICKNESS": "FuselagePortThickness",
+          "SEAT_1_FB": "FuselageSeatFB",
+          "SEAT_1_LR": "FuselageSeat1LR",
+          "SEAT_2_FB": "FuselageSeatFB",
+          "SEAT_2_LR": "FuselageSeat2LR",
+          "SPHERE_DIAMETER": "FuselageSphereDiameter",
+          "TAIL_DIAMETER": "FuselageTailDiameter"
+        },
+        "model": "FUSE_SPHERE_CYL_CONE",
+        "name": "f0"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "cg1"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t0"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t1"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "TopWingChord",
+          "CHORD_2": "TopWingChord",
+          "LOAD": "TopWingLoad",
+          "NACA_Profile": "TopWingNaca",
+          "SPAN": "TopWingSpan",
+          "THICKNESS": "TopWingThickness"
+        },
+        "model": "naca_wing",
+        "name": "w1"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t2"
+      },
+      {
+        "assignment": {
+          "CHORD_1": "TopWingChord",
+          "CHORD_2": "TopWingChord",
+          "LOAD": "TopWingLoad",
+          "NACA_Profile": "TopWingNaca",
+          "SPAN": "TopWingSpan",
+          "THICKNESS": "TopWingThickness"
+        },
+        "model": "naca_wing",
+        "name": "w2"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t3"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t4"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m3"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f3"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt3"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCCW_Spin",
+          "Prop_type": "FwdFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "h3"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t5"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "bc2"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t6"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c3"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t7"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m4"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f4"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt4"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "p4"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t8"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "bc4"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t9"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c5"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t10"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m5"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f5"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt5"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCCW_Spin",
+          "Prop_type": "FwdFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "h5"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t11"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c6"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t12"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m6"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f6"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt6"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCCW_Spin",
+          "Prop_type": "FwdFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "h6"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t13"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "bc7"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t14"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c8"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t15"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m7"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f7"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt7"
+      },
+      {
+        "assignment": {
+          "Direction": "UpFacingCCW_Spin",
+          "Prop_type": "UpFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "p7"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t16"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "bc9"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t17"
+      },
+      {
+        "assignment": {
+          "DIAMETER": "CylinderDiameter",
+          "LENGTH": "CylinderLength"
+        },
+        "model": "0394od_para_hub_4",
+        "name": "c10"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t18"
+      },
+      {
+        "assignment": {},
+        "model": "MAGiDRIVE150",
+        "name": "m8"
+      },
+      {
+        "assignment": {},
+        "model": "0394_para_flange",
+        "name": "f8"
+      },
+      {
+        "assignment": {},
+        "model": "0394OD_para_tube",
+        "name": "pt8"
+      },
+      {
+        "assignment": {
+          "Direction": "FwdFacingCCW_Spin",
+          "Prop_type": "FwdFacingCCW_PropType"
+        },
+        "model": "62x5_2_3200_46_1150",
+        "name": "h8"
+      },
+      {
+        "assignment": {},
+        "model": "",
+        "name": "t19"
+      }
+    ],
+    "parameters": {
+      "BatteryLeftMountSide": "2",
+      "BatteryPercent": "100",
+      "BatteryRightMountSide": "1",
+      "BatteryVoltage": "840",
+      "BottomWingChord": "4000",
+      "BottomWingLoad": "2000",
+      "BottomWingNaca": "0012",
+      "BottomWingSpan": "1000",
+      "BottomWingThickness": "12",
+      "CylinderDiameter": "200",
+      "CylinderLength": "1650",
+      "FuselageFloorHeight": "150",
+      "FuselageLength": "2000",
+      "FuselageMiddleLength": "300",
+      "FuselagePortThickness": "150",
+      "FuselageSeat1LR": "210",
+      "FuselageSeat2LR": "-210",
+      "FuselageSeatFB": "790",
+      "FuselageSphereDiameter": "1520",
+      "FuselageTailDiameter": "200",
+      "FwdFacingCCW_PropType": "-1",
+      "FwdFacingCCW_Spin": "-1",
+      "FwdFacingCW_PropType": "1",
+      "FwdFacingCW_Spin": "1",
+      "Requested_Lateral_Speed_1": "25",
+      "TailCylinderPortThickness": "150",
+      "TailWingChord": "1000",
+      "TailWingLeftAngle": "45",
+      "TailWingLoad": "1000",
+      "TailWingNaca": "0012",
+      "TailWingRightAngle": "315",
+      "TailWingSpan": "4500",
+      "TailWingThickness": "12",
+      "TopWingChord": "1000",
+      "TopWingLoad": "10000",
+      "TopWingNaca": "2418",
+      "TopWingSpan": "10000",
+      "TopWingThickness": "18",
+      "UpFacingCCW_PropType": "-1",
+      "UpFacingCCW_Spin": "-1",
+      "UpFacingCW_PropType": "1",
+      "UpFacingCW_Spin": "1"
+    }
+  }
+]
