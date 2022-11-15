@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from ..workbench import Designer, StudyParam
 
 
@@ -20,20 +21,12 @@ def create_falcon_m4():
     return falcon_m_platform("4", n_quads=1, with_tail=False)
 
 
-def create_falcon_m8():
-    return falcon_m_platform("8", n_quads=2, with_tail=False)
-
-
-def create_falcon_m4_with_tail():
-    return falcon_m_platform("4WithTail", n_quads=1, with_tail=True)
-
-
 def falcon_m_platform(variant, n_quads=1, with_tail=False):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
     it only creates the graph design).
     """
-    design_name = "FalconM" + variant
+    design_name = "FalconM" + variant + "b"
 
     designer = Designer()
     designer.create_design(design_name)
@@ -46,14 +39,14 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False):
 
     ########################################
     # Tunable params
-    wing_span = designer.set_study_param("wing_span", 600)
+    wing_span = designer.set_study_param("wing_span", 670)
     # extra space (50mm) around the fuselage
     wing_tube_length = designer.set_study_param(
         "wing_tube_length", designer.param_value(wing_span) + 50
     )
-    wing_chord = designer.set_study_param("wing_chord", 100)
-    # the two wings need to carry about 5kg (50 N) weight
-    wing_load = designer.set_study_param("wing_load", 25)
+    wing_chord = designer.set_study_param("wing_chord", 50)
+    wing_load = designer.set_study_param("wing_load", 75)
+
     # distance of the motor plane from the wing root
     forward_tube_length = designer.set_study_param("forward_tube_length", 200)
     # horizontal separation between the motors
@@ -470,22 +463,22 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False):
 
     study_params = {
         "Flight_Path": 9,
-        "Requested_Lateral_Speed": 19,
-        "Requested_Vertical_Speed": -2,
-        "Requested_Vertical_Down_Speed": 3,
-        "Requested_Lateral_Acceleration": 1,
-        "Requested_Lateral_Deceleration": -2,
+        "Requested_Lateral_Speed": 23,
+        "Requested_Vertical_Speed": -5,
+        "Requested_Vertical_Down_Speed": 5,
+        "Requested_Lateral_Acceleration": 2,
+        "Requested_Lateral_Deceleration": -3,
         "Requested_Vertical_Acceleration": -1,
         "Requested_Vertical_Deceleration": 1,
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
         # "Vertical_Landing_Speed_at_Ground": 0.1,
-        "Q_Position": 0.1,
-        "Q_Velocity": 0.1,
-        "Q_Angular_Velocity": 0.1,
-        "Q_Angles": 0.1,
-        "Ctrl_R": 1.0,
+        "Q_Position": 0.158489319,
+        "Q_Velocity": 0.0158489319,
+        "Q_Angular_Velocity": 0.501187234,
+        "Q_Angles": 0.01,
+        "Ctrl_R": 0.316227766,
     }
 
     # Add all study parameters automatically
