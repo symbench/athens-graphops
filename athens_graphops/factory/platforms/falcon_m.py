@@ -21,7 +21,11 @@ def create_falcon_m4():
     return falcon_m_platform("4", n_quads=1, with_tail=False)
 
 
-def falcon_m_platform(variant, n_quads=1, with_tail=False):
+def create_falcon_m4_rotated():
+    return falcon_m_platform("4RotatedCargoCase", n_quads=1, with_tail=False, cargo_rotation=135.5)
+
+
+def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
     it only creates the graph design).
@@ -74,7 +78,8 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False):
         bottom_connector_rotation=90,
     )
     cargo, cargo_case = designer.add_cargo(
-        weight=cargo_mass, name="cargo")  # type: ignore
+        weight=cargo_mass, name="cargo", rotation=cargo_rotation
+    )  # type: ignore
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
