@@ -31,7 +31,9 @@ setup(
         "creopyson",
         "pyyaml",
         "pydantic",
-        "minio"
+        "minio",
+        "gql[all]",
+        "python-dotenv",
     ],
     entry_points={
         'console_scripts': [
