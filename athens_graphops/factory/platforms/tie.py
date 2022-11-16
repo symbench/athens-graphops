@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from ..workbench import Designer, StudyParam
+from .. import sweep_study_param
 
 
 def create_tie4():
@@ -192,11 +193,12 @@ def tie_platform(variant, n_motors=4):
             load=wing_load,  # type: ignore
             tube_diameter=tube_od,
             tube_offset=wing_vert_halfspan,  # type: ignore
-            channel=wing_channel,
+            # channel=wing_channel,
+            channel=0,
             tube_inst=side_tube,
             tube_conn="BaseConnection",
         )
-        wing_channel += 1
+        # wing_channel += 1
 
         for floor, anchor in (
             ("top", (side_hub, "Side_Connector_1")),
@@ -324,7 +326,7 @@ def tie_platform(variant, n_motors=4):
     study_params = {
         "Flight_Path": 9,
         "Requested_Vertical_Speed": -1,
-        "Requested_Lateral_Speed": 19,
+        "Requested_Lateral_Speed": 16,
         "Requested_Vertical_Down_Speed": 1,
         "Requested_Lateral_Acceleration": 2,
         "Requested_Lateral_Deceleration": -5,
@@ -334,16 +336,20 @@ def tie_platform(variant, n_motors=4):
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
         # "Vertical_Landing_Speed_at_Ground": 0.1,
-        "Q_Position": 1,
-        "Q_Velocity": 0.5,
-        "Q_Angular_Velocity": 1,
-        "Q_Angles": 0.5,
-        "Ctrl_R": 0.25,
+        "Q_Position": 3.981071705534973,
+        "Q_Velocity": 0.07924465962305567,
+        "Q_Angular_Velocity": 100.0,
+        "Q_Angles": 0.03154786722400965,
+        "Ctrl_R": 2.5,
     }
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
             study_params[val.name] = val.value
+
+    study_params = sweep_study_param(
+        study_params, cargo_mass.name, [0.5, 0.001]
+    )
 
     return design_name, study_params
