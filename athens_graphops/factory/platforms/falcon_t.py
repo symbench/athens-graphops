@@ -68,7 +68,7 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
     motor_vert_height = designer.set_study_param("motor_vert_height", 200)
     # vertical depth of the bottom row of motors
     motor_vert_depth = designer.set_study_param("motor_vert_depth", 200)
-    cargo_mass = designer.set_study_param("cargo_mass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", 0.5)
 
     ########################################
     # Center (Hun, Fuselage, Cargo)

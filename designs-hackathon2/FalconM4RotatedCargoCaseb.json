@@ -602,7 +602,7 @@
       },
       {
         "assignment": {
-          "WEIGHT": "cargo_mass"
+          "WEIGHT": "CargoMass"
         },
         "model": "Cargo",
         "name": "cargo"
@@ -926,7 +926,7 @@
       "Variometer_ROTATION": "90",
       "Voltage_ROTATION": "90",
       "cargo_case_Rotation": "135.5",
-      "cargo_mass": "0.5",
+      "CargoMass": "0.5",
       "forward_hub_ANGHORZCONN": "90",
       "forward_hub_ANGVERTCONN": "0",
       "forward_hub_DIAMETER": "7.1374",

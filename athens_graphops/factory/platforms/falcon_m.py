@@ -65,7 +65,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
     motor_vert_height = designer.set_study_param("motor_vert_height", 200)
     # vertical depth of the bottom row of motors
     motor_vert_depth = designer.set_study_param("motor_vert_depth", 200)
-    cargo_mass = designer.set_study_param("cargo_mass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", 0.5)
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
@@ -78,8 +78,8 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
         bottom_connector_rotation=90,
     )
     cargo, cargo_case = designer.add_cargo(
-        weight=cargo_mass, name="cargo", rotation=cargo_rotation
-    )  # type: ignore
+        weight=cargo_mass, name="cargo", rotation=cargo_rotation  # type: ignore
+    )
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)

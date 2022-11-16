@@ -57,7 +57,7 @@ def tie_platform(variant, n_motors=4):
         # "motor_rotation", 0
     )
 
-    cargo_mass = designer.set_study_param("cargo_mass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", 0.5)
 
     ########################################
     # Center (Hun, Fuselage, Cargo)

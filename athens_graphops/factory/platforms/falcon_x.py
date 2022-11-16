@@ -54,7 +54,7 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
     motor_rotation = designer.set_study_param(
         "motor_rotation", 180 // n_motors
     )
-    cargo_mass = designer.set_study_param("cargo_mass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", 0.5)
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
