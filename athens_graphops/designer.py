@@ -84,6 +84,14 @@ class Designer():
         self.client.assign_parameter(
             self.design, instance.name, param, full_name)
 
+    def set_named_parameter(self, instance: List[Instance], named_param: str, param: str, value: Union[float, str], param_exist = False):
+        if not param_exist:
+            self.client.create_parameter(self.design, named_param, value)
+        for inst in instance:
+            assert isinstance(inst, Instance)
+            self.client.assign_parameter(
+                self.design, inst.name, param, named_param)
+
     def get_parameter_name(self, instance: Instance, param: str):
         assert isinstance(instance, Instance)
 
@@ -269,8 +277,9 @@ class Designer():
         # Only two weights are valid
         assert weight == 0.001 or weight == 0.5
 
+        # Setup variable to allow .csv file to change the cargo mass
         instance_cargo = self.add_instance("Cargo", name)
-        self.set_parameter(instance_cargo, "WEIGHT", weight)
+        self.set_named_parameter([instance_cargo], "CargoMass", "WEIGHT", weight)
 
         # add cargo case (for attachment)
         case_name = name + "_case"
@@ -285,9 +294,6 @@ class Designer():
         if mount_inst:
             self.connect(instance_case, "Case2HubConnector",
                          mount_inst, mount_conn)
-
-        # Setup variable to allow .csv file to change the cargo mass
-        self.set_config_param("CargoMass", weight)
 
         return instance_cargo, instance_case
 
