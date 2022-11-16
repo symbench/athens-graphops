@@ -138,20 +138,22 @@ class JSONUAVDesign(BaseModel):
             dict_obj["parameters"][param.name] = str(param.value)
         return dict_obj
 
-    def get_value_for(self, assignment: Assignment):
+    def get_parameter_for(self, assignment: Assignment):
         for param in self.parameters:
             if param.name == assignment.value:
-                return param.value
+                return param
 
     def update_instance_parameters(
         self, designer: Designer, inst: Instance, assignments: List[Assignment]
     ) -> None:
+        param_cache = set()
         for assign in assignments:
-            value = self.get_value_for(assign)
-            if value:
-                designer.set_parameter(inst, assign.name, value)
+            param = self.get_parameter_for(assign)
+            if param:
+                designer.set_named_parameter([inst], param.name, assign.name, param.value, param_exist=param.name in param_cache)
+                param_cache.add(param.name)
                 print(
-                    f"{assign.name} has been assigned global design parameter {assign.value}, whose value is {self.get_value_for(assign)}"
+                    f"{assign.name} has been assigned global design parameter {assign.value}, whose value is {param.value}"
                 )
 
     def _add_instance(self, designer: Designer, instance: JSONInstance, cache):
@@ -168,21 +170,23 @@ class JSONUAVDesign(BaseModel):
         new_name: Optional[str] = None,
         overwrite=False,
     ) -> None:
-        graph_guid = new_name or self.design
+        graph_guid = new_name if new_name is not None else self.design
         client = Client()
         all_design_names = client.get_design_names()
 
         if overwrite and (graph_guid in all_design_names):
             print(f"Deleting existing design {graph_guid}")
             client.delete_design(graph_guid)
+
         elif graph_guid in all_design_names:
             raise ValueError(f"A design with name {new_name} already exists")
 
         client.close()
 
         designer = Designer()
-        designer.create_design(new_name)
+        designer.create_design(graph_guid)
         created_instances = {}
+
         for connection in self.connections:
             self._add_instance(designer, connection.instance1, created_instances)
             self._add_instance(designer, connection.instance2, created_instances)
