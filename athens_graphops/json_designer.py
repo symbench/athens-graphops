@@ -2,9 +2,10 @@ import json
 from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
+
+from athens_graphops.dataset import get_model_data
 from athens_graphops.designer import Designer, Instance
 from athens_graphops.query import Client
-from athens_graphops.dataset import get_model_data
 
 
 class Assignment(BaseModel):
@@ -150,7 +151,13 @@ class JSONUAVDesign(BaseModel):
         for assign in assignments:
             param = self.get_parameter_for(assign)
             if param:
-                designer.set_named_parameter([inst], param.name, assign.name, param.value, param_exist=param.name in param_cache)
+                designer.set_named_parameter(
+                    [inst],
+                    param.name,
+                    assign.name,
+                    param.value,
+                    param_exist=param.name in param_cache,
+                )
                 param_cache.add(param.name)
                 print(
                     f"{assign.name} has been assigned global design parameter {assign.value}, whose value is {param.value}"
@@ -199,7 +206,7 @@ class JSONUAVDesign(BaseModel):
 
 
 def run(args=None):
-    from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+    from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 
     parser = ArgumentParser(
         "JSON Designer", formatter_class=ArgumentDefaultsHelpFormatter
