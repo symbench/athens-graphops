@@ -132,8 +132,6 @@ def run(args=None):
     parser.add_argument(
         "design",
         choices=designs.keys(),
-        default=next(iter(designs)),
-        nargs="?",
     )
     parser.add_argument(
         "-r", "--run", action="store_true", help="Run the design."

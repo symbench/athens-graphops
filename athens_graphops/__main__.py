@@ -27,6 +27,7 @@ from . import architect
 from . import factory
 from . import workflow
 from . import json_designer
+from . import jarvis
 
 
 def run():
@@ -42,7 +43,8 @@ def run():
         "architect",
         "factory",
         "workflow",
-        "update"
+        "update",
+        "jarvis",
     ]
     pos = len(sys.argv)
     for cmd in commands:
@@ -100,6 +102,8 @@ def run():
         workflow.run(args=sys.argv[pos:])
     elif args.command == "update":
         batch.run_update_design(args=sys.argv[pos:])
+    elif args.command == "jarvis":
+        jarvis.run(args=sys.argv[pos:])
     else:
         parser.print_help()
 

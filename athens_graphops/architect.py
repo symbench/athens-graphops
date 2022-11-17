@@ -1923,15 +1923,25 @@ def create_tiltie():
     The propellers will be tiltable and controllable by a system parameter.
     """
     designer = Designer()
-    designer.create_design("Tiltie")
     tube_size = "0281"
     tube_diameter = 7.1474
-    fuselage = designer.add_fuselage_uav(name="fuselage",
-                                         floor_height=20,
-                                         fuse_width=190,
-                                         fuse_height=125,
-                                         fuse_cyl_length=270,
-                                         bottom_connector_rotation=0)
+    num_batts = 1
+    if num_batts == 2:
+        designer.create_design("Tiltie")
+        fuselage = designer.add_fuselage_uav(name="fuselage",
+                                            floor_height=20,
+                                            fuse_width=190,
+                                            fuse_height=125,
+                                            fuse_cyl_length=270,
+                                            bottom_connector_rotation=0)
+    elif num_batts == 1:
+        designer.create_design("TiltieDyno")
+        fuselage = designer.add_fuselage_uav(name="fuselage",
+                                            floor_height=20,
+                                            fuse_width=190,
+                                            fuse_height=125,
+                                            fuse_cyl_length=289,
+                                            bottom_connector_rotation=0)
     cargo, cargo_case = designer.add_cargo(weight=0.5,
                                            name="cargo")
 
@@ -1949,56 +1959,101 @@ def create_tiltie():
 
     # Add batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
-                             name="Battery_1",
-                             fuse_conn_num=1,
-                             mount_length=0,
-                             mount_width=30,
-                             controller_inst=battery_control)
+    if num_batts == 2:
+        designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                                name="Battery_1",
+                                fuse_conn_num=1,
+                                mount_length=0,
+                                mount_width=30,
+                                controller_inst=battery_control)
 
-    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
-                             name="Battery_2",
-                             fuse_conn_num=2,
-                             mount_length=0,
-                             mount_width=-30,
-                             controller_inst=battery_control)
+        designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+                                name="Battery_2",
+                                fuse_conn_num=2,
+                                mount_length=0,
+                                mount_width=-30,
+                                controller_inst=battery_control)
+    elif num_batts == 1:
+        designer.add_battery_uav(model="Tattu30C12000mAh6S1P",
+                                name="Battery_1",
+                                fuse_conn_num=1,
+                                mount_length=0,
+                                mount_width=0,
+                                controller_inst=battery_control)
 
     # Add sensors
-    designer.add_sensor(sensor_model="RpmTemp",
-                        name="RpmTemp",
-                        mount_conn_num=3,
-                        rotation=90,
-                        mount_length=-160,
-                        mount_width=13)
-    designer.add_sensor(sensor_model="Current",
-                        name="Current",
-                        mount_conn_num=4,
-                        rotation=90,
-                        mount_length=-160,
-                        mount_width=-18)
-    designer.add_sensor(sensor_model="Autopilot",
-                        name="Autopilot",
-                        mount_conn_num=5,
-                        rotation=90,
-                        mount_length=115,
-                        mount_width=0)
-    designer.add_sensor(sensor_model="Voltage",
-                        name="Voltage",
-                        mount_conn_num=6,
-                        rotation=90,
-                        mount_length=155,
-                        mount_width=18)
-    designer.add_sensor(sensor_model="GPS",
-                        name="GPS",
-                        mount_conn_num=7,
-                        mount_length=-120,
-                        mount_width=0)
-    designer.add_sensor(sensor_model="Variometer",
-                        name="Variometer",
-                        mount_conn_num=8,
-                        rotation=90,
-                        mount_length=155,
-                        mount_width=-18)
+    if num_batts == 2:
+        designer.add_sensor(sensor_model="RpmTemp",
+                            name="RpmTemp",
+                            mount_conn_num=3,
+                            rotation=90,
+                            mount_length=-160,
+                            mount_width=13)
+        designer.add_sensor(sensor_model="Current",
+                            name="Current",
+                            mount_conn_num=4,
+                            rotation=90,
+                            mount_length=-160,
+                            mount_width=-18)
+        designer.add_sensor(sensor_model="Autopilot",
+                            name="Autopilot",
+                            mount_conn_num=5,
+                            rotation=90,
+                            mount_length=115,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Voltage",
+                            name="Voltage",
+                            mount_conn_num=6,
+                            rotation=90,
+                            mount_length=155,
+                            mount_width=18)
+        designer.add_sensor(sensor_model="GPS",
+                            name="GPS",
+                            mount_conn_num=7,
+                            mount_length=-120,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Variometer",
+                            name="Variometer",
+                            mount_conn_num=8,
+                            rotation=90,
+                            mount_length=155,
+                            mount_width=-18)
+    elif num_batts == 1:
+        designer.add_sensor(sensor_model="RpmTemp",
+                            name="RpmTemp",
+                            mount_conn_num=3,
+                            rotation=90,
+                            mount_length=-172,
+                            mount_width=13)
+        designer.add_sensor(sensor_model="Current",
+                            name="Current",
+                            mount_conn_num=4,
+                            rotation=90,
+                            mount_length=-172,
+                            mount_width=-18)
+        designer.add_sensor(sensor_model="Autopilot",
+                            name="Autopilot",
+                            mount_conn_num=5,
+                            rotation=90,
+                            mount_length=125,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Voltage",
+                            name="Voltage",
+                            mount_conn_num=6,
+                            rotation=90,
+                            mount_length=162,
+                            mount_width=18)
+        designer.add_sensor(sensor_model="GPS",
+                            name="GPS",
+                            mount_conn_num=7,
+                            mount_length=-130,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Variometer",
+                            name="Variometer",
+                            mount_conn_num=8,
+                            rotation=90,
+                            mount_length=162,
+                            mount_width=-18)
 
     # Tube between main hub and center structure to move fuselage vertically
     fuse_vert_length = 20
