@@ -406,14 +406,15 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
     designer.close_design(orient_z_angle=90)
 
     study_params = {
+        cargo_mass: [0.5, 0.001],
         "Flight_Path": 9,
         "Requested_Lateral_Speed": 32,
-        "Requested_Vertical_Speed": -7,
-        "Requested_Vertical_Down_Speed": 7,
+        "Requested_Vertical_Speed": [-8, -7],
+        "Requested_Vertical_Down_Speed": [19, 13],
         "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -3,
-        "Requested_Vertical_Acceleration": -1,
-        "Requested_Vertical_Deceleration": 1,
+        "Requested_Lateral_Deceleration": [-9, -6],
+        "Requested_Vertical_Acceleration": -6,
+        "Requested_Vertical_Deceleration": 15,
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
@@ -427,11 +428,11 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
 
     # Add all study parameters automatically
     for val in locals().values():
-        if isinstance(val, StudyParam):
+        if isinstance(val, StudyParam) and val is not cargo_mass:
             study_params[val.name] = val.value
 
-    study_params = sweep_study_param(study_params,
-                                      cargo_mass.name, [0.5, 0.001])
+    #study_params = sweep_study_param(study_params,
+    #                                  cargo_mass.name, [0.5, 0.001])
 
     # study_params = sweep_study_param(study_params,
     #                                  wing_span.name, [500, 550, 600, 650, 700, 750])
