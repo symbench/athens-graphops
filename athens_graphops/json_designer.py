@@ -1,9 +1,8 @@
 import json
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
-from athens_graphops.dataset import get_model_data
 from athens_graphops.designer import Designer, Instance
 from athens_graphops.query import Client
 
@@ -144,10 +143,13 @@ class JSONUAVDesign(BaseModel):
             if param.name == assignment.value:
                 return param
 
-    def update_instance_parameters(
-        self, designer: Designer, inst: Instance, assignments: List[Assignment]
+    def _update_instance_parameters(
+        self,
+        designer: Designer,
+        inst: Instance,
+        assignments: List[Assignment],
+        cache: set,
     ) -> None:
-        param_cache = set()
         for assign in assignments:
             param = self.get_parameter_for(assign)
             if param:
@@ -156,21 +158,27 @@ class JSONUAVDesign(BaseModel):
                     param.name,
                     assign.name,
                     param.value,
-                    param_exist=param.name in param_cache,
+                    param_exist=param.name in cache,
                 )
-                param_cache.add(param.name)
+                cache.add(param.name)
                 print(
                     f"{assign.name} has been assigned global design parameter {assign.value}, whose value is {param.value}"
                 )
 
-    def _add_instance(self, designer: Designer, instance: JSONInstance, cache):
+    def _add_instance(
+        self,
+        designer: Designer,
+        instance: JSONInstance,
+        instance_cache: Dict,
+        param_cache: set,
+    ):
         name = instance.name
         model = instance.model
         assignments = instance.assignment
-        if name not in cache:
+        if name not in instance_cache:
             inst = designer.add_instance(model, name)
-            cache[name] = inst
-            self.update_instance_parameters(designer, inst, assignments)
+            instance_cache[name] = inst
+            self._update_instance_parameters(designer, inst, assignments, param_cache)
 
     def instantiate(
         self,
@@ -193,15 +201,20 @@ class JSONUAVDesign(BaseModel):
 
         designer = Designer()
         designer.create_design(graph_guid)
-        created_instances = {}
+        instance_cache = {}
         connection_cache = set()
+        param_cache = set()
 
         for connection in self.connections:
-            self._add_instance(designer, connection.instance1, created_instances)
-            self._add_instance(designer, connection.instance2, created_instances)
+            self._add_instance(
+                designer, connection.instance1, instance_cache, param_cache
+            )
+            self._add_instance(
+                designer, connection.instance2, instance_cache, param_cache
+            )
 
-            inst1 = created_instances[connection.instance1.name]
-            inst2 = created_instances[connection.instance2.name]
+            inst1 = instance_cache[connection.instance1.name]
+            inst2 = instance_cache[connection.instance2.name]
 
             conn_id = (
                 (inst1.name, connection.connector1),
@@ -215,6 +228,13 @@ class JSONUAVDesign(BaseModel):
 
             connection_cache.add(conn_id)
             connection_cache.add(tuple(reversed(conn_id)))
+
+        for parameter in self.parameters:
+            if parameter.name not in param_cache:
+                designer.set_config_param(parameter.name, parameter.value)
+                print(
+                    f"Created unused global parameter {parameter.name} whose value is {parameter.value}"
+                )
 
         designer.client.close()
         designer.client = None
