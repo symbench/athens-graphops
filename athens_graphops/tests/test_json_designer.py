@@ -29,6 +29,6 @@ class TestDesign:
         design = JSONUAVDesign.from_dict(old_dict)
         design.instantiate(new_name=design_name + "_2", overwrite=True)
         client = Client()
-        new_dict = client.get_design_data(design_name + "_2")
-        assert DeepDiff(old_dict, new_dict) == {}
+        new_dict = client.get_design_data(design_name + "_2")[0]
         client.close()
+        assert DeepDiff(old_dict, new_dict, exclude_paths="design") == {}
