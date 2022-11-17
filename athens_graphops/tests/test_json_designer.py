@@ -15,7 +15,7 @@ TEST_DESIGNS = [
     "FalconS4",
 ]
 
-SINGLE_RUN_TIMEOUT = 500
+SINGLE_RUN_TIMEOUT = 1000
 
 
 class TestDesign:
