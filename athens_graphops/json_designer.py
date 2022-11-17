@@ -179,20 +179,22 @@ class JSONUAVDesign(BaseModel):
     ) -> None:
         graph_guid = new_name if new_name is not None else self.design
         client = Client()
-        all_design_names = client.get_design_names()
+        all_design_names = set(client.get_design_names())  # Assume Unique Design Names
 
         if overwrite and (graph_guid in all_design_names):
             print(f"Deleting existing design {graph_guid}")
             client.delete_design(graph_guid)
-
-        elif graph_guid in all_design_names:
-            raise ValueError(f"A design with name {new_name} already exists")
+            all_design_names.discard(graph_guid)
 
         client.close()
+
+        if graph_guid in all_design_names:
+            raise ValueError(f"A design with name {new_name} already exists")
 
         designer = Designer()
         designer.create_design(graph_guid)
         created_instances = {}
+        connection_cache = set()
 
         for connection in self.connections:
             self._add_instance(designer, connection.instance1, created_instances)
@@ -200,9 +202,22 @@ class JSONUAVDesign(BaseModel):
 
             inst1 = created_instances[connection.instance1.name]
             inst2 = created_instances[connection.instance2.name]
-            designer.connect(inst1, connection.connector1, inst2, connection.connector2)
+
+            conn_id = (
+                (inst1.name, connection.connector1),
+                (inst2.name, connection.connector2),
+            )
+
+            if conn_id not in connection_cache:
+                designer.connect(
+                    inst1, connection.connector1, inst2, connection.connector2
+                )
+
+            connection_cache.add(conn_id)
+            connection_cache.add(tuple(reversed(conn_id)))
 
         designer.client.close()
+        designer.client = None
 
 
 def run(args=None):
