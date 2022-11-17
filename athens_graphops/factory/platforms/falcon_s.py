@@ -19,13 +19,63 @@ from .. import sweep_study_param
 
 
 def create_falcon_s4():
-    return falcon_s_platform("4", n_quads=1)
+    design_name, study_params = falcon_s_platform("4", n_quads=1)
+
+    # Model-specific tweaks - needs different loaded/unloaded speeds
+    study_params = {
+        **study_params,
+        "CargoMass": [0.5, 0.001],
+        "Flight_Path": 9,
+        "Requested_Lateral_Speed": 32,
+        "Requested_Vertical_Speed": [-8, -7],
+        "Requested_Vertical_Down_Speed": [19, 13],
+        "Requested_Lateral_Acceleration": 2,
+        "Requested_Lateral_Deceleration": [-9, -6],
+        "Requested_Vertical_Acceleration": -6,
+        "Requested_Vertical_Deceleration": 15,
+        # James suggested not to tweak these
+        # "Landing_Approach_Height": 3,
+        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
+        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        "Q_Position": 0.039810717,
+        "Q_Velocity": 0.001995262,
+        "Q_Angular_Velocity": 0.630957345,
+        "Q_Angles": 0.002511886,
+        "Ctrl_R": 1.584893192,
+    }
+
+    return design_name, study_params
 
 
 def create_falcon_s4_rotated():
-    return  falcon_s_platform(
+    design_name, study_params = falcon_s_platform(
         "4RotatedCargoCase", n_quads=1, cargo_rotation=135.5
     )
+
+    # Model-specific tweaks
+    study_params = {
+        **study_params,
+        "CargoMass": [0.5, 0.001],
+        "Flight_Path": 9,
+        "Requested_Lateral_Speed": 36,
+        "Requested_Vertical_Speed": [-8.5, -11],
+        "Requested_Vertical_Down_Speed": [12.5, 9],
+        "Requested_Lateral_Acceleration": [4.5, 2],
+        "Requested_Lateral_Deceleration": [-6, -4],
+        "Requested_Vertical_Acceleration": [-8, -12],
+        "Requested_Vertical_Deceleration": [6, 10],
+        # James suggested not to tweak these
+        # "Landing_Approach_Height": 3,
+        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
+        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        "Q_Position": 0.006309573436029592,
+        "Q_Velocity": 0.012589252130622394,
+        "Q_Angular_Velocity": 1.584893193766809,
+        "Q_Angles": 0.0015848929201969747,
+        "Ctrl_R": 6.309573442966208,
+    }
+
+    return design_name, study_params
 
 
 def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
@@ -406,13 +456,12 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
     designer.close_design(orient_z_angle=90)
 
     study_params = {
-        cargo_mass: [0.5, 0.001],
         "Flight_Path": 9,
         "Requested_Lateral_Speed": 32,
-        "Requested_Vertical_Speed": [-8, -7],
-        "Requested_Vertical_Down_Speed": [19, 13],
+        "Requested_Vertical_Speed": -8,
+        "Requested_Vertical_Down_Speed": 19,
         "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": [-9, -6],
+        "Requested_Lateral_Deceleration": -9,
         "Requested_Vertical_Acceleration": -6,
         "Requested_Vertical_Deceleration": 15,
         # James suggested not to tweak these
@@ -426,21 +475,26 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
         "Ctrl_R": 1.584893192,
     }
 
-    # Add all study parameters automatically
     for val in locals().values():
-        if isinstance(val, StudyParam) and val is not cargo_mass:
+        if isinstance(val, StudyParam):
             study_params[val.name] = val.value
 
-    #study_params = sweep_study_param(study_params,
+    # study_params = sweep_study_param(study_params,
     #                                  cargo_mass.name, [0.5, 0.001])
 
-    # study_params = sweep_study_param(study_params,
-    #                                  wing_span.name, [500, 550, 600, 650, 700, 750])
-    # study_params = sweep_study_param(study_params,
-    #                                  wing_chord.name, [50, 70, 90, 120, 150, 200])
-    # study_params = sweep_study_param(study_params,
-    #                                  forward_tube_length.name, [70, 90, 120, 150, 200, 250])
-    # study_params = sweep_study_param(study_params,
-    #                                  motor_horiz_center_distance.name, [120, 160, 200, 220, 250])
+    # study_params = sweep_study_param(
+    #     study_params, wing_span.name, [360, 365, 370, 375, 380]
+    # )
+    # study_params = sweep_study_param(
+    #     study_params, wing_chord.name, [55, 60, 65, 70]
+    # )
+    # study_params = sweep_study_param(
+    #     study_params, forward_tube_length.name, [85, 90, 95]
+    # )
+    # study_params = sweep_study_param(
+    #     study_params,
+    #     motor_horiz_center_distance.name,
+    #     [200, 205, 210, 215, 220],
+    # )
 
     return design_name, study_params
