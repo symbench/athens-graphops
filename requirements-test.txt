@@ -2,5 +2,10 @@ gremlinpython<=3.5
 api4jenkins
 creopyson
 pyyaml
+pydantic
+minio
+gql[all]
+python-dotenv
 pytest
 deepdiff
+pytest-timeout
