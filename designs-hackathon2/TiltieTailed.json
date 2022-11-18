@@ -852,7 +852,7 @@
       {
         "assignment": {
           "BASE_ROT": "bottom_prop_hort_tube_l_BASE_ROT",
-          "END_ROT": "bottom_prop_hort_tube_l_END_ROT",
+          "END_ROT": "LeftTiltAngle",
           "Length": "HortSpread",
           "Offset1": "bottom_prop_hort_tube_l_Offset1",
           "Offset2": "bottom_prop_hort_tube_l_Offset2"
@@ -863,7 +863,7 @@
       {
         "assignment": {
           "BASE_ROT": "bottom_prop_hort_tube_r_BASE_ROT",
-          "END_ROT": "bottom_prop_hort_tube_r_END_ROT",
+          "END_ROT": "RightTiltAngle",
           "Length": "HortSpread",
           "Offset1": "bottom_prop_hort_tube_r_Offset1",
           "Offset2": "bottom_prop_hort_tube_r_Offset2"
@@ -939,7 +939,7 @@
         "assignment": {
           "BASE_ROT": "bottom_vert_prop_tube_BASE_ROT",
           "END_ROT": "bottom_vert_prop_tube_END_ROT",
-          "Length": "BottomVertSpread",
+          "Length": "bottom_vert_prop_tube_Length",
           "Offset1": "bottom_vert_prop_tube_Offset1",
           "Offset2": "bottom_vert_prop_tube_Offset2"
         },
@@ -1166,7 +1166,7 @@
         "assignment": {
           "AILERON_BIAS": "tail_wing_l_AILERON_BIAS",
           "CHORD_1": "TailWingChord",
-          "CHORD_2": "tail_wing_l_CHORD_2",
+          "CHORD_2": "TailWingChord",
           "CONTROL_CHANNEL": "tail_wing_l_CONTROL_CHANNEL",
           "FLAP_BIAS": "tail_wing_l_FLAP_BIAS",
           "LOAD": "TailLoad",
@@ -1174,7 +1174,7 @@
           "SERVO_LENGTH": "tail_wing_l_SERVO_LENGTH",
           "SERVO_THICKNESS": "tail_wing_l_SERVO_THICKNESS",
           "SERVO_WIDTH": "tail_wing_l_SERVO_WIDTH",
-          "SPAN": "TailSpan",
+          "SPAN": "tail_wing_l_SPAN",
           "TAPER_OFFSET": "tail_wing_l_TAPER_OFFSET",
           "THICKNESS": "tail_wing_l_THICKNESS",
           "TUBE_DIAMETER": "tail_wing_l_TUBE_DIAMETER",
@@ -1187,7 +1187,7 @@
       {
         "assignment": {
           "AILERON_BIAS": "tail_wing_r_AILERON_BIAS",
-          "CHORD_1": "tail_wing_r_CHORD_1",
+          "CHORD_1": "TailWingChord",
           "CHORD_2": "TailWingChord",
           "CONTROL_CHANNEL": "tail_wing_r_CONTROL_CHANNEL",
           "FLAP_BIAS": "tail_wing_r_FLAP_BIAS",
@@ -1196,7 +1196,7 @@
           "SERVO_LENGTH": "tail_wing_r_SERVO_LENGTH",
           "SERVO_THICKNESS": "tail_wing_r_SERVO_THICKNESS",
           "SERVO_WIDTH": "tail_wing_r_SERVO_WIDTH",
-          "SPAN": "TailSpan",
+          "SPAN": "tail_wing_r_SPAN",
           "TAPER_OFFSET": "tail_wing_r_TAPER_OFFSET",
           "THICKNESS": "tail_wing_r_THICKNESS",
           "TUBE_DIAMETER": "tail_wing_r_TUBE_DIAMETER",
@@ -1241,7 +1241,7 @@
         "assignment": {
           "BASE_ROT": "top_prop_hort_tube_l_BASE_ROT",
           "END_ROT": "LeftTiltAngle",
-          "Length": "HortSpread",
+          "Length": "top_prop_hort_tube_l_Length",
           "Offset1": "top_prop_hort_tube_l_Offset1",
           "Offset2": "top_prop_hort_tube_l_Offset2"
         },

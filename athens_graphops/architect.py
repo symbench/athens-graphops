@@ -1917,7 +1917,7 @@ def create_uno_inline_uav(tail_wing = False):
     designer.close_design(corpus="uav", orient_z_angle=180)
 
 
-def create_tiltie(num_batts = 1, narrow_fuse = True, tail = True):
+def create_tiltie(num_batts = 1, narrow_fuse = False, tail = False):
     """
     This design will place the cargo inline behind the fuselage, but under a single wing.
     The propellers will be tiltable and controllable by a system parameter.

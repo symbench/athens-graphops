@@ -86,6 +86,18 @@
         "instance2": "fuselage"
       },
       {
+        "connector1": "Bottom_Connector",
+        "connector2": "BaseConnection",
+        "instance1": "back_hub",
+        "instance2": "cargo_attach_tube"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "back_hub",
+        "instance2": "center_cargo_tube"
+      },
+      {
         "connector1": "MotorPower",
         "connector2": "MotorPower",
         "instance1": "bottom_l_motor",
@@ -266,6 +278,18 @@
         "instance2": "cargo_case"
       },
       {
+        "connector1": "BaseConnection",
+        "connector2": "Bottom_Connector",
+        "instance1": "cargo_attach_tube",
+        "instance2": "back_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Top_Connector",
+        "instance1": "cargo_attach_tube",
+        "instance2": "cargo_hub"
+      },
+      {
         "connector1": "CargoConnector",
         "connector2": "CargoConnector",
         "instance1": "cargo_case",
@@ -278,22 +302,22 @@
         "instance2": "cargo_hub"
       },
       {
+        "connector1": "Top_Connector",
+        "connector2": "EndConnection",
+        "instance1": "cargo_hub",
+        "instance2": "cargo_attach_tube"
+      },
+      {
         "connector1": "Bottom_Connector",
         "connector2": "Case2HubConnector",
         "instance1": "cargo_hub",
         "instance2": "cargo_case"
       },
       {
-        "connector1": "Side_Connector_2",
-        "connector2": "EndConnection",
-        "instance1": "cargo_hub",
-        "instance2": "center_cargo_tube"
-      },
-      {
         "connector1": "EndConnection",
-        "connector2": "Side_Connector_2",
+        "connector2": "Side_Connector_1",
         "instance1": "center_cargo_tube",
-        "instance2": "cargo_hub"
+        "instance2": "back_hub"
       },
       {
         "connector1": "BaseConnection",
@@ -644,7 +668,7 @@
         "assignment": {
           "ROTATION": "Battery_1_ROTATION"
         },
-        "model": "Tattu30C12000mAh6S1P",
+        "model": "Tattu25C23000mAh6S1PHV",
         "name": "Battery_1"
       },
       {
@@ -691,9 +715,18 @@
       },
       {
         "assignment": {
+          "ANGHORZCONN": "back_hub_ANGHORZCONN",
+          "ANGVERTCONN": "back_hub_ANGVERTCONN",
+          "DIAMETER": "back_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "back_hub"
+      },
+      {
+        "assignment": {
           "CONTROL_CHANNEL": "bottom_l_motor_CONTROL_CHANNEL"
         },
-        "model": "t_motor_AntigravityMN4006KV380",
+        "model": "t_motor_AntigravityMN5008KV340",
         "name": "bottom_l_motor"
       },
       {
@@ -701,7 +734,7 @@
           "Direction": "bottom_l_prop_Direction",
           "Prop_type": "bottom_l_prop_Prop_type"
         },
-        "model": "apc_propellers_12x3_8SF",
+        "model": "apc_propellers_13x14",
         "name": "bottom_l_prop"
       },
       {
@@ -724,7 +757,7 @@
         "assignment": {
           "BASE_ROT": "bottom_prop_hort_tube_l_BASE_ROT",
           "END_ROT": "bottom_prop_hort_tube_l_END_ROT",
-          "Length": "HortSpread",
+          "Length": "bottom_prop_hort_tube_l_Length",
           "Offset1": "bottom_prop_hort_tube_l_Offset1",
           "Offset2": "bottom_prop_hort_tube_l_Offset2"
         },
@@ -734,7 +767,7 @@
       {
         "assignment": {
           "BASE_ROT": "bottom_prop_hort_tube_r_BASE_ROT",
-          "END_ROT": "bottom_prop_hort_tube_r_END_ROT",
+          "END_ROT": "RightTiltAngle",
           "Length": "HortSpread",
           "Offset1": "bottom_prop_hort_tube_r_Offset1",
           "Offset2": "bottom_prop_hort_tube_r_Offset2"
@@ -795,7 +828,7 @@
         "assignment": {
           "CONTROL_CHANNEL": "bottom_r_motor_CONTROL_CHANNEL"
         },
-        "model": "t_motor_AntigravityMN4006KV380",
+        "model": "t_motor_AntigravityMN5008KV340",
         "name": "bottom_r_motor"
       },
       {
@@ -803,14 +836,14 @@
           "Direction": "bottom_r_prop_Direction",
           "Prop_type": "bottom_r_prop_Prop_type"
         },
-        "model": "apc_propellers_12x3_8SF",
+        "model": "apc_propellers_13x14",
         "name": "bottom_r_prop"
       },
       {
         "assignment": {
           "BASE_ROT": "bottom_vert_prop_tube_BASE_ROT",
           "END_ROT": "bottom_vert_prop_tube_END_ROT",
-          "Length": "BottomVertSpread",
+          "Length": "bottom_vert_prop_tube_Length",
           "Offset1": "bottom_vert_prop_tube_Offset1",
           "Offset2": "bottom_vert_prop_tube_Offset2"
         },
@@ -826,6 +859,17 @@
       },
       {
         "assignment": {
+          "BASE_ROT": "cargo_attach_tube_BASE_ROT",
+          "END_ROT": "cargo_attach_tube_END_ROT",
+          "Length": "cargo_attach_tube_Length",
+          "Offset1": "cargo_attach_tube_Offset1",
+          "Offset2": "cargo_attach_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "cargo_attach_tube"
+      },
+      {
+        "assignment": {
           "Rotation": "cargo_case_Rotation"
         },
         "model": "CargoCase",
@@ -837,7 +881,7 @@
           "ANGVERTCONN": "cargo_hub_ANGVERTCONN",
           "DIAMETER": "cargo_hub_DIAMETER"
         },
-        "model": "0394od_para_hub_4",
+        "model": "0394od_para_hub_2",
         "name": "cargo_hub"
       },
       {
@@ -884,7 +928,7 @@
         "assignment": {
           "AILERON_BIAS": "front_wing_AILERON_BIAS",
           "CHORD_1": "WingChord",
-          "CHORD_2": "front_wing_CHORD_2",
+          "CHORD_2": "WingChord",
           "CONTROL_CHANNEL": "front_wing_CONTROL_CHANNEL",
           "FLAP_BIAS": "front_wing_FLAP_BIAS",
           "LOAD": "front_wing_LOAD",
@@ -964,7 +1008,7 @@
         "assignment": {
           "CONTROL_CHANNEL": "top_l_motor_CONTROL_CHANNEL"
         },
-        "model": "t_motor_AntigravityMN4006KV380",
+        "model": "t_motor_AntigravityMN5008KV340",
         "name": "top_l_motor"
       },
       {
@@ -972,7 +1016,7 @@
           "Direction": "top_l_prop_Direction",
           "Prop_type": "top_l_prop_Prop_type"
         },
-        "model": "apc_propellers_12x3_8SF",
+        "model": "apc_propellers_13x14",
         "name": "top_l_prop"
       },
       {
@@ -994,8 +1038,8 @@
       {
         "assignment": {
           "BASE_ROT": "top_prop_hort_tube_l_BASE_ROT",
-          "END_ROT": "LeftTiltAngle",
-          "Length": "top_prop_hort_tube_l_Length",
+          "END_ROT": "top_prop_hort_tube_l_END_ROT",
+          "Length": "HortSpread",
           "Offset1": "top_prop_hort_tube_l_Offset1",
           "Offset2": "top_prop_hort_tube_l_Offset2"
         },
@@ -1005,7 +1049,7 @@
       {
         "assignment": {
           "BASE_ROT": "top_prop_hort_tube_r_BASE_ROT",
-          "END_ROT": "RightTiltAngle",
+          "END_ROT": "top_prop_hort_tube_r_END_ROT",
           "Length": "HortSpread",
           "Offset1": "top_prop_hort_tube_r_Offset1",
           "Offset2": "top_prop_hort_tube_r_Offset2"
@@ -1066,7 +1110,7 @@
         "assignment": {
           "CONTROL_CHANNEL": "top_r_motor_CONTROL_CHANNEL"
         },
-        "model": "t_motor_AntigravityMN4006KV380",
+        "model": "t_motor_AntigravityMN5008KV340",
         "name": "top_r_motor"
       },
       {
@@ -1074,14 +1118,14 @@
           "Direction": "top_r_prop_Direction",
           "Prop_type": "top_r_prop_Prop_type"
         },
-        "model": "apc_propellers_12x3_8SF",
+        "model": "apc_propellers_13x14",
         "name": "top_r_prop"
       },
       {
         "assignment": {
           "BASE_ROT": "top_vert_prop_tube_BASE_ROT",
           "END_ROT": "top_vert_prop_tube_END_ROT",
-          "Length": "top_vert_prop_tube_Length",
+          "Length": "TopVertSpread",
           "Offset1": "top_vert_prop_tube_Offset1",
           "Offset2": "top_vert_prop_tube_Offset2"
         },
@@ -1105,6 +1149,9 @@
       "Variometer_ROTATION": "90",
       "Voltage_ROTATION": "90",
       "WingChord": "150",
+      "back_hub_ANGHORZCONN": "0",
+      "back_hub_ANGVERTCONN": "0",
+      "back_hub_DIAMETER": "7.1474",
       "bottom_l_motor_CONTROL_CHANNEL": "5",
       "bottom_l_prop_Direction": "-1",
       "bottom_l_prop_Prop_type": "-1",
@@ -1149,6 +1196,11 @@
       "bottom_vert_prop_tube_Length": "100",
       "bottom_vert_prop_tube_Offset1": "0",
       "bottom_vert_prop_tube_Offset2": "0",
+      "cargo_attach_tube_BASE_ROT": "0",
+      "cargo_attach_tube_END_ROT": "180",
+      "cargo_attach_tube_Length": "5",
+      "cargo_attach_tube_Offset1": "0",
+      "cargo_attach_tube_Offset2": "0",
       "cargo_case_Rotation": "0",
       "cargo_hub_ANGHORZCONN": "0",
       "cargo_hub_ANGVERTCONN": "0",
