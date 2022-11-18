@@ -36,7 +36,7 @@ def create_falcon_s4():
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
         "Q_Position": 0.039810717,
         "Q_Velocity": 0.001995262,
         "Q_Angular_Velocity": 0.630957345,
@@ -67,7 +67,7 @@ def create_falcon_s4_rotated():
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
         "Q_Position": 0.006309573436029592,
         "Q_Velocity": 0.012589252130622394,
         "Q_Angular_Velocity": 1.584893193766809,
@@ -78,7 +78,52 @@ def create_falcon_s4_rotated():
     return design_name, study_params
 
 
-def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
+def create_falcon_s8_rotated():
+    design_name, study_params = falcon_s_platform(
+        "8RotatedCargoCase",
+        n_quads=2,
+        cargo_rotation=135.5,
+        forward_tube_length=95,
+        wing_span=360,
+        wing_chord=65,
+        wing_gap=80,
+    )
+
+    # Model-specific tweaks
+    study_params = {
+        **study_params,
+        "CargoMass": [0.5, 0.001],
+        "Flight_Path": 9,
+        "Requested_Lateral_Speed": [38, 35],
+        "Requested_Vertical_Speed": -13,
+        "Requested_Vertical_Down_Speed": [21, 18.5],
+        "Requested_Lateral_Acceleration": 3.5,
+        "Requested_Lateral_Deceleration": [-5.5, -6],
+        "Requested_Vertical_Acceleration": [-7.5, -8],
+        "Requested_Vertical_Deceleration": [17.5, 18],
+        # James suggested not to tweak these
+        # "Landing_Approach_Height": 3,
+        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
+        "Q_Position": 0.025118864315095798,
+        "Q_Velocity": 0.0015848931924611134,
+        "Q_Angular_Velocity": 15.848931924611142,
+        "Q_Angles": 0.6309573444801934,
+        "Ctrl_R": 10.0,
+    }
+
+    return design_name, study_params
+
+
+def falcon_s_platform(
+    variant,
+    n_quads=1,
+    cargo_rotation=0.0,
+    forward_tube_length=200,
+    wing_span=390,
+    wing_chord=55,
+    wing_gap=50
+):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
     it only creates the graph design).
@@ -97,16 +142,18 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
 
     ########################################
     # Tunable params
-    wing_span = designer.set_study_param("wing_span", 390)
+    wing_span = designer.set_study_param("wing_span", wing_span)
     # extra space (50mm) around the fuselage
     wing_tube_length = designer.set_study_param(
-        "wing_tube_length", designer.param_value(wing_span) + 50
+        "wing_tube_length", designer.param_value(wing_span) + wing_gap
     )
-    wing_chord = designer.set_study_param("wing_chord", 55)
+    wing_chord = designer.set_study_param("wing_chord", wing_chord)
     wing_load = designer.set_study_param("wing_load", 50)
 
     # distance of the motor plane from the wing root
-    forward_tube_length = designer.set_study_param("forward_tube_length", 200)
+    forward_tube_length = designer.set_study_param(
+        "forward_tube_length", forward_tube_length
+    )
     # horizontal separation between the motors
     motor_horiz_distance = designer.set_study_param(
         "motor_horiz_distance", 400
@@ -467,7 +514,7 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
         "Q_Position": 0.039810717,
         "Q_Velocity": 0.001995262,
         "Q_Angular_Velocity": 0.630957345,
@@ -489,7 +536,7 @@ def falcon_s_platform(variant, n_quads=1, cargo_rotation=0.0):
     #     study_params, wing_chord.name, [55, 60, 65, 70]
     # )
     # study_params = sweep_study_param(
-    #     study_params, forward_tube_length.name, [85, 90, 95]
+    #     study_params, forward_tube_length.name, [85, 90, 95, 130, 170, 200]
     # )
     # study_params = sweep_study_param(
     #     study_params,
