@@ -36,7 +36,7 @@ def create_falcon_sm4():
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
         "Q_Position": 0.039810717,
         "Q_Velocity": 0.001995262,
         "Q_Angular_Velocity": 0.630957345,
@@ -67,7 +67,7 @@ def create_falcon_sm4_rotated():
         # James suggested not to tweak these, but we do
         "Landing_Approach_Height": 1.5,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        "Vertical_Landing_Speed_at_Ground": 0.05,
+        "Vertical_Landing_Speed_At_Ground": 0.05,
         "Q_Position": [0.009999999986096776, 0.01995262312194822],
         "Q_Velocity": [0.03162277160976345, 0.31622771609763467],
         "Q_Angular_Velocity": [3.1622776627735836, 7.943282353786793],
