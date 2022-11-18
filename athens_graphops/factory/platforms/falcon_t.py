@@ -482,7 +482,7 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
         # James suggested not to tweak these
         # "Landing_Approach_Height": 3,
         # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_at_Ground": 0.1,
+        # "Vertical_Landing_Speed_At_Ground": 0.1,
         "Q_Position": 1,
         "Q_Velocity": 0.5,
         "Q_Angular_Velocity": 1,

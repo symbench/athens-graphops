@@ -16,7 +16,7 @@ fdm:
   Requested_Vertical_Acceleration: -0.2
   Requested_Vertical_Deceleration: 0.2
   Landing_Approach_Height: 3
-  Vertical_Landing_Speed_at_Ground: 0.1
+  Vertical_Landing_Speed_At_Ground: 0.1
   Q_Position: 1
   Q_Velocity: 1
   Q_Angular_Velocity: 1
