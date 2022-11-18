@@ -1,0 +1,1584 @@
+[
+  {
+    "connections": [
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector5",
+        "instance1": "Autopilot",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "BatteryPower",
+        "connector2": "PowerBus",
+        "instance1": "BatteryController",
+        "instance2": "Battery_1"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "bottom_l_motor"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "bottom_r_motor"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "top_l_motor"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "BatteryController",
+        "instance2": "top_r_motor"
+      },
+      {
+        "connector1": "PowerBus",
+        "connector2": "BatteryPower",
+        "instance1": "Battery_1",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "FloorConnector1",
+        "instance1": "Battery_1",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector4",
+        "instance1": "Current",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector7",
+        "instance1": "GPS",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "ORIENTCONN",
+        "connector2": "Orient_Connector",
+        "instance1": "Orient",
+        "instance2": "center_hub"
+      },
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector3",
+        "instance1": "RpmTemp",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector8",
+        "instance1": "Variometer",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "SensorConnector",
+        "connector2": "FloorConnector6",
+        "instance1": "Voltage",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "BaseConnection",
+        "instance1": "back_hub",
+        "instance2": "cargo_attach_tube"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "back_hub",
+        "instance2": "center_cargo_tube"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "back_hub",
+        "instance2": "tail_extension_tube"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "bottom_l_motor",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "bottom_l_motor",
+        "instance2": "bottom_l_prop"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "bottom_l_motor",
+        "instance2": "bottom_prop_flange_l"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "bottom_l_prop",
+        "instance2": "bottom_l_motor"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "bottom_prop_flange_l",
+        "instance2": "bottom_l_motor"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "bottom_prop_flange_l",
+        "instance2": "bottom_prop_tilt_tube_l"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "bottom_prop_flange_r",
+        "instance2": "bottom_prop_tilt_tube_r"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "bottom_prop_flange_r",
+        "instance2": "bottom_r_motor"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "bottom_prop_hort_tube_l",
+        "instance2": "bottom_prop_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "bottom_prop_hort_tube_l",
+        "instance2": "bottom_prop_hub_l"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "bottom_prop_hort_tube_r",
+        "instance2": "bottom_prop_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "bottom_prop_hort_tube_r",
+        "instance2": "bottom_prop_hub_r"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "bottom_prop_hub",
+        "instance2": "bottom_prop_hort_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "bottom_prop_hub",
+        "instance2": "bottom_prop_hort_tube_r"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "EndConnection",
+        "instance1": "bottom_prop_hub",
+        "instance2": "bottom_vert_prop_tube"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "EndConnection",
+        "instance1": "bottom_prop_hub_l",
+        "instance2": "bottom_prop_hort_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "bottom_prop_hub_l",
+        "instance2": "bottom_prop_tilt_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "bottom_prop_hub_r",
+        "instance2": "bottom_prop_hort_tube_r"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "bottom_prop_hub_r",
+        "instance2": "bottom_prop_tilt_tube_r"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "bottom_prop_tilt_tube_l",
+        "instance2": "bottom_prop_flange_l"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "bottom_prop_tilt_tube_l",
+        "instance2": "bottom_prop_hub_l"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "bottom_prop_tilt_tube_r",
+        "instance2": "bottom_prop_flange_r"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "bottom_prop_tilt_tube_r",
+        "instance2": "bottom_prop_hub_r"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "bottom_r_motor",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "bottom_r_motor",
+        "instance2": "bottom_prop_flange_r"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "bottom_r_motor",
+        "instance2": "bottom_r_prop"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "bottom_r_prop",
+        "instance2": "bottom_r_motor"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Top_Connector",
+        "instance1": "bottom_vert_prop_tube",
+        "instance2": "bottom_prop_hub"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "bottom_vert_prop_tube",
+        "instance2": "front_hub"
+      },
+      {
+        "connector1": "CargoConnector",
+        "connector2": "CargoConnector",
+        "instance1": "cargo",
+        "instance2": "cargo_case"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Bottom_Connector",
+        "instance1": "cargo_attach_tube",
+        "instance2": "back_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Top_Connector",
+        "instance1": "cargo_attach_tube",
+        "instance2": "cargo_hub"
+      },
+      {
+        "connector1": "CargoConnector",
+        "connector2": "CargoConnector",
+        "instance1": "cargo_case",
+        "instance2": "cargo"
+      },
+      {
+        "connector1": "Case2HubConnector",
+        "connector2": "Bottom_Connector",
+        "instance1": "cargo_case",
+        "instance2": "cargo_hub"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "EndConnection",
+        "instance1": "cargo_hub",
+        "instance2": "cargo_attach_tube"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "Case2HubConnector",
+        "instance1": "cargo_hub",
+        "instance2": "cargo_case"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "center_cargo_tube",
+        "instance2": "back_hub"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "center_cargo_tube",
+        "instance2": "center_hub"
+      },
+      {
+        "connector1": "Orient_Connector",
+        "connector2": "ORIENTCONN",
+        "instance1": "center_hub",
+        "instance2": "Orient"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "center_hub",
+        "instance2": "center_cargo_tube"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "center_hub",
+        "instance2": "center_tube_prop"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "BaseConnection",
+        "instance1": "center_hub",
+        "instance2": "front_wing_tube"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "EndConnection",
+        "instance1": "center_hub",
+        "instance2": "fuse_hub_tube"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "center_tube_prop",
+        "instance2": "center_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Center_Connector",
+        "instance1": "center_tube_prop",
+        "instance2": "front_hub"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "front_hub",
+        "instance2": "bottom_vert_prop_tube"
+      },
+      {
+        "connector1": "Center_Connector",
+        "connector2": "EndConnection",
+        "instance1": "front_hub",
+        "instance2": "center_tube_prop"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "front_hub",
+        "instance2": "top_vert_prop_tube"
+      },
+      {
+        "connector1": "Wing_Tube_Connector",
+        "connector2": "EndConnection",
+        "instance1": "front_wing",
+        "instance2": "front_wing_tube"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Top_Connector",
+        "instance1": "front_wing_tube",
+        "instance2": "center_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Wing_Tube_Connector",
+        "instance1": "front_wing_tube",
+        "instance2": "front_wing"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Bottom_Connector",
+        "instance1": "fuse_hub_tube",
+        "instance2": "center_hub"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Top_Connector",
+        "instance1": "fuse_hub_tube",
+        "instance2": "main_hub"
+      },
+      {
+        "connector1": "FloorConnector5",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "Autopilot"
+      },
+      {
+        "connector1": "FloorConnector1",
+        "connector2": "Bottom_Connector",
+        "instance1": "fuselage",
+        "instance2": "Battery_1"
+      },
+      {
+        "connector1": "FloorConnector4",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "Current"
+      },
+      {
+        "connector1": "FloorConnector7",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "GPS"
+      },
+      {
+        "connector1": "FloorConnector3",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "RpmTemp"
+      },
+      {
+        "connector1": "FloorConnector8",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "Variometer"
+      },
+      {
+        "connector1": "FloorConnector6",
+        "connector2": "SensorConnector",
+        "instance1": "fuselage",
+        "instance2": "Voltage"
+      },
+      {
+        "connector1": "BottomConnector",
+        "connector2": "Bottom_Connector",
+        "instance1": "fuselage",
+        "instance2": "main_hub"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "BaseConnection",
+        "instance1": "main_hub",
+        "instance2": "fuse_hub_tube"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "BottomConnector",
+        "instance1": "main_hub",
+        "instance2": "fuselage"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Top_Connector",
+        "instance1": "tail_attach_tube",
+        "instance2": "tail_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "tail_attach_tube",
+        "instance2": "tail_wing_hub"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "tail_extension_tube",
+        "instance2": "back_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "tail_extension_tube",
+        "instance2": "tail_hub"
+      },
+      {
+        "connector1": "Top_Connector",
+        "connector2": "BaseConnection",
+        "instance1": "tail_hub",
+        "instance2": "tail_attach_tube"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "tail_hub",
+        "instance2": "tail_extension_tube"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_3",
+        "instance1": "tail_tube_l",
+        "instance2": "tail_wing_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Wing_Tube_Connector",
+        "instance1": "tail_tube_l",
+        "instance2": "tail_wing_l"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "tail_tube_r",
+        "instance2": "tail_wing_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Wing_Tube_Connector",
+        "instance1": "tail_tube_r",
+        "instance2": "tail_wing_r"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "tail_wing_hub",
+        "instance2": "tail_attach_tube"
+      },
+      {
+        "connector1": "Side_Connector_3",
+        "connector2": "BaseConnection",
+        "instance1": "tail_wing_hub",
+        "instance2": "tail_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "tail_wing_hub",
+        "instance2": "tail_tube_r"
+      },
+      {
+        "connector1": "Wing_Tube_Connector",
+        "connector2": "EndConnection",
+        "instance1": "tail_wing_l",
+        "instance2": "tail_tube_l"
+      },
+      {
+        "connector1": "Wing_Tube_Connector",
+        "connector2": "EndConnection",
+        "instance1": "tail_wing_r",
+        "instance2": "tail_tube_r"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "top_l_motor",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "top_l_motor",
+        "instance2": "top_l_prop"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "top_l_motor",
+        "instance2": "top_prop_flange_l"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "top_l_prop",
+        "instance2": "top_l_motor"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "top_prop_flange_l",
+        "instance2": "top_l_motor"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "top_prop_flange_l",
+        "instance2": "top_prop_tilt_tube_l"
+      },
+      {
+        "connector1": "SideConnector",
+        "connector2": "EndConnection",
+        "instance1": "top_prop_flange_r",
+        "instance2": "top_prop_tilt_tube_r"
+      },
+      {
+        "connector1": "TopConnector",
+        "connector2": "Base_Connector",
+        "instance1": "top_prop_flange_r",
+        "instance2": "top_r_motor"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "top_prop_hort_tube_l",
+        "instance2": "top_prop_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "top_prop_hort_tube_l",
+        "instance2": "top_prop_hub_l"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "top_prop_hort_tube_r",
+        "instance2": "top_prop_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "top_prop_hort_tube_r",
+        "instance2": "top_prop_hub_r"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "top_prop_hub",
+        "instance2": "top_prop_hort_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "top_prop_hub",
+        "instance2": "top_prop_hort_tube_r"
+      },
+      {
+        "connector1": "Bottom_Connector",
+        "connector2": "EndConnection",
+        "instance1": "top_prop_hub",
+        "instance2": "top_vert_prop_tube"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "EndConnection",
+        "instance1": "top_prop_hub_l",
+        "instance2": "top_prop_hort_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "BaseConnection",
+        "instance1": "top_prop_hub_l",
+        "instance2": "top_prop_tilt_tube_l"
+      },
+      {
+        "connector1": "Side_Connector_2",
+        "connector2": "EndConnection",
+        "instance1": "top_prop_hub_r",
+        "instance2": "top_prop_hort_tube_r"
+      },
+      {
+        "connector1": "Side_Connector_1",
+        "connector2": "BaseConnection",
+        "instance1": "top_prop_hub_r",
+        "instance2": "top_prop_tilt_tube_r"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "top_prop_tilt_tube_l",
+        "instance2": "top_prop_flange_l"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_2",
+        "instance1": "top_prop_tilt_tube_l",
+        "instance2": "top_prop_hub_l"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "SideConnector",
+        "instance1": "top_prop_tilt_tube_r",
+        "instance2": "top_prop_flange_r"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "top_prop_tilt_tube_r",
+        "instance2": "top_prop_hub_r"
+      },
+      {
+        "connector1": "MotorPower",
+        "connector2": "MotorPower",
+        "instance1": "top_r_motor",
+        "instance2": "BatteryController"
+      },
+      {
+        "connector1": "Base_Connector",
+        "connector2": "TopConnector",
+        "instance1": "top_r_motor",
+        "instance2": "top_prop_flange_r"
+      },
+      {
+        "connector1": "Prop_Connector",
+        "connector2": "MOTOR_CONNECTOR_CS_IN",
+        "instance1": "top_r_motor",
+        "instance2": "top_r_prop"
+      },
+      {
+        "connector1": "MOTOR_CONNECTOR_CS_IN",
+        "connector2": "Prop_Connector",
+        "instance1": "top_r_prop",
+        "instance2": "top_r_motor"
+      },
+      {
+        "connector1": "BaseConnection",
+        "connector2": "Side_Connector_1",
+        "instance1": "top_vert_prop_tube",
+        "instance2": "front_hub"
+      },
+      {
+        "connector1": "EndConnection",
+        "connector2": "Bottom_Connector",
+        "instance1": "top_vert_prop_tube",
+        "instance2": "top_prop_hub"
+      }
+    ],
+    "design": "TiltieTailed",
+    "instances": [
+      {
+        "assignment": {
+          "ROTATION": "Autopilot_ROTATION"
+        },
+        "model": "Autopilot",
+        "name": "Autopilot"
+      },
+      {
+        "assignment": {},
+        "model": "BatteryController",
+        "name": "BatteryController"
+      },
+      {
+        "assignment": {
+          "ROTATION": "Battery_1_ROTATION"
+        },
+        "model": "Tattu25C23000mAh6S1PHV",
+        "name": "Battery_1"
+      },
+      {
+        "assignment": {
+          "ROTATION": "Current_ROTATION"
+        },
+        "model": "Current",
+        "name": "Current"
+      },
+      {
+        "assignment": {
+          "ROTATION": "GPS_ROTATION"
+        },
+        "model": "GPS",
+        "name": "GPS"
+      },
+      {
+        "assignment": {
+          "Z_ANGLE": "Orient_Z_ANGLE"
+        },
+        "model": "Orient",
+        "name": "Orient"
+      },
+      {
+        "assignment": {
+          "ROTATION": "RpmTemp_ROTATION"
+        },
+        "model": "RpmTemp",
+        "name": "RpmTemp"
+      },
+      {
+        "assignment": {
+          "ROTATION": "Variometer_ROTATION"
+        },
+        "model": "Variometer",
+        "name": "Variometer"
+      },
+      {
+        "assignment": {
+          "ROTATION": "Voltage_ROTATION"
+        },
+        "model": "Voltage",
+        "name": "Voltage"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "back_hub_ANGHORZCONN",
+          "ANGVERTCONN": "back_hub_ANGVERTCONN",
+          "DIAMETER": "back_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "back_hub"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "bottom_l_motor_CONTROL_CHANNEL"
+        },
+        "model": "t_motor_AntigravityMN5008KV340",
+        "name": "bottom_l_motor"
+      },
+      {
+        "assignment": {
+          "Direction": "bottom_l_prop_Direction",
+          "Prop_type": "bottom_l_prop_Prop_type"
+        },
+        "model": "apc_propellers_13x14",
+        "name": "bottom_l_prop"
+      },
+      {
+        "assignment": {
+          "BOTTOM_ANGLE": "bottom_prop_flange_l_BOTTOM_ANGLE",
+          "SIDE_ANGLE": "bottom_prop_flange_l_SIDE_ANGLE"
+        },
+        "model": "0281_para_flange",
+        "name": "bottom_prop_flange_l"
+      },
+      {
+        "assignment": {
+          "BOTTOM_ANGLE": "bottom_prop_flange_r_BOTTOM_ANGLE",
+          "SIDE_ANGLE": "bottom_prop_flange_r_SIDE_ANGLE"
+        },
+        "model": "0281_para_flange",
+        "name": "bottom_prop_flange_r"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "bottom_prop_hort_tube_l_BASE_ROT",
+          "END_ROT": "bottom_prop_hort_tube_l_END_ROT",
+          "Length": "HortSpread",
+          "Offset1": "bottom_prop_hort_tube_l_Offset1",
+          "Offset2": "bottom_prop_hort_tube_l_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "bottom_prop_hort_tube_l"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "bottom_prop_hort_tube_r_BASE_ROT",
+          "END_ROT": "bottom_prop_hort_tube_r_END_ROT",
+          "Length": "HortSpread",
+          "Offset1": "bottom_prop_hort_tube_r_Offset1",
+          "Offset2": "bottom_prop_hort_tube_r_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "bottom_prop_hort_tube_r"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "bottom_prop_hub_ANGHORZCONN",
+          "ANGVERTCONN": "bottom_prop_hub_ANGVERTCONN",
+          "DIAMETER": "bottom_prop_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "bottom_prop_hub"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "bottom_prop_hub_l_ANGHORZCONN",
+          "ANGVERTCONN": "bottom_prop_hub_l_ANGVERTCONN",
+          "DIAMETER": "bottom_prop_hub_l_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "bottom_prop_hub_l"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "bottom_prop_hub_r_ANGHORZCONN",
+          "ANGVERTCONN": "bottom_prop_hub_r_ANGVERTCONN",
+          "DIAMETER": "bottom_prop_hub_r_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "bottom_prop_hub_r"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "bottom_prop_tilt_tube_l_BASE_ROT",
+          "END_ROT": "bottom_prop_tilt_tube_l_END_ROT",
+          "Length": "bottom_prop_tilt_tube_l_Length",
+          "Offset1": "bottom_prop_tilt_tube_l_Offset1",
+          "Offset2": "bottom_prop_tilt_tube_l_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "bottom_prop_tilt_tube_l"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "bottom_prop_tilt_tube_r_BASE_ROT",
+          "END_ROT": "bottom_prop_tilt_tube_r_END_ROT",
+          "Length": "bottom_prop_tilt_tube_r_Length",
+          "Offset1": "bottom_prop_tilt_tube_r_Offset1",
+          "Offset2": "bottom_prop_tilt_tube_r_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "bottom_prop_tilt_tube_r"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "bottom_r_motor_CONTROL_CHANNEL"
+        },
+        "model": "t_motor_AntigravityMN5008KV340",
+        "name": "bottom_r_motor"
+      },
+      {
+        "assignment": {
+          "Direction": "bottom_r_prop_Direction",
+          "Prop_type": "bottom_r_prop_Prop_type"
+        },
+        "model": "apc_propellers_13x14",
+        "name": "bottom_r_prop"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "bottom_vert_prop_tube_BASE_ROT",
+          "END_ROT": "bottom_vert_prop_tube_END_ROT",
+          "Length": "BottomVertSpread",
+          "Offset1": "bottom_vert_prop_tube_Offset1",
+          "Offset2": "bottom_vert_prop_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "bottom_vert_prop_tube"
+      },
+      {
+        "assignment": {
+          "WEIGHT": "CargoMass"
+        },
+        "model": "Cargo",
+        "name": "cargo"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "cargo_attach_tube_BASE_ROT",
+          "END_ROT": "cargo_attach_tube_END_ROT",
+          "Length": "cargo_attach_tube_Length",
+          "Offset1": "cargo_attach_tube_Offset1",
+          "Offset2": "cargo_attach_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "cargo_attach_tube"
+      },
+      {
+        "assignment": {
+          "Rotation": "cargo_case_Rotation"
+        },
+        "model": "CargoCase",
+        "name": "cargo_case"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "cargo_hub_ANGHORZCONN",
+          "ANGVERTCONN": "cargo_hub_ANGVERTCONN",
+          "DIAMETER": "cargo_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "cargo_hub"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "center_cargo_tube_BASE_ROT",
+          "END_ROT": "center_cargo_tube_END_ROT",
+          "Length": "center_cargo_tube_Length",
+          "Offset1": "center_cargo_tube_Offset1",
+          "Offset2": "center_cargo_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "center_cargo_tube"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "center_hub_ANGHORZCONN",
+          "ANGVERTCONN": "center_hub_ANGVERTCONN",
+          "DIAMETER": "center_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "center_hub"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "center_tube_prop_BASE_ROT",
+          "END_ROT": "center_tube_prop_END_ROT",
+          "Length": "center_tube_prop_Length",
+          "Offset1": "center_tube_prop_Offset1",
+          "Offset2": "center_tube_prop_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "center_tube_prop"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "front_hub_ANGHORZCONN",
+          "ANGVERTCONN": "front_hub_ANGVERTCONN",
+          "DIAMETER": "front_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_3",
+        "name": "front_hub"
+      },
+      {
+        "assignment": {
+          "AILERON_BIAS": "front_wing_AILERON_BIAS",
+          "CHORD_1": "front_wing_CHORD_1",
+          "CHORD_2": "front_wing_CHORD_2",
+          "CONTROL_CHANNEL": "front_wing_CONTROL_CHANNEL",
+          "FLAP_BIAS": "front_wing_FLAP_BIAS",
+          "LOAD": "front_wing_LOAD",
+          "NACA_Profile": "front_wing_NACA_Profile",
+          "SERVO_LENGTH": "front_wing_SERVO_LENGTH",
+          "SERVO_THICKNESS": "front_wing_SERVO_THICKNESS",
+          "SERVO_WIDTH": "front_wing_SERVO_WIDTH",
+          "SPAN": "front_wing_SPAN",
+          "TAPER_OFFSET": "front_wing_TAPER_OFFSET",
+          "THICKNESS": "front_wing_THICKNESS",
+          "TUBE_DIAMETER": "front_wing_TUBE_DIAMETER",
+          "TUBE_OFFSET": "front_wing_TUBE_OFFSET",
+          "TUBE_ROTATION": "front_wing_TUBE_ROTATION"
+        },
+        "model": "Wing_vert_hole",
+        "name": "front_wing"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "front_wing_tube_BASE_ROT",
+          "END_ROT": "front_wing_tube_END_ROT",
+          "Length": "front_wing_tube_Length",
+          "Offset1": "front_wing_tube_Offset1",
+          "Offset2": "front_wing_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "front_wing_tube"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "fuse_hub_tube_BASE_ROT",
+          "END_ROT": "fuse_hub_tube_END_ROT",
+          "Length": "fuse_hub_tube_Length",
+          "Offset1": "fuse_hub_tube_Offset1",
+          "Offset2": "fuse_hub_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "fuse_hub_tube"
+      },
+      {
+        "assignment": {
+          "BOTTOM_CONNECTOR_OFFSET_LENGTH": "fuselage_BOTTOM_CONNECTOR_OFFSET_LENGTH",
+          "BOTTOM_CONNECTOR_OFFSET_WIDTH": "fuselage_BOTTOM_CONNECTOR_OFFSET_WIDTH",
+          "BOTTOM_CONNECTOR_ROTATION": "fuselage_BOTTOM_CONNECTOR_ROTATION",
+          "FLOOR_CONNECTOR_1_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_1_DISP_LENGTH",
+          "FLOOR_CONNECTOR_1_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_1_DISP_WIDTH",
+          "FLOOR_CONNECTOR_3_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_3_DISP_LENGTH",
+          "FLOOR_CONNECTOR_3_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_3_DISP_WIDTH",
+          "FLOOR_CONNECTOR_4_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_4_DISP_LENGTH",
+          "FLOOR_CONNECTOR_4_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_4_DISP_WIDTH",
+          "FLOOR_CONNECTOR_5_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_5_DISP_LENGTH",
+          "FLOOR_CONNECTOR_5_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_5_DISP_WIDTH",
+          "FLOOR_CONNECTOR_6_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_6_DISP_LENGTH",
+          "FLOOR_CONNECTOR_6_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_6_DISP_WIDTH",
+          "FLOOR_CONNECTOR_7_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_7_DISP_LENGTH",
+          "FLOOR_CONNECTOR_7_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_7_DISP_WIDTH",
+          "FLOOR_CONNECTOR_8_DISP_LENGTH": "fuselage_FLOOR_CONNECTOR_8_DISP_LENGTH",
+          "FLOOR_CONNECTOR_8_DISP_WIDTH": "fuselage_FLOOR_CONNECTOR_8_DISP_WIDTH",
+          "FLOOR_HEIGHT": "fuselage_FLOOR_HEIGHT",
+          "FUSE_CYL_LENGTH": "fuselage_FUSE_CYL_LENGTH",
+          "HORZ_DIAMETER": "fuselage_HORZ_DIAMETER",
+          "VERT_DIAMETER": "fuselage_VERT_DIAMETER"
+        },
+        "model": "capsule_fuselage",
+        "name": "fuselage"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "main_hub_ANGHORZCONN",
+          "ANGVERTCONN": "main_hub_ANGVERTCONN",
+          "DIAMETER": "main_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "main_hub"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "tail_attach_tube_BASE_ROT",
+          "END_ROT": "tail_attach_tube_END_ROT",
+          "Length": "tail_attach_tube_Length",
+          "Offset1": "tail_attach_tube_Offset1",
+          "Offset2": "tail_attach_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "tail_attach_tube"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "tail_extension_tube_BASE_ROT",
+          "END_ROT": "tail_extension_tube_END_ROT",
+          "Length": "tail_extension_tube_Length",
+          "Offset1": "tail_extension_tube_Offset1",
+          "Offset2": "tail_extension_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "tail_extension_tube"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "tail_hub_ANGHORZCONN",
+          "ANGVERTCONN": "tail_hub_ANGVERTCONN",
+          "DIAMETER": "tail_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "tail_hub"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "tail_tube_l_BASE_ROT",
+          "END_ROT": "tail_tube_l_END_ROT",
+          "Length": "tail_tube_l_Length",
+          "Offset1": "tail_tube_l_Offset1",
+          "Offset2": "tail_tube_l_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "tail_tube_l"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "tail_tube_r_BASE_ROT",
+          "END_ROT": "tail_tube_r_END_ROT",
+          "Length": "tail_tube_r_Length",
+          "Offset1": "tail_tube_r_Offset1",
+          "Offset2": "tail_tube_r_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "tail_tube_r"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "tail_wing_hub_ANGHORZCONN",
+          "ANGVERTCONN": "tail_wing_hub_ANGVERTCONN",
+          "DIAMETER": "tail_wing_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_3",
+        "name": "tail_wing_hub"
+      },
+      {
+        "assignment": {
+          "AILERON_BIAS": "tail_wing_l_AILERON_BIAS",
+          "CHORD_1": "TailWingChord",
+          "CHORD_2": "tail_wing_l_CHORD_2",
+          "CONTROL_CHANNEL": "tail_wing_l_CONTROL_CHANNEL",
+          "FLAP_BIAS": "tail_wing_l_FLAP_BIAS",
+          "LOAD": "TailLoad",
+          "NACA_Profile": "tail_wing_l_NACA_Profile",
+          "SERVO_LENGTH": "tail_wing_l_SERVO_LENGTH",
+          "SERVO_THICKNESS": "tail_wing_l_SERVO_THICKNESS",
+          "SERVO_WIDTH": "tail_wing_l_SERVO_WIDTH",
+          "SPAN": "TailSpan",
+          "TAPER_OFFSET": "tail_wing_l_TAPER_OFFSET",
+          "THICKNESS": "tail_wing_l_THICKNESS",
+          "TUBE_DIAMETER": "tail_wing_l_TUBE_DIAMETER",
+          "TUBE_OFFSET": "tail_wing_l_TUBE_OFFSET",
+          "TUBE_ROTATION": "tail_wing_l_TUBE_ROTATION"
+        },
+        "model": "Wing_horiz_hole",
+        "name": "tail_wing_l"
+      },
+      {
+        "assignment": {
+          "AILERON_BIAS": "tail_wing_r_AILERON_BIAS",
+          "CHORD_1": "tail_wing_r_CHORD_1",
+          "CHORD_2": "TailWingChord",
+          "CONTROL_CHANNEL": "tail_wing_r_CONTROL_CHANNEL",
+          "FLAP_BIAS": "tail_wing_r_FLAP_BIAS",
+          "LOAD": "tail_wing_r_LOAD",
+          "NACA_Profile": "tail_wing_r_NACA_Profile",
+          "SERVO_LENGTH": "tail_wing_r_SERVO_LENGTH",
+          "SERVO_THICKNESS": "tail_wing_r_SERVO_THICKNESS",
+          "SERVO_WIDTH": "tail_wing_r_SERVO_WIDTH",
+          "SPAN": "TailSpan",
+          "TAPER_OFFSET": "tail_wing_r_TAPER_OFFSET",
+          "THICKNESS": "tail_wing_r_THICKNESS",
+          "TUBE_DIAMETER": "tail_wing_r_TUBE_DIAMETER",
+          "TUBE_OFFSET": "tail_wing_r_TUBE_OFFSET",
+          "TUBE_ROTATION": "tail_wing_r_TUBE_ROTATION"
+        },
+        "model": "Wing_horiz_hole",
+        "name": "tail_wing_r"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "top_l_motor_CONTROL_CHANNEL"
+        },
+        "model": "t_motor_AntigravityMN5008KV340",
+        "name": "top_l_motor"
+      },
+      {
+        "assignment": {
+          "Direction": "top_l_prop_Direction",
+          "Prop_type": "top_l_prop_Prop_type"
+        },
+        "model": "apc_propellers_13x14",
+        "name": "top_l_prop"
+      },
+      {
+        "assignment": {
+          "BOTTOM_ANGLE": "top_prop_flange_l_BOTTOM_ANGLE",
+          "SIDE_ANGLE": "top_prop_flange_l_SIDE_ANGLE"
+        },
+        "model": "0281_para_flange",
+        "name": "top_prop_flange_l"
+      },
+      {
+        "assignment": {
+          "BOTTOM_ANGLE": "top_prop_flange_r_BOTTOM_ANGLE",
+          "SIDE_ANGLE": "top_prop_flange_r_SIDE_ANGLE"
+        },
+        "model": "0281_para_flange",
+        "name": "top_prop_flange_r"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "top_prop_hort_tube_l_BASE_ROT",
+          "END_ROT": "LeftTiltAngle",
+          "Length": "HortSpread",
+          "Offset1": "top_prop_hort_tube_l_Offset1",
+          "Offset2": "top_prop_hort_tube_l_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "top_prop_hort_tube_l"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "top_prop_hort_tube_r_BASE_ROT",
+          "END_ROT": "RightTiltAngle",
+          "Length": "HortSpread",
+          "Offset1": "top_prop_hort_tube_r_Offset1",
+          "Offset2": "top_prop_hort_tube_r_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "top_prop_hort_tube_r"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "top_prop_hub_ANGHORZCONN",
+          "ANGVERTCONN": "top_prop_hub_ANGVERTCONN",
+          "DIAMETER": "top_prop_hub_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "top_prop_hub"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "top_prop_hub_l_ANGHORZCONN",
+          "ANGVERTCONN": "top_prop_hub_l_ANGVERTCONN",
+          "DIAMETER": "top_prop_hub_l_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "top_prop_hub_l"
+      },
+      {
+        "assignment": {
+          "ANGHORZCONN": "top_prop_hub_r_ANGHORZCONN",
+          "ANGVERTCONN": "top_prop_hub_r_ANGVERTCONN",
+          "DIAMETER": "top_prop_hub_r_DIAMETER"
+        },
+        "model": "0394od_para_hub_2",
+        "name": "top_prop_hub_r"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "top_prop_tilt_tube_l_BASE_ROT",
+          "END_ROT": "top_prop_tilt_tube_l_END_ROT",
+          "Length": "top_prop_tilt_tube_l_Length",
+          "Offset1": "top_prop_tilt_tube_l_Offset1",
+          "Offset2": "top_prop_tilt_tube_l_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "top_prop_tilt_tube_l"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "top_prop_tilt_tube_r_BASE_ROT",
+          "END_ROT": "top_prop_tilt_tube_r_END_ROT",
+          "Length": "top_prop_tilt_tube_r_Length",
+          "Offset1": "top_prop_tilt_tube_r_Offset1",
+          "Offset2": "top_prop_tilt_tube_r_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "top_prop_tilt_tube_r"
+      },
+      {
+        "assignment": {
+          "CONTROL_CHANNEL": "top_r_motor_CONTROL_CHANNEL"
+        },
+        "model": "t_motor_AntigravityMN5008KV340",
+        "name": "top_r_motor"
+      },
+      {
+        "assignment": {
+          "Direction": "top_r_prop_Direction",
+          "Prop_type": "top_r_prop_Prop_type"
+        },
+        "model": "apc_propellers_13x14",
+        "name": "top_r_prop"
+      },
+      {
+        "assignment": {
+          "BASE_ROT": "top_vert_prop_tube_BASE_ROT",
+          "END_ROT": "top_vert_prop_tube_END_ROT",
+          "Length": "TopVertSpread",
+          "Offset1": "top_vert_prop_tube_Offset1",
+          "Offset2": "top_vert_prop_tube_Offset2"
+        },
+        "model": "0281OD_para_tube",
+        "name": "top_vert_prop_tube"
+      }
+    ],
+    "parameters": {
+      "Autopilot_ROTATION": "0",
+      "Battery_1_ROTATION": "0",
+      "BottomVertSpread": "100",
+      "CargoMass": "0.5",
+      "Current_ROTATION": "90",
+      "GPS_ROTATION": "0",
+      "HortSpread": "140",
+      "LeftTiltAngle": "315",
+      "Orient_Z_ANGLE": "180",
+      "RightTiltAngle": "45",
+      "RpmTemp_ROTATION": "90",
+      "TailExtension": "50",
+      "TailLoad": "15",
+      "TailSpan": "500",
+      "TailWingChord": "150",
+      "TopVertSpread": "50",
+      "Variometer_ROTATION": "90",
+      "Voltage_ROTATION": "90",
+      "WingChord": "150",
+      "back_hub_ANGHORZCONN": "180",
+      "back_hub_ANGVERTCONN": "0",
+      "back_hub_DIAMETER": "7.1474",
+      "bottom_l_motor_CONTROL_CHANNEL": "5",
+      "bottom_l_prop_Direction": "-1",
+      "bottom_l_prop_Prop_type": "-1",
+      "bottom_prop_flange_l_BOTTOM_ANGLE": "0",
+      "bottom_prop_flange_l_SIDE_ANGLE": "0",
+      "bottom_prop_flange_r_BOTTOM_ANGLE": "0",
+      "bottom_prop_flange_r_SIDE_ANGLE": "0",
+      "bottom_prop_hort_tube_l_BASE_ROT": "0",
+      "bottom_prop_hort_tube_l_END_ROT": "315",
+      "bottom_prop_hort_tube_l_Length": "140",
+      "bottom_prop_hort_tube_l_Offset1": "0",
+      "bottom_prop_hort_tube_l_Offset2": "0",
+      "bottom_prop_hort_tube_r_BASE_ROT": "0",
+      "bottom_prop_hort_tube_r_END_ROT": "45",
+      "bottom_prop_hort_tube_r_Length": "140",
+      "bottom_prop_hort_tube_r_Offset1": "0",
+      "bottom_prop_hort_tube_r_Offset2": "0",
+      "bottom_prop_hub_ANGHORZCONN": "180",
+      "bottom_prop_hub_ANGVERTCONN": "0",
+      "bottom_prop_hub_DIAMETER": "7.1474",
+      "bottom_prop_hub_l_ANGHORZCONN": "90",
+      "bottom_prop_hub_l_ANGVERTCONN": "0",
+      "bottom_prop_hub_l_DIAMETER": "7.1474",
+      "bottom_prop_hub_r_ANGHORZCONN": "90",
+      "bottom_prop_hub_r_ANGVERTCONN": "0",
+      "bottom_prop_hub_r_DIAMETER": "7.1474",
+      "bottom_prop_tilt_tube_l_BASE_ROT": "0",
+      "bottom_prop_tilt_tube_l_END_ROT": "0",
+      "bottom_prop_tilt_tube_l_Length": "50",
+      "bottom_prop_tilt_tube_l_Offset1": "0",
+      "bottom_prop_tilt_tube_l_Offset2": "0",
+      "bottom_prop_tilt_tube_r_BASE_ROT": "0",
+      "bottom_prop_tilt_tube_r_END_ROT": "0",
+      "bottom_prop_tilt_tube_r_Length": "50",
+      "bottom_prop_tilt_tube_r_Offset1": "0",
+      "bottom_prop_tilt_tube_r_Offset2": "0",
+      "bottom_r_motor_CONTROL_CHANNEL": "6",
+      "bottom_r_prop_Direction": "1",
+      "bottom_r_prop_Prop_type": "1",
+      "bottom_vert_prop_tube_BASE_ROT": "0",
+      "bottom_vert_prop_tube_END_ROT": "90",
+      "bottom_vert_prop_tube_Length": "100",
+      "bottom_vert_prop_tube_Offset1": "0",
+      "bottom_vert_prop_tube_Offset2": "0",
+      "cargo_attach_tube_BASE_ROT": "0",
+      "cargo_attach_tube_END_ROT": "180",
+      "cargo_attach_tube_Length": "5",
+      "cargo_attach_tube_Offset1": "0",
+      "cargo_attach_tube_Offset2": "0",
+      "cargo_case_Rotation": "0",
+      "cargo_hub_ANGHORZCONN": "0",
+      "cargo_hub_ANGVERTCONN": "0",
+      "cargo_hub_DIAMETER": "7.1474",
+      "center_cargo_tube_BASE_ROT": "0",
+      "center_cargo_tube_END_ROT": "180",
+      "center_cargo_tube_Length": "305",
+      "center_cargo_tube_Offset1": "0",
+      "center_cargo_tube_Offset2": "0",
+      "center_hub_ANGHORZCONN": "180",
+      "center_hub_ANGVERTCONN": "180",
+      "center_hub_DIAMETER": "7.1474",
+      "center_tube_prop_BASE_ROT": "0",
+      "center_tube_prop_END_ROT": "0",
+      "center_tube_prop_Length": "250",
+      "center_tube_prop_Offset1": "0",
+      "center_tube_prop_Offset2": "0",
+      "front_hub_ANGHORZCONN": "180",
+      "front_hub_ANGVERTCONN": "0",
+      "front_hub_DIAMETER": "7.1474",
+      "front_wing_AILERON_BIAS": "0.5",
+      "front_wing_CHORD_1": "150",
+      "front_wing_CHORD_2": "150",
+      "front_wing_CONTROL_CHANNEL": "1",
+      "front_wing_FLAP_BIAS": "0.5",
+      "front_wing_LOAD": "30",
+      "front_wing_NACA_Profile": "0012",
+      "front_wing_SERVO_LENGTH": "0.1",
+      "front_wing_SERVO_THICKNESS": "0.1",
+      "front_wing_SERVO_WIDTH": "0.1",
+      "front_wing_SPAN": "1200",
+      "front_wing_TAPER_OFFSET": "0",
+      "front_wing_THICKNESS": "12",
+      "front_wing_TUBE_DIAMETER": "7.1474",
+      "front_wing_TUBE_OFFSET": "600.0",
+      "front_wing_TUBE_ROTATION": "180",
+      "front_wing_tube_BASE_ROT": "0",
+      "front_wing_tube_END_ROT": "180",
+      "front_wing_tube_Length": "50",
+      "front_wing_tube_Offset1": "0",
+      "front_wing_tube_Offset2": "0",
+      "fuse_hub_tube_BASE_ROT": "0",
+      "fuse_hub_tube_END_ROT": "0",
+      "fuse_hub_tube_Length": "20",
+      "fuse_hub_tube_Offset1": "0",
+      "fuse_hub_tube_Offset2": "0",
+      "fuselage_BOTTOM_CONNECTOR_OFFSET_LENGTH": "0",
+      "fuselage_BOTTOM_CONNECTOR_OFFSET_WIDTH": "0",
+      "fuselage_BOTTOM_CONNECTOR_ROTATION": "0",
+      "fuselage_FLOOR_CONNECTOR_1_DISP_LENGTH": "0",
+      "fuselage_FLOOR_CONNECTOR_1_DISP_WIDTH": "0",
+      "fuselage_FLOOR_CONNECTOR_3_DISP_LENGTH": "-180",
+      "fuselage_FLOOR_CONNECTOR_3_DISP_WIDTH": "16",
+      "fuselage_FLOOR_CONNECTOR_4_DISP_LENGTH": "-180",
+      "fuselage_FLOOR_CONNECTOR_4_DISP_WIDTH": "-15",
+      "fuselage_FLOOR_CONNECTOR_5_DISP_LENGTH": "147",
+      "fuselage_FLOOR_CONNECTOR_5_DISP_WIDTH": "0",
+      "fuselage_FLOOR_CONNECTOR_6_DISP_LENGTH": "-202",
+      "fuselage_FLOOR_CONNECTOR_6_DISP_WIDTH": "0",
+      "fuselage_FLOOR_CONNECTOR_7_DISP_LENGTH": "-140",
+      "fuselage_FLOOR_CONNECTOR_7_DISP_WIDTH": "0",
+      "fuselage_FLOOR_CONNECTOR_8_DISP_LENGTH": "199",
+      "fuselage_FLOOR_CONNECTOR_8_DISP_WIDTH": "0",
+      "fuselage_FLOOR_HEIGHT": "14",
+      "fuselage_FUSE_CYL_LENGTH": "368",
+      "fuselage_HORZ_DIAMETER": "112",
+      "fuselage_VERT_DIAMETER": "125",
+      "main_hub_ANGHORZCONN": "0",
+      "main_hub_ANGVERTCONN": "180",
+      "main_hub_DIAMETER": "7.1474",
+      "tail_attach_tube_BASE_ROT": "0",
+      "tail_attach_tube_END_ROT": "180",
+      "tail_attach_tube_Length": "25",
+      "tail_attach_tube_Offset1": "0",
+      "tail_attach_tube_Offset2": "0",
+      "tail_extension_tube_BASE_ROT": "0",
+      "tail_extension_tube_END_ROT": "0",
+      "tail_extension_tube_Length": "200",
+      "tail_extension_tube_Offset1": "0",
+      "tail_extension_tube_Offset2": "0",
+      "tail_hub_ANGHORZCONN": "0",
+      "tail_hub_ANGVERTCONN": "0",
+      "tail_hub_DIAMETER": "7.1474",
+      "tail_tube_l_BASE_ROT": "0",
+      "tail_tube_l_END_ROT": "180",
+      "tail_tube_l_Length": "50",
+      "tail_tube_l_Offset1": "0",
+      "tail_tube_l_Offset2": "0",
+      "tail_tube_r_BASE_ROT": "0",
+      "tail_tube_r_END_ROT": "180",
+      "tail_tube_r_Length": "50",
+      "tail_tube_r_Offset1": "0",
+      "tail_tube_r_Offset2": "0",
+      "tail_wing_hub_ANGHORZCONN": "120",
+      "tail_wing_hub_ANGVERTCONN": "0",
+      "tail_wing_hub_DIAMETER": "7.1474",
+      "tail_wing_l_AILERON_BIAS": "0.5",
+      "tail_wing_l_CHORD_1": "150",
+      "tail_wing_l_CHORD_2": "150",
+      "tail_wing_l_CONTROL_CHANNEL": "1",
+      "tail_wing_l_FLAP_BIAS": "0.5",
+      "tail_wing_l_LOAD": "15",
+      "tail_wing_l_NACA_Profile": "0012",
+      "tail_wing_l_SERVO_LENGTH": "0.1",
+      "tail_wing_l_SERVO_THICKNESS": "0.1",
+      "tail_wing_l_SERVO_WIDTH": "0.1",
+      "tail_wing_l_SPAN": "500",
+      "tail_wing_l_TAPER_OFFSET": "0",
+      "tail_wing_l_THICKNESS": "12",
+      "tail_wing_l_TUBE_DIAMETER": "7.1474",
+      "tail_wing_l_TUBE_OFFSET": "600.0",
+      "tail_wing_l_TUBE_ROTATION": "0",
+      "tail_wing_r_AILERON_BIAS": "0.5",
+      "tail_wing_r_CHORD_1": "150",
+      "tail_wing_r_CHORD_2": "150",
+      "tail_wing_r_CONTROL_CHANNEL": "1",
+      "tail_wing_r_FLAP_BIAS": "0.5",
+      "tail_wing_r_LOAD": "15",
+      "tail_wing_r_NACA_Profile": "0012",
+      "tail_wing_r_SERVO_LENGTH": "0.1",
+      "tail_wing_r_SERVO_THICKNESS": "0.1",
+      "tail_wing_r_SERVO_WIDTH": "0.1",
+      "tail_wing_r_SPAN": "500",
+      "tail_wing_r_TAPER_OFFSET": "0",
+      "tail_wing_r_THICKNESS": "12",
+      "tail_wing_r_TUBE_DIAMETER": "7.1474",
+      "tail_wing_r_TUBE_OFFSET": "600.0",
+      "tail_wing_r_TUBE_ROTATION": "0",
+      "top_l_motor_CONTROL_CHANNEL": "3",
+      "top_l_prop_Direction": "1",
+      "top_l_prop_Prop_type": "1",
+      "top_prop_flange_l_BOTTOM_ANGLE": "0",
+      "top_prop_flange_l_SIDE_ANGLE": "0",
+      "top_prop_flange_r_BOTTOM_ANGLE": "0",
+      "top_prop_flange_r_SIDE_ANGLE": "0",
+      "top_prop_hort_tube_l_BASE_ROT": "0",
+      "top_prop_hort_tube_l_END_ROT": "315",
+      "top_prop_hort_tube_l_Length": "140",
+      "top_prop_hort_tube_l_Offset1": "0",
+      "top_prop_hort_tube_l_Offset2": "0",
+      "top_prop_hort_tube_r_BASE_ROT": "0",
+      "top_prop_hort_tube_r_END_ROT": "45",
+      "top_prop_hort_tube_r_Length": "140",
+      "top_prop_hort_tube_r_Offset1": "0",
+      "top_prop_hort_tube_r_Offset2": "0",
+      "top_prop_hub_ANGHORZCONN": "180",
+      "top_prop_hub_ANGVERTCONN": "0",
+      "top_prop_hub_DIAMETER": "7.1474",
+      "top_prop_hub_l_ANGHORZCONN": "90",
+      "top_prop_hub_l_ANGVERTCONN": "0",
+      "top_prop_hub_l_DIAMETER": "7.1474",
+      "top_prop_hub_r_ANGHORZCONN": "90",
+      "top_prop_hub_r_ANGVERTCONN": "0",
+      "top_prop_hub_r_DIAMETER": "7.1474",
+      "top_prop_tilt_tube_l_BASE_ROT": "0",
+      "top_prop_tilt_tube_l_END_ROT": "0",
+      "top_prop_tilt_tube_l_Length": "50",
+      "top_prop_tilt_tube_l_Offset1": "0",
+      "top_prop_tilt_tube_l_Offset2": "0",
+      "top_prop_tilt_tube_r_BASE_ROT": "0",
+      "top_prop_tilt_tube_r_END_ROT": "0",
+      "top_prop_tilt_tube_r_Length": "50",
+      "top_prop_tilt_tube_r_Offset1": "0",
+      "top_prop_tilt_tube_r_Offset2": "0",
+      "top_r_motor_CONTROL_CHANNEL": "4",
+      "top_r_prop_Direction": "-1",
+      "top_r_prop_Prop_type": "-1",
+      "top_vert_prop_tube_BASE_ROT": "0",
+      "top_vert_prop_tube_END_ROT": "90",
+      "top_vert_prop_tube_Length": "50",
+      "top_vert_prop_tube_Offset1": "0",
+      "top_vert_prop_tube_Offset2": "0"
+    }
+  }
+]

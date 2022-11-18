@@ -1917,7 +1917,7 @@ def create_uno_inline_uav(tail_wing = False):
     designer.close_design(corpus="uav", orient_z_angle=180)
 
 
-def create_tiltie():
+def create_tiltie(num_batts = 1, narrow_fuse = True, tail = True):
     """
     This design will place the cargo inline behind the fuselage, but under a single wing.
     The propellers will be tiltable and controllable by a system parameter.
@@ -1925,7 +1925,10 @@ def create_tiltie():
     designer = Designer()
     tube_size = "0281"
     tube_diameter = 7.1474
-    num_batts = 1
+    motor_type = "t_motor_AntigravityMN5008KV340"
+    prop_type = "apc_propellers_13x14"
+    battery_type = "Tattu25C23000mAh6S1PHV"
+    
     if num_batts == 2:
         designer.create_design("Tiltie")
         fuselage = designer.add_fuselage_uav(name="fuselage",
@@ -1933,6 +1936,17 @@ def create_tiltie():
                                             fuse_width=190,
                                             fuse_height=125,
                                             fuse_cyl_length=270,
+                                            bottom_connector_rotation=0)
+    elif narrow_fuse and num_batts == 1:
+        if tail:
+            designer.create_design("TiltieTailed")
+        else:
+            designer.create_design("TiltieTrimmed")
+        fuselage = designer.add_fuselage_uav(name="fuselage",
+                                            floor_height=14,
+                                            fuse_width=112,
+                                            fuse_height=125,
+                                            fuse_cyl_length=368,
                                             bottom_connector_rotation=0)
     elif num_batts == 1:
         designer.create_design("TiltieDyno")
@@ -1974,7 +1988,7 @@ def create_tiltie():
                                 mount_width=-30,
                                 controller_inst=battery_control)
     elif num_batts == 1:
-        designer.add_battery_uav(model="Tattu30C12000mAh6S1P",
+        designer.add_battery_uav(model=battery_type,
                                 name="Battery_1",
                                 fuse_conn_num=1,
                                 mount_length=0,
@@ -2018,6 +2032,42 @@ def create_tiltie():
                             rotation=90,
                             mount_length=155,
                             mount_width=-18)
+    elif narrow_fuse and num_batts == 1:
+        designer.add_sensor(sensor_model="RpmTemp",
+                            name="RpmTemp",
+                            mount_conn_num=3,
+                            rotation=90,
+                            mount_length=-180,
+                            mount_width=16)
+        designer.add_sensor(sensor_model="Current",
+                            name="Current",
+                            mount_conn_num=4,
+                            rotation=90,
+                            mount_length=-180,
+                            mount_width=-15)
+        designer.add_sensor(sensor_model="Autopilot",
+                            name="Autopilot",
+                            mount_conn_num=5,
+                            rotation=0,
+                            mount_length=147,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Voltage",
+                            name="Voltage",
+                            mount_conn_num=6,
+                            rotation=90,
+                            mount_length=-202,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="GPS",
+                            name="GPS",
+                            mount_conn_num=7,
+                            mount_length=-140,
+                            mount_width=0)
+        designer.add_sensor(sensor_model="Variometer",
+                            name="Variometer",
+                            mount_conn_num=8,
+                            rotation=90,
+                            mount_length=199,
+                            mount_width=0)
     elif num_batts == 1:
         designer.add_sensor(sensor_model="RpmTemp",
                             name="RpmTemp",
@@ -2075,23 +2125,46 @@ def create_tiltie():
 
     # Cargo section - tube from 4 way hub (1) to 2 way hub
     cargo_tube_length = 305
+    cargo_attach_tube_length = 5
     center_cargo_tube = designer.add_tube(size=tube_size,
                                           length=cargo_tube_length,
                                           end_rotation=180,
                                           name="center_cargo_tube",
                                           mount_base_inst=center_hub,
                                           mount_base_conn="Side_Connector_2")
+    if tail:
+        back_hub = designer.add_hub(name="back_hub",
+                            num_connects=2,
+                            diameter=tube_diameter,
+                            connector_horizonal_angle=180,
+                            connects=["Side_Connector_1"],
+                            mount_inst=[center_cargo_tube],
+                            mount_conn=["EndConnection"])
+    else:
+        back_hub = designer.add_hub(name="back_hub",
+                                    num_connects=2,
+                                    diameter=tube_diameter,
+                                    connector_horizonal_angle=0,
+                                    connects=["Side_Connector_1"],
+                                    mount_inst=[center_cargo_tube],
+                                    mount_conn=["EndConnection"])
+    cargo_attach_tube = designer.add_tube(size=tube_size,
+                                         length=cargo_attach_tube_length,
+                                         end_rotation=180,
+                                         name="cargo_attach_tube",
+                                         mount_base_inst=back_hub,
+                                         mount_base_conn="Bottom_Connector")
     cargo_hub = designer.add_hub(name="cargo_hub",
-                                 num_connects=4,
-                                 diameter=tube_diameter,
-                                 connector_horizonal_angle=0,
-                                 connects=["Side_Connector_2",
-                                           "Bottom_Connector"],
-                                 mount_inst=[center_cargo_tube, cargo_case],
-                                 mount_conn=["EndConnection", "Case2HubConnector"])
+                                num_connects=2,
+                                diameter=tube_diameter,
+                                connector_horizonal_angle=0,
+                                connector_vertical_angle=0,
+                                connects=["Top_Connector","Bottom_Connector"],
+                                mount_inst=[cargo_attach_tube,cargo_case],
+                                mount_conn=["EndConnection","Case2HubConnector"])
 
-    # Wings section - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
-    #                 2 vertical tubes to attach to vertical wings
+    # Front Wing section - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
+    #                      2 vertical tubes to attach to vertical wings
     NACA_profile = "0012"
     wing_span = 1200
     wing_chord = 150
@@ -2120,6 +2193,88 @@ def create_tiltie():
                           tube_conn="EndConnection")
     designer.set_named_parameter([front_wing], "WingChord", "CHORD_1", wing_chord)
     designer.set_named_parameter([front_wing], "WingChord", "CHORD_2", wing_chord, param_exist=True)
+
+    # Add V tail
+    if tail:
+        tail_extension_length = 200
+        tail_extension_tube = designer.add_tube(size=tube_size,
+                                    length=tail_extension_length,
+                                    end_rotation=0,
+                                    name="tail_extension_tube",
+                                    mount_base_inst=back_hub,
+                                    mount_base_conn="Side_Connector_2")
+        tail_hub = designer.add_hub(name="tail_hub",
+                                    num_connects=2,
+                                    diameter=tube_diameter,
+                                    connector_horizonal_angle=0,
+                                    connects=["Side_Connector_1"],
+                                    mount_inst=[tail_extension_tube],
+                                    mount_conn=["EndConnection"])
+        tail_attach_tube_length = 25
+        tail_attach_tube = designer.add_tube(size=tube_size,
+                                            length=tail_attach_tube_length,
+                                            end_rotation=180,
+                                            name="tail_attach_tube",
+                                            mount_base_inst=tail_hub,
+                                            mount_base_conn="Top_Connector")
+        tail_wing_hub = designer.add_hub(name="tail_wing_hub",
+                                    num_connects=3,
+                                    diameter=tube_diameter,
+                                    connector_horizonal_angle=120,
+                                    connector_vertical_angle=0,
+                                    connects=["Side_Connector_1"],
+                                    mount_inst=[tail_attach_tube],
+                                    mount_conn=["EndConnection"])
+        tail_tube_length = 50
+        tail_tube_l = designer.add_tube(size=tube_size,
+                                        length=tail_tube_length,
+                                        end_rotation=180,
+                                        name="tail_tube_l",
+                                        mount_base_inst=tail_wing_hub,
+                                        mount_base_conn="Side_Connector_3")
+        tail_tube_r = designer.add_tube(size=tube_size,
+                                        length=tail_tube_length,
+                                        end_rotation=180,
+                                        name="tail_tube_r",
+                                        mount_base_inst=tail_wing_hub,
+                                        mount_base_conn="Side_Connector_2")
+        NACA_profile = "0012"
+        tail_wing_span = 500
+        tail_wing_chord = 150
+        tail_wing_thickness = 12
+        tail_wing_load = 15
+        tail_tube_offset = wing_span / 2
+        tail_wing_l = designer.add_wing_uav(direction="Horizontal",
+                            chord=tail_wing_chord,
+                            span=tail_wing_span,
+                            thickness=tail_wing_thickness,
+                            load=tail_wing_load,
+                            naca=NACA_profile,
+                            tube_diameter=tube_diameter,
+                            tube_offset=tail_tube_offset,
+                            tube_rotation=0,
+                            channel=1,
+                            name="tail_wing_l",
+                            tube_inst=tail_tube_l,
+                            tube_conn="EndConnection")
+        tail_wing_r = designer.add_wing_uav(direction="Horizontal",
+                            chord=tail_wing_chord,
+                            span=tail_wing_span,
+                            thickness=tail_wing_thickness,
+                            load=tail_wing_load,
+                            naca=NACA_profile,
+                            tube_diameter=tube_diameter,
+                            tube_offset=tail_tube_offset,
+                            tube_rotation=0,
+                            channel=1,
+                            name="tail_wing_r",
+                            tube_inst=tail_tube_r,
+                            tube_conn="EndConnection")
+        designer.set_named_parameter([tail_wing_l, tail_wing_r], "TailWingChord", "CHORD_1", wing_chord)
+        designer.set_named_parameter([tail_wing_l, tail_wing_r], "TailWingChord", "CHORD_2", wing_chord, param_exist=True)
+        designer.set_named_parameter([tail_wing_l, tail_wing_r], "TailSpan", "SPAN", tail_wing_span)
+        designer.set_named_parameter([tail_wing_l, tail_wing_r], "TailLoad", "LOAD", tail_wing_load)
+        designer.set_named_parameter([tail_tube_l, tail_tube_r], "TailExtension", "LENGTH", tail_tube_length)
 
     # Prop/motor section - tube from 4 way hub (3) to 3 way hub
     #                      2 tubes horizontally to 3 way hubs
@@ -2252,8 +2407,8 @@ def create_tiltie():
                                             mount_side_inst=top_prop_tilt_tube_l,
                                             mount_side_conn="EndConnection"
                                             )
-    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
-                                 prop_model="apc_propellers_12x3_8SF",
+    designer.add_motor_propeller(motor_model=motor_type,
+                                 prop_model=prop_type,
                                  prop_type=1,
                                  direction=1,
                                  control_channel=3,
@@ -2266,8 +2421,8 @@ def create_tiltie():
                                             mount_side_inst=top_prop_tilt_tube_r,
                                             mount_side_conn="EndConnection"
                                             )
-    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
-                                 prop_model="apc_propellers_12x3_8SF",
+    designer.add_motor_propeller(motor_model=motor_type,
+                                 prop_model=prop_type,
                                  prop_type=-1,
                                  direction=-1,
                                  control_channel=4,
@@ -2292,8 +2447,8 @@ def create_tiltie():
                                                mount_side_inst=bottom_prop_tilt_tube_l,
                                                mount_side_conn="EndConnection"
                                                )
-    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
-                                 prop_model="apc_propellers_12x3_8SF",
+    designer.add_motor_propeller(motor_model=motor_type,
+                                 prop_model=prop_type,
                                  prop_type=-1,
                                  direction=-1,
                                  control_channel=5,
@@ -2306,8 +2461,8 @@ def create_tiltie():
                                                mount_side_inst=bottom_prop_tilt_tube_r,
                                                mount_side_conn="EndConnection"
                                                )
-    designer.add_motor_propeller(motor_model="t_motor_AntigravityMN4006KV380",
-                                 prop_model="apc_propellers_12x3_8SF",
+    designer.add_motor_propeller(motor_model=motor_type,
+                                 prop_model=prop_type,
                                  prop_type=1,
                                  direction=1,
                                  control_channel=6,
