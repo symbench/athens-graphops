@@ -1,3 +1,0 @@
-Flight_Path,Requested_Lateral_Speed,Requested_Vertical_Speed,Requested_Vertical_Down_Speed,Requested_Lateral_Acceleration,Requested_Lateral_Deceleration,Requested_Vertical_Acceleration,Requested_Vertical_Deceleration,Q_Position,Q_Velocity,Q_Angular_Velocity,Q_Angles,Ctrl_R,forward_tube_length,wing_span,wing_chord,wing_tube_length,wing_load,motor_horiz_distance,motor_horiz_center_distance,motor_vert_height,motor_vert_depth,CargoMass
-9,38,-13,21,3.5,-5.5,-7.5,17.5,0.025118864315095798,0.0015848931924611134,15.848931924611142,0.6309573444801934,10.0,95,360,65,440,50,400,200,200,200,0.5
-9,35,-13,18.5,3.5,-6,-8,18,0.025118864315095798,0.0015848931924611134,15.848931924611142,0.6309573444801934,10.0,95,360,65,440,50,400,200,200,200,0.001
