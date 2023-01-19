@@ -24,7 +24,7 @@ from . import query
 from . import validate
 from . import designer
 from . import architect
-from . import factory
+from . import platform
 from . import workflow
 from . import json_designer
 
@@ -40,7 +40,7 @@ def run():
         "designer",
         "json-designer",
         "architect",
-        "factory",
+        "platform",
         "workflow",
         "update",
     ]
@@ -94,8 +94,8 @@ def run():
         json_designer.run(args=sys.argv[pos:])
     elif args.command == "architect":
         architect.run(args=sys.argv[pos:])
-    elif args.command == "factory":
-        factory.run(args=sys.argv[pos:])
+    elif args.command == "platform":
+        platform.run(args=sys.argv[pos:])
     elif args.command == "workflow":
         workflow.run(args=sys.argv[pos:])
     elif args.command == "update":
