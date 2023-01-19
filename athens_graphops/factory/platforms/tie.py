@@ -13,7 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from ..workbench import Designer, StudyParam
+from ...designer import Designer, StudyParam
 from .. import sweep_study_param
 
 
@@ -61,7 +61,7 @@ def tie_platform(variant, n_motors=4):
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
-    fuselage = designer.add_fuselage(
+    fuselage = designer.add_fuselage_uav(
         name="fuselage",
         floor_height=20,
         fuse_width=190,
@@ -88,7 +88,7 @@ def tie_platform(variant, n_motors=4):
     ########################################
     # Batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery(
+    designer.add_battery_uav(
         name="Battery_1",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=1,
@@ -97,7 +97,7 @@ def tie_platform(variant, n_motors=4):
         controller_inst=battery_control,
     )
 
-    designer.add_battery(
+    designer.add_battery_uav(
         name="Battery_2",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=2,
@@ -183,7 +183,7 @@ def tie_platform(variant, n_motors=4):
             mount_conn=["OffsetConnection1"],
         )
 
-        wing = designer.add_wing(
+        wing = designer.add_wing_uav(
             name=f"wing_vert_{side}",
             direction="Vertical",
             chord=wing_chord,
@@ -256,7 +256,7 @@ def tie_platform(variant, n_motors=4):
                 mount_base_conn="Side_Connector_2",
             )
 
-            wing = designer.add_wing(
+            wing = designer.add_wing_uav(
                 name=f"wing_slant_{side}_{floor}",
                 direction="Vertical",
                 chord=wing_chord,
@@ -321,7 +321,7 @@ def tie_platform(variant, n_motors=4):
             controller_inst=battery_control,
         )
 
-    designer.close_design(orient_z_angle=90)
+    designer.close_design(corpus="uav", orient_z_angle=90)
 
     study_params = {
         "Flight_Path": 9,

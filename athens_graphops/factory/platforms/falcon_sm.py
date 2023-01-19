@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from ..workbench import Designer, StudyParam
+from ...designer import Designer, StudyParam
 from .. import sweep_study_param
 
 
@@ -123,7 +123,7 @@ def falcon_sm_platform(variant, n_quads=1, cargo_rotation=0.0):
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
-    fuselage = designer.add_fuselage(
+    fuselage = designer.add_fuselage_uav(
         name="fuselage",
         floor_height=14,
         fuse_width=112,
@@ -155,7 +155,7 @@ def falcon_sm_platform(variant, n_quads=1, cargo_rotation=0.0):
     # Batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
 
-    designer.add_battery(
+    designer.add_battery_uav(
         name="Battery_1",
         model=battery_type,
         fuse_conn_num=1,
@@ -234,7 +234,7 @@ def falcon_sm_platform(variant, n_quads=1, cargo_rotation=0.0):
         mount_base_conn="Side_Connector_3",
     )
 
-    wing_r = designer.add_wing(
+    wing_r = designer.add_wing_uav(
         name="wing_r",
         direction="Horizontal",
         chord=wing_chord,
@@ -251,7 +251,7 @@ def falcon_sm_platform(variant, n_quads=1, cargo_rotation=0.0):
         tube_conn="OffsetConnection1",
     )
 
-    wing_l = designer.add_wing(
+    wing_l = designer.add_wing_uav(
         name="wing_l",
         direction="Horizontal",
         chord=wing_chord,
@@ -453,7 +453,7 @@ def falcon_sm_platform(variant, n_quads=1, cargo_rotation=0.0):
             controller_inst=battery_control,
         )
 
-    designer.close_design(orient_z_angle=90)
+    designer.close_design(corpus="uav", orient_z_angle=90)
 
     study_params = {
         "Flight_Path": 9,

@@ -292,8 +292,10 @@ class Designer():
     ##################################
     
     # Add cargo and cargo case
+    # Expect weight to be a study parameter setup by the platform definition
+    #    with the parameter name of "CargoMass"
     def add_cargo(self,
-                  weight: float = 0.5,
+                  weight: StudyParam,
                   rotation: float = 0,
                   name: Optional[str] = None,
                   mount_inst: Optional[Instance] = None,
@@ -304,10 +306,7 @@ class Designer():
 
         # Setup variable to allow .csv file to change the cargo mass
         instance_cargo = self.add_instance("Cargo", name)
-
-        # MM TODO: consider moving this to set_study_param
-        self.set_named_parameter(
-            [instance_cargo], "CargoMass", "WEIGHT", weight)
+        self.set_parameter(instance_cargo, "WEIGHT", weight)
 
         # add cargo case (for attachment)
         case_name = name + "_case"
@@ -374,7 +373,6 @@ class Designer():
 
     # Only 3 tube options (0281, 0394, 05) are valid
     def add_tube(self,
-                 size: str,
                  od: float,
                  length: float,
                  base_rotation: int = 0,

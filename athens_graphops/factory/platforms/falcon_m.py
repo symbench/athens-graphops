@@ -69,7 +69,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
-    fuselage = designer.add_fuselage(
+    fuselage = designer.add_fuselage_uav(
         name="fuselage",
         floor_height=20,
         fuse_width=190,
@@ -98,7 +98,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
     ########################################
     # Batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery(
+    designer.add_battery_uav(
         name="Battery_1",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=1,
@@ -107,7 +107,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
         controller_inst=battery_control,
     )
 
-    designer.add_battery(
+    designer.add_battery_uav(
         name="Battery_2",
         model="TurnigyGraphene6000mAh6S75C",
         fuse_conn_num=2,
@@ -186,7 +186,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
         mount_base_conn="Side_Connector_3",
     )
 
-    wing_r = designer.add_wing(
+    wing_r = designer.add_wing_uav(
         name="wing_r",
         direction="Horizontal",
         chord=wing_chord,
@@ -203,7 +203,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
         tube_conn="OffsetConnection1",
     )
 
-    wing_l = designer.add_wing(
+    wing_l = designer.add_wing_uav(
         name="wing_l",
         direction="Horizontal",
         chord=wing_chord,
@@ -447,7 +447,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
             offset_1=rudder_tube_length,  # type: ignore
         )
 
-        rudder = designer.add_wing(
+        rudder = designer.add_wing_uav(
             name="rudder",
             direction="Horizontal",
             chord=rudder_chord,
@@ -464,7 +464,7 @@ def falcon_m_platform(variant, n_quads=1, with_tail=False, cargo_rotation=0.0):
             tube_conn="OffsetConnection1",
         )
 
-    designer.close_design(orient_z_angle=90)
+    designer.close_design(corpus="uav", orient_z_angle=90)
 
     study_params = {
         "Flight_Path": 9,

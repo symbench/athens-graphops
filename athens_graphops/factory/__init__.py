@@ -150,16 +150,23 @@ def run(args=None):
     )
     parser.add_argument(
         "--jenkins-url",
-        # default="http://localhost:8080/",
-        default="http://laplace.isis.vanderbilt.edu:8080/",
+        default="http://localhost:8080/",
+        # default="http://laplace.isis.vanderbilt.edu:8080/",
         help="Jenkins URL.",
     )
+    #parser.add_argument(
+    #    "--jenkins-user", default="symcps", help="Jenkins username."
+    #)
+    #parser.add_argument(
+    #    "--jenkins-password", default="symcps2021", help="Jenkins password."
+    #)
     parser.add_argument(
-        "--jenkins-user", default="symcps", help="Jenkins username."
+        "--jenkins-user", default="symbench", help="Jenkins username."
     )
     parser.add_argument(
-        "--jenkins-password", default="symcps2021", help="Jenkins password."
+        "--jenkins-password", default="symbench", help="Jenkins password."
     )
+
 
     args = parser.parse_args(args)
     design_name, study_params = designs[args.design]()
