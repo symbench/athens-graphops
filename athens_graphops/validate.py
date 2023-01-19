@@ -258,7 +258,7 @@ def create_many_cylinders():
                     continue
 
                 instance = designer.add_cylinder(
-                    name=designer.get_name(),
+                    name=designer.generate_name(),
                     port_thickness=port_thickness,
                     diameter=diameter,
                     length=length)
@@ -303,7 +303,7 @@ def create_all_motors():
             # Add a cylinder
             cylinder_length = float(
                 model["properties"]["CAN_DIAMETER"]) + length_pad
-            cylinder_name = "cyl_" + designer.get_name()
+            cylinder_name = "cyl_" + designer.generate_name()
             cyl_instance = designer.add_cylinder(
                 name=cylinder_name,
                 port_thickness=cylinder_thickness,
@@ -314,7 +314,7 @@ def create_all_motors():
             previous = cyl_instance
 
             # Add motor
-            motor_name = "motor_" + designer.get_name()
+            motor_name = "motor_" + designer.generate_name()
             motor_instance = designer.add_motor(
                 name=motor_name,
                 model=model["properties"]["MODEL"]

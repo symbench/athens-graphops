@@ -13,7 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import math
 from typing import Optional, Tuple, Union, Any, List, Dict
 
 from .query import Client
@@ -27,6 +27,13 @@ class Instance():
         self.parameters = dict()
 
 
+ # MM TODO:  consider adding component instance association for yaml file setup
+class StudyParam:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+        
+        
 class Designer():
     def __init__(self):
         self.client = None
@@ -43,15 +50,16 @@ class Designer():
 
         self.fuselage = None
 
-    def get_name(self) -> str:
+    def generate_name(self) -> str:
         instance = "inst_{:04}".format(self.nextid)
         self.nextid += 1
         return instance
 
     def add_instance(self, model: str, name: Optional[str]) -> str:
+        assert self.client and self.design
         assert name is None or isinstance(name, str)
         if not name:
-            name = self.get_name()
+            name = self.generate_name()
 
         assert name not in self.instances
 
@@ -68,6 +76,7 @@ class Designer():
 
     def connect(self, instance1: Instance, connector1: str,
                 instance2: Instance, connector2: str):
+        assert self.client and self.design
         assert isinstance(instance1, Instance) and isinstance(
             instance2, Instance)
 
@@ -76,15 +85,33 @@ class Designer():
         self.client.create_connection(
             self.design, instance1.name, connector1, instance2.name, connector2)
 
+    # MM TODO: update usage of set_param, set_study_param, set_named_parameter, get_parameter_name, set_config_param
     def set_parameter(self, instance: Instance, param: str, value: Union[float, str]):
+        assert self.client and self.design
         assert isinstance(instance, Instance)
 
-        full_name = instance.name + "_" + param
-        self.client.create_parameter(self.design, full_name, value)
+        if not isinstance(value, StudyParam):
+            param_name = instance.name + "_" + param
+            self.client.create_parameter(self.design, param_name, value)
+        else:
+            param_name = value.name
+        
         self.client.assign_parameter(
-            self.design, instance.name, param, full_name)
+            self.design, instance.name, param, param_name)
 
-    def set_named_parameter(self, instance: List[Instance], named_param: str, param: str, value: Union[float, str], param_exist = False):
+    def set_study_param(self, param, value):
+        assert self.client and self.design
+        self.client.create_parameter(self.design, param, value)
+        return StudyParam(param, value)
+    
+    @classmethod
+    def param_value(cls, param):
+        if isinstance(param, StudyParam):
+            return param.value
+        return param
+    
+    # MM TODO: this is really set_study_param for a list of instances
+    def set_named_parameter(self, instance: List[Instance], named_param: str, param: str, value: Union[float, str], param_exist=False):
         if not param_exist:
             self.client.create_parameter(self.design, named_param, value)
         for inst in instance:
@@ -92,15 +119,7 @@ class Designer():
             self.client.assign_parameter(
                 self.design, inst.name, param, named_param)
 
-    def get_parameter_name(self, instance: Instance, param: str):
-        assert isinstance(instance, Instance)
-
-        design_param_name = instance.name + "_" + param
-        # Make sure param_name is available in the design
-        design_param_map = self.client.get_parameter_map(self.design)
-        assert design_param_name in design_param_map
-        return design_param_name
-
+    # MM TODO: used for FDM parameters (can replace with set_study_param) and using in json_designer.py
     def set_config_param(self, param: str, value: Union[float, str]):
         self.client.create_parameter(self.design, param, value)
 
@@ -125,6 +144,7 @@ class Designer():
                          right_port_disp: float = 0,
                          name: Optional[str] = None):
         assert self.fuselage is None
+        assert self.param_value(floor_height) > 0
 
         instance = self.add_instance("FUSE_SPHERE_CYL_CONE", name)
         self.set_parameter(instance, "LENGTH", length)
@@ -157,7 +177,8 @@ class Designer():
                          name: Optional[str] = None):
         assert self.fuselage is None
         # provided by SwRI
-        assert floor_height > 0 and floor_height < fuse_height
+        assert self.param_value(floor_height) > 0
+        assert self.param_value(floor_height) < self.param_value(fuse_height)
 
         instance = self.add_instance("capsule_fuselage", name)
         self.set_parameter(instance, "FLOOR_HEIGHT", floor_height)
@@ -202,8 +223,9 @@ class Designer():
             self.connect(self.fuselage, connect_name,
                          mount_inst[num], mount_conn[num])
 
+    ##################################
     # UAM specific components
-    # -----------------------
+    ##################################
     def add_cylinder(self,
                      length: float,
                      diameter: float,
@@ -212,9 +234,10 @@ class Designer():
                      name: Optional[str] = None,
                      mount_inst: Optional[Instance] = None,
                      mount_conn: Optional[str] = None) -> str:
+
         # observed requirements in CREO, but min port_thickness is flaky
-        assert 8 <= port_thickness < diameter <= length
-        assert 0 <= front_angle <= 360
+        assert 8 <= self.param_value(port_thickness) < self.param_value(diameter) <= self.param_value(length)
+        assert 0 <= self.param_value(front_angle <= 360)
 
         instance = self.add_instance("PORTED_CYL", name)
         self.set_parameter(instance, "DIAMETER", diameter)
@@ -264,8 +287,10 @@ class Designer():
                          fuselage_inst, fuselage_conn)
         return instance
 
+    ##################################
     # UAV specific components
-    # -----------------------
+    ##################################
+    
     # Add cargo and cargo case
     def add_cargo(self,
                   weight: float = 0.5,
@@ -275,11 +300,14 @@ class Designer():
                   mount_conn: Optional[str] = None) -> Tuple[str, str]:
 
         # Only two weights are valid
-        assert weight == 0.001 or weight == 0.5
+        assert self.param_value(weight) in [0.001, 0.5]
 
         # Setup variable to allow .csv file to change the cargo mass
         instance_cargo = self.add_instance("Cargo", name)
-        self.set_named_parameter([instance_cargo], "CargoMass", "WEIGHT", weight)
+
+        # MM TODO: consider moving this to set_study_param
+        self.set_named_parameter(
+            [instance_cargo], "CargoMass", "WEIGHT", weight)
 
         # add cargo case (for attachment)
         case_name = name + "_case"
@@ -297,10 +325,10 @@ class Designer():
 
         return instance_cargo, instance_case
 
-     # Only 3 flange options (0281, 0394, 05) are valid
-     # Tubes (of the same size as flange) are inserted into the flange
+    # Only 3 flange options (0281, 0394, 05) are valid
+    # Tubes (of the same size as flange) are inserted into the flange
     def add_flange(self,
-                   size: str,
+                   hole_diameter: float,
                    bottom_angle: int = 0,
                    side_angle: int = 0,
                    name: Optional[str] = None,
@@ -310,13 +338,25 @@ class Designer():
                    mount_bottom_conn: Optional[str] = None,
                    mount_side_inst: Optional[Instance] = None,
                    mount_side_conn: Optional[str] = None) -> str:
-        # Only 3 sizes are valid
-        assert size == "0281" or size == "0394" or size == "05"
 
-        flange_model_dict = {"0281": "0281_para_flange",
-                             "0394": "0394_para_flange",
-                             "05": "05OD_para_flange"}
-        instance = self.add_instance(flange_model_dict[size], name)
+        # models to hole (tube OD) sizes
+        flange_models = {
+            "0281_para_flange": 7.1374,
+            "0394_para_flange": 10.0076,
+            "05OD_para_flange": 12.7
+        }
+        
+        if isinstance(hole_diameter, StudyParam):
+            print("WARNING: flange hole dia is a study parameter (fixed CAD part)")
+            hole_diameter = self.param_value(hole_diameter)
+
+        for flange_model, flange_hole_diameter in flange_models.items():
+            if math.isclose(hole_diameter, flange_hole_diameter, rel_tol=1e-3):
+                break
+        else:
+            raise ValueError("Invalid flange hole diameter", hole_diameter)
+        
+        instance = self.add_instance(flange_model, name)
         self.set_parameter(instance, "BOTTOM_ANGLE", bottom_angle)
         self.set_parameter(instance, "SIDE_ANGLE", side_angle)
 
@@ -335,6 +375,7 @@ class Designer():
     # Only 3 tube options (0281, 0394, 05) are valid
     def add_tube(self,
                  size: str,
+                 od: float,
                  length: float,
                  base_rotation: int = 0,
                  end_rotation: int = 0,
@@ -345,13 +386,24 @@ class Designer():
                  mount_base_conn: Optional[str] = None,
                  mount_end_inst: Optional[Instance] = None,
                  mount_end_conn: Optional[str] = None) -> str:
-        # Only 3 sizes are valid
-        assert size == "0281" or size == "0394" or size == "05"
+         # models to tube OD sizes
+        tube_models = {
+            "0281OD_para_tube": 7.1374,
+            "0394OD_para_tube": 10.0076,
+            "05OD_para_tube": 12.7,
+        }
+ 
+        if isinstance(od, StudyParam):
+            print("WARNING: tube OD is a study parameter (fixed CAD part)")
+            od = self.param_value(od)
 
-        tube_model_dict = {"0281": "0281OD_para_tube",
-                           "0394": "0394OD_para_tube",
-                           "05": "05OD_para_tube"}
-        instance = self.add_instance(tube_model_dict[size], name)
+        for tube_model, tube_od in tube_models.items():
+            if math.isclose(od, tube_od, rel_tol=1e-3):
+                break
+        else:
+            raise ValueError("Invalid tube OD", od)
+
+        instance = self.add_instance(tube_model, name)
         self.set_parameter(instance, "Length", length)
 
         # larger sizes do not have these parameters
@@ -387,6 +439,7 @@ class Designer():
                 mount_conn: Optional[List[str]] = None,
                 orient_base: Optional[bool] = False) -> str:
 
+        assert(2 <= self.param_value(num_connects) <= 6)
         hub_model = "0394od_para_hub_" + str(num_connects)
         instance = self.add_instance(hub_model, name)
         self.set_parameter(instance, "DIAMETER", diameter)
@@ -394,6 +447,9 @@ class Designer():
         self.set_parameter(instance, "ANGVERTCONN", connector_vertical_angle)
 
         if connects:
+            assert mount_inst and len(connects) == len(mount_inst)
+            assert mount_conn and len(connects) == len(mount_conn)
+            
             for i in range(len(connects)):
                 self.connect(instance, connects[i],
                              mount_inst[i], mount_conn[i])
@@ -420,6 +476,7 @@ class Designer():
         instance = self.add_instance(sensor_model, name)
         self.set_parameter(instance, "ROTATION", rotation)
 
+        mount_conn_num = self.param_value(mount_conn_num)
         if mount_conn_num:
             connect_length_name = "FLOOR_CONNECTOR_" + \
                 str(mount_conn_num) + "_DISP_LENGTH"
@@ -434,8 +491,9 @@ class Designer():
 
         return instance
 
+    ##################################
     # Common components
-    # -----------------
+    ##################################
     def add_battery_controller(self, name: Optional[str] = None) -> str:
         instance = self.add_instance("BatteryController", name)
         return instance
@@ -450,8 +508,12 @@ class Designer():
                      left_conn: Optional[str] = None,
                      right_inst: Optional[Instance] = None,
                      right_conn: Optional[str] = None):
-        assert len(naca) == 4 and chord >= 1 and span >= 1 and load >= 1
-        thickness = int(naca[2:4])
+        assert len(self.param_value(naca)) == 4 
+        assert self.param_value(chord) >= 1 
+        assert self.param_value(span) >= 1
+        assert self.param_value(load) >= 1
+        
+        thickness = int(self.param_value(naca[2:4]))
 
         instance = self.add_instance("naca_wing", name)
         self.set_parameter(instance, "NACA_Profile", naca)
@@ -489,9 +551,13 @@ class Designer():
                      name: Optional[str] = None,
                      tube_inst: Optional[Instance] = None,
                      tube_conn: Optional[str] = None):
-        assert len(naca) == 4 and chord >= 1 and span >= 1 and load >= 1
-        assert direction == "Horizontal" or direction == "Vertical"
-        thickness = int(naca[2:4])
+        assert len(self.param_value(naca)) == 4
+        assert self.param_value(chord) >= 1
+        assert self.param_value(span) >= 1
+        assert self.param_value(load) >= 1
+        direction = self.param_value(direction)
+        assert direction in ["Horizontal", "Vertical"]
+        thickness = int(self.param_value(naca[2:4]))
 
         if direction == "Horizontal":
             instance = self.add_instance("Wing_horiz_hole", name)
@@ -531,9 +597,12 @@ class Designer():
                         name: Optional[str] = None,
                         wing_inst: Optional[Instance] = None,
                         controller_inst: Optional[Instance] = None):
-        assert len(naca) == 4 and chord >= 1 and span >= 1
-        assert mount_side in [1, 2] and 0 <= volume_percent <= 100
-        thickness = int(naca[2:4])
+        assert len(self.param_value(naca)) == 4
+        assert self.param_value(chord) >= 1 
+        assert self.param_value(span) >= 1
+        assert self.param_value(mount_side) in [1, 2]
+        assert 0 <= self.param_value(volume_percent) <= 100
+        thickness = int(self.param_value(naca[2:4]))
 
         instance = self.add_instance(model, name)
         self.set_parameter(instance, "THICKNESS", thickness)
@@ -572,12 +641,14 @@ class Designer():
                         mount_width: Optional[float] = 0,
                         controller_inst: Optional[Instance] = None) -> str:
 
+        top_bottom_conn = self.param_value(top_bottom_conn)
         assert top_bottom_conn in [0, 1]
         assert self.fuselage is not None
 
         instance = self.add_instance(model, name)
         self.set_parameter(instance, "ROTATION", rotation)
 
+        fuse_conn_num = self.param_value(fuse_conn_num)
         connect_length_name = "FLOOR_CONNECTOR_" + \
             str(fuse_conn_num) + "_DISP_LENGTH"
         connect_width_name = "FLOOR_CONNECTOR_" + \
@@ -618,12 +689,19 @@ class Designer():
 
         return instance
 
+    # Propeller configuration:
+    # prop_type    direction    description
+    #     1          1          CCW puller
+    #    -1         -1          CW puller
+    #     1         -1          CW pusher
+    #    -1          1          CCW pusher
     def add_propeller(self, model: str,
                       prop_type: int,
                       direction: int,
                       name: Optional[str] = None,
                       motor_inst: Optional[Instance] = None):
-        assert prop_type in [-1, 1] and direction in [-1, 1]
+        assert self.param_value(prop_type) in [-1, 1] 
+        assert self.param_value(direction) in [-1, 1]
 
         instance = self.add_instance(model, name)
         self.set_parameter(instance, "Prop_type", prop_type)
@@ -666,6 +744,7 @@ class Designer():
     def close_design(self,
                      corpus: str = "uam",
                      orient_z_angle: int = 90):
+        assert self.client and self.design
         assert self.fuselage is not None
 
         orient = self.add_instance("Orient", "Orient")

@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# The Client class is the query/submit interface into the the gremlin database. 
+
 from typing import Any, Dict, List, Optional
 
 import csv
