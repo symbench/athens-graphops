@@ -85,7 +85,6 @@ class Designer():
         self.client.create_connection(
             self.design, instance1.name, connector1, instance2.name, connector2)
 
-    # MM TODO: update usage of set_param, set_study_param, set_named_parameter, get_parameter_name, set_config_param
     def set_parameter(self, instance: Instance, param: str, value: Union[float, str]):
         assert self.client and self.design
         assert isinstance(instance, Instance)
@@ -111,6 +110,8 @@ class Designer():
         return param
     
     # MM TODO: this is really set_study_param for a list of instances
+    #          when architect designs are move to platform, this will mostly be removed
+    #          see how json_designer uses this and if that function is kept
     def set_named_parameter(self, instance: List[Instance], named_param: str, param: str, value: Union[float, str], param_exist=False):
         if not param_exist:
             self.client.create_parameter(self.design, named_param, value)
@@ -120,6 +121,8 @@ class Designer():
                 self.design, inst.name, param, named_param)
 
     # MM TODO: used for FDM parameters (can replace with set_study_param) and using in json_designer.py
+    #          when architect designs are move to platform, this will mostly be removed
+    #          see how json_designer uses this and if that function is kept
     def set_config_param(self, param: str, value: Union[float, str]):
         self.client.create_parameter(self.design, param, value)
 
