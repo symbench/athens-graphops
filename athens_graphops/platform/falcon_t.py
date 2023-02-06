@@ -30,6 +30,8 @@ def create_falcon_t4_with_tail():
     return falcon_t_platform("4WithTail", n_quads=1, with_tail=True)
 
 # NOTE: only add platform-specific parameters with structural effects
+
+
 def falcon_t_platform(variant, n_quads=1, with_tail=False):
     """
     Create a minimal design (does not include uam_direct2cad workflow at this time,
@@ -82,7 +84,8 @@ def falcon_t_platform(variant, n_quads=1, with_tail=False):
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
-    cargo, cargo_case = designer.add_cargo(weight=cargo_mass, name="cargo")  # type: ignore
+    cargo, cargo_case = designer.add_cargo(
+        weight=cargo_mass, name="cargo")  # type: ignore
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)

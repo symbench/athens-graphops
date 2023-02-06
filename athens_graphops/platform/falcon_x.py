@@ -26,6 +26,8 @@ def create_falcon_x4_with_tail():
     return falcon_x_platform("4WithTail", n_motors=4, with_tail=True)
 
 # NOTE: only add platform-specific parameters with structural effects
+
+
 def falcon_x_platform(variant, n_motors=4, with_tail=False):
     design_name = "FalconX" + variant
 
@@ -68,7 +70,8 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
-    cargo, cargo_case = designer.add_cargo(weight=cargo_mass, name="cargo")  # type: ignore
+    cargo, cargo_case = designer.add_cargo(
+        weight=cargo_mass, name="cargo")  # type: ignore
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)

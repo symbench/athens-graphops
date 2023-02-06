@@ -30,11 +30,13 @@ def __discover_designs():
         for name, func in inspect.getmembers(mod, inspect.isfunction):
             prefix = "create_"
             if name.startswith(prefix):
-                designs[name[len(prefix) :]] = func
+                designs[name[len(prefix):]] = func
 
     return designs
 
-# MM TODO:  should this be incorporated with other study functions? 
+# MM TODO:  should this be incorporated with other study functions?
+
+
 def write_study_params(design_name, params):
     """Write study parameters to a .csv file for use in Jenkins runs."""
     study_filename = f"{design_name}_study.csv"
@@ -49,7 +51,9 @@ def write_study_params(design_name, params):
     print(f"Study parameters written to {study_filename}.")
     return study_filename
 
-# MM TODO:  should this be incorporated with other study functions? 
+# MM TODO:  should this be incorporated with other study functions?
+
+
 def align_study_params(params):
     """Align the study parameters to the same number of runs.
     This allows to have single values and lists of parameter values.
@@ -76,6 +80,8 @@ def align_study_params(params):
     return aligned_params
 
 # MM TODO:  plan to remove this, keeping for now
+
+
 def sweep_study_param(params, param_name, values):
     """Add or modify a parameter to sweep it in the study parameters."""
     aligned_params = align_study_params(params)
@@ -88,6 +94,7 @@ def sweep_study_param(params, param_name, values):
                 chain(aligned_params[p_name] * len(values))
             )
     return swept_params
+
 
 # MM TODO: integrate with workflow
 """
@@ -147,47 +154,46 @@ def run(args=None):
         "design",
         choices=designs.keys(),
     )
-    #parser.add_argument(
+    # parser.add_argument(
     #    "-r", "--run", action="store_true", help="Run the design."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--minio-url", default="localhost:9000", help="MinIO URL."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--minio-user", default="symcps", help="MinIO username."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--minio-password", default="symcps2021", help="MinIO password."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--minio-bucket", default="symbench", help="MinIO bucket name."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--jenkins-url",
     #    default="http://localhost:8080/",
     #    # default="http://laplace.isis.vanderbilt.edu:8080/",
     #    help="Jenkins URL.",
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--jenkins-user", default="symcps", help="Jenkins username."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--jenkins-password", default="symcps2021", help="Jenkins password."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--jenkins-user", default="symbench", help="Jenkins username."
-    #)
-    #parser.add_argument(
+    # )
+    # parser.add_argument(
     #    "--jenkins-password", default="symbench", help="Jenkins password."
-    #)
-
+    # )
 
     args = parser.parse_args(args)
     design_name, study_params = designs[args.design]()
     study_params = align_study_params(study_params)
     study_filename = write_study_params(design_name, study_params)
 
-    #if args.run:
+    # if args.run:
     #    run_design(design_name, study_filename, args)
 
 

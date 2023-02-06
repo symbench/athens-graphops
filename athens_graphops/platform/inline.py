@@ -15,22 +15,28 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # UAV Design
+# Key Design Feature: Fuselage and cargo horizontally inline
+
 from ..designer import Designer, StudyParam
 
+
 def create_inline():
-    return inline_platform("UAV")
+    """ Two wings"""
+    return inline_platform("UAV", num_wings=2)
+
 
 def create_uno_inline():
-    return inline_platform("Uno")
-
-def create_uno_inline_tail():
-    return inline_platform("UnoTail", with_tail=True)
+    """ Single wing """
+    return inline_platform("Uno", num_wings=1)
 
 
-def inline_platform(variant, with_tail=False):
+def inline_platform(variant, num_wings=2):
     """
-    MM TODO: update 
+    Designs with fuselage and cargo inline horizontally 
+    and under the wing(s).
     """
+    assert num_wings in [1, 2]
+
     design_name = "Inline" + variant
 
     designer = Designer()
@@ -40,6 +46,7 @@ def inline_platform(variant, with_tail=False):
     # Static params
     tube_od = 7.1374
     NACA_profile = "0012"
+    battery_type = "TurnigyGraphene6000mAh6S75C"
     motor_type = "t_motor_AntigravityMN4006KV380"
     prop_type = "apc_propellers_12x3_8SF"
 
@@ -51,16 +58,28 @@ def inline_platform(variant, with_tail=False):
     # Cargo placement
     cargo_tube_length = designer.set_study_param("cargo_tube_length", 305)
 
-    wing_span = designer.set_study_param("wing_span", 550)
+    # wing parameters
+    if num_wings == 2:
+        wing_span = designer.set_study_param("wing_span", 550)
+    elif num_wings == 1:
+        wing_span = designer.set_study_param("wing_span", 1200)
     wing_chord = designer.set_study_param("wing_chord", 150)
     wing_thickness = designer.set_study_param("wing_thickness", 12)
     wing_load = designer.set_study_param("wing_load", 30)
-    # height placement of wings
-    wing_vert_tube_length = designer.set_study_param("wing_vert_tube_length", 50)
 
+    # height placement of wings
+    wing_vert_tube_length = designer.set_study_param(
+        "wing_vert_tube_length", 50)
+    # how far in front of the fuselage is the propeller
     prop_forward_length = designer.set_study_param("prop_forward_length", 250)
-    prop_hort_spread_length = designer.set_study_param("prop_hort_spread_length", 160)
-    prop_vert_spread_length = designer.set_study_param("prop_vert_spread_length", 210)
+    # horizontal spread of each propeller set (left and right)
+    prop_hort_spread_length = designer.set_study_param(
+        "prop_hort_spread_length", 160)
+    # top and bottom vertical spread for propellers
+    prop_vert_spread_length_t = designer.set_study_param(
+        "prop_vert_spread_length_t", 100)
+    prop_vert_spread_length_b = designer.set_study_param(
+        "prop_vert_spread_length_b", 210)
 
     # MM TODO: set CargoMass to 0.001, 0.5
     # Required to run Path 9 which runs with and without cargo
@@ -69,9 +88,11 @@ def inline_platform(variant, with_tail=False):
     ########################################
     # Calculated params
     # set wing tube offset to the middle of the wing
-    tube_offset = designer.set_study_param("tube_offset", designer.param_value(wing_span) / 2)
+    tube_offset = designer.set_study_param(
+        "tube_offset", designer.param_value(wing_span) / 2)
     # spread horizontal tube out base on wing span
-    wing_hort_tube_length = designer.set_study_param("wing_hort_tube_length", designer.param_value(wing_span) - designer.param_value(tube_offset) - 14.93 - (designer.param_value(tube_od) * 1.5) / 2)
+    wing_hort_tube_length = designer.set_study_param("wing_hort_tube_length", designer.param_value(
+        wing_span) - designer.param_value(tube_offset) - 14.93 - (designer.param_value(tube_od) * 1.5) / 2)
 
     ########################################
     # Center (Hub, Fuselage, Cargo)
@@ -99,14 +120,14 @@ def inline_platform(variant, with_tail=False):
     ########################################
     # Batteries
     battery_control = designer.add_battery_controller(name="BatteryController")
-    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+    designer.add_battery_uav(model=battery_type,
                              name="Battery_1",
                              fuse_conn_num=1,
                              mount_length=0,
                              mount_width=30,
                              controller_inst=battery_control)
 
-    designer.add_battery_uav(model="TurnigyGraphene6000mAh6S75C",
+    designer.add_battery_uav(model=battery_type,
                              name="Battery_2",
                              fuse_conn_num=2,
                              mount_length=0,
@@ -152,18 +173,30 @@ def inline_platform(variant, with_tail=False):
                         mount_width=-18)
 
     ########################################
-    # Tube between main hub and center  
+    # Tube between main hub and center
     # structure to move fuselage vertically
+    if num_wings == 2:  # 4 way hub for the two wing supports
+        tube_end_rotation = 180
+        hub_connect_num = 4
+        center_conn_hort_angle = 90
+        center_conn_vert_angle = 0
+    elif num_wings == 1:  # 2 way hub for single support for one wing
+        tube_end_rotation = 0
+        hub_connect_num = 2
+        center_conn_hort_angle = 180
+        center_conn_vert_angle = 180
+
     fuse_hub_tube = designer.add_tube(od=tube_od,
                                       length=fuse_vert_length,
-                                      end_rotation=180,
+                                      end_rotation=tube_end_rotation,
                                       name="fuse_hub_tube",
                                       mount_base_inst=hub_main,
                                       mount_base_conn="Top_Connector")
     center_hub = designer.add_hub(name="center_hub",
-                                  num_connects=4,
+                                  num_connects=hub_connect_num,
                                   diameter=tube_od,
-                                  connector_horizonal_angle=90,
+                                  connector_horizonal_angle=center_conn_hort_angle,
+                                  connector_vertical_angle=center_conn_vert_angle,
                                   connects=["Bottom_Connector"],
                                   mount_inst=[fuse_hub_tube],
                                   mount_conn=["EndConnection"],
@@ -172,18 +205,24 @@ def inline_platform(variant, with_tail=False):
     ########################################
     # Cargo Section
     #   tube from 4 way hub (1) to 2 way hub
+    if num_wings == 2:
+        center_base_conn = "Side_Connector_1"
+        cargo_hub_conn = "Top_Connector"
+    elif num_wings == 1:
+        center_base_conn = "Side_Connector_2"
+        cargo_hub_conn = "Bottom_Connector"
     center_cargo_tube = designer.add_tube(od=tube_od,
                                           length=cargo_tube_length,
                                           end_rotation=180,
                                           name="center_cargo_tube",
                                           mount_base_inst=center_hub,
-                                          mount_base_conn="Side_Connector_1")
+                                          mount_base_conn=center_base_conn)
     cargo_hub = designer.add_hub(name="cargo_hub",
                                  num_connects=4,
                                  diameter=tube_od,
                                  connector_horizonal_angle=0,
                                  connects=["Side_Connector_2",
-                                           "Top_Connector"],
+                                           cargo_hub_conn],
                                  mount_inst=[center_cargo_tube, cargo_case],
                                  mount_conn=["EndConnection", "Case2HubConnector"])
 
@@ -191,72 +230,93 @@ def inline_platform(variant, with_tail=False):
     # Wings
     # - 2 horizontal tubes from 4 way hub (2 & 4) to 2 way hubs
     # - 2 vertical tubes to attach to vertical wings
-    wing_hort_tube_l = designer.add_tube(od=tube_od,
-                                         length=wing_hort_tube_length,
-                                         end_rotation=180,
-                                         name="wing_hort_tube_l",
-                                         mount_base_inst=center_hub,
-                                         mount_base_conn="Side_Connector_2")
-    wing_hort_tube_r = designer.add_tube(od=tube_od,
-                                         length=wing_hort_tube_length,
-                                         end_rotation=180,
-                                         name="wing_hort_tube_r",
-                                         mount_base_inst=center_hub,
-                                         mount_base_conn="Side_Connector_4")
-    wing_hub_l = designer.add_hub(name="wing_hub_l",
-                                  num_connects=2,
-                                  diameter=tube_od,
-                                  connector_horizonal_angle=0,
-                                  connector_vertical_angle=180,
-                                  connects=["Side_Connector_2"],
-                                  mount_inst=[wing_hort_tube_l],
-                                  mount_conn=["EndConnection"])
-    wing_hub_r = designer.add_hub(name="wing_hub_r",
-                                  num_connects=2,
-                                  diameter=tube_od,
-                                  connector_horizonal_angle=0,
-                                  connector_vertical_angle=180,
-                                  connects=["Side_Connector_1"],
-                                  mount_inst=[wing_hort_tube_r],
-                                  mount_conn=["EndConnection"])
-    wing_vert_tube_l = designer.add_tube(od=tube_od,
-                                         length=wing_vert_tube_length,
-                                         end_rotation=180,
-                                         name="wing_vert_tube_l",
-                                         mount_base_inst=wing_hub_l,
-                                         mount_base_conn="Top_Connector")
-    wing_vert_tube_r = designer.add_tube(od=tube_od,
-                                         length=wing_vert_tube_length,
-                                         end_rotation=180,
-                                         name="wing_vert_tube_r",
-                                         mount_base_inst=wing_hub_r,
-                                         mount_base_conn="Top_Connector")
-    designer.add_wing_uav(direction="Vertical",
-                          chord=wing_chord,
-                          span=wing_span,
-                          thickness=wing_thickness,
-                          load=wing_load,
-                          naca=NACA_profile,
-                          tube_diameter=tube_od,
-                          tube_offset=tube_offset,
-                          tube_rotation=90,
-                          channel=1,
-                          name="left_wing",
-                          tube_inst=wing_vert_tube_l,
-                          tube_conn="EndConnection")
-    designer.add_wing_uav(direction="Vertical",
-                          chord=wing_chord,
-                          span=wing_span,
-                          thickness=wing_thickness,
-                          load=wing_load,
-                          naca=NACA_profile,
-                          tube_diameter=tube_od,
-                          tube_offset=tube_offset,
-                          tube_rotation=270,
-                          channel=2,
-                          name="right_wing",
-                          tube_inst=wing_vert_tube_r,
-                          tube_conn="EndConnection")
+    if num_wings == 2:
+        wing_hort_tube_l = designer.add_tube(od=tube_od,
+                                             length=wing_hort_tube_length,
+                                             end_rotation=180,
+                                             name="wing_hort_tube_l",
+                                             mount_base_inst=center_hub,
+                                             mount_base_conn="Side_Connector_2")
+        wing_hort_tube_r = designer.add_tube(od=tube_od,
+                                             length=wing_hort_tube_length,
+                                             end_rotation=180,
+                                             name="wing_hort_tube_r",
+                                             mount_base_inst=center_hub,
+                                             mount_base_conn="Side_Connector_4")
+        wing_hub_l = designer.add_hub(name="wing_hub_l",
+                                      num_connects=2,
+                                      diameter=tube_od,
+                                      connector_horizonal_angle=0,
+                                      connector_vertical_angle=180,
+                                      connects=["Side_Connector_2"],
+                                      mount_inst=[wing_hort_tube_l],
+                                      mount_conn=["EndConnection"])
+        wing_hub_r = designer.add_hub(name="wing_hub_r",
+                                      num_connects=2,
+                                      diameter=tube_od,
+                                      connector_horizonal_angle=0,
+                                      connector_vertical_angle=180,
+                                      connects=["Side_Connector_1"],
+                                      mount_inst=[wing_hort_tube_r],
+                                      mount_conn=["EndConnection"])
+        wing_vert_tube_l = designer.add_tube(od=tube_od,
+                                             length=wing_vert_tube_length,
+                                             end_rotation=180,
+                                             name="wing_vert_tube_l",
+                                             mount_base_inst=wing_hub_l,
+                                             mount_base_conn="Top_Connector")
+        wing_vert_tube_r = designer.add_tube(od=tube_od,
+                                             length=wing_vert_tube_length,
+                                             end_rotation=180,
+                                             name="wing_vert_tube_r",
+                                             mount_base_inst=wing_hub_r,
+                                             mount_base_conn="Top_Connector")
+        designer.add_wing_uav(direction="Vertical",
+                              chord=wing_chord,
+                              span=wing_span,
+                              thickness=wing_thickness,
+                              load=wing_load,
+                              naca=NACA_profile,
+                              tube_diameter=tube_od,
+                              tube_offset=tube_offset,
+                              tube_rotation=90,
+                              channel=1,
+                              name="left_wing",
+                              tube_inst=wing_vert_tube_l,
+                              tube_conn="EndConnection")
+        designer.add_wing_uav(direction="Vertical",
+                              chord=wing_chord,
+                              span=wing_span,
+                              thickness=wing_thickness,
+                              load=wing_load,
+                              naca=NACA_profile,
+                              tube_diameter=tube_od,
+                              tube_offset=tube_offset,
+                              tube_rotation=270,
+                              channel=2,
+                              name="right_wing",
+                              tube_inst=wing_vert_tube_r,
+                              tube_conn="EndConnection")
+    elif num_wings == 1:
+        front_wing_tube = designer.add_tube(od=tube_od,
+                                            length=wing_vert_tube_length,
+                                            end_rotation=180,
+                                            name="front_wing_tube",
+                                            mount_base_inst=center_hub,
+                                            mount_base_conn="Top_Connector")
+        front_wing = designer.add_wing_uav(direction="Vertical",
+                                           chord=wing_chord,
+                                           span=wing_span,
+                                           thickness=wing_thickness,
+                                           load=wing_load,
+                                           naca=NACA_profile,
+                                           tube_diameter=tube_od,
+                                           tube_offset=tube_offset,
+                                           tube_rotation=180,
+                                           channel=1,
+                                           name="front_wing",
+                                           tube_inst=front_wing_tube,
+                                           tube_conn="EndConnection")
 
     ########################################
     # Props / Motors
@@ -264,12 +324,20 @@ def inline_platform(variant, with_tail=False):
     # - 2 tubes horizontally to 3 way hubs
     # - 2 vertical tubes out from 3 hubs (on each side) to flanges
     # - 4 prop/motors attached to flanges
+    if num_wings == 2:  # 4 way hub for the two wing supports
+        center_tube_end_rotation = 180
+        center_base_conn = "Side_Connector_3"
+
+    elif num_wings == 1:  # 2 way hub for single support for one wing
+        center_tube_end_rotation = 0
+        center_base_conn = "Side_Connector_1"
+
     center_tube_prop = designer.add_tube(od=tube_od,
                                          length=prop_forward_length,
-                                         end_rotation=180,
+                                         end_rotation=center_tube_end_rotation,
                                          name="center_tube_prop",
                                          mount_base_inst=center_hub,
-                                         mount_base_conn="Side_Connector_3")
+                                         mount_base_conn=center_base_conn)
     front_hub = designer.add_hub(name="front_hub",
                                  num_connects=3,
                                  diameter=tube_od,
@@ -306,13 +374,13 @@ def inline_platform(variant, with_tail=False):
                                   mount_inst=[prop_hort_tube_r],
                                   mount_conn=["EndConnection"])
     top_prop_tube_l = designer.add_tube(od=tube_od,
-                                        length=prop_vert_spread_length,
+                                        length=prop_vert_spread_length_t,
                                         end_rotation=90,
                                         name="top_prop_tube_l",
                                         mount_base_inst=prop_hub_l,
                                         mount_base_conn="Side_Connector_1")
     top_prop_tube_r = designer.add_tube(od=tube_od,
-                                        length=prop_vert_spread_length,
+                                        length=prop_vert_spread_length_t,
                                         end_rotation=90,
                                         name="top_prop_tube_r",
                                         mount_base_inst=prop_hub_r,
@@ -346,13 +414,13 @@ def inline_platform(variant, with_tail=False):
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
     bottom_prop_tube_l = designer.add_tube(od=tube_od,
-                                           length=prop_vert_spread_length,
+                                           length=prop_vert_spread_length_b,
                                            end_rotation=270,
                                            name="bottom_prop_tube_l",
                                            mount_base_inst=prop_hub_l,
                                            mount_base_conn="Side_Connector_2")
     bottom_prop_tube_r = designer.add_tube(od=tube_od,
-                                           length=prop_vert_spread_length,
+                                           length=prop_vert_spread_length_b,
                                            end_rotation=270,
                                            name="bottom_prop_tube_r",
                                            mount_base_inst=prop_hub_r,
@@ -386,11 +454,9 @@ def inline_platform(variant, with_tail=False):
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
 
-
-
     ########################################
     # Optional Tail
-
+    # MM TODO:  find out how tail was added and add here
 
     designer.close_design(corpus="uav", orient_z_angle=180)
 
@@ -420,4 +486,3 @@ def inline_platform(variant, with_tail=False):
             study_params[val.name] = val.value
 
     return design_name, study_params
-

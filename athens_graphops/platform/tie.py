@@ -71,7 +71,8 @@ def tie_platform(variant, n_motors=4):
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
-    cargo, cargo_case = designer.add_cargo(weight=cargo_mass, name="cargo")  # type: ignore
+    cargo, cargo_case = designer.add_cargo(
+        weight=cargo_mass, name="cargo")  # type: ignore
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)
