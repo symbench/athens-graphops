@@ -81,9 +81,9 @@ def inline_platform(variant, num_wings=2):
     prop_vert_spread_length_b = designer.set_study_param(
         "prop_vert_spread_length_b", 210)
 
-    # MM TODO: set CargoMass to 0.001, 0.5
+    # Set CargoMass to 0.001, 0.5
     # Required to run Path 9 which runs with and without cargo
-    cargo_mass = designer.set_study_param("CargoMass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
 
     ########################################
     # Calculated params
@@ -102,7 +102,9 @@ def inline_platform(variant, num_wings=2):
                                          fuse_height=125,
                                          fuse_cyl_length=270,
                                          bottom_connector_rotation=0)
-    cargo, cargo_case = designer.add_cargo(weight=0.5,
+    # Setup cargo mass to represent a full cargo
+    cargo_mass_list = designer.param_value(cargo_mass)
+    cargo, cargo_case = designer.add_cargo(weight=cargo_mass_list[1],
                                            name="cargo")
 
     # Require main_hub for connection to Orient

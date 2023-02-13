@@ -305,6 +305,7 @@ class Designer():
                   mount_conn: Optional[str] = None) -> Tuple[str, str]:
 
         # Only two weights are valid
+        print(self.param_value(weight))
         assert self.param_value(weight) in [0.001, 0.5]
 
         # Setup variable to allow .csv file to change the cargo mass

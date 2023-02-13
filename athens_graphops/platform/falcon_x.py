@@ -58,7 +58,7 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
     motor_rotation = designer.set_study_param(
         "motor_rotation", 180 // n_motors
     )
-    cargo_mass = designer.set_study_param("CargoMass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
@@ -70,8 +70,11 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
         fuse_cyl_length=270,
         bottom_connector_rotation=90,
     )
+
+    # Setup cargo mass to represent a full cargo
+    cargo_mass_list = designer.param_value(cargo_mass)
     cargo, cargo_case = designer.add_cargo(
-        weight=cargo_mass, name="cargo")  # type: ignore
+        weight=cargo_mass_list[1], name="cargo")  # type: ignore
 
     # Require main_hub for connection to Orient
     # Create hub connection lists (size of num_connections max)

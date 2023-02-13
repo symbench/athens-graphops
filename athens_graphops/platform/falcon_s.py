@@ -25,7 +25,6 @@ def create_falcon_s4():
     # Model-specific tweaks - needs different loaded/unloaded speeds
     study_params = {
         **study_params,
-        "CargoMass": [0.5, 0.001],
         "Flight_Path": 9,
         "Requested_Lateral_Speed": 32,
         "Requested_Vertical_Speed": [-8, -7],
@@ -56,7 +55,6 @@ def create_falcon_s4_rotated():
     # Model-specific tweaks
     study_params = {
         **study_params,
-        "CargoMass": [0.5, 0.001],
         "Flight_Path": 9,
         "Requested_Lateral_Speed": 36,
         "Requested_Vertical_Speed": [-8.5, -11],
@@ -93,7 +91,6 @@ def create_falcon_s8_rotated():
     # Model-specific tweaks
     study_params = {
         **study_params,
-        "CargoMass": [0.5, 0.001],
         "Flight_Path": 9,
         "Requested_Lateral_Speed": [38, 35],
         "Requested_Vertical_Speed": -13,
@@ -167,7 +164,7 @@ def falcon_s_platform(
     motor_vert_height = designer.set_study_param("motor_vert_height", 200)
     # vertical depth of the bottom row of motors
     motor_vert_depth = designer.set_study_param("motor_vert_depth", 200)
-    cargo_mass = designer.set_study_param("CargoMass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
@@ -181,8 +178,10 @@ def falcon_s_platform(
         bottom_connector_rotation=90,
     )
 
+    # Setup cargo mass to represent a full cargo
+    cargo_mass_list = designer.param_value(cargo_mass)
     cargo, cargo_case = designer.add_cargo(
-        weight=cargo_mass, name="cargo", rotation=cargo_rotation  # type: ignore
+        weight=cargo_mass_list[1], name="cargo", rotation=cargo_rotation  # type: ignore
     )
 
     # Require main_hub for connection to Orient

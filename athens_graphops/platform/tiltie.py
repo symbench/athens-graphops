@@ -67,7 +67,7 @@ def tiltie_platform(variant, num_batts=1, narrow_fuse=False, tail=False):
 
     ########################################
     # Tunable params
-    cargo_mass = designer.set_study_param("CargoMass", 0.5)
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
 
     if narrow_fuse:
         fuselage_floor_height = designer.set_study_param(
@@ -131,7 +131,9 @@ def tiltie_platform(variant, num_batts=1, narrow_fuse=False, tail=False):
                                          fuse_height=125,
                                          fuse_cyl_length=fuselage_cyl_length,
                                          bottom_connector_rotation=0)
-    cargo, cargo_case = designer.add_cargo(weight=cargo_mass,
+    # Setup cargo mass to represent a full cargo
+    cargo_mass_list = designer.param_value(cargo_mass)
+    cargo, cargo_case = designer.add_cargo(weight=cargo_mass_list[1],
                                            name="cargo")
 
     # Require main_hub for connection to Orient

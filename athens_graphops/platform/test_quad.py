@@ -90,8 +90,7 @@ def quad_platform(variant, large_battery=False):
 
     ########################################
     # Tunable params
-    cargo_mass = designer.set_study_param("CargoMass", 0.5)
-
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
     fuse_floor = designer.set_study_param("fuse_floor", 20)
     if large_battery:
         fuse_width = designer.set_study_param("fuse_width", 250)
@@ -114,7 +113,9 @@ def quad_platform(variant, large_battery=False):
                                          fuse_height=fuse_height,
                                          fuse_cyl_length=fuse_length,
                                          bottom_connector_rotation=angle_1)
-    cargo, cargo_case = designer.add_cargo(weight=cargo_mass,
+    # Setup cargo mass to represent a full cargo
+    cargo_mass_list = designer.param_value(cargo_mass)
+    cargo, cargo_case = designer.add_cargo(weight=cargo_mass_list[1],
                                            name="cargo")
 
     # Require main_hub for connection to Orient
