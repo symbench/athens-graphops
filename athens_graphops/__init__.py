@@ -20,6 +20,7 @@ from .dataset import CORPUS_DATA, CORPUS_SCHEMA, BATTERY_TABLE, MOTOR_TABLE, PRO
 # these can be overwritten in __main__
 CONFIG = {
     "hostname": "localhost",
+    # "hostname": "laplace.isis.vanderbilt.edu",
     "timeout": 30,
     "script_dirs": [
         '.',
@@ -34,5 +35,12 @@ CONFIG = {
             __file__), '..', 'autograph')),
     ],
     "jenkinsuser": "symbench",
-    "jenkinspwd": "symbench"
+    # "jenkinsuser": "symcps",
+    "jenkinspwd": "symbench",
+    # "jenkinspwd": "symcps2021"
+    "miniohost": "localhost",
+    "miniouser": "symcps",
+    "miniopwd": "symcps2021",
+    "miniobucket": "symbench",
+    "miniodir": "C:\\NewDeploy\\minioData"
 }

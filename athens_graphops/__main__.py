@@ -59,6 +59,17 @@ def run():
                         help="sets the Jenkins username for workflow runs")
     parser.add_argument('--jenkinspwd', type=str, metavar='pwd',
                         help="sets the Jenkins password for workflow runs")
+    parser.add_argument('--miniohost', default='localhost', 
+                        help="MinIO hostname")
+    parser.add_argument('--miniouser', default='symcps', 
+                        help="MinIO username")
+    parser.add_argument('--miniopwd', default='symcps2021', 
+                        help="MinIO password")
+    parser.add_argument('--miniobucket', default='symbench', 
+                        help="MinIO bucket name")
+    parser.add_argument('--aws', action="store_true",
+                         help="indicates running on an AWS instance")
+
     parser.add_argument(
         'command', help="subcommand to execute",
         choices=sorted(commands))
@@ -77,6 +88,17 @@ def run():
         CONFIG["jenkinsuser"] = args.jenkinsuser
     if args.jenkinspwd:
         CONFIG["jenkinspwd"] = args.jenkinspwd
+    if args.miniohost:
+        CONFIG["miniohost"] = args.miniohost
+    if args.miniouser:
+        CONFIG["miniouser"] = args.miniouser
+    if args.miniopwd:
+        CONFIG["miniopwd"] = args.miniopwd
+    if args.miniobucket:
+        CONFIG["miniobucket"] = args.miniobucket
+    # If using AWS system, minio directory is in a different location
+    if args.aws:
+        CONFIG["miniodir"] = "//opt//minio"
 
     if args.command == "query":
         query.run(args=sys.argv[pos:])

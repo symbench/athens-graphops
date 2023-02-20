@@ -34,7 +34,7 @@ import yaml
 import random
 import csv
 import copy
-
+from minio import Minio
 from api4jenkins import Jenkins
 from api4jenkins.exceptions import ItemNotFoundError
 from .dataset import get_component_min_max
@@ -55,6 +55,15 @@ class JenkinsClient:
         The username to login with
     password: str
         The password to login with
+    minio_url: str
+        The url for the Minio server
+    minio_username: str
+        The Minio username to login with
+    minio_password: str
+        The Minio username to login with
+    minio_bucket: str
+        The Minio bucket folder to use
+
     Attributes
     ----------
     server: api4jenkins.Jenkins
@@ -64,30 +73,58 @@ class JenkinsClient:
     def __init__(self,
                  jenkins_url: Optional[str] = None,
                  username: Optional[str] = None,
-                 password: Optional[str] = None):
+                 password: Optional[str] = None,
+                 minio_host: Optional[str] = None,
+                 minio_username: Optional[str] = None,
+                 minio_password: Optional[str] = None,
+                 minio_bucket: Optional[str] = None
+                 ):
         if jenkins_url is None:
-            jenkins_url = "http://" + CONFIG["hostname"] + ":8080"
+            self.jenkins_url = "http://" + CONFIG["hostname"] + ":8080"
+        else:
+            self.jenkins_url = jenkins_url
+
         if username is None:
             username = CONFIG["jenkinsuser"]
         if password is None:
             password = CONFIG["jenkinspwd"]
+        if minio_host is None:
+            minio_host = CONFIG["miniohost"]
+        if minio_username is None:
+            minio_username = CONFIG["miniouser"]
+        if minio_password is None:
+            minio_password = CONFIG["miniopwd"]
+        if minio_bucket is None:
+            self.minio_bucket = CONFIG["miniobucket"]
+        else: 
+            self.minio_bucket = minio_bucket
+
+        self.minio = Minio(
+            minio_host,
+            access_key=minio_username,
+            secret_key=minio_password,
+            secure=False,
+        )
+        found = self.minio.bucket_exists(self.minio_bucket)
+        if not found:
+            print(f"Creating MinIO bucket {self.minio_bucket}")
+            self.minio.make_bucket(self.minio_bucket)
 
         print("Server Address: %s" % jenkins_url)
         self.server = Jenkins(
-            jenkins_url, auth=(username, password))
+            self.jenkins_url, auth=(username, password))
         print("User with username %s successfully logged in" % username)
 
         self.results_dir = os.path.join(os.path.dirname(__file__), 'results')
         self.configs_dir = os.path.join(os.path.dirname(__file__), 'configs')
-        # MM TODO: this may not work on the AWS systems, need to update for that later
-        self.minio_dir = "C:\\NewDeploy\\minioData"
 
+        # MM TODO: look at this further when deciding what to do with the yaml file
         # Setup a dictionary to hold the information that will be save to or read in
         # from a yaml file which is used in the creation of the study_parameter.json file
         study_keys = ["description", "num_samples", "fdm", "params"]
         self.study_params_list = dict.fromkeys(study_keys, None)
-        self.fdm_keys = ["Analysis_Type", "Flight_Path", "Requested_Lateral_Speed",
-                         "Requested_Vertical_Speed", "Q_Position", "Q_Velocity", "Q_Angular_Velocity", "Q_Angles", "Ctrl_R"]
+        # MM TODO: Removing this - self.fdm_keys = ["Analysis_Type", "Flight_Path", "Requested_Lateral_Speed",
+        #                 "Requested_Vertical_Speed", "Q_Position", "Q_Velocity", "Q_Angular_Velocity", "Q_Angles", "Ctrl_R"]
 
         # For parameter study csv files, it is assumed a design exists in the graph.
         # For development of a valid csv file, information from the yaml file indicating the
@@ -163,6 +200,14 @@ class JenkinsClient:
 
         return not all(node.offline for node in executor_nodes)
 
+    def studyfile_to_minio(self, study_filename):
+        """
+        Copy the study CSV file to the Minio bucket setup by the default CONFIG
+        or `--miniobucket` option on the command line
+        """
+        self.minio.fput_object(self.minio_bucket, study_filename, study_filename)
+        print(f"Uploaded to MinIO {self.minio_bucket}/{study_filename}.")
+
     def build_and_wait(self, job_name, parameters):
         """
         Build a job and wait
@@ -173,11 +218,13 @@ class JenkinsClient:
         parameters: dict
             Parameters for this build
         """
-        print(parameters)
         job = self.server.get_job(job_name)
         if job is None:
             raise ItemNotFoundError(
                 "Job with name %s doesn't exist" % job_name)
+
+        # job.url is respose location, we need to override it
+        job.url = self.jenkins_url + "/job/" + job_name + "/"
         item = job.build(**parameters)
         print("Job %s is waiting to be built" % job_name)
 
@@ -205,7 +252,8 @@ class JenkinsClient:
 
     def save_results_from_build(self, build, design_name: str):
         """
-        Get results from a particular build as a data.zip and save in results directory        
+        Get results from a particular build as a data.zip and save in 
+        results directory        
         """
         if os.path.isdir(self.results_dir):
             build_artifacts = build.api_json()["artifacts"]
@@ -218,16 +266,20 @@ class JenkinsClient:
                 if response.status_code != 200:
                     raise FileNotFoundError
                 else:
+                    print("Build artifacts retrieved")
                     artifacts_content = response.content
                     filename = f"{self.results_dir}/{design_name}_data.zip"
                     with open(filename, "wb") as zip_artifact:
                         zip_artifact.write(artifacts_content)
+            else:
+                print("No artifacts retrieved")
         else:
             print("Directory not available - %s" % self.results_dir)
 
     def add_design_json_to_results(self, design_name: str, design_json):
         """
-        Add design json file to the results data.zip file for the specified design
+        Add design json file to the results data.zip file for the specified 
+        design
         """
         design_file = design_name + "_design_data.json"
         design_zip_file = design_name + "_data.zip"
@@ -247,6 +299,7 @@ class JenkinsClient:
 
         # Remove design data file once it is inside the data.zip file
         os.remove(os.path.join(self.results_dir, design_file))
+        print("Added design json file to data.zip information. Now available in the results directory.")
 
     def grab_extra_jsons_direct2cad(self, design_name: str):
         """
@@ -279,6 +332,7 @@ class JenkinsClient:
         else:
             print("Design Result file (%s) not found" % design_zip_file)
 
+    # MM TODO: redo the next 7 functions, consider moving the 
     def load_study_config(self, config_file: str):
         """ 
         Load a yaml file defining information needed to create the study_params.cvs file and store 
@@ -514,7 +568,7 @@ class JenkinsClient:
 
         # Save results to csv file in minio bucket
         sweep_filename = config_filename.replace(".yaml", ".csv")
-        sweep_file_dir = os.path.join(self.minio_dir, minio_bucket)
+        sweep_file_dir = os.path.join(CONFIG["miniodir"], minio_bucket)
         run_sweep_param_file = os.path.join(sweep_file_dir, sweep_filename)
         with open(run_sweep_param_file, 'w', newline='') as file:
             csvfile_writer = csv.writer(file, delimiter=',')
@@ -534,8 +588,6 @@ def run(args=None):
     parser.add_argument('workflow', choices=[
         "UAM_Workflows",
         "uam_direct2cad"])
-    parser.add_argument('--jenkinsurl', type=str, metavar='name',
-                        help="sets the Jenkins URL for workflow runs (i.e. http://<IP>:8080/")
     parser.add_argument('--design', type=str, metavar='design',
                         help="indicates the design name for a Jenkins workflow run")
     # Arguments for UAM_Workflows and UAV_Workflows
@@ -548,8 +600,6 @@ def run(args=None):
     parser.add_argument('--parameters', type=str, metavar='parameters',
                         help="indicates the design parameters for a Jenkins workflow run using parameter=value space separated string")
     # Arguments for uam_direct2cad
-    parser.add_argument('--bucket', type=str, metavar='minio',
-                        help="indicates the minio bucket where the parameter file is located")
     parser.add_argument('--paramfile', type=str, metavar='inputname',
                         help="indicates the input file name for the parameter sweep (.csv)")
     parser.add_argument('--resultname', type=str, metavar='results',
@@ -557,14 +607,7 @@ def run(args=None):
 
     args = parser.parse_args(args)
 
-    if args.jenkinsurl:
-        jenkins_url = args.jenkinsurl
-    else:
-        jenkins_url = "http://" + CONFIG["hostname"] + ":8080"
-    #print("Jenkins URL: %s" % jenkins_url)
-    #print("Jenkins Username: %s" % CONFIG["jenkinsuser"])
-    #print("Jenkins Password: %s" % CONFIG["jenkinspwd"])
-
+    jenkins_url = "http://" + CONFIG["hostname"] + ":8080"
     jenkins_client = JenkinsClient(jenkins_url)
 
     # Default jenkins run parameters for UAM_Workflows
@@ -586,15 +629,14 @@ def run(args=None):
             uam_run_parameters["DesignVars"] = f'"{args.parameters}"'
         print(uam_run_parameters)
 
-    elif args.worflow == "uam_direct2cad":
+    elif args.workflow == "uam_direct2cad":
         uam_run_parameters = {
             "graphGUID": "Rake",
             "minioBucket": "graphops",
             "paramFile": "rand_design_runs.csv",
             "resultsFileName": "results123"
         }
-        if args.bucket:
-            uam_run_parameters["minioBucket"] = args.bucket
+        uam_run_parameters["minioBucket"] = CONFIG["miniobucket"]
         if args.paramfile:
             uam_run_parameters["paramFile"] = args.paramfile
         if args.resultname:
@@ -605,7 +647,7 @@ def run(args=None):
         uam_run_parameters["graphGUID"] = args.design
 
     # MM TODO: Add UAV_Workflow when it is available again
-    if (args.workflow == "UAM_Workflows") or (args.workflow == "uam_design2cad"):
+    if (args.workflow == "UAM_Workflows") or (args.workflow == "uam_direct2cad"):
         jenkins_client.build_and_wait(
             job_name=args.workflow, parameters=uam_run_parameters)
         # get zip file

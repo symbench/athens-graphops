@@ -20,6 +20,9 @@ import time
 from csv import DictWriter
 from collections.abc import Sequence
 from itertools import chain
+from ..workflow import JenkinsClient
+from ..query import Client
+from .. import CONFIG
 
 
 def __discover_designs():
@@ -34,9 +37,7 @@ def __discover_designs():
 
     return designs
 
-# MM TODO:  should this be incorporated with other study functions?
-
-
+# MM TODO: consider moving these two functions to workflow
 def write_study_params(design_name, params):
     """Write study parameters to a .csv file for use in Jenkins runs."""
     study_filename = f"{design_name}_study.csv"
@@ -50,9 +51,6 @@ def write_study_params(design_name, params):
 
     print(f"Study parameters written to {study_filename}.")
     return study_filename
-
-# MM TODO:  should this be incorporated with other study functions?
-
 
 def align_study_params(params):
     """Align the study parameters to the same number of runs.
@@ -80,8 +78,6 @@ def align_study_params(params):
     return aligned_params
 
 # MM TODO:  plan to remove this, keeping for now
-
-
 def sweep_study_param(params, param_name, values):
     """Add or modify a parameter to sweep it in the study parameters."""
     aligned_params = align_study_params(params)
@@ -96,51 +92,39 @@ def sweep_study_param(params, param_name, values):
     return swept_params
 
 
-# MM TODO: integrate with workflow
-"""
-def run_design(design_name, study_filename, config):
-    minio = Minio(
-        config.minio_url,
-        access_key=config.minio_user,
-        secret_key=config.minio_password,
-        secure=False,
-    )
-    found = minio.bucket_exists(config.minio_bucket)
-    if not found:
-        print(f"Creating MinIO bucket {config.minio_bucket}")
-        minio.make_bucket(config.minio_bucket)
+def run_design(design_name, study_filename):
+    """
+    This will run the Jenkins uam_direct2cad workflow 
+    for the design created.  The results will be
+    retrieved and stored in the results folder of this
+    repository.  A json file defining the design is added
+    to the data.zip information.
+    """
+    jenkins_client = JenkinsClient()
+    query_client = Client()
 
-    minio.fput_object(config.minio_bucket, study_filename, study_filename)
-    print(f"Uploaded to MinIO {config.minio_bucket}/{study_filename}.")
+    # Copy study parameter file to the minio location
+    jenkins_client.studyfile_to_minio(study_filename)
 
-    jenkins = Jenkins(
-        config.jenkins_url,
-        auth=(config.jenkins_user, config.jenkins_password),
-    )
-    if False:
-        item = jenkins.build_job(
-            "uam_direct2cad",
-            graphGUID=design_name,
-            minioBucket=config.minio_bucket,
-            paramFile=study_filename,
-        )
-    else:
-        job = jenkins.get_job("uam_direct2cad")
-        # job.url is respose location, we need to override it
-        job.url = config.jenkins_url + "job/uam_direct2cad/"
-        item = job.build(
-            graphGUID=design_name,
-            minioBucket=config.minio_bucket,
-            paramFile=study_filename,
-        )
-    if item:
-        print("Queuing Jenkins job", end="")
-        while not (build := item.get_build()):
-            time.sleep(0.5)
-            print(".", end="", flush=True)
+    workflow = "uam_direct2cad"
+    jenkins_parameters = {
+        "graphGUID": design_name,
+        "minioBucket": CONFIG["miniobucket"],
+        "paramFile": study_filename,
+        "resultsFileName": design_name
+    }
 
-        print(f"\nJenkins job started", build)
-"""
+    build = jenkins_client.build_and_wait(workflow, jenkins_parameters)
+    # add time to allow Jenkins to make artifacts available
+    time.sleep(10)
+    artifacts_exist = jenkins_client.save_results_from_build(build, design_name)
+
+    # Create json of all design information and add it to the Jenkins data.zip file
+    if artifacts_exist:
+        design_json = query_client.get_design_data(design_name)
+        jenkins_client.add_design_json_to_results(design_name, design_json)
+
+    query_client.close()
 
 
 def run(args=None):
@@ -154,47 +138,17 @@ def run(args=None):
         "design",
         choices=designs.keys(),
     )
-    # parser.add_argument(
-    #    "-r", "--run", action="store_true", help="Run the design."
-    # )
-    # parser.add_argument(
-    #    "--minio-url", default="localhost:9000", help="MinIO URL."
-    # )
-    # parser.add_argument(
-    #    "--minio-user", default="symcps", help="MinIO username."
-    # )
-    # parser.add_argument(
-    #    "--minio-password", default="symcps2021", help="MinIO password."
-    # )
-    # parser.add_argument(
-    #    "--minio-bucket", default="symbench", help="MinIO bucket name."
-    # )
-    # parser.add_argument(
-    #    "--jenkins-url",
-    #    default="http://localhost:8080/",
-    #    # default="http://laplace.isis.vanderbilt.edu:8080/",
-    #    help="Jenkins URL.",
-    # )
-    # parser.add_argument(
-    #    "--jenkins-user", default="symcps", help="Jenkins username."
-    # )
-    # parser.add_argument(
-    #    "--jenkins-password", default="symcps2021", help="Jenkins password."
-    # )
-    # parser.add_argument(
-    #    "--jenkins-user", default="symbench", help="Jenkins username."
-    # )
-    # parser.add_argument(
-    #    "--jenkins-password", default="symbench", help="Jenkins password."
-    # )
+    parser.add_argument(
+        "-r", "--run", action="store_true", help="Run the design."
+    )
 
     args = parser.parse_args(args)
     design_name, study_params = designs[args.design]()
     study_params = align_study_params(study_params)
     study_filename = write_study_params(design_name, study_params)
 
-    # if args.run:
-    #    run_design(design_name, study_filename, args)
+    if args.run:
+        run_design(design_name, study_filename)
 
 
 if __name__ == "__main__":

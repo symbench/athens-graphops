@@ -212,15 +212,6 @@ def random_naca_profile_selection() -> str:
     return random_naca_profile[5:]
 
 
-def get_corpus_assigned_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """
-    Return the assigned parameters from the corpus data (i.e. the component_params untouched)
-    This is used for components that are currently not being randomized (minimizes code change
-    in architect.py).  Needed as we determine what combinations of components can be randomized.
-    """
-    return component_params
-
-
 def randomize_cyl_length(component_params: List[Dict[str, Any]], max_multiply_factor=1) -> Dict[str, Any]:
     """
     Randomize the LENGTH parameter only, all other parameters are set to the "assigned value".
