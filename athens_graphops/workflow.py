@@ -15,11 +15,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
+#===============================================================================
 # JenkinsClient interacts with the SwRI Jenkins tools to run desired
 # workflow with the indicated graph and parameters
 #
 # This class was borrowed from https://github.com/symbench/symbench-athens-client
 # (by Umesh Timalsina)
+
 
 from email import header
 from typing import Any, Dict, List, Optional
@@ -646,7 +648,6 @@ def run(args=None):
     if args.design:
         uam_run_parameters["graphGUID"] = args.design
 
-    # MM TODO: Add UAV_Workflow when it is available again
     if (args.workflow == "UAM_Workflows") or (args.workflow == "uam_direct2cad"):
         jenkins_client.build_and_wait(
             job_name=args.workflow, parameters=uam_run_parameters)

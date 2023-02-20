@@ -14,6 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#===============================================================================
+# These functions relate to pulling information from the corpus data information
+# and randomizing the data/components
+
 from typing import Any, Dict, List
 
 import json
@@ -94,6 +98,9 @@ def get_component_parameters(classification: str, model: str) -> List[str]:
 def random_component_selection(classification: str) -> str:
     """
     Return a randomly selected model name give a component classification
+
+    Example usage:
+        battery_model = random_component_selection("Battery")
     """
     if classification == "Battery":
         select_table = BATTERY_TABLE
@@ -165,6 +172,14 @@ def randomize_parameters(component_params: List[Dict[str, Any]]) -> Dict[str, An
         * Motor: CONTROL_CHANNEL
         * NACA_Port_Connector: BOTTOM_CONNECTION_DISP
         * Wing: NACA_Profile
+
+    Example usage:  
+        # Randomize wing parameters
+        wing_params = get_component_parameters("Wing", "naca_wing")
+        rand_wing_params = randomize_parameters(wing_params)
+        wing_chord = round(float(rand_wing_params[0]["CHORD_1"]["assigned"]))
+        wing_span = round(float(rand_wing_params[0]["SPAN"]["assigned"]))
+        wing_load = round(float(rand_wing_params[0]["LOAD"]["assigned"]))
     """
     max_multiply_factor = 2
     for key in component_params[0]:
@@ -220,6 +235,10 @@ def randomize_cyl_length(component_params: List[Dict[str, Any]], max_multiply_fa
 
     Note: The length parameter only has an assigned value, based on experimentation this seems
     to be the maximum value possible.
+
+    Example usage:
+        cyl_params = get_component_parameters("Cylinder", "PORTED_CYL")
+        rand_cyl2_params = randomize_cyl_length(cyl_params, 0.5)
     """
     random_params = copy.deepcopy(component_params[0])
 

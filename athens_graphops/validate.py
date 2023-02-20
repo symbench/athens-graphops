@@ -14,6 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#===============================================================================
+# Used to validate corpus data and schema, also used to build systems with 
+# all variations of a corpus component and validate it was able to make
+# it into the design
+
+
 from .dataset import CORPUS_DATA, CORPUS_SCHEMA
 from .query import Client
 from .designer import Designer
@@ -181,13 +187,14 @@ def validate_corpus_data(check_type='corpus'):
 
 
 def validate_create_instances():
+    """
+    Go through all models in CORPUS_DATA and create a design with
+    a single instance with all/some parameters set to random values based
+    on parameter types (no need to observe the min/max), then verify that
+    the reloaded instance data matches what we expect. Do not assert, print
+    out errors
+    """
     client = Client()
-
-    # TODO: Go through all models in CORPUS_DATA and create a design with
-    # a single instance with all/some parameters set to random values based
-    # on parameter types (no need to observe the min/max), then verify that
-    # the reloaded instance data matches what we expect. Do not assert, print
-    # out errors
 
     print("Testing Tattu19AhLi")
     design_name = 'ValidationDesign'

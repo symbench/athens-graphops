@@ -13,6 +13,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#===============================================================================
+# These functions are used to create UAM/UAV designs based on corpus
+# components
+
+
 import math
 from typing import Optional, Tuple, Union, Any, List, Dict
 

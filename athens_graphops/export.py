@@ -13,6 +13,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#===============================================================================
+# These functions are involved in exporting design data.  
+# Autoseed and Autograph pull directly from the JanusGraph database.
+# The YAML file is a configuration file used to allow a user to randomize
+# a design and also provides a way easily see the study parameters.
 
 import ssl
 from typing import Any, List

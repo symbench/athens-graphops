@@ -18,7 +18,7 @@ import argparse
 import sys
 
 from . import CONFIG
-from . import batch
+from . import export
 from . import dataset
 from . import query
 from . import validate
@@ -105,9 +105,9 @@ def run():
     elif args.command == "validate":
         validate.run(args=sys.argv[pos:])
     elif args.command == "autograph":
-        batch.run_autograph(args=sys.argv[pos:])
+        export.run_autograph(args=sys.argv[pos:])
     elif args.command == "autoseed":
-        batch.run_autoseed(args=sys.argv[pos:])
+        export.run_autoseed(args=sys.argv[pos:])
     elif args.command == "dataset":
         dataset.run(args=sys.argv[pos:])
     elif args.command == "designer":
@@ -121,7 +121,7 @@ def run():
     elif args.command == "workflow":
         workflow.run(args=sys.argv[pos:])
     elif args.command == "update":
-        batch.run_update_design(args=sys.argv[pos:])
+        export.run_update_design(args=sys.argv[pos:])
     else:
         parser.print_help()
 

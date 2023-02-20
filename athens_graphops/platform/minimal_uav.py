@@ -13,9 +13,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+#
+#===============================================================================
 # UAV Design
 # Key Design Feature: Minimal design elements
+
 from ..designer import Designer, StudyParam
 
 # Cargo case attached but empty

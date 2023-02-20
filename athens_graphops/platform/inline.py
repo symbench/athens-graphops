@@ -13,7 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+#
+#===============================================================================
 # UAV Design
 # Key Design Feature: Fuselage and cargo horizontally inline
 
@@ -455,10 +456,6 @@ def inline_platform(variant, num_wings=2):
                                  mount_inst=bottom_prop_flange_r,
                                  mount_conn="TopConnector",
                                  controller_inst=battery_control)
-
-    ########################################
-    # Optional Tail
-    # MM TODO:  find out how tail was added and add here
 
     designer.close_design(corpus="uav", orient_z_angle=180)
 

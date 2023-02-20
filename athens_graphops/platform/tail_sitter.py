@@ -13,9 +13,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+#
+#===============================================================================
 # UAM Design
 # Key Design Feature: 4 propellers in front, 2 wings and a stear wing
+
 from ..designer import Designer, StudyParam
 
 
@@ -315,20 +317,7 @@ def tailsitter_platform(variant, narrow=False, stear_wing=False):
 
     designer.close_design(corpus="uam")
 
-    # MM TODO: set FDM Parameter for UAM (list of settings - commented below)
     study_params = {
-        "Analysis_Type": 3,
-        "Flight_Path": 1,
-        "Requested_Lateral_Speed": 50,
-        "Requested_Vertical_Speed": 19,
-        "Q_Position": 1,
-        "Q_Velocity": 1,
-        "Q_Angular_Velocity": 1,
-        "Q_Angles": 1,
-        "Ctrl_R": 1,
-    }
-
-    """    design_fdm_parameters = {
         "Analysis_Type": 3,
         "Flight_Path": [1, 3, 4, 5],
         "Requested_Lateral_Speed": [50, 32, 1, 46],
@@ -337,9 +326,8 @@ def tailsitter_platform(variant, narrow=False, stear_wing=False):
         "Q_Velocity": [1, 1, 1, 0.1],
         "Q_Angular_Velocity": [1, 1, 1, 0.1],
         "Q_Angles": 1,
-        "Ctrl_R": 0.1
+        "Ctrl_R": 0.1,
     }
-    """
 
     # Add all study parameters automatically
     for val in locals().values():

@@ -13,6 +13,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#===============================================================================
+# Create sets of designs, where similar designs are grouped into a platform
+# with variations indicated by parameters passed to the <name>_platform function
+
+
 import importlib
 import pkgutil
 import inspect
@@ -37,7 +43,6 @@ def __discover_designs():
 
     return designs
 
-# MM TODO: consider moving these two functions to workflow
 def write_study_params(design_name, params):
     """Write study parameters to a .csv file for use in Jenkins runs."""
     study_filename = f"{design_name}_study.csv"
@@ -98,7 +103,7 @@ def run_design(design_name, study_filename):
     for the design created.  The results will be
     retrieved and stored in the results folder of this
     repository.  A json file defining the design is added
-    to the data.zip information.
+    to the data.zip
     """
     jenkins_client = JenkinsClient()
     query_client = Client()
