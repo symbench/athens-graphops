@@ -1,0 +1,60 @@
+design_name: "aDesignName"
+description: "Study Parameters for direct2cad Run"
+# Corpus Type is either UAM or UAV
+corpus_type: UAV
+num_samples: 5
+# If corpus type is UAV, it must include CargoMass
+cargo_mass: 
+  - 0.001
+  - 0.5
+# The 'analysis_type' is a single integer number. 
+# All other FDM parameters can be a single value 
+# or a list. If a list exists, it should be the same 
+# size as the 'flight_path' list.
+fdm:
+  Analysis_Type: 3
+  Flight_Path: 
+    - 6
+    - 7
+    - 8
+    - 9
+  Requested_Lateral_Speed: 
+    - 19
+    - 21
+    - 11
+    - 10
+  Requested_Vertical_Speed: 1.1
+  Requested_Vertical_Down_Speed: 14
+  Requested_Lateral_Acceleration: 5
+  Requested_Lateral_Deceleration: -7
+  Requested_Vertical_Acceleration: -6
+  Requested_Vertical_Deceleration: 14
+  Landing_Approach_Height: 1.5
+  Vertical_Landing_Speed_At_Ground: 0.05
+  Q_Position: 1
+  Q_Velocity: 1
+  Q_Angular_Velocity: 1
+  Q_Angles: 1
+  Ctrl_R: 0.1
+# Include any study parameter that should be varied
+params:
+# Example parameter for test_quad 
+# User should select min/max based on the corpus_data.json
+  fuse_floor:
+    max: 50
+    min: 10
+  fuse_width:
+    max: 600
+    min: 250
+  fuse_height:
+    max: 350
+    min: 200
+  fuse_length:
+    max: 650
+    min: 450
+  arm_length:
+    max: 550
+    min: 100
+  leg_length:
+    max: 250
+    min: 150

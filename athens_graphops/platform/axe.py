@@ -93,7 +93,7 @@ def axe_platform(variant, front_lower_rail=False):
 
     ########################################
     # Tunable params
-    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5], "CargoMass")
 
     fuse_floor = designer.set_study_param("fuse_floor", 20)
     fuse_width = designer.set_study_param("fuse_width", 300)
@@ -538,29 +538,37 @@ def axe_platform(variant, front_lower_rail=False):
 
     designer.close_design(corpus="uav", orient_z_angle=body_rot_angle)
 
-    study_params = {
-        "Flight_Path": 9,
-        "Requested_Lateral_Speed": 23,
-        "Requested_Vertical_Speed": -5,
-        "Requested_Vertical_Down_Speed": 5,
-        "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -3,
-        "Requested_Vertical_Acceleration": -1,
-        "Requested_Vertical_Deceleration": 1,
+    fdm_params = {
+        StudyParam("Flight_Path", 9, "FDM"),
+        StudyParam("Requested_Lateral_Speed", 23, "FDM"),
+        StudyParam("Requested_Vertical_Speed", -5, "FDM"),
+        StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
+        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
+        StudyParam("Requested_Lateral_Deceleration", -3, "FDM"),
+        StudyParam("Requested_Vertical_Acceleration", -1, "FDM"),
+        StudyParam("Requested_Vertical_Deceleration", 1, "FDM"),
         # James suggested not to tweak these
-        # "Landing_Approach_Height": 3,
-        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_At_Ground": 0.1,
-        "Q_Position": 0.158489319,
-        "Q_Velocity": 0.0158489319,
-        "Q_Angular_Velocity": 0.501187234,
-        "Q_Angles": 0.01,
-        "Ctrl_R": 0.316227766,
+        # StudyParam("Landing_Approach_Height", 3, "FDM"),
+        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
+        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
+        StudyParam("Q_Position", 0.158489319, "FDM"),
+        StudyParam("Q_Velocity", 0.0158489319, "FDM"),
+        StudyParam("Q_Angular_Velocity", 0.501187234, "FDM"),
+        StudyParam("Q_Angles", 0.01, "FDM"),
+        StudyParam("Ctrl_R", 0.316227766, "FDM"),
     }
+
+    study_params = {}
+    for param in fdm_params:
+        study_params[param.name] = param.value
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
+            print(val.name)
             study_params[val.name] = val.value
+
+    print("All Axe Study Parmeters:")
+    print(study_params)
 
     return design_name, study_params

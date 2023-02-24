@@ -23,12 +23,16 @@ import importlib
 import pkgutil
 import inspect
 import time
+import yaml
+import os
 from csv import DictWriter
 from collections.abc import Sequence
 from itertools import chain
+from typing import Any, Dict, List, Optional
 from ..workflow import JenkinsClient
 from ..query import Client
 from .. import CONFIG
+from ..designer import StudyParam
 
 
 def __discover_designs():
@@ -43,7 +47,7 @@ def __discover_designs():
 
     return designs
 
-def write_study_params(design_name, params):
+def write_study_params(design_name: str, params: Dict):
     """Write study parameters to a .csv file for use in Jenkins runs."""
     study_filename = f"{design_name}_study.csv"
 
@@ -57,44 +61,175 @@ def write_study_params(design_name, params):
     print(f"Study parameters written to {study_filename}.")
     return study_filename
 
-def align_study_params(params):
-    """Align the study parameters to the same number of runs.
-    This allows to have single values and lists of parameter values.
+def align_study_params(params: List[StudyParam]):
     """
-
-    n_studies = [len(v) for v in params.values() if isinstance(v, Sequence)]
-    if n_studies:
-        n_studies = max(n_studies)
-    else:
-        n_studies = 1
-
-    aligned_params = {}
-    for p_name in params:
-        if isinstance(params[p_name], Sequence):
-            if len(params[p_name]) != n_studies:
-                raise ValueError(
-                    f"Parameter {p_name} has {len(params[p_name])} values, "
-                    f"but {n_studies} values are expected."
-                )
-            aligned_params[p_name] = params[p_name]
+    Align the study parameters to the same number of runs.
+    This allows having single values and lists of parameter values.
+    All study_params entries should be StudyParm class.
+    CargoMass (if available) could have one or two values and should be 
+        applied across all sets of FDM parameters (if a list).
+    For randomized designs, the structural parameters will have a list of values
+        to represent each desired design sample (i.e. if the configuration file
+        indicated 5 samples desired, each parameter will have a list of 5 randomized
+        values).  Each design same should be tested across the set of FDM parameters
+        and the CargoMass values.
+    """
+    # Create dictionaries of study parameters separated by param_type
+    n_cargo = 0
+    fdm_params = {}
+    structural_params = {}
+    for val in params:
+        if isinstance(val, StudyParam):
+            if val.param_type == "CargoMass":
+                cargo_values = val.value
+                n_cargo = len(cargo_values)
+            elif val.param_type == "FDM":
+                fdm_params[val.name] = val.value
+            elif val.param_type == "Structural":
+                structural_params[val.name] = val.value
         else:
-            aligned_params[p_name] = [params[p_name]] * n_studies
+            raise ValueError(
+                f"Parameter {val.name} is not a StudyParam, "
+                f"only StudyParam entries are allow."
+            )
+
+    # Determine the number of:
+    # 1) FDM Studies - Maximum size list within the FDM type parameters
+    # 2) FDM sets - How many times to repeat the FDM studies values 
+    # 3) Design Studies - Randomized design sets for structural parameters
+    n_fdm_studies = [len(v) for v in fdm_params.values() if isinstance(v, Sequence)]
+    if n_fdm_studies:
+        n_fdm_studies = max(n_fdm_studies)
+    else:
+        n_fdm_studies = 1
+        
+    if n_cargo == 0:
+        fdm_sets = 1
+    else:
+        fdm_sets = n_cargo
+
+    n_design_studies = [len(v) for v in structural_params.values() if isinstance(v, Sequence)]
+    if n_design_studies:
+        n_design_studies = max(n_design_studies)
+    else:
+        n_design_studies = 1
+
+    # Flatten to create an entry for each Jenkins run
+    # To minimize the Creo parameter updates in randomized designs, all 
+    # FDM parameter sets will be run for a structural design before moving
+    # to the next structural design set.  If cargo is involved, it will also
+    # be varied before changing the structural design parameters.
+    aligned_params = {}
+    if n_cargo != 0:
+        cargo_value_set = ([cargo_values[0]] * n_fdm_studies + [cargo_values[1]] * n_fdm_studies) * n_design_studies
+        aligned_params["CargoMass"] = cargo_value_set
+
+    for fdm_name in fdm_params:
+        if isinstance(fdm_params[fdm_name], Sequence):
+            if len(fdm_params[fdm_name]) != n_fdm_studies:
+                raise ValueError(
+                    f"Parameter {fdm_name} has {len(fdm_params[fdm_name])} values, "
+                    f"but {n_fdm_studies} values are expected."
+                )
+            
+            fdm_params_set = fdm_params[fdm_name] * (fdm_sets * n_design_studies)
+        else:
+            fdm_params_set = [fdm_params[fdm_name]] * (n_fdm_studies * fdm_sets * n_design_studies)
+
+        aligned_params[fdm_name] = fdm_params_set
+
+    for struct_name in structural_params:
+        values = structural_params[struct_name]
+        structural_params_set = []
+        for i in range(len(values)):
+            for j in range(fdm_sets * n_fdm_studies):
+                structural_params_set.append(values[i])
 
     return aligned_params
 
-# MM TODO:  plan to remove this, keeping for now
-def sweep_study_param(params, param_name, values):
-    """Add or modify a parameter to sweep it in the study parameters."""
-    aligned_params = align_study_params(params)
-    n_studies = len(next(iter(aligned_params.values())))
-    swept_params = {}
-    swept_params[param_name] = list(chain(*([v] * n_studies for v in values)))
-    for p_name in aligned_params:
-        if p_name != param_name:
-            swept_params[p_name] = list(
-                chain(aligned_params[p_name] * len(values))
+def create_design_config(design_name: str, description: str, corpus_type: str, num_samples: int, params: List[StudyParam]):
+    """Write design/study parameter information into a yaml file to allow randomization of the study parameters."""
+
+    config_filename = f"{design_name}_config.yaml"
+    configs_dir = os.path.join(os.path.dirname(__file__), 'configs')
+    filename = os.path.join(configs_dir, config_filename)
+
+    config_file_dict = {"design_name": design_name,
+                        "description": description,
+                        "corpus_type": corpus_type,
+                        "num_samples": num_samples,
+                        "fdm": None,
+                        "params": None
+    }
+
+    fdm_params = []
+    struct_params = []
+    for val in params:
+        if isinstance(val, StudyParam):
+            if val.param_type == "CargoMass":
+                config_file_dict["cargo_mass"] = val.value
+            elif val.param_type == "FDM":
+                fdm_params.append({val.name: val.value})
+            elif val.param_type == "Structural":
+                struct_params.append({val.name: [{"max": val.value}, {"min": val.value}]})
+
+            config_file_dict["fdm"] =  fdm_params
+            config_file_dict["params"] = struct_params
+        else:
+            raise ValueError(
+                f"Parameter {val.name} is not a StudyParam, "
+                f"only StudyParam entries are allow."
             )
-    return swept_params
+
+    with open(filename, 'w') as config_file:
+        yaml.safe_dump(config_file_dict, config_file, sort_keys=False)
+
+    print(f"Design configuration written to {config_filename}.")
+    return config_filename
+
+def load_config_file(config_filename: str):
+    """ 
+    Load a yaml file defining information needed to create the study_params.cvs file and store 
+    in self.study_params_list.
+    """
+    configs_dir = os.path.join(os.path.dirname(__file__), 'configs')
+
+    filename = os.path.join(configs_dir, config_filename)
+    if os.path.exists(filename):
+        print("Reading {}".format(filename))
+        with open(filename) as ymlfile:
+            config_params = yaml.safe_load(ymlfile)
+    else:
+        raise ValueError(
+            "Design Configuration file {} does not exist".format(filename))
+
+    # Information desired back to calling routine:
+    # 1) design_name
+    # 2) description
+    # 3) corpus_type
+    # 4) num_samples
+    # 5) list of StudyParams (combine "cargo_mass", "fdm" and "params" with types indicated)
+    design_name = config_params["design_name"]
+    description = config_params["description"]
+    corpus_type = config_params["corpus_type"]
+    num_samples = config_params["num_samples"]
+    params_list = []
+    if corpus_type == "UAV":
+        if "cargo_mass" in config_params.keys():
+            params_list.append(StudyParam("CargoMass", config_params["cargo_mass"], "CargoMass"))
+        else:
+            raise ValueError(
+                "This is a UAV design and requires an entry for 'cargo_mass' in {}".format(filename))
+    
+    for entry in config_params["fdm"]:
+        for key, value in entry.items():
+            params_list.append(StudyParam(key, value, "FDM"))
+
+    for entry in config_params["params"]:
+        for key, value in entry.items():
+            params_list.append(StudyParam(key, value, "Structural"))
+
+    return design_name, description, corpus_type, num_samples, params_list
 
 
 def run_design(design_name, study_filename):
@@ -143,12 +278,24 @@ def run(args=None):
         "design",
         choices=designs.keys(),
     )
+    parser.add_argument("--configfile", type=str, metavar='configuration filename',
+                        help="indicates the configuration filename to use for the random design")
     parser.add_argument(
         "-r", "--run", action="store_true", help="Run the design."
     )
 
     args = parser.parse_args(args)
-    design_name, study_params = designs[args.design]()
+    if args.design == "random_design":
+        if args.configfile:
+            design_name, description, corpus_type, study_params, num_samples = designs[args.design](args.configfile)
+        else:
+            raise ValueError("For random designs, a configuration file (yaml) must be specified (--configfile)")
+    # All other designs
+    else: 
+        design_name, description, corpus_type, study_params = designs[args.design]()
+        create_design_config(design_name, description, corpus_type, num_samples, study_params)
+        num_samples = 1
+
     study_params = align_study_params(study_params)
     study_filename = write_study_params(design_name, study_params)
 

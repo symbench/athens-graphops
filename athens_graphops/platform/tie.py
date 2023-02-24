@@ -18,7 +18,6 @@
 # UAV Design
 
 from ..designer import Designer, StudyParam
-from . import sweep_study_param
 
 
 def create_tie4():
@@ -354,9 +353,5 @@ def tie_platform(variant, n_motors=4):
     for val in locals().values():
         if isinstance(val, StudyParam):
             study_params[val.name] = val.value
-
-    study_params = sweep_study_param(
-        study_params, cargo_mass.name, [0.5, 0.001]
-    )
 
     return design_name, study_params

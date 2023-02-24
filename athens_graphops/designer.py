@@ -33,11 +33,18 @@ class Instance():
         self.parameters = dict()
 
 
- # MM TODO:  consider adding component instance association for yaml file setup
 class StudyParam:
-    def __init__(self, name, value):
+    """
+    Study parameters used in a design setup. 
+    `param_type` indicates if the study parameter is either: 
+        ["Structural" | "FDM" | "CargoMass"]
+        This helps with creation of the configuration (YAML) 
+        and CSV files for random value studies.
+    """
+    def __init__(self, name, value, param_type):
         self.name = name
         self.value = value
+        self.param_type = param_type
         
         
 class Designer():
@@ -104,10 +111,10 @@ class Designer():
         self.client.assign_parameter(
             self.design, instance.name, param, param_name)
 
-    def set_study_param(self, param, value):
+    def set_study_param(self, param, value, param_type="Structural"):
         assert self.client and self.design
         self.client.create_parameter(self.design, param, value)
-        return StudyParam(param, value)
+        return StudyParam(param, value, param_type)
     
     @classmethod
     def param_value(cls, param):
@@ -132,10 +139,6 @@ class Designer():
     def set_config_param(self, param: str, value: Union[float, str]):
         self.client.create_parameter(self.design, param, value)
 
-    # Note (10/2022): This was written when FUSE_SPHERE_CYL_CONE class existed along
-    # with FuselageNACA class.  But now only the FuselageNACA is available.
-    # The parameters/properties and connections are the same, so leaving this
-    # alone for now.  Plan to update when the program returns to UAM designs
     def add_fuselage_uam(self,
                          length: float,
                          sphere_diameter: float,
@@ -152,6 +155,12 @@ class Designer():
                          left_port_disp: float = 0,
                          right_port_disp: float = 0,
                          name: Optional[str] = None):
+        """
+        Note (10/2022): This was written when FUSE_SPHERE_CYL_CONE class existed along
+        with FuselageNACA class.  But now only the FuselageNACA is available.
+        The parameters/properties and connections are the same, so leaving this
+        alone for now.  Plan to update when the program returns to UAM designs
+        """
         assert self.fuselage is None
         assert self.param_value(floor_height) > 0
 
@@ -174,7 +183,6 @@ class Designer():
         self.fuselage = instance
         return instance
 
-    # capsule_fuselage class
     def add_fuselage_uav(self,
                          floor_height: float,
                          fuse_width: float,
@@ -204,20 +212,22 @@ class Designer():
         self.fuselage = instance
         return instance
 
-    # This defines how components are attached to the fuselage floor
-    # BottomConnector is attached when defining the "main_hub", so not included here
-    # Connects, mount_inst and mount_conn are lists that indicates:
-    #    connects: which floor connection numbers to use  and the locations
-    #              key: number, values: length, width
-    #    mount_inst: the component instance mounting to the connects (same size as connects list)
-    #    mount_conn: the mount_inst connection (same size as connects list)
-    # NOTE: This function can be used if wanting to do all connects at once.
-    # Otherwise, connections can be indicated when creating instances of sensors
-    # and batteries which attach to the fuselage floor.
     def add_fuselage_uav_connects(self,
                                   connects: List[Dict[int, Any]] = None,
                                   mount_inst: List[Instance] = None,
                                   mount_conn: List[str] = None):
+        """
+        This defines how components are attached to the fuselage floor
+        BottomConnector is attached when defining the "main_hub", so not included here
+        Connects, mount_inst and mount_conn are lists that indicates:
+            connects: which floor connection numbers to use  and the locations
+                    key: number, values: length, width
+            mount_inst: the component instance mounting to the connects (same size as connects list)
+            mount_conn: the mount_inst connection (same size as connects list)
+        NOTE: This function can be used if wanting to do all connects at once.
+        Otherwise, connections can be indicated when creating instances of sensors
+        and batteries which attach to the fuselage floor.
+        """
         assert self.fuselage is not None
 
         for num in connects:
@@ -299,17 +309,17 @@ class Designer():
     ##################################
     # UAV specific components
     ##################################
-    
-    # Add cargo and cargo case
-    # Expect weight to be a study parameter setup by the platform definition
-    #    with the parameter name of "CargoMass"
     def add_cargo(self,
                   weight: StudyParam,
                   rotation: float = 0,
                   name: Optional[str] = None,
                   mount_inst: Optional[Instance] = None,
                   mount_conn: Optional[str] = None) -> Tuple[str, str]:
-
+        """
+        Add cargo and cargo case
+        Expect weight to be a study parameter setup by the platform definition
+        with the parameter name of "CargoMass"
+        """
         # Only two weights are valid
         assert self.param_value(weight) in [0.001, 0.5]
 
@@ -333,8 +343,6 @@ class Designer():
 
         return instance_cargo, instance_case
 
-    # Only 3 flange options (0281, 0394, 05) are valid
-    # Tubes (of the same size as flange) are inserted into the flange
     def add_flange(self,
                    hole_diameter: float,
                    bottom_angle: int = 0,
@@ -346,7 +354,10 @@ class Designer():
                    mount_bottom_conn: Optional[str] = None,
                    mount_side_inst: Optional[Instance] = None,
                    mount_side_conn: Optional[str] = None) -> str:
-
+        """
+        Only 3 flange options (0281, 0394, 05) are valid
+        Tubes (of the same size as flange) are inserted into the flange
+        """
         # models to hole (tube OD) sizes
         flange_models = {
             "0281_para_flange": 7.1374,
@@ -380,7 +391,6 @@ class Designer():
 
         return instance
 
-    # Only 3 tube options (0281, 0394, 05) are valid
     def add_tube(self,
                  od: float,
                  length: float,
@@ -393,7 +403,10 @@ class Designer():
                  mount_base_conn: Optional[str] = None,
                  mount_end_inst: Optional[Instance] = None,
                  mount_end_conn: Optional[str] = None) -> str:
-         # models to tube OD sizes
+        """
+        Only 3 tube options (0281, 0394, 05) are valid
+        """
+        # models to tube OD sizes
         tube_models = {
             "0281OD_para_tube": 7.1374,
             "0394OD_para_tube": 10.0076,
@@ -428,13 +441,6 @@ class Designer():
 
         return instance
 
-    # 5 hub options
-    # Connects, mount_inst and mount_conn are lists that indicates:
-    #    connects: which hub connections to use
-    #    mount_inst: the component instance mounting to the connects  (same size as connects list)
-    #    mount_conn: the mount_inst connection  (same size as connects list)
-    # orient_base is a bool to identify which hub is the main_hub that connects
-    #    to Orient in the close_design function, true make it as the main_hub
     def add_hub(self,
                 num_connects: int,
                 diameter: float = 10.0076,
@@ -445,7 +451,15 @@ class Designer():
                 mount_inst: Optional[List[Instance]] = None,
                 mount_conn: Optional[List[str]] = None,
                 orient_base: Optional[bool] = False) -> str:
-
+        """
+        5 hub options
+        Connects, mount_inst and mount_conn are lists that indicates:
+            connects: which hub connections to use
+            mount_inst: the component instance mounting to the connects  (same size as connects list)
+            mount_conn: the mount_inst connection  (same size as connects list)
+            orient_base is a bool to identify which hub is the main_hub that connects
+              to Orient in the close_design function, true make it as the main_hub
+        """
         assert(2 <= self.param_value(num_connects) <= 6)
         hub_model = "0394od_para_hub_" + str(num_connects)
         instance = self.add_instance(hub_model, name)
@@ -467,9 +481,6 @@ class Designer():
 
         return instance
 
-    # 6 sensor options
-    # If indicating mount connection number, also indicate the mount_length and mount_width
-    # to allow connector placement on the fuselage floor
     def add_sensor(self,
                    sensor_model: str,
                    rotation: float = 0,
@@ -477,7 +488,11 @@ class Designer():
                    mount_conn_num: Optional[int] = None,
                    mount_length: Optional[float] = 0,
                    mount_width: Optional[float] = 0) -> str:
-
+        """
+        6 sensor options
+        If indicating mount connection number, also indicate the mount_length and mount_width
+        to allow connector placement on the fuselage floor
+        """
         assert self.fuselage is not None
 
         instance = self.add_instance(sensor_model, name)
@@ -634,11 +649,6 @@ class Designer():
 
         return instance
 
-    # Battery goes in the fuselage and is connected to the floor of the fuselage
-    # There is a top and bottom connection, assuming that only
-    # bottom connection is used.  top_bottom_conn is available to
-    # change the connection to the top (for the creative option ;-))
-    # top_bottom_conn: Top = 0, Bottom = 1 (default)
     def add_battery_uav(self, model: str,
                         rotation: int = 0,
                         top_bottom_conn: int = 1,
@@ -647,7 +657,13 @@ class Designer():
                         mount_length: Optional[float] = 0,
                         mount_width: Optional[float] = 0,
                         controller_inst: Optional[Instance] = None) -> str:
-
+        """
+        Battery goes in the fuselage and is connected to the floor of the fuselage
+        There is a top and bottom connection, assuming that only
+        bottom connection is used.  top_bottom_conn is available to
+        change the connection to the top (for the creative option ;-))
+        top_bottom_conn: Top = 0, Bottom = 1 (default)
+        """
         top_bottom_conn = self.param_value(top_bottom_conn)
         assert top_bottom_conn in [0, 1]
         assert self.fuselage is not None
@@ -696,17 +712,19 @@ class Designer():
 
         return instance
 
-    # Propeller configuration:
-    # prop_type    direction    description
-    #     1          1          CCW puller
-    #    -1         -1          CW puller
-    #     1         -1          CW pusher
-    #    -1          1          CCW pusher
     def add_propeller(self, model: str,
                       prop_type: int,
                       direction: int,
                       name: Optional[str] = None,
                       motor_inst: Optional[Instance] = None):
+        """
+        Propeller configuration:
+        prop_type    direction    description
+            1          1          CCW puller
+           -1         -1          CW puller
+            1         -1          CW pusher
+           -1          1          CCW pusher
+        """
         assert self.param_value(prop_type) in [-1, 1] 
         assert self.param_value(direction) in [-1, 1]
 

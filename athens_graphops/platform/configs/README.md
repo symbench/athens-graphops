@@ -16,7 +16,7 @@ There are three sections:
   Information expected in fdm_params:
   
     - Analysis_Type - typically 3
-    - Flight_Paths - current options are [1, 3, 4, 5]
+    - Flight_Paths - current options are [1, 3, 4, 5, 6, 7, 8, 9]
     - Requested_Lateral_Speed
     - Requested_Vertical_Speed
     - Q_Position - value from 0-1
@@ -27,12 +27,11 @@ There are three sections:
 
 * Parameter Variation Definition
 
-  The first item is an informational indicate of a component set that will be defined.  A component set is a set of component names that have the same value for the parameter defined.  This is used for preserving symmetry of the design.  So, if a section of a design is created to have the same parameter value (for example a cylinder length that is reused), it is defined in the same set so that the random value determine is applied to each of the named component instances (under `name`).
+  This provides the list of study parameters available and the min/max selected for variation. For random design where this file is created in the process, these values will be set to the `corpus_data.json` defined min/max values.
 
-  Min/Max values should be provided.  For random design where this file is created in the process, this values may be set to the `corpus_data.json` defined min/max values.
+------->MM TODO: update this when completing the YAML changes and testing<----
 
-  
-When the CSV file is created, a single result run will represent all of the component sets changing in the run for the indicated number of samples over the indicated FDM parameters.  So, for the `NewAxe_test_study_params.yaml` provided as an testing example, the number of samples is 3 with 4 flight paths.  So, 12 rows will be setup for the CSV file where each of the rows includes a single flight path (and associated FDM parameters) and a random value for all the component sets.  For the this example, a CSV row will contain 9 values for the FDM parameters and 5 values for component parameter values. The resultant CSV file is shown below.  The data.zip from the workflow run in Jenkins will contain a results folder for each of the rows under the `archive` folder.  
+When the CSV file is created, a single result run will represent all of the study parameters changing in the run for the indicated number of samples over the indicated FDM parameters.  So, for the `NewAxe_test_study_params.yaml` provided as an testing example, the number of samples is 3 with 4 flight paths.  So, 12 rows will be setup for the CSV file where each of the rows includes a single flight path (and associated FDM parameters) and a random value for all the study parameters.  For this example, a CSV row will contain 9 values for the FDM parameters and 5 values for component parameter values. The resultant CSV file is shown below.  The data.zip from the workflow run in Jenkins will contain a results folder for each of the rows under the `archive` folder.  
 
 
 ```

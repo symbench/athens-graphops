@@ -1,0 +1,44 @@
+design_name: TestQuadVU
+description: Study Parameters for Quad Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path:
+  - 8
+  - 9
+- Requested_Lateral_Speed:
+  - 23
+  - 22
+- Requested_Vertical_Speed: -5
+- Requested_Vertical_Down_Speed: 5
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -3
+- Requested_Vertical_Acceleration: -1
+- Requested_Vertical_Deceleration: 1
+- Q_Position: 0.158489319
+- Q_Velocity: 0.0158489319
+- Q_Angular_Velocity: 0.501187234
+- Q_Angles: 0.01
+- Ctrl_R: 0.316227766
+params:
+- fuse_floor:
+  - max: 20
+  - min: 20
+- fuse_width:
+  - max: 190
+  - min: 190
+- fuse_height:
+  - max: 125
+  - min: 125
+- fuse_length:
+  - max: 270
+  - min: 270
+- arm_length:
+  - max: 400
+  - min: 400
+- leg_length:
+  - max: 170
+  - min: 170
+cargo_mass:
+- 0.001
+- 0.5

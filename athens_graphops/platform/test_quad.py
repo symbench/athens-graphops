@@ -36,7 +36,10 @@ def quad_platform(variant, large_battery=False):
     """
     Four motor/propeller sets around a fuselage and cargo 
     """
+    corpus_type = "UAV"
+    description = "Study Parameters for Quad Platform direct2cad Run"
     design_name = variant + "QuadVU"
+
 
     designer = Designer()
     designer.create_design(design_name)
@@ -92,7 +95,7 @@ def quad_platform(variant, large_battery=False):
 
     ########################################
     # Tunable params
-    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5], "CargoMass")
     fuse_floor = designer.set_study_param("fuse_floor", 20)
     if large_battery:
         fuse_width = designer.set_study_param("fuse_width", 250)
@@ -246,29 +249,62 @@ def quad_platform(variant, large_battery=False):
 
     designer.close_design(corpus="uav", orient_z_angle=angle_1)
 
-    study_params = {
-        "Flight_Path": 9,
-        "Requested_Lateral_Speed": 23,
-        "Requested_Vertical_Speed": -5,
-        "Requested_Vertical_Down_Speed": 5,
-        "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -3,
-        "Requested_Vertical_Acceleration": -1,
-        "Requested_Vertical_Deceleration": 1,
+    """
+    study_params = [
+        StudyParam("Flight_Path", 9, "FDM"),
+        StudyParam("Requested_Lateral_Speed", 23, "FDM"),
+        StudyParam("Requested_Vertical_Speed", -5, "FDM"),
+        StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
+        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
+        StudyParam("Requested_Lateral_Deceleration", -3, "FDM"),
+        StudyParam("Requested_Vertical_Acceleration", -1, "FDM"),
+        StudyParam("Requested_Vertical_Deceleration", 1, "FDM"),
         # James suggested not to tweak these
-        # "Landing_Approach_Height": 3,
-        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_At_Ground": 0.1,
-        "Q_Position": 0.158489319,
-        "Q_Velocity": 0.0158489319,
-        "Q_Angular_Velocity": 0.501187234,
-        "Q_Angles": 0.01,
-        "Ctrl_R": 0.316227766,
-    }
+        # StudyParam("Landing_Approach_Height", 3, "FDM"),
+        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
+        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
+        StudyParam("Q_Position", 0.158489319, "FDM"),
+        StudyParam("Q_Velocity", 0.0158489319, "FDM"),
+        StudyParam("Q_Angular_Velocity", 0.501187234, "FDM"),
+        StudyParam("Q_Angles", 0.01, "FDM"),
+        StudyParam("Ctrl_R", 0.316227766, "FDM")
+    ]
+    """
+
+    study_params = [
+        StudyParam("Flight_Path", [8, 9], "FDM"),
+        StudyParam("Requested_Lateral_Speed", [23, 22], "FDM"),
+        StudyParam("Requested_Vertical_Speed", -5, "FDM"),
+        StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
+        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
+        StudyParam("Requested_Lateral_Deceleration", -3, "FDM"),
+        StudyParam("Requested_Vertical_Acceleration", -1, "FDM"),
+        StudyParam("Requested_Vertical_Deceleration", 1, "FDM"),
+        # James suggested not to tweak these
+        # StudyParam("Landing_Approach_Height", 3, "FDM"),
+        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
+        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
+        StudyParam("Q_Position", 0.158489319, "FDM"),
+        StudyParam("Q_Velocity", 0.0158489319, "FDM"),
+        StudyParam("Q_Angular_Velocity", 0.501187234, "FDM"),
+        StudyParam("Q_Angles", 0.01, "FDM"),
+        StudyParam("Ctrl_R", 0.316227766, "FDM")
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    return design_name, study_params
+    """
+    study_params_dict = {}
+    for param in study_params:
+        study_params_dict[param.name] = param.value
+
+    for val in locals().values():
+        if isinstance(val, StudyParam):
+            study_params_dict[val.name] = val.value
+
+    return design_name, study_params_dict
+    """
+    return design_name, description, corpus_type, study_params
