@@ -65,7 +65,7 @@ def align_study_params(params: List[StudyParam]):
     """
     Align the study parameters to the same number of runs.
     This allows having single values and lists of parameter values.
-    All study_params entries should be StudyParm class.
+    All study_params entries should be the "StudyParam" class.
     CargoMass (if available) could have one or two values and should be 
         applied across all sets of FDM parameters (if a list).
     For randomized designs, the structural parameters will have a list of values
@@ -73,6 +73,12 @@ def align_study_params(params: List[StudyParam]):
         indicated 5 samples desired, each parameter will have a list of 5 randomized
         values).  Each design same should be tested across the set of FDM parameters
         and the CargoMass values.
+
+    > Note: Minimizing the number of structural parameter changes across the set of 
+    runs can save about 25% of the run time, it might be more for large runs.  In the 
+    Jenkins runs, the design is built up once in Creo and then each of the parameter 
+    updates are made in Creo between runs. This time savings comes from the updating of 
+    the parameter information vs. rebuilding the model in Creo every time.
     """
     # Create dictionaries of study parameters separated by param_type
     n_cargo = 0
@@ -120,7 +126,10 @@ def align_study_params(params: List[StudyParam]):
     # to the next structural design set.  If cargo is involved, it will also
     # be varied before changing the structural design parameters.
     aligned_params = {}
-    if n_cargo != 0:
+    if n_cargo == 1:
+        cargo_value_set = [cargo_values[0]] * (n_fdm_studies * n_design_studies)
+        aligned_params["CargoMass"] = cargo_value_set
+    elif n_cargo == 2:
         cargo_value_set = ([cargo_values[0]] * n_fdm_studies + [cargo_values[1]] * n_fdm_studies) * n_design_studies
         aligned_params["CargoMass"] = cargo_value_set
 
@@ -141,10 +150,17 @@ def align_study_params(params: List[StudyParam]):
     for struct_name in structural_params:
         values = structural_params[struct_name]
         structural_params_set = []
-        for i in range(len(values)):
-            for j in range(fdm_sets * n_fdm_studies):
-                structural_params_set.append(values[i])
+        if isinstance(values, Sequence):
+            for i in range(len(values)):
+                for j in range(fdm_sets * n_fdm_studies):
+                    structural_params_set.append(values[i])
+        else:
+            for i in range(fdm_sets * n_fdm_studies):
+                structural_params_set.append(values)
 
+        aligned_params[struct_name] = structural_params_set
+
+    #print(aligned_params)
     return aligned_params
 
 def create_design_config(design_name: str, description: str, corpus_type: str, num_samples: int, params: List[StudyParam]):
@@ -231,7 +247,6 @@ def load_config_file(config_filename: str):
 
     return design_name, description, corpus_type, num_samples, params_list
 
-
 def run_design(design_name, study_filename):
     """
     This will run the Jenkins uam_direct2cad workflow 
@@ -247,11 +262,12 @@ def run_design(design_name, study_filename):
     jenkins_client.studyfile_to_minio(study_filename)
 
     workflow = "uam_direct2cad"
+    result_file = design_name + ".zip"
     jenkins_parameters = {
         "graphGUID": design_name,
         "minioBucket": CONFIG["miniobucket"],
         "paramFile": study_filename,
-        "resultsFileName": design_name
+        "resultsFileName": result_file
     }
 
     build = jenkins_client.build_and_wait(workflow, jenkins_parameters)
@@ -293,8 +309,8 @@ def run(args=None):
     # All other designs
     else: 
         design_name, description, corpus_type, study_params = designs[args.design]()
-        create_design_config(design_name, description, corpus_type, num_samples, study_params)
         num_samples = 1
+        create_design_config(design_name, description, corpus_type, num_samples, study_params)
 
     study_params = align_study_params(study_params)
     study_filename = write_study_params(design_name, study_params)

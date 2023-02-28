@@ -17,8 +17,6 @@
 #===============================================================================
 # These functions are involved in exporting design data.  
 # Autoseed and Autograph pull directly from the JanusGraph database.
-# The YAML file is a configuration file used to allow a user to randomize
-# a design and also provides a way easily see the study parameters.
 
 import ssl
 from typing import Any, List
@@ -126,7 +124,7 @@ def autoseed(design: str, batchfile: str):
         with open(batchfile, "w") as ofile:
             ofile.write(ifile.read())
 
-
+# MM TODO:  Keep???
 def update_design(design_folder: str, design: str):
     """ 
     Update a design graph to match the parameters indicated in the 

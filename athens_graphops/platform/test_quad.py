@@ -19,16 +19,13 @@
 
 from ..designer import Designer, StudyParam
 
-# This is the TestQuad_Cargo seed design
-
 
 def create_test_quad():
+    """This is the TestQuad_Cargo seed design"""
     return quad_platform("Test")
 
-# Uses largest battery
-
-
 def create_super_quad():
+    """Uses largest battery"""
     return quad_platform("Super", large_battery=True)
 
 
@@ -249,31 +246,9 @@ def quad_platform(variant, large_battery=False):
 
     designer.close_design(corpus="uav", orient_z_angle=angle_1)
 
-    """
     study_params = [
         StudyParam("Flight_Path", 9, "FDM"),
         StudyParam("Requested_Lateral_Speed", 23, "FDM"),
-        StudyParam("Requested_Vertical_Speed", -5, "FDM"),
-        StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
-        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
-        StudyParam("Requested_Lateral_Deceleration", -3, "FDM"),
-        StudyParam("Requested_Vertical_Acceleration", -1, "FDM"),
-        StudyParam("Requested_Vertical_Deceleration", 1, "FDM"),
-        # James suggested not to tweak these
-        # StudyParam("Landing_Approach_Height", 3, "FDM"),
-        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
-        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
-        StudyParam("Q_Position", 0.158489319, "FDM"),
-        StudyParam("Q_Velocity", 0.0158489319, "FDM"),
-        StudyParam("Q_Angular_Velocity", 0.501187234, "FDM"),
-        StudyParam("Q_Angles", 0.01, "FDM"),
-        StudyParam("Ctrl_R", 0.316227766, "FDM")
-    ]
-    """
-
-    study_params = [
-        StudyParam("Flight_Path", [8, 9], "FDM"),
-        StudyParam("Requested_Lateral_Speed", [23, 22], "FDM"),
         StudyParam("Requested_Vertical_Speed", -5, "FDM"),
         StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
         StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
@@ -296,15 +271,7 @@ def quad_platform(variant, large_battery=False):
         if isinstance(val, StudyParam):
             study_params.append(val)
 
-    """
-    study_params_dict = {}
-    for param in study_params:
-        study_params_dict[param.name] = param.value
-
-    for val in locals().values():
-        if isinstance(val, StudyParam):
-            study_params_dict[val.name] = val.value
-
-    return design_name, study_params_dict
-    """
+    print("Platform:")
+    print(study_params)
+    
     return design_name, description, corpus_type, study_params

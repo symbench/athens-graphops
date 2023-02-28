@@ -44,6 +44,9 @@ def create_vari_vudoo():
 
 
 def vudoo_platform(variant, num_prop_sets=1, stear_wing=False, random_prop_set_config=False):
+    corpus_type = "UAM"
+    description = "Study Parameters for Vudoo Platform direct2cad Run"
+
     design_name = "VUdoo" + variant
 
     designer = Designer()
@@ -373,19 +376,21 @@ def vudoo_platform(variant, num_prop_sets=1, stear_wing=False, random_prop_set_c
 
     designer.close_design(corpus="uam")
 
-    study_params = {
-        "Requested_Lateral_Speed_1": 48,
-        "Requested_Lateral_Speed_5": 31,
-        "Q_Position_5": 0.01,
-        "Q_Velocity_5": 0.01,
-        "Q_Angular_Velocity_5": 0.1,
-        "Q_Angles_5": 0.01,
-        "R_5": 0.1,
-    }
+    study_params = [
+        StudyParam("Analysis_Type", 3, "FDM"),
+        StudyParam("Flight_Path", [1, 3, 4, 5], "FDM"),
+        StudyParam("Requested_Lateral_Speed_1", 48, "FDM"),
+        StudyParam("Requested_Lateral_Speed_5", 31, "FDM"),
+        StudyParam("Q_Position_5", 0.01, "FDM"),
+        StudyParam("Q_Velocity_5", 0.01, "FDM"),
+        StudyParam("Q_Angular_Velocity_5", 0.1, "FDM"),
+        StudyParam("Q_Angles_5", 0.01, "FDM"),
+        StudyParam("R_5", 0.1, "FDM"),
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    return design_name, study_params
+    return design_name, description, corpus_type, study_params

@@ -30,6 +30,8 @@ def create_tailsitter_joyride():
 
 
 def tailsitter_platform(variant, narrow=False, stear_wing=False):
+    corpus_type = "UAM"
+    description = "Study Parameters for Tail Sitter Platform direct2cad Run"
     design_name = "TailSitter3" + variant
 
     designer = Designer()
@@ -317,21 +319,21 @@ def tailsitter_platform(variant, narrow=False, stear_wing=False):
 
     designer.close_design(corpus="uam")
 
-    study_params = {
-        "Analysis_Type": 3,
-        "Flight_Path": [1, 3, 4, 5],
-        "Requested_Lateral_Speed": [50, 32, 1, 46],
-        "Requested_Vertical_Speed": 19,
-        "Q_Position": [1, 1, 1, 0.01],
-        "Q_Velocity": [1, 1, 1, 0.1],
-        "Q_Angular_Velocity": [1, 1, 1, 0.1],
-        "Q_Angles": 1,
-        "Ctrl_R": 0.1,
-    }
+    study_params = [
+        StudyParam("Analysis_Type", 3, "FDM"),
+        StudyParam("Flight_Path", [1, 3, 4, 5], "FDM"),
+        StudyParam("Requested_Lateral_Speed", [50, 32, 1, 46], "FDM"),
+        StudyParam("Requested_Vertical_Speed", 19, "FDM"),
+        StudyParam("Q_Position", [1, 1, 1, 0.01], "FDM"),
+        StudyParam("Q_Velocity", [1, 1, 1, 0.1], "FDM"),
+        StudyParam("Q_Angular_Velocity", [1, 1, 1, 0.1], "FDM"),
+        StudyParam("Q_Angles", 1, "FDM"),
+        StudyParam("Ctrl_R", 0.1, "FDM"),
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    return design_name, study_params
+    return design_name, description, corpus_type, study_params

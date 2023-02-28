@@ -28,6 +28,8 @@ def create_minimal_uam():
 
 
 def minimal_platform(variant):
+    corpus_type = "UAM"
+    description = "Study Parameters for Minimal Platform direct2cad Run"
     design_name = "MinimalUAM" + variant
 
     designer = Designer()
@@ -64,29 +66,29 @@ def minimal_platform(variant):
 
     designer.close_design(corpus="uam")
 
-    study_params = {
-        "Flight_Path": 9,
-        "Requested_Lateral_Speed": 23,
-        "Requested_Vertical_Speed": -5,
-        "Requested_Vertical_Down_Speed": 5,
-        "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -3,
-        "Requested_Vertical_Acceleration": -1,
-        "Requested_Vertical_Deceleration": 1,
+    study_params = [
+        StudyParam("Flight_Path", 9, "FDM"),
+        StudyParam("Requested_Lateral_Speed", 23, "FDM"),
+        StudyParam("Requested_Vertical_Speed", -5, "FDM"),
+        StudyParam("Requested_Vertical_Down_Speed", 5, "FDM"),
+        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
+        StudyParam("Requested_Lateral_Deceleration", -3, "FDM"),
+        StudyParam("Requested_Vertical_Acceleration", -1, "FDM"),
+        StudyParam("Requested_Vertical_Deceleration", 1, "FDM"),
         # James suggested not to tweak these
-        # "Landing_Approach_Height": 3,
-        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_At_Ground": 0.1,
-        "Q_Position": 1,
-        "Q_Velocity": 0.5,
-        "Q_Angular_Velocity": 1,
-        "Q_Angles": 0.5,
-        "Ctrl_R": 0.25,
-    }
+        # StudyParam("Landing_Approach_Height", 3, "FDM"),
+        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
+        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
+        StudyParam("Q_Position", 1, "FDM"),
+        StudyParam("Q_Velocity", 0.5, "FDM"),
+        StudyParam("Q_Angular_Velocity", 1, "FDM"),
+        StudyParam("Q_Angles", 0.5, "FDM"),
+        StudyParam("Ctrl_R", 0.25, "FDM"),
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    return design_name, study_params
+    return design_name, description, corpus_type, study_params

@@ -21,16 +21,12 @@ from ..designer import Designer, StudyParam
 
 # FYI: wings seem to protrude into the propellers, but that
 # is how it is the seed design
-
-
 def create_pick_axe():
     return axe_platform("PickAxeVU", front_lower_rail=True)
 
 # FYI: rear wings seem to protrude into the propellers, but that
 # is not how it is the seed design - looked for the issue, but
 # didn't find it
-
-
 def create_new_axe():
     return axe_platform("NewAxeCargoVU")
 
@@ -41,6 +37,8 @@ def axe_platform(variant, front_lower_rail=False):
     placed horizontally and two vertical wings as rudders 
     placed vertically under the rear wings
     """
+    corpus_type = "UAV"
+    description = "Study Parameters for Axe Platform direct2cad Run"
     design_name = variant
 
     designer = Designer()
@@ -94,7 +92,6 @@ def axe_platform(variant, front_lower_rail=False):
     ########################################
     # Tunable params
     cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5], "CargoMass")
-
     fuse_floor = designer.set_study_param("fuse_floor", 20)
     fuse_width = designer.set_study_param("fuse_width", 300)
     fuse_height = designer.set_study_param("fuse_height", 105)
@@ -538,7 +535,7 @@ def axe_platform(variant, front_lower_rail=False):
 
     designer.close_design(corpus="uav", orient_z_angle=body_rot_angle)
 
-    fdm_params = {
+    study_params = [
         StudyParam("Flight_Path", 9, "FDM"),
         StudyParam("Requested_Lateral_Speed", 23, "FDM"),
         StudyParam("Requested_Vertical_Speed", -5, "FDM"),
@@ -556,19 +553,11 @@ def axe_platform(variant, front_lower_rail=False):
         StudyParam("Q_Angular_Velocity", 0.501187234, "FDM"),
         StudyParam("Q_Angles", 0.01, "FDM"),
         StudyParam("Ctrl_R", 0.316227766, "FDM"),
-    }
-
-    study_params = {}
-    for param in fdm_params:
-        study_params[param.name] = param.value
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            print(val.name)
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    print("All Axe Study Parmeters:")
-    print(study_params)
-
-    return design_name, study_params
+    return design_name, description, corpus_type, study_params

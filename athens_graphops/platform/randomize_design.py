@@ -66,9 +66,5 @@ def randomization_platform(variant: str, configfile: str):
                 
                 rand_param.append(round(random.uniform(min_value, max_value)))
             val.value = rand_param
-
-    #print("Study Params:")
-    #for param in study_params:
-    #    print(param.name, param.value, param.param_type)
   
     return design_name, description, corpus_type, study_params, num_samples

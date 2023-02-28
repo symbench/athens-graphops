@@ -31,6 +31,8 @@ def create_falcon_x4_with_tail():
 
 
 def falcon_x_platform(variant, n_motors=4, with_tail=False):
+    corpus_type = "UAV"
+    description = "Study Parameters for FalconX Platform direct2cad Run"
     design_name = "FalconX" + variant
 
     designer = Designer()
@@ -60,7 +62,7 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
     motor_rotation = designer.set_study_param(
         "motor_rotation", 180 // n_motors
     )
-    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5])
+    cargo_mass = designer.set_study_param("CargoMass", [0.001, 0.5], "CargoMass")
 
     ########################################
     # Center (Hun, Fuselage, Cargo)
@@ -327,29 +329,29 @@ def falcon_x_platform(variant, n_motors=4, with_tail=False):
 
     designer.close_design(corpus="uav", orient_z_angle=90)
 
-    study_params = {
-        "Flight_Path": 9,
-        "Requested_Vertical_Speed": -1,
-        "Requested_Lateral_Speed": 19,
-        "Requested_Vertical_Down_Speed": 1,
-        "Requested_Lateral_Acceleration": 2,
-        "Requested_Lateral_Deceleration": -5,
-        "Requested_Vertical_Acceleration": -5,
-        "Requested_Vertical_Deceleration": 5,
+    study_params = [
+        StudyParam("Flight_Path", 9, "FDM"),
+        StudyParam("Requested_Vertical_Speed", -1, "FDM"),
+        StudyParam("Requested_Lateral_Speed", 19, "FDM"),
+        StudyParam("Requested_Vertical_Down_Speed", 1, "FDM"),
+        StudyParam("Requested_Lateral_Acceleration", 2, "FDM"),
+        StudyParam("Requested_Lateral_Deceleration", -5, "FDM"),
+        StudyParam("Requested_Vertical_Acceleration", -5, "FDM"),
+        StudyParam("Requested_Vertical_Deceleration", 5, "FDM"),
         # James suggested not to tweak these
-        # "Landing_Approach_Height": 3,
-        # "Vertical_Landing_Speed": 0.5,    # not used in buildcad.py
-        # "Vertical_Landing_Speed_At_Ground": 0.1,
-        "Q_Position": 1,
-        "Q_Velocity": 0.5,
-        "Q_Angular_Velocity": 1,
-        "Q_Angles": 0.5,
-        "Ctrl_R": 0.25,
-    }
+        # StudyParam("Landing_Approach_Height", 3, "FDM"),
+        # StudyParam("Vertical_Landing_Speed", 0.5, "FDM"),    # not used in buildcad.py
+        # StudyParam("Vertical_Landing_Speed_At_Ground", 0.1, "FDM"),
+        StudyParam("Q_Position", 1, "FDM"),
+        StudyParam("Q_Velocity", 0.5, "FDM"),
+        StudyParam("Q_Angular_Velocity", 1, "FDM"),
+        StudyParam("Q_Angles", 0.5, "FDM"),
+        StudyParam("Ctrl_R", 0.25, "FDM"),
+    ]
 
     # Add all study parameters automatically
     for val in locals().values():
         if isinstance(val, StudyParam):
-            study_params[val.name] = val.value
+            study_params.append(val)
 
-    return design_name, study_params
+    return design_name, description, corpus_type, study_params
