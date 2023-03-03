@@ -265,7 +265,7 @@ def run(args=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--property-table', metavar='CLS',
-                        help="prints out the property table")
+                        help="prints out the property table for specified class (i.e. Battery, Motor, Propeller)")
     args = parser.parse_args(args)
 
     if args.property_table:
