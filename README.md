@@ -53,38 +53,47 @@ To run a parameter study using the configuration file:
 The current Jenkins workflows (`uam_direct2cad` and `UAM_Workflows`) can be run on designs that exist in the current JanusGraph database.  Parameter of the runs should be specified as indicated below: 
 
 * `uam_direct2cad`
-  * graphGUID: [--design design] 
+  * graphGUID: `--design design` 
     * Indicates design name in JanusGraph 
-  * minioBucket: setup by system configuration [--miniobucket NAME], placed in front of the workflow keyword
+  * minioBucket: setup by system configuration `--miniobucket NAME`, placed in front of the workflow keyword
     * Location of bucket which contains the <design_name>_study.csv and will be used for upload of data.zip results
-  * paramFile: [--paramfile inputname]
+  * paramFile: `--paramfile inputname`
     * List of parameters to run, <design_name>_study.csv
-  * resultsFileName: [--resultname results]
+  * resultsFileName: `--resultname results`
     * Name of results file to be stored in MinioBucket
   
 * `UAM_Workflows`
-  * graphGUID: [--design design] 
+  * graphGUID: `--design design` 
     * Indicates design name in JanusGraph 
-  * PETName: [--testname {/D_Testing/PET/FlightDyn_V2,/D_Testing/PET/FlightDyn_V2_AllPaths}] 
+  * PETName: `--testname {/D_Testing/PET/FlightDyn_V2,/D_Testing/PET/FlightDyn_V2_AllPaths}`
     * Indicates name of the computational workflow to execute on the design, currently only 2 test options
-  * NumSamples: [--samples samples]
+  * NumSamples: `--samples samples`
     * Number of samples to execute for Monte Carlo DOE, uniformly sampled
-  * DesignVars: [--parameters parameters] 
+  * DesignVars: `--parameters parameters` 
     * Provides design flight dynamic and structural parameter values (single or range), space delimited
 
 ### System Configurations
 
 Default settings for Jenkins and MinIO setup parameters can be found in `athens_graphops/__init__.py`.  Change this to fit your platform needs or override the defaults with the following settings on the `athens-graphops` command line.
 
-* [--host IP] - Host IP address of where Jenkins is running
-* [--jenkinsuser user] - username of the Jenkins installation
-* [--jenkinspwd pwd] - password of the Jenkins installation
-* [--timeout SEC] - sets the Gremlin query timeout, a good value to use is 25000000; use this when querying JanusGraph database
-* [--miniohost HOSTNAME] - MinIO hostname used to retrieve and put data in the Minio server 
-* [--miniouser user] - username of the MinIO server
-* [--miniopwd user] - password of the MinIO server
-* [--miniobucket NAME] - name of MinIO bucket to retrieve and store data
-* [--aws] - indicates the run is happening on an aws instance (needed due to differing location of the MinIO directory)
+* `--host IP`
+  * Host IP address of where Jenkins is running
+* `--jenkinsuser user` 
+  * username of the Jenkins installation
+* `--jenkinspwd pwd` 
+  * password of the Jenkins installation
+* `--timeout SEC`
+  * sets the Gremlin query timeout, a good value to use is 25000000; use this when querying JanusGraph database
+* `--miniohost HOSTNAME`
+  * MinIO hostname used to retrieve and put data in the Minio server 
+* `--miniouser user`
+  * username of the MinIO server
+* `--miniopwd user`
+  * password of the MinIO server
+* `--miniobucket NAME`
+  * name of MinIO bucket to retrieve and store data
+* `--aws`
+  * indicates the run is happening on an aws instance (needed due to differing location of the MinIO directory)
 
 ## Advanced Usage Options
 
@@ -105,42 +114,101 @@ The information in the `corpus_data.json` can be validate from two different per
 (2) athens-graphops --timeout 25000000 validate --corpus-data schema
 ```
 
-MM TODO: add other validation options and sections below
+Various other design configurations were setup to validate the usability of different component types and exercise all the possible components of a class.  Here are some of them created:
 
-
-### Update
-C:\symbench-repos\athens-graphops>athens-graphops update
-usage: athens-graphops update [-h] [--name NAME] folder
-athens-graphops update: error: the following arguments are required: folder
+* `--create-instances`
+  * creates a simple UAM design and validate that a design instance is created and a component with specific parameters match the requested setup
+* `--create-many-cylinders`
+  * creates a UAM design with various cylinders of different diameter, thickness and length
+* `--create-all-motors`
+  * creates a UAM design with all motors attached
+* `--validate-all-motors`
+  * validate a UAM design has all motors attached
+* `--create-all-propellers`    
+  * creates a UAM design with all propellers attached
+* `--validate-all-propellers`
+  * validate a UAM design has all propellers attached
+* `--design-loc`
+  * sets the design folder for validation of all motors and all propeller designs created here
 
 ### Query
-Connected to ws://localhost:8182/gremlin
-Closed connection
-	Ø Create design data JSON from an existing (in Janusgraph DB) design:
 
-athens-graphops --host xxx.xxx.xxx.xxx --timeout 25000000 query --design-data TestQuad > TestQuad-design-data.json
+Query is used to pull information from the JanusGraph database.
 
+`athens-graphops query` 
+
+optional arguments:
+  * `--design-names`
+    * prints all design names (default: False)
+  * `--design-data NAME`
+    * prints the components of the given design (default: None)
+  * `--corpus-data`
+    * prints all component models (default: False)
+  * `--corpus-model MOD`
+    * prints a single component model (default: None)
+  * `--property-table CLS`
+    * prints the property table for a component class as json (default: None)
+  * `--property-table-csv CLS`
+    * prints the property table for a component class as csv (default: None)
+  * `--raw QUERY`
+    * executes the given raw query string (default: None)
+  * `--script FILE`
+    * executes the given groovy script query (default: None)
+  * `--params [X ...]`
+    * use this parameter list for scripts (default: [])
+  * `--delete-design NAME`
+    * deletes the given design (default: None)
+
+An example to create a design data JSON from an existing (in Janusgraph DB) design:
+
+`athens-graphops --timeout 25000000 query --design-data TestQuad > TestQuad-design-data.json`
 
 ### Dataset 
 
-To retrieve all the components of a class from the graph database and save to a file: 
+Another way to retrieve all the components of a class from the graph database and save to a file: 
 
 ```athens-graphops dataset --property-table <CLS> >> <filename>.json```
 where CLS is `Battery`, `Motor` or `Propeller`
 
 ### Autoseed
-usage: athens-graphops autoseed [-h] [--name NAME] file
+
+Create a CSV file that lists the graph queries needed to add a design to the JanusGraph database.  
+
+`athens-graphops autoseed --timeout 25000000 --name <design_name> <CSV filename>`
 
 ### Autograph
-usage: athens-graphops autograph [-h] file
-	Ø Create design in gremlin DB from an autograph created csv file:
-	
-athens-graphops --host xxx.xxx.xxx.xxx --timeout 2500000 autograph ../designs/VUdoo1.csv
+
+Using a CSV file with a list of graph queries to add a design into the JanusGraph database.
+
+`athens-graphops --timeout 25000000 autograph <CSV filename>`
+
+### Update
+
+The `update` option will take the results data.zip file folder contents (with modified designParameter.json files and create a new version of the design in the Janusgraph with the updated parameter values.
+
+```athens-graphops update [--name NAME] folder```
+
+The design folder should be an absolute path. The design name can be the same as before or new.
+
+Input jsons needed (found in top directory of data.zip file):
+* info_paramMap4.json
+* info_componentMapList1.json
+* info_connectionMap6.json
+
+Need to create:
+* info_corpusComponents4.json
+
+Steps taken:
+1) Check if input json files are available
+2) Update info_paramMap4.json from data.zip file - archive/result_1/designParam.json
+3) Create the .csv file to create a design (using autoseed)
+4) run autograph to create design in Janusgraph DB
+5) re-create the `<design name>_design_data.json` file (prove change reflected in graph)
 
 ### json-designer
-usage: JSON Designer [-h] -f JSON_FILE [-o] [-n NEW_NAME]
-JSON Designer: error: the following arguments are required: -f/--json-file
 
-	Ø Update a design parameter set: 
+```athens-graphops json-designer -f JSON_FILE [-o] [-n NEW_NAME```
 
-athens-graphops --host xxx.xxx.xxx.xxx --timeout 25000000 update "C:\symbench-repos\athens-graphops\athens_graphops\testing\TestA0_data" --name TestA0
+where `-o` is used to overwrite the existing design and `-n` allows indication of a new design name
+
+
