@@ -1,0 +1,46 @@
+design_name: MinimalUAM
+description: Study Parameters for Minimal Platform direct2cad Run
+corpus_type: UAM
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 23
+- Requested_Vertical_Speed: -5
+- Requested_Vertical_Down_Speed: 5
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -3
+- Requested_Vertical_Acceleration: -1
+- Requested_Vertical_Deceleration: 1
+- Q_Position: 1
+- Q_Velocity: 0.5
+- Q_Angular_Velocity: 1
+- Q_Angles: 0.5
+- Ctrl_R: 0.25
+params:
+- fuse_length:
+  - max: 2000
+  - min: 2000
+- fuse_sphere_diameter:
+  - max: 1520
+  - min: 1520
+- fuse_middle_length:
+  - max: 300
+  - min: 300
+- fuse_tail_diameter:
+  - max: 200
+  - min: 200
+- fuse_floor_height:
+  - max: 150
+  - min: 150
+- seat1_fb_pos:
+  - max: 1000
+  - min: 1000
+- seat1_lr_pos:
+  - max: -210
+  - min: -210
+- seat2_fb_pos:
+  - max: 1000
+  - min: 1000
+- seat2_lr_pos:
+  - max: 210
+  - min: 210

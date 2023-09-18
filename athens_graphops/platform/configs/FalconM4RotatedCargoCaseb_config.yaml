@@ -1,0 +1,49 @@
+design_name: FalconM4RotatedCargoCaseb
+description: Study Parameters for FalconM Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 23
+- Requested_Vertical_Speed: -5
+- Requested_Vertical_Down_Speed: 5
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -3
+- Requested_Vertical_Acceleration: -1
+- Requested_Vertical_Deceleration: 1
+- Q_Position: 0.158489319
+- Q_Velocity: 0.0158489319
+- Q_Angular_Velocity: 0.501187234
+- Q_Angles: 0.01
+- Ctrl_R: 0.316227766
+params:
+- wing_span:
+  - max: 670
+  - min: 670
+- wing_tube_length:
+  - max: 720
+  - min: 720
+- wing_chord:
+  - max: 50
+  - min: 50
+- wing_load:
+  - max: 75
+  - min: 75
+- forward_tube_length:
+  - max: 200
+  - min: 200
+- motor_horiz_distance:
+  - max: 400
+  - min: 400
+- motor_horiz_center_distance:
+  - max: 200
+  - min: 200
+- motor_vert_height:
+  - max: 200
+  - min: 200
+- motor_vert_depth:
+  - max: 200
+  - min: 200
+cargo_mass:
+- 0.001
+- 0.5

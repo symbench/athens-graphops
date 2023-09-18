@@ -1,0 +1,91 @@
+design_name: Tiltie
+description: Study Parameters for Tiltie Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 23
+- Requested_Vertical_Speed: -5
+- Requested_Vertical_Down_Speed: 5
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -3
+- Requested_Vertical_Acceleration: -1
+- Requested_Vertical_Deceleration: 1
+- Q_Position: 0.158489319
+- Q_Velocity: 0.0158489319
+- Q_Angular_Velocity: 0.501187234
+- Q_Angles: 0.01
+- Ctrl_R: 0.316227766
+params:
+- fuselage_floor_height:
+  - max: 20
+  - min: 20
+- fuselage_width:
+  - max: 190
+  - min: 190
+- fuselage_cyl_length:
+  - max: 270
+  - min: 270
+- fuse_vert_length:
+  - max: 20
+  - min: 20
+- cargo_tube_length:
+  - max: 305
+  - min: 305
+- cargo_attach_tube_length:
+  - max: 5
+  - min: 5
+- front_wing_span:
+  - max: 1200
+  - min: 1200
+- front_wing_chord:
+  - max: 150
+  - min: 150
+- front_wing_load:
+  - max: 30
+  - min: 30
+- front_wing_tube_length:
+  - max: 50
+  - min: 50
+- tail_extension_length:
+  - max: 200
+  - min: 200
+- tail_attach_tube_length:
+  - max: 25
+  - min: 25
+- tail_tube_length:
+  - max: 50
+  - min: 50
+- tail_wing_span:
+  - max: 500
+  - min: 500
+- tail_wing_chord:
+  - max: 150
+  - min: 150
+- tail_wing_load:
+  - max: 15
+  - min: 15
+- prop_forward_length:
+  - max: 250
+  - min: 250
+- top_vert_spread:
+  - max: 50
+  - min: 50
+- bottom_vert_spread:
+  - max: 100
+  - min: 100
+- prop_hort_spread_length:
+  - max: 140
+  - min: 140
+- left_tilt_angle:
+  - max: 315
+  - min: 315
+- right_tilt_angle:
+  - max: 45
+  - min: 45
+- prop_tilt_tube_length:
+  - max: 50
+  - min: 50
+cargo_mass:
+- 0.001
+- 0.5

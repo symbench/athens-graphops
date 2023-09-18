@@ -1,0 +1,43 @@
+design_name: FalconX4
+description: Study Parameters for FalconX Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Vertical_Speed: -1
+- Requested_Lateral_Speed: 19
+- Requested_Vertical_Down_Speed: 1
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -5
+- Requested_Vertical_Acceleration: -5
+- Requested_Vertical_Deceleration: 5
+- Q_Position: 1
+- Q_Velocity: 0.5
+- Q_Angular_Velocity: 1
+- Q_Angles: 0.5
+- Ctrl_R: 0.25
+params:
+- wing_span:
+  - max: 600
+  - min: 600
+- wing_tube_length:
+  - max: 650
+  - min: 650
+- wing_chord:
+  - max: 100
+  - min: 100
+- wing_load:
+  - max: 25
+  - min: 25
+- forward_tube_length:
+  - max: 200
+  - min: 200
+- motor_spoke_length:
+  - max: 470
+  - min: 470
+- motor_rotation:
+  - max: 45
+  - min: 45
+cargo_mass:
+- 0.001
+- 0.5

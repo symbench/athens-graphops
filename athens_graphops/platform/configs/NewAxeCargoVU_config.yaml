@@ -1,0 +1,88 @@
+design_name: NewAxeCargoVU
+description: Study Parameters for Axe Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 23
+- Requested_Vertical_Speed: -5
+- Requested_Vertical_Down_Speed: 5
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -3
+- Requested_Vertical_Acceleration: -1
+- Requested_Vertical_Deceleration: 1
+- Q_Position: 0.158489319
+- Q_Velocity: 0.0158489319
+- Q_Angular_Velocity: 0.501187234
+- Q_Angles: 0.01
+- Ctrl_R: 0.316227766
+params:
+- fuse_floor:
+  - max: 20
+  - min: 20
+- fuse_width:
+  - max: 300
+  - min: 300
+- fuse_height:
+  - max: 105
+  - min: 105
+- fuse_length:
+  - max: 150
+  - min: 150
+- front_wing_load:
+  - max: 15
+  - min: 15
+- front_rail_length:
+  - max: 335
+  - min: 335
+- front_wing_tube_length:
+  - max: 52
+  - min: 52
+- front_wing_span:
+  - max: 450
+  - min: 450
+- front_wing_chord:
+  - max: 150
+  - min: 150
+- mid_tube_length:
+  - max: 140
+  - min: 140
+- top_leg_tube_length:
+  - max: 150.1524
+  - min: 150.1524
+- rail_lower_length:
+  - max: 90
+  - min: 90
+- rail_down_length:
+  - max: 90
+  - min: 90
+- rear_rail_length:
+  - max: 220
+  - min: 220
+- vertical_tube_length:
+  - max: 150
+  - min: 150
+- rear_wing_span:
+  - max: 609
+  - min: 609
+- rear_wing_chord:
+  - max: 180
+  - min: 180
+- rear_wing_load:
+  - max: 30
+  - min: 30
+- rudder_tube_length:
+  - max: 41
+  - min: 41
+- rudder_span:
+  - max: 140
+  - min: 140
+- rudder_chord:
+  - max: 100
+  - min: 100
+- rudder_wing_load:
+  - max: 20
+  - min: 20
+cargo_mass:
+- 0.001
+- 0.5

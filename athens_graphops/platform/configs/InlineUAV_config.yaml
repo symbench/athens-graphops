@@ -1,0 +1,61 @@
+design_name: InlineUAV
+description: Study Parameters for Inline Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 19
+- Requested_Vertical_Speed: -2
+- Requested_Vertical_Down_Speed: 2
+- Requested_Lateral_Acceleration: 0.125
+- Requested_Lateral_Deceleration: -0.125
+- Requested_Vertical_Acceleration: -0.2
+- Requested_Vertical_Deceleration: 0.2
+- Q_Position: 1
+- Q_Velocity: 1
+- Q_Angular_Velocity: 1
+- Q_Angles: 1
+- Ctrl_R: 0.1
+params:
+- fuse_vert_length:
+  - max: 20
+  - min: 20
+- cargo_tube_length:
+  - max: 305
+  - min: 305
+- wing_span:
+  - max: 550
+  - min: 550
+- wing_chord:
+  - max: 150
+  - min: 150
+- wing_thickness:
+  - max: 12
+  - min: 12
+- wing_load:
+  - max: 30
+  - min: 30
+- wing_vert_tube_length:
+  - max: 50
+  - min: 50
+- prop_forward_length:
+  - max: 250
+  - min: 250
+- prop_hort_spread_length:
+  - max: 160
+  - min: 160
+- prop_vert_spread_length_t:
+  - max: 100
+  - min: 100
+- prop_vert_spread_length_b:
+  - max: 210
+  - min: 210
+- tube_offset:
+  - max: 275.0
+  - min: 275.0
+- wing_hort_tube_length:
+  - max: 254.71695
+  - min: 254.71695
+cargo_mass:
+- 0.001
+- 0.5

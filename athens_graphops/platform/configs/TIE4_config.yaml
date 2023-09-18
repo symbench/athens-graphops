@@ -1,0 +1,55 @@
+design_name: TIE4
+description: Study Parameters for Tie Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Vertical_Speed: -1
+- Requested_Lateral_Speed: 16
+- Requested_Vertical_Down_Speed: 1
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration: -5
+- Requested_Vertical_Acceleration: -5
+- Requested_Vertical_Deceleration: 5
+- Q_Position: 3.981071705534973
+- Q_Velocity: 0.07924465962305567
+- Q_Angular_Velocity: 100.0
+- Q_Angles: 0.03154786722400965
+- Ctrl_R: 2.5
+params:
+- wing_vert_span:
+  - max: 300
+  - min: 300
+- wing_vert_halfspan:
+  - max: 150.0
+  - min: 150.0
+- wing_slant_span:
+  - max: 400
+  - min: 400
+- wing_slant_halfspan:
+  - max: 200.0
+  - min: 200.0
+- wing_slant_angle:
+  - max: 135
+  - min: 135
+- wing_vert_distance:
+  - max: 500
+  - min: 500
+- wing_chord:
+  - max: 100
+  - min: 100
+- wing_load:
+  - max: 25
+  - min: 25
+- forward_tube_length:
+  - max: 200
+  - min: 200
+- motor_spoke_length:
+  - max: 220
+  - min: 220
+- motor_rotation:
+  - max: 45
+  - min: 45
+cargo_mass:
+- 0.001
+- 0.5

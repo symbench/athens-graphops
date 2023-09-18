@@ -1,0 +1,55 @@
+design_name: FalconS4
+description: Study Parameters for FalconS Platform direct2cad Run
+corpus_type: UAV
+num_samples: 1
+fdm:
+- Flight_Path: 9
+- Requested_Lateral_Speed: 32
+- Requested_Vertical_Speed:
+  - -8
+  - -7
+- Requested_Vertical_Down_Speed:
+  - 19
+  - 13
+- Requested_Lateral_Acceleration: 2
+- Requested_Lateral_Deceleration:
+  - -9
+  - -6
+- Requested_Vertical_Acceleration: -6
+- Requested_Vertical_Deceleration: 15
+- Q_Position: 0.039810717
+- Q_Velocity: 0.001995262
+- Q_Angular_Velocity: 0.630957345
+- Q_Angles: 0.002511886
+- Ctrl_R: 1.584893192
+params:
+- forward_tube_length:
+  - max: 200
+  - min: 200
+- wing_span:
+  - max: 390
+  - min: 390
+- wing_chord:
+  - max: 55
+  - min: 55
+- wing_tube_length:
+  - max: 440
+  - min: 440
+- wing_load:
+  - max: 50
+  - min: 50
+- motor_horiz_distance:
+  - max: 400
+  - min: 400
+- motor_horiz_center_distance:
+  - max: 200
+  - min: 200
+- motor_vert_height:
+  - max: 200
+  - min: 200
+- motor_vert_depth:
+  - max: 200
+  - min: 200
+cargo_mass:
+- 0.001
+- 0.5
