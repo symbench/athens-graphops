@@ -1,5 +1,15 @@
 # athens-graphops
 
+## About
+
+Athens-graphops is a tool designed to interface with the DARPA Symbiotic Design for Cyber Physical Systems UAV Corpus tools created by a Southwest Research Institute team (and associated Vanderbilt team led by Ted Bapty) named the Air Taxi (Hybrid or Electric) aeroNautical Simulation (ATHENS) team.  The ATHENS tool retrieves specified UAV and air taxi designs from a JanusGraph setup and runs system performance simulations using integrated tools to measure the flight performance of the design and report the results of provided parametic studies.  
+
+The base corpus database (using JanusGraph) is provided by the ATHEN team and identifies the available components used to build the system. These components are assembled to create unique designs. The athen-graphops tool is used to programmatically create these designs using user developed platform specifications which indicate how the components are interconnected. Parametric values for design elements are identified to allow variation across multiple portions of the structure and to explore ranges of value adjustments within a system simulation run.  Each platform definition can be designed to allow exploration of multiple variations of parts and their configuration values, such as the vari_vudoo that randomly chooses the number of propellors to attach and the positioning of them on the wings.
+
+Given a platform definition, the base code will convert the desired design into a set of corpus components and build a design graph that can be retrieve with the ATHENS tools for evaluation.  This base code set includes graph queries that manage core component connections and parameter configurations specific to each type of component.  Each component type is defined by a component schema with multiple options (sometimes hundreds) for known components types available (based on off the shelf components and their specifications).  Using the schema, the ATHENS provided corpus database can be scanned for inconsistencies to allow feedback to the SwRI team.
+
+In addition to the designs that are created and placed in the JanusGraph database, parameter studies configuration files used by the ATHENS tool (.csv) files can be created by defining a yaml file that outlines the desired flight parameters and the ranges of design parameters desired in the explorations.  The tool also allows specification of the workflow to run during evaluations of a platform design.
+
 ## Installation 
 * Clone it with ```git clone git@github.com:symbench/athens-graphops.git --recurse-submodules```
 * Install it with ```pip3 install -e .```
